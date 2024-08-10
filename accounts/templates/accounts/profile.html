@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Profile' %}{% endblock %}
+
+{% block content %}
+  <div class="page text-center">
+    <section class="section section-98 section-md-110 bg-lighter novi-background">
+      <div class="container">
+        <hr class="divider bg-saffron">
+        <div class="offset-md-top-66">
+          <div class="row row-40 row-fix">
+            <div class="col-md-4"><img class="img-fluid d-inline-block" src="{{ user.image.url }}" width="370" height="370" alt="">
+              <div class="offset-top-34"><address class="contact-info text-lg-left">
+                  <ul class="list-unstyled p">
+                    <li class="d-block"><span class="icon novi-icon icon-xxs mdi mdi-phone text-middle"></span> <a class="d-inline-block text-middle" href="tel:1-800-7650-986">{{ user.phone }}</a></li>
+                    <li class="d-block"><span class="icon novi-icon icon-xxs mdi mdi-email-open text-middle"></span> <a class="d-inline-block text-middle" href="mailto:russell@demolink.org">{{ user.email }}</a></li>
+                      <br>
+                      <form enctype="multipart/form-data" action="{{ action }}" method="post">{% csrf_token %}
+                          <div class="offset-top-10">
+                              {{ form.as_p }}
+                            <br>
+                              <input class="btn btn-primary" type=submit value="{% translate 'New avatar' %}">
+                          </div>
+                      </form>
+                  </ul>
+                </address></div>
+            </div>
+            <div class="col-md-8">
+              <div class="inset-lg-left-50">
+                <div class="row row-40"> </div>
+                <div class="text-left offset-top-50">
+                  <h4>{% translate 'Filial' %}:</h4>
+                    <p>-{{ user.filial_agency.filial_agency }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

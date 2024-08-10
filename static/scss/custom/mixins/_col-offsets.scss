@@ -1,0 +1,127 @@
+@mixin make-flow-offset($xl-offset, $lg-offset: $xl-offset,$md-offset: $lg-offset, $sm-offset: $md-offset, $xs-offset: $sm-offset) {
+  & > * + * {
+    margin-top: $xs-offset;
+  }
+
+  html:not(.lt-ie10) & {
+    @include media-breakpoint-up(sm) {
+      #{cols-full("xs")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      #{cols("xs")} {
+        margin-top: $xs-offset;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      #{cols-full("sm")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      #{cols("sm")} {
+        margin-top: $sm-offset;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      #{cols-full("md")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      #{cols("md")} {
+        margin-top: $md-offset;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      #{cols-full("lg")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      #{cols("lg")} {
+        margin-top: $lg-offset;
+      }
+    }
+    @include media-breakpoint-up(xxl) {
+      #{cols-full("xl")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(xxl) {
+      #{cols("xl")} {
+        margin-top: $lg-offset;
+      }
+    }
+  }
+  html:not(.lt-ie10) & {
+    @include media-breakpoint-up(sm) {
+      #{cells-full("xs")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      #{cells("xs")} {
+        margin-top: $xs-offset;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      #{cells-full("sm")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      #{cells("sm")} {
+        margin-top: $sm-offset;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      #{cells-full("md")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      #{cells("md")} {
+        margin-top: $md-offset;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      #{cells-full("lg")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      #{cells("lg")} {
+        margin-top: $xl-offset;
+      }
+    }
+
+    @include media-breakpoint-up(xxl) {
+      #{cells-full("xl")} {
+        margin-top: 0;
+      }
+    }
+
+    @include media-breakpoint-up(xxl) {
+      #{cells("xl")} {
+        margin-top: $lg-offset;
+      }
+    }
+  }
+}

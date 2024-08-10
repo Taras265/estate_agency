@@ -1,0 +1,1855 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-07 11:52+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\accounts\forms.py:10 .\accounts\forms.py:11
+msgid "Email"
+msgstr ""
+
+#: .\accounts\forms.py:12 .\accounts\forms.py:13
+msgid "Password"
+msgstr ""
+
+#: .\accounts\forms.py:21
+msgid "There is no user with this email"
+msgstr ""
+
+#: .\accounts\forms.py:23
+msgid "The password is not valid"
+msgstr ""
+
+#: .\accounts\forms.py:26
+msgid "The user is inactive"
+msgstr ""
+
+#: .\accounts\forms.py:31 .\accounts\forms.py:32 .\images\forms.py:10
+#: .\images\forms.py:11
+msgid "image"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:4
+#: .\accounts\templates\accounts\login.html:12
+#: .\accounts\templates\accounts\login.html:16
+#: .\accounts\templates\accounts\login.html:24
+#: .\accounts\templates\accounts\login.html:38
+msgid "Login"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:15
+#: .\images\templates\images\list.html:15
+#: .\objects\templates\objects\catalog.html:15
+#: .\objects\templates\objects\details.html:15 .\templates\main.html:4
+#: .\templates\main.html:12
+msgid "Main"
+msgstr ""
+
+#: .\accounts\templates\accounts\profile.html:4
+msgid "Profile"
+msgstr ""
+
+#: .\accounts\templates\accounts\profile.html:23
+msgid "New avatar"
+msgstr ""
+
+#: .\accounts\templates\accounts\profile.html:33
+msgid "Filial"
+msgstr ""
+
+#: .\handbooks\forms.py:10 .\handbooks\forms.py:11 .\handbooks\forms.py:21
+#: .\handbooks\forms.py:23 .\objects\forms.py:48 .\objects\forms.py:50
+#: .\objects\templates\objects\details.html:53 .\utils\const.py:6
+msgid "region"
+msgstr "Район"
+
+#: .\handbooks\forms.py:19 .\handbooks\forms.py:20 .\handbooks\forms.py:33
+#: .\handbooks\forms.py:35 .\handbooks\forms.py:50 .\handbooks\forms.py:51
+#: .\objects\forms.py:51 .\objects\forms.py:53
+#: .\objects\templates\objects\details.html:57 .\utils\const.py:6
+msgid "district"
+msgstr ""
+
+#: .\handbooks\forms.py:31 .\handbooks\forms.py:32 .\handbooks\forms.py:52
+#: .\handbooks\forms.py:54 .\objects\forms.py:54 .\objects\forms.py:56
+#: .\objects\forms.py:316 .\objects\forms.py:318
+#: .\objects\templates\objects\details.html:61 .\utils\const.py:7
+msgid "locality"
+msgstr ""
+
+#: .\handbooks\forms.py:36 .\handbooks\forms.py:38
+msgid "city_type"
+msgstr ""
+
+#: .\handbooks\forms.py:40 .\handbooks\forms.py:42
+msgid "center_type"
+msgstr ""
+
+#: .\handbooks\forms.py:55 .\handbooks\forms.py:56
+msgid "description"
+msgstr ""
+
+#: .\handbooks\forms.py:58 .\handbooks\forms.py:60
+msgid "group_on_site"
+msgstr ""
+
+#: .\handbooks\forms.py:61 .\handbooks\forms.py:63
+msgid "hot_deals_limit"
+msgstr ""
+
+#: .\handbooks\forms.py:65 .\handbooks\forms.py:66
+msgid "prefix_to_site"
+msgstr ""
+
+#: .\handbooks\forms.py:67 .\handbooks\forms.py:69
+msgid "is_subdistrict"
+msgstr ""
+
+#: .\handbooks\forms.py:73 .\handbooks\forms.py:75
+msgid "new_building_district"
+msgstr ""
+
+#: .\handbooks\forms.py:83 .\handbooks\forms.py:84 .\objects\forms.py:61
+#: .\objects\forms.py:63 .\objects\forms.py:319 .\objects\forms.py:321
+#: .\objects\templates\objects\details.html:69 .\utils\const.py:9
+msgid "street"
+msgstr ""
+
+#: .\handbooks\forms.py:86 .\handbooks\forms.py:88 .\objects\forms.py:58
+#: .\objects\forms.py:60 .\objects\templates\objects\details.html:65
+#: .\utils\const.py:8
+msgid "locality_district"
+msgstr ""
+
+#: .\handbooks\forms.py:96 .\handbooks\forms.py:97
+msgid "email"
+msgstr ""
+
+#: .\handbooks\forms.py:98 .\handbooks\forms.py:99
+msgid "first_name"
+msgstr ""
+
+#: .\handbooks\forms.py:100 .\handbooks\forms.py:101
+msgid "last_name"
+msgstr ""
+
+#: .\handbooks\forms.py:102 .\handbooks\forms.py:103
+msgid "phone"
+msgstr ""
+
+#: .\handbooks\forms.py:106 .\handbooks\forms.py:108 .\objects\forms.py:129
+#: .\objects\forms.py:131 .\objects\templates\objects\details.html:249
+msgid "realtor"
+msgstr ""
+
+#: .\handbooks\forms.py:116 .\handbooks\forms.py:117
+#, fuzzy
+#| msgid "Handbooks"
+msgid "handbook"
+msgstr "Справочник"
+
+#: .\handbooks\forms.py:126 .\handbooks\forms.py:127 .\handbooks\forms.py:139
+#: .\handbooks\forms.py:141 .\utils\const.py:16
+msgid "filial_agency"
+msgstr ""
+
+#: .\handbooks\forms.py:135 .\handbooks\forms.py:136
+msgid "report"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:4
+#: .\handbooks\templates\handbooks\list.html:52
+msgid "History"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:12
+msgid "date"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:13
+msgid "user"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:14
+msgid "field"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:15
+msgid "old"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:16
+msgid "new"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\list.html:4 .\templates\main.html:26
+#: .\templates\main.html:28
+msgid "Handbooks"
+msgstr "Справочник"
+
+#: .\handbooks\templates\handbooks\list.html:46
+msgid "Update"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\list.html:49
+#: .\images\templates\images\list.html:34 .\templates\delete_form.html:16
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\list.html:56
+msgid "Add image"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\list.html:67
+#: .\handbooks\templates\handbooks\list.html:70
+msgid "Create"
+msgstr ""
+
+#: .\images\templates\images\list.html:4 .\images\templates\images\list.html:12
+#: .\images\templates\images\list.html:16
+msgid "Images"
+msgstr ""
+
+#: .\objects\forms.py:11
+msgid "creation_date"
+msgstr ""
+
+#: .\objects\forms.py:14 .\objects\templates\objects\details.html:81
+msgid "date_before_temporarily_removed"
+msgstr ""
+
+#: .\objects\forms.py:18 .\objects\templates\objects\details.html:85
+msgid "deposit_date"
+msgstr ""
+
+#: .\objects\forms.py:22 .\objects\templates\objects\details.html:89
+msgid "purchase_date"
+msgstr ""
+
+#: .\objects\forms.py:25 .\objects\templates\objects\details.html:93
+msgid "sale_date"
+msgstr ""
+
+#: .\objects\forms.py:29 .\objects\templates\objects\details.html:97
+msgid "date_of_next_call"
+msgstr ""
+
+#: .\objects\forms.py:34
+msgid "inspection_form (2020-03-06, 12:32:38)"
+msgstr ""
+
+#: .\objects\forms.py:38 .\objects\templates\objects\details.html:105
+msgid "exclusive"
+msgstr ""
+
+#: .\objects\forms.py:40
+msgid "exclusive_to"
+msgstr ""
+
+#: .\objects\forms.py:44
+msgid "exclusive_from"
+msgstr ""
+
+#: .\objects\forms.py:64 .\objects\forms.py:65
+#: .\objects\templates\objects\details.html:73
+msgid "house"
+msgstr ""
+
+#: .\objects\forms.py:67 .\objects\forms.py:68
+#: .\objects\templates\objects\details.html:77 .\utils\const.py:18
+#: .\utils\const.py:20
+msgid "apartment"
+msgstr ""
+
+#: .\objects\forms.py:71
+msgid "on_site"
+msgstr ""
+
+#: .\objects\forms.py:73 .\objects\templates\objects\details.html:113
+msgid "inspection_flag"
+msgstr ""
+
+#: .\objects\forms.py:76 .\objects\templates\objects\details.html:117
+msgid "paid_exclusive_flag"
+msgstr ""
+
+#: .\objects\forms.py:79 .\objects\templates\objects\details.html:121
+msgid "terrace_flag"
+msgstr ""
+
+#: .\objects\forms.py:81 .\objects\templates\objects\details.html:125
+msgid "sea_flag"
+msgstr ""
+
+#: .\objects\forms.py:83 .\objects\templates\objects\details.html:129
+msgid "vip"
+msgstr ""
+
+#: .\objects\forms.py:87 .\objects\forms.py:89
+#: .\objects\templates\objects\details.html:133 .\utils\const.py:10
+msgid "withdrawal_reason"
+msgstr ""
+
+#: .\objects\forms.py:91 .\objects\templates\objects\details.html:137
+msgid "independent"
+msgstr ""
+
+#: .\objects\forms.py:95 .\objects\forms.py:97
+#: .\objects\templates\objects\details.html:141 .\utils\const.py:11
+msgid "condition"
+msgstr ""
+
+#: .\objects\forms.py:98 .\objects\templates\objects\details.html:145
+msgid "special"
+msgstr ""
+
+#: .\objects\forms.py:100 .\objects\templates\objects\details.html:149
+msgid "urgently"
+msgstr ""
+
+#: .\objects\forms.py:102 .\objects\templates\objects\details.html:153
+msgid "trade"
+msgstr ""
+
+#: .\objects\forms.py:106 .\objects\forms.py:108
+#: .\objects\templates\objects\details.html:157 .\utils\const.py:11
+msgid "material"
+msgstr ""
+
+#: .\objects\forms.py:111 .\objects\forms.py:113
+#: .\objects\templates\objects\details.html:161
+msgid "status"
+msgstr ""
+
+#: .\objects\forms.py:114 .\objects\forms.py:116
+msgid "object_type"
+msgstr ""
+
+#: .\objects\forms.py:118 .\objects\forms.py:119 .\objects\forms.py:306
+#: .\objects\forms.py:307 .\objects\templates\objects\details.html:169
+msgid "square"
+msgstr ""
+
+#: .\objects\forms.py:120 .\objects\forms.py:121
+#: .\objects\templates\objects\details.html:173
+msgid "price"
+msgstr ""
+
+#: .\objects\forms.py:122 .\objects\forms.py:124
+#: .\objects\templates\objects\details.html:177
+msgid "site_price"
+msgstr ""
+
+#: .\objects\forms.py:125 .\objects\forms.py:127
+#: .\objects\templates\objects\details.html:181
+msgid "square_meter_price"
+msgstr ""
+
+#: .\objects\forms.py:133 .\objects\forms.py:135
+#: .\objects\templates\objects\details.html:253
+msgid "site_realtor1"
+msgstr ""
+
+#: .\objects\forms.py:137 .\objects\forms.py:139
+#: .\objects\templates\objects\details.html:257
+msgid "site_realtor2"
+msgstr ""
+
+#: .\objects\forms.py:141 .\objects\forms.py:143
+#: .\objects\templates\objects\details.html:261
+msgid "realtor_5_5"
+msgstr ""
+
+#: .\objects\forms.py:146 .\objects\templates\objects\details.html:185
+msgid "for_trainee"
+msgstr ""
+
+#: .\objects\forms.py:148 .\objects\forms.py:150
+msgid "realtor_notes"
+msgstr ""
+
+#: .\objects\forms.py:152 .\objects\forms.py:154
+#: .\objects\templates\objects\details.html:189
+msgid "reference_point"
+msgstr ""
+
+#: .\objects\forms.py:157 .\objects\forms.py:159
+#: .\objects\templates\objects\details.html:193
+msgid "author"
+msgstr ""
+
+#: .\objects\forms.py:160 .\objects\forms.py:162
+#: .\objects\templates\objects\details.html:197
+msgid "owner"
+msgstr ""
+
+#: .\objects\forms.py:163 .\objects\forms.py:165
+#: .\objects\templates\objects\details.html:201 .\utils\const.py:9
+#: .\utils\const.py:19
+msgid "client"
+msgstr ""
+
+#: .\objects\forms.py:168 .\objects\forms.py:170
+#: .\objects\templates\objects\details.html:205
+msgid "owners_number"
+msgstr ""
+
+#: .\objects\forms.py:171 .\objects\forms.py:172
+msgid "comment"
+msgstr ""
+
+#: .\objects\forms.py:175 .\objects\forms.py:177
+#: .\objects\templates\objects\details.html:209 .\utils\const.py:12
+msgid "separation"
+msgstr ""
+
+#: .\objects\forms.py:179 .\objects\forms.py:181
+#: .\objects\templates\objects\details.html:213 .\utils\const.py:12
+msgid "agency"
+msgstr ""
+
+#: .\objects\forms.py:183 .\objects\forms.py:185
+#: .\objects\templates\objects\details.html:217 .\utils\const.py:13
+msgid "agency_sales"
+msgstr ""
+
+#: .\objects\forms.py:187 .\objects\forms.py:188
+#: .\objects\templates\objects\details.html:221
+msgid "sale_terms"
+msgstr ""
+
+#: .\objects\forms.py:190 .\objects\forms.py:193
+#: .\objects\templates\objects\details.html:225
+msgid "filename_of_exclusive_agreement"
+msgstr ""
+
+#: .\objects\forms.py:195 .\objects\forms.py:197
+#: .\objects\templates\objects\details.html:229
+msgid "inspection_file_name"
+msgstr ""
+
+#: .\objects\forms.py:199 .\objects\forms.py:200
+#: .\objects\templates\objects\details.html:233
+msgid "document"
+msgstr ""
+
+#: .\objects\forms.py:202 .\objects\forms.py:204
+#: .\objects\templates\objects\details.html:237
+msgid "filename_forbid_sale"
+msgstr ""
+
+#: .\objects\forms.py:208 .\objects\forms.py:210
+#: .\objects\templates\objects\details.html:241 .\utils\const.py:14
+msgid "new_building_name"
+msgstr ""
+
+#: .\objects\forms.py:212
+msgid "new_building"
+msgstr ""
+
+#: .\objects\forms.py:215 .\objects\forms.py:217
+#: .\objects\templates\objects\details.html:245
+msgid "new_building_type"
+msgstr ""
+
+#: .\objects\forms.py:220 .\objects\forms.py:222
+msgid "rooms_number"
+msgstr ""
+
+#: .\objects\forms.py:224 .\objects\forms.py:226
+msgid "room_types"
+msgstr ""
+
+#: .\objects\forms.py:227 .\objects\forms.py:228
+msgid "height"
+msgstr ""
+
+#: .\objects\forms.py:229 .\objects\forms.py:231
+msgid "kitchen_square"
+msgstr ""
+
+#: .\objects\forms.py:232 .\objects\forms.py:234
+msgid "living_square"
+msgstr ""
+
+#: .\objects\forms.py:235
+msgid "gas"
+msgstr ""
+
+#: .\objects\forms.py:237
+msgid "courtyard"
+msgstr ""
+
+#: .\objects\forms.py:239 .\objects\forms.py:241
+msgid "balcony_number"
+msgstr ""
+
+#: .\objects\forms.py:243 .\objects\forms.py:245
+msgid "registered_number"
+msgstr ""
+
+#: .\objects\forms.py:247 .\objects\forms.py:250
+msgid "child_registered_number"
+msgstr ""
+
+#: .\objects\forms.py:252 .\objects\forms.py:254
+msgid "loggias_number"
+msgstr ""
+
+#: .\objects\forms.py:256 .\objects\forms.py:258
+msgid "bay_windows_number"
+msgstr ""
+
+#: .\objects\forms.py:260
+msgid "commune"
+msgstr ""
+
+#: .\objects\forms.py:262 .\objects\forms.py:263
+msgid "frame"
+msgstr ""
+
+#: .\objects\forms.py:265 .\objects\forms.py:267 .\utils\const.py:15
+msgid "stair"
+msgstr ""
+
+#: .\objects\forms.py:268
+msgid "balcony"
+msgstr ""
+
+#: .\objects\forms.py:271 .\objects\forms.py:273 .\utils\const.py:15
+msgid "heating"
+msgstr ""
+
+#: .\objects\forms.py:274
+msgid "office"
+msgstr ""
+
+#: .\objects\forms.py:276
+msgid "penthouse"
+msgstr ""
+
+#: .\objects\forms.py:279 .\objects\forms.py:281
+msgid "redevelopment"
+msgstr ""
+
+#: .\objects\forms.py:283 .\objects\forms.py:285 .\utils\const.py:15
+msgid "layout"
+msgstr ""
+
+#: .\objects\forms.py:286 .\objects\forms.py:288
+msgid "construction_number"
+msgstr ""
+
+#: .\objects\forms.py:290 .\objects\forms.py:292 .\utils\const.py:16
+msgid "house_type"
+msgstr ""
+
+#: .\objects\forms.py:293
+msgid "two_level_apartment"
+msgstr ""
+
+#: .\objects\forms.py:296 .\objects\forms.py:297
+msgid "loggia"
+msgstr ""
+
+#: .\objects\forms.py:299
+msgid "attic"
+msgstr ""
+
+#: .\objects\forms.py:301
+msgid "electric_stove"
+msgstr ""
+
+#: .\objects\forms.py:304 .\objects\forms.py:305
+msgid "floor"
+msgstr ""
+
+#: .\objects\forms.py:322 .\objects\forms.py:324
+msgid "price_min"
+msgstr ""
+
+#: .\objects\forms.py:326 .\objects\forms.py:328
+msgid "price_max"
+msgstr ""
+
+#: .\objects\templates\objects\catalog.html:4
+#: .\objects\templates\objects\catalog.html:12
+#: .\objects\templates\objects\catalog.html:16
+#: .\objects\templates\objects\details.html:16 .\templates\main.html:36
+#: .\templates\main.html:38
+msgid "Catalog"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:4
+#: .\objects\templates\objects\details.html:12
+#: .\objects\templates\objects\details.html:17
+msgid "Details"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:49
+msgid "details"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:101
+msgid "inspection_form"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:109
+msgid "exclusive_date"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:165
+msgid "objectect_type"
+msgstr ""
+
+#: .\templates\delete_form.html:4
+msgid "Delete form"
+msgstr ""
+
+#: .\templates\delete_form.html:15
+msgid "Want delete?"
+msgstr ""
+
+#: .\templates\form.html:4
+msgid "Form"
+msgstr ""
+
+#: .\templates\form.html:16
+msgid "Submit"
+msgstr ""
+
+#: .\utils\const.py:6 .\utils\const.py:19
+msgid "profile"
+msgstr ""
+
+#: .\utils\const.py:17 .\utils\const.py:19
+msgid "filial_report"
+msgstr ""
+
+#: .\utils\mixins\mixins.py:174 .\utils\mixins\mixins.py:261
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:104
+#: .\venv\Lib\site-packages\django\forms\fields.py:760
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:165
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:176
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:259
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:267
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:279
+#: .\venv\Lib\site-packages\django\core\validators.py:306
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:286
+#: .\venv\Lib\site-packages\django\core\validators.py:307
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:298
+#: .\venv\Lib\site-packages\django\core\validators.py:305
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:341
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:347
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:382
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:391
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:400
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:407
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:439
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:457
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:480
+#: .\venv\Lib\site-packages\django\forms\fields.py:355
+#: .\venv\Lib\site-packages\django\forms\fields.py:394
+msgid "Enter a number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:482
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:487
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:492
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:563
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:624
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1477
+#: .\venv\Lib\site-packages\django\forms\models.py:906
+msgid "and"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1479
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:20
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:133
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:140
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:179
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1155
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1156
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1158
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1208
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1210
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1314
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1415
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1419
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1554
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1423
+msgid "Date (without time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1550
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1558
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1563
+msgid "Date (with time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1690
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1692
+msgid "Decimal number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1853
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1857
+msgid "Duration"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1909
+msgid "Email address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1934
+msgid "File path"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2012
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2014
+msgid "Floating point number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2054
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2056
+msgid "Integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2152
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2169
+msgid "Small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2177
+msgid "IPv4 address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2208
+msgid "IP address"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2301
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2302
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2304
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2355
+msgid "Positive big integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2370
+msgid "Positive integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2385
+msgid "Positive small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2401
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2437
+msgid "Text"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2512
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2516
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2520
+msgid "Time"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2628
+msgid "URL"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2652
+msgid "Raw binary data"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2717
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2719
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
+msgid "File"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
+msgid "Image"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "A JSON object"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:28
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:939
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:941
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1235
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1292
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1294
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1342
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:304
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:475
+#: .\venv\Lib\site-packages\django\forms\fields.py:1252
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:498
+#: .\venv\Lib\site-packages\django\forms\fields.py:1253
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:525
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:559
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:560
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:629
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:630
+msgid "No file was submitted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:631
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:633
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:638
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:702
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:874
+#: .\venv\Lib\site-packages\django\forms\fields.py:960
+#: .\venv\Lib\site-packages\django\forms\models.py:1585
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:962
+#: .\venv\Lib\site-packages\django\forms\fields.py:1081
+#: .\venv\Lib\site-packages\django\forms\models.py:1583
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1082
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1321
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1351
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:94
+msgid ":"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:231
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:899
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:904
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:911
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:920
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1357
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1448
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1587
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:227
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:461
+msgid "Clear"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:462
+msgid "Currently"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:463
+msgid "Change"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:800
+msgid "Unknown"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:801
+msgid "Yes"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:802
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:876
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:906
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:923
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:925
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:927
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:929
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:931
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:933
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "p.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
+msgid "a.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+msgid "PM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
+msgid "AM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
+msgid "midnight"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
+msgid "noon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:123
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:323
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:342
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:349
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:68
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:248
+msgid "Connect, get help, or contribute"
+msgstr ""

@@ -1,0 +1,113 @@
+extends  ../_skeleton
+
+//- Includes
+include  ../elements/_ui-tabs-classic
+include  ../elements/_ui-material-parallax
+include ../elements/_widget-list-social
+
+//-Title
+block title
+	title= "Login"
+
+//- Page
+block page
+	// Page Head
+	header.section.page-head
+		//- RD Navbar
+		+rd-navbar-top-panel(
+		'rd-navbar-light',
+		{
+			"data-lg-auto-height": "true",
+			"data-md-layout": 'rd-navbar-fixed',
+			"data-lg-layout": 'rd-navbar-static',
+			"data-lg-stick-up": 'true'
+		},
+		cfg.brand.logo,
+		"",
+		cfg.nav
+		)
+
+	+breadcrumbs({
+		title: 'Login / Register',
+		pathList: [
+			{itemTitle: 'Login Register'}
+		]
+	})
+
+
+
+	//Section Sign In
+	section.section.section-98.section-md-110.section-bottom-66.bg-default.novi-background( data-preset!={ title:'Login form', category:'forms', reload:true, id:'login-form' } )
+		.container
+			h2.font-weight-bold Sign In
+			hr.divider.bg-saffron
+			.offset-md-top-66
+				+tabs-classic(['Login', 'Registration'])
+					div
+						.row.row-fix.justify-content-sm-center.section-34
+							.col-sm-8.col-md-6.col-lg-4
+								// RD Mailform
+								form.rd-form.text-left
+									.form-group
+										label.form-label.form-label-outside(for="form-login-username") Username or e-mail:
+										input#form-login-username.form-control.bg-white(type="text" name="username" data-constraints="@Required")
+									.form-group.offset-top-24
+										label.form-label.form-label-outside(for="form-login-password") Password:
+										input#form-login-password.form-control.bg-white(type="password" name="pass" data-constraints="@Required")
+									.offset-top-24
+										button(type="submit").btn.btn-primary.btn-block sign in
+								.offset-top-30
+									p or enter with
+									+widget-list-social([
+										{
+											"icon": "fa fa-facebook",
+											"href": "#"
+										},
+										{
+											"icon": "fa fa-twitter",
+											"href": "#"
+										},
+										{
+											"icon": "fa fa-google-plus",
+											"href": "#"
+										}
+									])
+
+					div
+						.row.row-fix.justify-content-sm-center.section-34
+							.col-sm-8.col-md-6.col-lg-4
+								// RD Mailform
+								form.rd-form.text-left
+									.form-group
+										label.form-label.form-label-outside(for="form-register-username") Name:
+										input#form-register-username.form-control.bg-white(type="text" name="name" data-constraints="@Required")
+									.form-group.offset-top-24
+										label.form-label.form-label-outside(for="form-register-email") Email:
+										input#form-register-email.form-control.bg-white(type="text" name="email" data-constraints="@Required @Email")
+									.form-group.offset-top-24
+										label.form-label.form-label-outside(for="form-register-password") Password:
+										input#form-register-password.form-control.bg-white(type="password" name="pass" data-constraints="@Required")
+									.form-group.offset-top-24
+										label.form-label.form-label-outside(for="form-register-confirm-password") Confirm Password:
+										input#form-register-confirm-password.form-control.bg-white(type="password" name="confirmpass" data-constraints="@Required")
+									.offset-top-24
+										button(type="submit").btn.btn-primary.btn-block sign in
+								.offset-top-30
+									p or enter with
+									+widget-list-social([
+										{
+											"icon": "fa fa-facebook",
+											"href": "#"
+										},
+										{
+											"icon": "fa fa-twitter",
+											"href": "#"
+										},
+										{
+											"icon": "fa fa-google-plus",
+											"href": "#"
+										}
+									])
+
+	// Page Footer
+	include ../sections/_section-footer-default

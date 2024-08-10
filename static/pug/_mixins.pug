@@ -1,0 +1,44 @@
+//- Image
+  @param {string} name
+mixin img( name )
+  - var size = getImageSize( name );
+  img( src= setImagePath(setImageExtension(name)), alt='', width= size[0], height= size[1] )&attributes( attributes )
+
+//- Breadcrumbs
+//- [obj.img, obj.title, item.itemLink, item.itemTitle, ]
+mixin breadcrumbs(obj)
+  //- Breadcrumbs
+  section.section.context-dark( data-preset!={ title:'Breadcrumbs', category:'main', reload:true, id:'breadcrumbs' } )
+    +material-parallax({img: obj.img ? obj.img : 'images/bg-header-1920x362.jpg'})
+      .container.section-top-34.section-md-top-98.section-bottom-34
+        div
+          h1.font-weight-bold= obj.title
+        ul.list-inline.list-inline-dashed.p.text-light.breadcrumb-modern.offset-top-10.offset-md-top-66
+          li.list-inline-item
+            a(href="index.html") Home
+          each item in obj.pathList
+            if (item.itemLink)
+              li.list-inline-item
+                a(href= item.itemLink)= item.itemTitle
+            else
+              li.list-inline-item= item.itemTitle
+
+//- Member block type
+//- [obj.img, obj.title, item.itemLink, item.itemTitle, ]
+mixin member-block-type(obj)
+  .member-block-type-6
+    +img(obj.img).img-fluid.d-inline-block
+    .text-left.offset-top-20
+      div
+        h5.font-weight-bold.text-primary
+          a(href= obj.teamLink ? obj.teamLink : "team-member.html")= obj.name
+    address.contact-info.text-left
+      ul.list-unstyled.p
+        li.d-block
+          span.icon.novi-icon.icon-xxs.mdi.mdi-phone.text-middle
+          = " "
+          a.d-inline-block.text-middle(href="tel:" + (obj.telLink ? obj.telLink : "#"))= obj.tel ? obj.tel : "1-800-7650-986"
+        li.d-block
+          span.icon.novi-icon.icon-xxs.mdi.mdi-email-open.text-middle
+          = " "
+          a.d-inline-block.text-middle(href="mailto:" + (obj.mailLink ? obj.mailLink : "#"))= obj.mail ? obj.mail : "info@demolink.org"

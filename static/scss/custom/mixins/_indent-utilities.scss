@@ -1,0 +1,35 @@
+//
+// Indent Utilities
+// --------------------------------------------------
+
+@mixin indent-responsive($preffix, $postfix, $rules, $grid-breakpoints, $offsets) {
+  @if ($postfix != '' and $postfix != null) {
+    $postfix: #{$postfix}-;
+  }
+
+  @if ($preffix != '' and $preffix != null) {
+    $preffix: #{$preffix}-;
+  }
+
+  @each $alias, $resolution in $grid-breakpoints {
+    @if ($resolution == 0) {
+      @each $offset in $offsets {
+        .#{$preffix}#{$postfix}#{strip-unit($offset)} {
+          @each $rule in $rules {
+            #{$rule}: $offset;
+          }
+        }
+      }
+    } @else {
+      @media (min-width: $resolution) {
+        @each $offset in $offsets {
+          .#{$preffix}#{$alias}-#{$postfix}#{strip-unit($offset)} {
+            @each $rule in $rules {
+              #{$rule}: $offset;
+            }
+          }
+        }
+      }
+    }
+  }
+}

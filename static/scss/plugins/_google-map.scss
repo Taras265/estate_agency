@@ -1,0 +1,22 @@
+// Google Map
+.google-map-markers{
+	display: none;
+}
+
+.google-map-container {
+	width: 100%;
+}
+
+.google-map {
+	width: 100%;
+	height: calc( 100vh - 70px );;
+	max-height: 570px;
+
+	.mod-1 & {
+		max-height: 400px;
+	}
+
+	.mod-2 & {
+		max-height: 493px;
+	}
+}

@@ -1,0 +1,277 @@
+extends  ../_skeleton
+
+//- Includes
+include ../elements/_ui-carousel-gallery-classic
+include ../elements/_ui-google-map
+include ../elements/_ui-table-bootstrap
+include ../elements/_ui-material-parallax
+
+//-Title
+block title
+	title Single property page
+
+//- Page
+block page
+
+	// Page Head
+	header.section.page-head
+
+		//- RD Navbar
+		+rd-navbar-top-panel(
+		'rd-navbar-light',
+		{
+			"data-lg-auto-height": "true",
+			"data-md-layout": 'rd-navbar-fixed',
+			"data-lg-layout": 'rd-navbar-static',
+			"data-lg-stick-up": 'true'
+		},
+		cfg.brand.logo,
+		cfg.nav.catalog,
+		cfg.nav
+		)
+
+	+breadcrumbs({
+		title: 'Single Property Page',
+		pathList: [
+			{itemTitle: 'Catalog', itemLink: 'catalog.html'},
+			{itemTitle: 'Single Property Page'}
+		]
+	})
+
+	//Section The Presidio Residences
+	section.section.section-98.section-md-110.bg-default.novi-background( data-preset!={ title:'Property single', category:'properties', reload:true, id:'property-single' } )
+		.container
+			h2.font-weight-bold The Presidio Residences
+			hr.divider.bg-saffron
+			.offset-md-top-66
+				.row.row-65.row-fix
+					.col-lg-7.col-xl-8
+						+carousel-gallery-classic([
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-01-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-01-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-02-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-02-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-03-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-03-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-05-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-05-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-06-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-06-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-07-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-07-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							},
+							{
+								"type": "thumbnail",
+								"thumb": {
+									"src": "images/single-property-page-08-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								},
+								"target": {
+									"src": "images/single-property-page-08-770x510.jpg",
+									"width": 770,
+									"height": 510,
+									"alt": ""
+								}
+							}
+						])
+
+						.text-md-left.offset-top-50
+							h5.font-weight-bold Description
+							p The Presidio Residences offer a unique opportunity to live in a national park setting and enjoy quiet neighborhoods, convenient location, beautiful open spaces, and outstanding recreational amenities that you won’t find anywhere else in the area.
+							p This property includes a wide variety of facilities that can make your dwelling in the picturesque area of Southern Los Angeles very comfortable. There is everything modern citizen may need, even the most up-to-date technologies that are organically integrated with all the communications of the house. If you are looking for a calm place to live, the Presidential Residences have something to offer you. With effective planning and additional amenities available as a part of the property, these apartments can give you an unprecedented level of comfort with a quick access to the airport, train station, and the city center.
+						.offset-top-30
+							+table-bootstrap([
+								['Property details', ''],
+								['Features', 'Lawn, Sprinkler System, Marble Floors'],
+								['MLS Listing ID', '12345678'],
+								['Year Built', '1868'],
+								['Lot Size', '5.45'],
+								['Parking Type', 'Garage - Attached'],
+								['Room Count', '6'],
+								['Roof Type', 'Tile'],
+								['View Type', 'Mountain'],
+								['Exterior Type', 'Stucco']
+							], 'table-striped')
+
+					.col-lg-5.col-xl-4.text-lg-left.inset-lg-left-30
+						.row.row-50
+							.col-sm-12
+								p
+									span.icon.icon-xxs.novi-icon.mdi-calendar-today.mdi.text-light.text-middle
+									= " "
+									span.text-middle April 12, 2018
+								.offset-top-20.offset-lg-top-50
+									ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+										li.list-inline-item 2200 sq ft
+										li.list-inline-item 4 bedrooms
+										li.list-inline-item 3 bathrooms
+								.offset-top-20.offset-lg-top-50
+									h5.font-weight-bold  $2699.00/mon
+
+							.col-sm-12
+								a(href="#").btn.btn-primary contact an agent
+								.offset-top-10
+									a(href="#").btn.btn-info request a visit
+
+							.col-sm-12
+								+google-map({
+									center: '9870 St Vincent Place, Glasgow, DC 45 Fr 45.'
+								}, [{
+									location: '9870 St Vincent Place, Glasgow, DC 45 Fr 45.',
+									description: '9870 St Vincent Place, Glasgow'
+								}])
+
+							.col-sm-12
+								.unit.unit-md.flex-lg-row
+									.unit-left
+										img.img-fluid.d-inline-block(src="images/users/user-shirley-vasquez-120x120.jpg" width=120 height=120 alt="")
+									.unit-body
+										div
+											h5.text-primary.font-weight-bold Shirley Vasquez
+										.offset-top-10
+											address.contact-info.text-lg-left
+												ul.list-unstyled.p
+													li.d-block
+														span.icon.novi-icon.icon-xxs.mdi.mdi-phone.text-middle
+														= " "
+														a.d-inline-block.text-middle(href="tel:1-800-7650-986") 1-800-7650-986
+													li.d-block
+														span.icon.novi-icon.icon-xxs.mdi.mdi-email-open.text-middle
+														= " "
+														a.d-inline-block.text-middle(href="mailto:russell@demolink.org") shirley@demolink.org
+
+
+
+
+
+	//Section Similar Properties
+	section.section.section-98.section-md-110.bg-default.novi-background
+		.container
+			h2.font-weight-bold Similar Properties
+			hr.divider.bg-saffron
+			.offset-md-top-66
+				.row.row-65.justify-content-sm-center
+					.col-md-4
+						img.img-fluid.d-inline-block(src="images/home-img-11-370x250.jpg" width=370 height=250 alt="")
+						.text-md-left.offset-top-24
+							div
+								h5.font-weight-bold.text-primary
+									a(href="#") Scandia Vista Apartments
+							h6.offset-top-10  $1199.00/mon
+							ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+								li.list-inline-item 1200 sq ft
+								li.list-inline-item 4 bedrooms
+								li.list-inline-item 2 bathrooms
+							div
+								p Experience the ultimate comfort in one of our most renowned apartments with well thought-out planning, perfect furniture and cozy atmosphere.
+
+					.col-md-4
+						img.img-fluid.d-inline-block(src="images/home-img-08-370x250.jpg" width=370 height=250 alt="")
+						.text-md-left.offset-top-24
+							div
+								h5.font-weight-bold.text-primary
+									a(href="#") Alchemy by Alta
+							h6.offset-top-10  $1199.00/mon
+							ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+								li.list-inline-item 1200 sq ft
+								li.list-inline-item 4 bedrooms
+								li.list-inline-item 2 bathrooms
+							div
+								p One month FREE on select apartment homes for a limited time.
+
+					.col-md-4
+						img.img-fluid.d-inline-block(src="images/home-img-09-370x250.jpg" width=370 height=250 alt="")
+						.text-md-left.offset-top-24
+							div
+								h5.font-weight-bold.text-primary
+									a(href="#") Avalon at Mission Bay
+							h6.offset-top-10  $1595.00/mon
+							ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+								li.list-inline-item 1200 sq ft
+								li.list-inline-item 2 bedrooms
+								li.list-inline-item 2 bathrooms
+							div
+								p Avalon at Mission Bay located in San Francisco near the San Francisco Caltrain Station offers thoughtfully designed studio, 1, 2 and 3 bedroom apartments and town homes.
+
+
+	// Page Footer
+	include ../sections/_section-footer-default

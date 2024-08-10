@@ -1,0 +1,369 @@
+extends  ../_skeleton
+
+//- Includes
+include  ../elements/_ui-tabs-horizontal-dashed
+include  ../elements/_ui-thumbnail-terry
+include  ../elements/_ui-material-parallax
+include  ../elements/_ui-box-icon-type-4
+include  ../elements/_ui-testimonials-slider-4
+
+//-Title
+block title
+	title= cfg.brand.name
+
+//- Page
+block page
+
+	// Page Head
+	header.section.page-head( data-preset!={ title:'Header', category:'main', reload:true, id:'header' } )
+		//- RD Navbar
+		+rd-navbar-top-panel(
+		'rd-navbar-light',
+		{
+			"data-lg-auto-height": "true",
+			"data-md-layout": 'rd-navbar-fixed',
+			"data-lg-layout": 'rd-navbar-static',
+			"data-lg-stick-up": 'true'
+		},
+			cfg.brand.logo,
+			cfg.nav.home,
+			cfg.nav
+		)
+
+	//Section Search form
+	section.section.context-dark( data-preset!={ title:'Swiper', category:'main', reload:true, id:'swiper' } )
+		// Swiper
+		.swiper-container.swiper-slider(data-height='33%', data-min-height='600px', data-dots="true")
+			.swiper-wrapper
+				.swiper-slide.swiper-slide-overlay-disable(data-slide-bg='images/slide-01-1920x640.jpg' style="background-position: center center")
+				.swiper-slide.swiper-slide-overlay-disable(data-slide-bg='images/slide-02-1920x640.jpg' style="background-position: center center")
+				.swiper-slide.swiper-slide-overlay-disable(data-slide-bg='images/slide-03-1920x640.jpg' style="background-position: center center")
+			.swiper-caption-wraper
+				.container.section-41
+					.row.row-fix.justify-content-sm-center
+						h1.font-weight-bold Professional realtor works for you
+						.col-sm-10.col-lg-7.col-xl-6
+							.offset-top-24.offset-lg-top-50.text-left
+								+tabs-horizontal-dashed(['sale ', 'rent', 'commercial'])
+									div.offset-lg-top-10
+										form
+											.group-sm.group-top
+												.group-item.element-fullwidth(style="max-width: 390px")
+													.form-group
+														label.form-label.rd-input-label(for="home-tabs1-search-form-input") Search by City or Address:
+														input.form-control#home-tabs1-search-form-input(type="text" name="s" autocomplete="off")
+												button.btn.btn-primary.element-fullwidth(type="button" style="max-width: 120px") search
+									div.offset-lg-top-10
+										form
+											.group-sm.group-top
+												.group-item.element-fullwidth(style="max-width: 390px")
+													.form-group
+														label.form-label.rd-input-label(for="home-tabs2-search-form-input") Search by  Address or City:
+														input.form-control#home-tabs2-search-form-input(type="text" name="s" autocomplete="off")
+												button.btn.btn-primary.element-fullwidth(type="button" style="max-width: 120px") search
+									div.offset-lg-top-10
+										form
+											.group-sm.group-top
+												.group-item.element-fullwidth(style="max-width: 390px")
+													.form-group
+														label.form-label.rd-input-label(for="home-tabs3-search-form-input") Search by City or Address:
+														input.form-control#home-tabs3-search-form-input(type="text" name="s" autocomplete="off")
+												button.btn.btn-primary.element-fullwidth(type="button" style="max-width: 120px") search
+
+			// Swiper Pagination
+			.swiper-pagination.swiper-pagination-type-2
+
+	//Section thumbnails terry
+	section.section.section-34.novi-background( data-preset!={ title:'Properties 1', category:'properties', reload:false, id:'properties-1' } )
+		.container-fluid
+			.row.row-30.justify-content-sm-center
+				.col-sm-8.col-md-6.col-xl-3
+					+thumbnail-terry({
+						"type": "thumbnail",
+						"title": "With Swimming Pool ",
+						"description": "32 properties",
+						"thumb": {"src": "images/home-img-01-442-280.jpg", "width": 442, "height": 280, "alt": ""},
+						"target": {"href": "#"},
+						"btnLink": cfg.nav.catalog.href,
+						"btnClass": "btn-primary",
+						"btnText": "choose an apartment"
+					})
+
+				.col-sm-8.col-md-6.col-xl-3
+					+thumbnail-terry({
+						"type": "thumbnail",
+						"title": "Cozy Houses",
+						"description": "54 properties",
+						"thumb": {"src": "images/home-img-02-442-280.jpg", "width": 442, "height": 280, "alt": ""},
+						"target": {"href": "#"},
+						"btnLink": cfg.nav.catalog.href,
+						"btnClass": "btn-primary",
+						"btnText": "choose an apartment"
+					})
+
+				.col-sm-8.col-md-6.col-xl-3
+					+thumbnail-terry({
+						"type": "thumbnail",
+						"title": "Studio Apartments",
+						"description": "32 properties",
+						"thumb": {"src": "images/home-img-03-442-280.jpg", "width": 442, "height": 280, "alt": ""},
+						"target": {"href": "#"},
+						"btnLink": cfg.nav.catalog.href,
+						"btnClass": "btn-primary",
+						"btnText": "choose an apartment"
+					})
+
+				.col-sm-8.col-md-6.col-xl-3
+					+thumbnail-terry({
+						"type": "thumbnail",
+						"title": "Luxury Houses",
+						"description": "19 properties",
+						"thumb": {"src": "images/home-img-04-442-280.jpg", "width": 442, "height": 280, "alt": ""},
+						"target": {"href": "#"},
+						"btnLink": cfg.nav.catalog.href,
+						"btnClass": "btn-primary",
+						"btnText": "choose an apartment"
+					})
+
+	//Section Recent Properties
+	section.section.section-bottom-98.section-top-34.section-lg-bottom-110.section-lg-top-66.bg-default.novi-background( data-preset!={ title:'Properties 2', category:'properties', reload:false, id:'properties-2' } )
+		.container
+			h2.font-weight-bold Recent Properties
+			hr.divider.bg-saffron
+			.row.row-65
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-05-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href= "single-property-page.html") AVA Nob Hill
+						h6.offset-top-10  $1199.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 1200 sq ft
+							li.list-inline-item 4 bedrooms
+							li.list-inline-item 2 bathrooms
+						div
+							p AVA Nob Hill includes studios and 1 and 2 bedroom apartments that feature an urban-inspired design that extends beyond your walls and throughout the entire community.
+
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-06-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href="single-property-page.html") Ashton San Francisco
+						h6.offset-top-10  $1595.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 1200 sq ft
+							li.list-inline-item 2 bedrooms
+							li.list-inline-item 2 bathrooms
+						div
+							p Ashton San Francisco offers luxury apartments, eco-friendly features, and remarkable on-site resident amenities. Enjoy premier services and access to our state-of-the-art fitness center, clubhouse, business center, and outdoor fire pit lounge.
+
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-07-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href="single-property-page.html") The Presidio Residences
+						h6.offset-top-10  $2699.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 2200 sq ft
+							li.list-inline-item 4 bedrooms
+							li.list-inline-item 3 bathrooms
+						div
+							p The Presidio Residences offer a unique opportunity to live in a national park setting and enjoy quiet neighborhoods, convenient location, beautiful open spaces, and outstanding recreational amenities.
+
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-08-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href="single-property-page.html") Alchemy by Alta
+						h6.offset-top-10  $1199.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 1200 sq ft
+							li.list-inline-item 4 bedrooms
+							li.list-inline-item 2 bathrooms
+						div
+							p One month FREE on select apartment homes for a limited time.
+
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-09-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href="single-property-page.html") Avalon at Mission Bay
+						h6.offset-top-10  $1595.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 1200 sq ft
+							li.list-inline-item 2 bedrooms
+							li.list-inline-item 2 bathrooms
+						div
+							p Avalon at Mission Bay located in San Francisco near the San Francisco Caltrain Station offers thoughtfully designed studio, 1, 2 and 3 bedroom apartments and town homes.
+
+				.col-md-6.col-lg-4
+					img.img-fluid.d-inline-block(src="images/home-img-10-370x250.jpg" width=370 height=250 alt="")
+					.text-md-left.offset-top-24
+						div
+							h5.font-weight-bold.text-primary
+								a(href="single-property-page.html") Bayside Village Apartments
+						h6.offset-top-10  $2699.00/mon
+						ul.list-inline.list-inline-sm.list-inline-dotted.text-dark
+							li.list-inline-item 2200 sq ft
+							li.list-inline-item 4 bedrooms
+							li.list-inline-item 3 bathrooms
+						div
+							p Pick your pleasure from a vantage point that puts all the best of the city's lively South Beach neighborhood within easy reach.
+			.offset-top-50
+				a(href= cfg.nav.catalog.href).btn.btn-primary view all properties
+
+	//Section Real Estate Tools and Resources
+	section.section.context-dark( data-preset!={ title:'Services', category:'about', reload:true, id:'services' } )
+		+material-parallax({img: 'images/bg-01-1920x768.jpg'})
+			.container.section-98.section-md-110
+				h2.font-weight-bold Real Estate Tools and Resources
+				hr.divider.bg-saffron
+				.row.row-65.justify-content-sm-center.offset-top-66
+					.col-md-4
+						+box-icon-type-4("mdi mdi-comment-text-outline icon-carrot-filled", "more listings", "Check up to 40% more houses for sale. See pictures of your new life at a new place. See maps, markets, etc.")
+					.col-md-4
+						+box-icon-type-4("mdi mdi-star icon-carrot-filled", "top-rated agents", "All our real estate agents are professionals in your neighborhood, which are ready to help you find your new home.")
+					.col-md-4
+						+box-icon-type-4("mdi mdi-domain icon-carrot-filled", "home estimates", "Wanna know how much your new home will cost? See estimates for any neighborhood and check prices for similar homes.")
+
+	//Section Real Estate Agents
+	section.section.section-98.section-lg-110.bg-default.novi-background( data-preset!={ title:'Team', category:'team', reload:false, id:'team' } )
+		.container
+			h2.font-weight-bold Real Estate Agents
+			hr.divider.bg-saffron
+			.row.row-50.justify-content-sm-center.offset-top-66
+				.col-md-6.col-lg-3
+					+member-block-type({
+						img: 'users/user-ashley-mason-270x270.jpg',
+						name: 'Ashley Mason'
+					})
+
+				.col-md-6.col-lg-3
+					+member-block-type({
+						img: 'users/user-russel-myers-270x270.jpg',
+						name: 'Russell Myers'
+					})
+
+				.col-md-6.col-lg-3
+					+member-block-type({
+						img: 'users/user-shirley-vasques-270x270.jpg',
+						name: 'Shirley Vasquez'
+					})
+
+				.col-md-6.col-lg-3
+					+member-block-type({
+						img: 'users/user-terry-sandoval-270x270.jpg',
+						name: 'Terry Sandoval'
+					})
+
+			.offset-top-66
+				a(href= cfg.nav.about.href).btn.btn-primary view all agents
+
+	//Section Testimonials
+	section.section.section-98.section-lg-110.bg-lighter.novi-background( data-preset!={ title:'Testimonials', category:'team', reload:true, id:'testimonials' } )
+		.container
+			h2.font-weight-bold Testimonials
+			hr.divider.bg-saffron
+			.offset-top-66
+				+testimonials-slider-4([{
+					"image": {
+						"width": 80,
+						"height": 80,
+						"src": "images/users/user-lisa-evans-80x80.jpg",
+						"alt": "Lisa Evans"
+					},
+					"title": "Lisa Evans",
+					"q": "Thank you for your prompt response and the help that you gave me. You always have a quick solution to any problem. What an excellent level of customer service!"
+				},
+					{
+						"image": {
+							"width": 80,
+							"height": 80,
+							"src": "images/users/user-nicholas-lane-80x80.jpg",
+							"alt": "Nicholas Lane"
+						},
+						"title": "Nicholas Lane",
+						"q": "I just want to thank you for your help. I was so pleased and grateful. Keep up the excellent work. Your site provides the best support I have ever encountered."
+					},
+					{
+						"image": {
+							"width": 80,
+							"height": 80,
+							"src": "images/users/user-ethan-dean-80x80.jpg",
+							"alt": "Ethan Dean"
+						},
+						"title": "Ethan Dean",
+						"q": "Thank you very much for your rapid response. It's no doubt that your company is worth admiring! I have experienced the fastest support ever. Thank you a thousand times."
+					},
+					{
+						"image": {
+							"width": 80,
+							"height": 80,
+							"src": "images/users/user-lisa-evans-80x80.jpg",
+							"alt": "Lisa Evans"
+						},
+						"title": "Lisa Evans",
+						"q": "Thank you for your prompt response and the help that you gave me. You always have a quick solution to any problem. What an excellent level of customer service!"
+					},
+					{
+						"image": {
+							"width": 80,
+							"height": 80,
+							"src": "images/users/user-nicholas-lane-80x80.jpg",
+							"alt": "Nicholas Lane"
+						},
+						"title": "Nicholas Lane",
+						"q": "I just want to thank you for your help. I was so pleased and grateful. Keep up the excellent work. Your site provides the best support I have ever encountered."
+					},
+					{
+						"image": {
+							"width": 80,
+							"height": 80,
+							"src": "images/users/user-ethan-dean-80x80.jpg",
+							"alt": "Ethan Dean"
+						},
+						"title": "Ethan Dean",
+						"q": "Thank you very much for your rapid response. It's no doubt that your company is worth admiring! I have experienced the fastest support ever.Thank you a thousand "
+					}])
+
+	//Section Real Estate Tools and Resources
+	section.section.context-dark(data-preset!={ title:'Contact form 1', category:'contacts', reload:true, id:'contact-form-1' } )
+		+material-parallax({img: 'images/bg-02-1920x855.jpg'})
+			.container.section-98.section-md-110
+				h2.font-weight-bold Get In Touch
+				hr.divider.bg-saffron
+				.row.row-fix.justify-content-sm-center.offset-top-66
+					.col-md-8
+						// RD Mailform
+						form.rd-mailform.rd-form.text-left(data-form-output="form-output-global", data-form-type='contact', method='post', action='bat/rd-mailform.php')
+							.row.row-25.row-fix
+								.col-xl-6
+									.form-group
+										label.form-label(for="real-estate-first-name") First name:
+										input#real-estate-first-name.form-control(type="text" name="name" data-constraints="@Required")
+								.col-xl-6
+									.form-group
+										label.form-label(for="real-estate-last-name") Last name:
+										input#real-estate-last-name.form-control(type="text" name="last_name" data-constraints="@Required")
+								.col-xl-6
+									.form-group
+										label.form-label(for="real-estate-phone") Phone:
+										input#real-estate-phone.form-control(type="text" name="phone" data-constraints="@Numeric @Required")
+								.col-xl-6
+									.form-group
+										label.form-label(for="real-estate-mail") E-mail:
+										input#real-estate-mail.form-control(type="email" name="email" data-constraints="@Required @Email")
+								.col-xl-12.offset-top-24
+									.form-group
+										label.form-label(for="contact-me-message") Message:
+										textarea#contact-me-message.form-control(name="message" data-constraints="@Required" style="height: 150px")
+							.offset-top-30.text-center
+								button(type="submit").btn.btn-primary send message
+
+	// Page Footers
+	include ../sections/_section-footer-default

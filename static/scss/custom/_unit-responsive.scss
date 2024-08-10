@@ -1,0 +1,25 @@
+//
+// Responsive unit
+// --------------------------------------------------
+html {
+  @include unit-responsive(20px, 30px);
+
+  .unit-spacing-xxs{
+    @include unit-spacing( 10px );
+  }
+
+  .unit-spacing-xs{
+    @include unit-spacing(7px, 15px);
+  }
+  .unit-spacing-sm{
+    @include unit-spacing(20px);
+  }
+
+  .unit-spacing-lg{
+    @include unit-spacing(40px);
+  }
+  
+  .unit-grow {
+    flex-grow: 1;
+  }
+}

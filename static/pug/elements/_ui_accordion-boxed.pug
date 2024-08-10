@@ -1,0 +1,13 @@
+
+//- accordionId - id of accordion 
+//- tabObject - object of accordions
+mixin accordion-boxed( accordionId, tabObject )
+  // Bootstrap Accordion
+  .accordion-boxed.offset-top-0( role='tablist', aria-multiselectable='true' id= accordionId )
+    - for ( var i = 0; i < tabObject.length; i++ )
+      - if ( !tabObject[i].contentId ) tabObject[i].contentId = accordionId +'--card-'+ i
+      .card.card-boxed
+        a.card-header( href='#', data-toggle= 'collapse', data-target='#' + tabObject[i].contentId, aria-expanded= Boolean(tabObject[i].show).toString(), aria-controls= tabObject[i].contentId, class={collapsed: !tabObject[i].show} )
+          != tabObject[i].title
+        .collapse( id= tabObject[i].contentId, aria-labelledby='headingOne', data-parent='#' + accordionId, class={show: tabObject[i].show} )
+          .card-body!= tabObject[i].description

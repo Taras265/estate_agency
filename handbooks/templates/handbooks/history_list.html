@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'History' %}{% endblock %}
+
+{% block content %}
+
+{% if history %}
+<table class="table table-striped">
+<tbody>
+  <tr>
+    <th>{% translate 'date' %}</th>
+    <th>{% translate 'user' %}</th>
+    <th>{% translate 'field' %}</th>
+    <th>{% translate 'old' %}</th>
+    <th>{% translate 'new' %}</th>
+  </tr>
+  {% for change in history %}
+  <tr>
+    <th>{{ change.date  }}</th>
+    <th>{{ change.user }}</th>
+    <td>{{ change.field }}</td>
+    <td>{{ change.old_value }}</td>
+    <td>{{ change.new_value }}</td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+
+{% endblock %}

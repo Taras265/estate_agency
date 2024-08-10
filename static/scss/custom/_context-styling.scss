@@ -1,0 +1,177 @@
+// Contexts
+// -------------------------
+
+%context-light {
+  .form-control-impressed {
+    background: rgba(255, 255, 255, .6);
+    &, &:focus {
+      box-shadow: none;
+    }
+  }
+  .form-label.focus {
+    color: $gray-800;
+  }
+
+  .quote-outboxed {
+    .quote-body {
+      box-shadow: $shadow-area-md;
+      background: $white;
+
+      &:before {
+        color: $gray-200;
+      }
+
+      &:after {
+        border-color: $white transparent transparent transparent;
+      }
+    }
+  }
+}
+
+%context-dark {
+  // Text Styles
+  &, .btn-link, .form-label, .form-label-outside.focus,
+  .select2-container--bootstrap .select2-selection--single .select2-selection__rendered,
+  .select2-container--bootstrap .select2-selection,
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    color: $white;
+  }
+
+  .form-label.auto-fill {
+    color: $input-color;
+  }
+
+  .countdown-custom {
+    .countdown-amount, .countdown-period {
+      color: $white;
+    }
+  }
+
+  .responsive-tabs-dashed {
+    .resp-tabs-list {
+      > li {
+        color: $gray-300;
+        &.resp-tab-active,
+        &:hover {
+          color: $white;
+        }
+        & + li {
+          &:before {
+            background: $gray-300;
+          }
+        }
+      }
+    }
+    .resp-tabs-container{
+      .form-control{
+        color: $gray-800;
+      }
+    }
+  }
+
+  .form-group {
+    > .form-control {
+      color: $white;
+    }
+
+    > .form-control::-webkit-input-placeholder {
+      color: $white;
+    }
+
+    > .form-control::-moz-placeholder {
+      color: $white;
+    }
+
+    > .form-control:-ms-input-placeholder {
+      color: $white;
+    }
+
+    > .form-control:-moz-placeholder {
+      color: $white;
+    }
+  }
+  // Tabs
+  .responsive-tabs .resp-tabs-list li {
+    color: #c4c4c4;
+    &.resp-tab-active, &:hover {
+      color: $white;
+    }
+
+  }
+  .responsive-tabs-classic[data-type="horizontal"] .resp-tabs-list li:before{
+    @include media-breakpoint-up(lg) {
+      background-color: $white;
+    }
+
+  }
+  // Button Styles
+  .btn-default {
+    @include button-variant-custom($white, transparent, $white, $gray-800, $white, $white);
+
+    &.btn-anis-effect {
+      &:before, &:after {
+        background: $white;
+      }
+    }
+  }
+
+  // Owl Carousel
+  .owl-carousel {
+    .owl-prev,
+    .owl-next {
+      border-color: $white;
+      color: $white;
+    }
+  }
+
+  // Counter (type-1)
+  .counter-type-1 {
+    .divider {
+      background: $white;
+    }
+  }
+
+  .form-control-impressed {
+    background: $black;
+  }
+
+  // Footer (variant 2)
+  .contact-info dl {
+    dd a, dd a:hover {
+      color: $gray-700;
+    }
+  }
+
+  .thumbnail-classic-caption {
+    color: $gray-800;
+  }
+
+  .thumbnail-classic-title {
+    color: $gray-800;
+  }
+
+  // Form Validation
+  .has-error .form-validation {
+    color: lighten($ku-crimson, 27.5%);
+  }
+
+  @include media-breakpoint-up(md) {
+    .form-label-outside.auto-fill {
+      color: $white;
+    }
+  }
+}
+
+.context-light {
+  @extend %context-light;
+}
+
+.context-dark {
+  @extend %context-dark;
+}
+
+.bg-gray-base {
+  .form-control-impressed {
+    background: darken($black, 3%);
+  }
+}

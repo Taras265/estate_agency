@@ -1,0 +1,21 @@
+//
+// Pull Responsive
+// --------------------------------------------------
+
+.pull-base{
+  float: none;
+}
+
+// TODO
+//@each $resolution, $alias in ($screen-xs-min : xs, $screen-sm-min : sm, $screen-md-min : md, $screen-lg-min : lg, $screen-xl-min : xl){
+//  @media (min-width: $resolution) {
+//    @include make-pull-alignment($alias);
+//  }
+//}
+
+
+@each $alias, $resolution in $grid-breakpoints {
+  @media (min-width: $resolution) {
+    @include make-pull-alignment($alias, $resolution);
+  }
+}

@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Details' %}{% endblock %}
+
+{% block content %}
+    <section class="section context-dark">
+      <div class="parallax-container" data-parallax-img="images/bg-header-1920x362.jpg">
+        <div class="parallax-content">
+          <div class="container section-top-34 section-md-top-98 section-bottom-34">
+            <div>
+              <h1 class="font-weight-bold">{% translate 'Details' %}</h1>
+            </div>
+            <ul class="list-inline list-inline-dashed p text-light breadcrumb-modern offset-top-10 offset-md-top-66">
+              <li class="list-inline-item"><a href="index.html">{% translate 'Main' %}</a></li>
+              <li class="list-inline-item"><a href="catalog.html">{% translate 'Catalog' %}</a></li>
+              <li class="list-inline-item">{% translate 'Details' %}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section-98 section-md-110 bg-default novi-background">
+      <div class="container">
+        <h2 class="font-weight-bold">{{ object.home }} {{ object.apartment }}</h2>
+        <hr class="divider bg-saffron">
+        <div class="offset-md-top-66">
+          <div class="row row-65 row-fix">
+            <div class="col-lg-7 col-xl-8">
+              <div class="owl-carousel owl-carousel-classic" data-items="1" data-dots="true" data-nav="true" data-nav-class="[&quot;owl-prev mdi mdi-chevron-left&quot;, &quot;owl-next mdi mdi-chevron-right&quot;]">
+
+                {% for image in images %}
+                <a class="thumbnail-classic" data-lightgallery="item" href="{{ image.image.url }}">
+                  <figure><img width="770" height="510" src="{{ image.image.url }}" alt=""></figure>
+                </a>
+                {% endfor %}
+              </div>
+              <div class="text-md-left offset-top-50">
+                <h5 class="font-weight-bold">comment</h5>
+                <p>{{ object.comment }}</p>
+                <h5 class="font-weight-bold">realtor_notes</h5>
+                <p>{{ object.realtor_notes }}</p>
+              </div>
+              <div class="offset-top-30">
+                <div class="table-responsive clearfix">
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <th>{% translate 'details' %}</th>
+                        <th></th>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'region' %}</th>
+                        <td>{{ object.region }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'district' %}</th>
+                        <td>{{ object.district }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'locality' %}</th>
+                        <td>{{ object.locality }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'locality_district' %}</th>
+                        <td>{{ object.locality_district }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'street' %}</th>
+                        <td>{{ object.street }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'house' %}</th>
+                        <td>{{ object.house }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'apartment' %}</th>
+                        <td>{{ object.apartment }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'date_before_temporarily_removed' %}</th>
+                        <td>{{ object.date_before_temporarily_removed }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'deposit_date' %}</th>
+                        <td>{{ object.deposit_date }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'purchase_date' %}</th>
+                        <td>{{ object.purchase_date }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'sale_date' %}</th>
+                        <td>{{ object.sale_date }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'date_of_next_call' %}</th>
+                        <td>{{ object.date_of_next_call }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'inspection_form' %}</th>
+                        <td>{{ object.inspection_form }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'exclusive' %}</th>
+                        <td>{{ object.exclusive }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'exclusive_date' %}</th>
+                        <td>{{ object.exclusive_to }} - {{ object.exclusive_from }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'inspection_flag' %}</th>
+                        <td>{{ object.inspection_flag }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'paid_exclusive_flag' %}</th>
+                        <td>{{ object.paid_exclusive_flag }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'terrace_flag' %}</th>
+                        <td>{{ object.terrace_flag }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'sea_flag' %}</th>
+                        <td>{{ object.sea_flag }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'vip' %}</th>
+                        <td>{{ object.vip }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'withdrawal_reason' %}</th>
+                        <td>{{ object.withdrawal_reason }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'independent' %}</th>
+                        <td>{{ object.independent }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'condition' %}</th>
+                        <td>{{ object.condition }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'special' %}</th>
+                        <td>{{ object.special }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'urgently' %}</th>
+                        <td>{{ object.urgently }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'trade' %}</th>
+                        <td>{{ object.trade }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'material' %}</th>
+                        <td>{{ object.material }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'status' %}</th>
+                        <td>{{ object.status }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'objectect_type' %}</th>
+                        <td>{{ object.objectect_type }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'square' %}</th>
+                        <td>{{ object.square }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'price' %}</th>
+                        <td>{{ object.price }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'site_price' %}</th>
+                        <td>{{ object.site_price }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'square_meter_price' %}</th>
+                        <td>{{ object.square_meter_price }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'for_trainee' %}</th>
+                        <td>{{ object.for_trainee }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'reference_point' %}</th>
+                        <td>{{ object.reference_point }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'author' %}</th>
+                        <td>{{ object.author }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'owner' %}</th>
+                        <td>{{ object.owner }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'client' %}</th>
+                        <td>{{ object.client }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'owners_number' %}</th>
+                        <td>{{ object.owners_number }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'separation' %}</th>
+                        <td>{{ object.separation }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'agency' %}</th>
+                        <td>{{ object.agency }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'agency_sales' %}</th>
+                        <td>{{ object.agency_sales }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'sale_terms' %}</th>
+                        <td>{{ object.sale_terms }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'filename_of_exclusive_agreement' %}</th>
+                        <td>{{ object.filename_of_exclusive_agreement }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'inspection_file_name' %}</th>
+                        <td>{{ object.inspection_file_name }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'document' %}</th>
+                        <td>{{ object.document }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'filename_forbid_sale' %}</th>
+                        <td>{{ object.filename_forbid_sale }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'new_building_name' %}</th>
+                        <td>{{ object.new_building_name }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'new_building_type' %}</th>
+                        <td>{{ object.new_building_type }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'realtor' %}</th>
+                        <td>{{ object.realtor }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'site_realtor1' %}</th>
+                        <td>{{ object.site_realtor1 }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'site_realtor2' %}</th>
+                        <td>{{ object.site_realtor2 }}</td>
+                      </tr>
+                      <tr>
+                        <th>{% translate 'realtor_5_5' %}</th>
+                        <td>{{ object.realtor_5_5 }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5 col-xl-4 text-lg-left inset-lg-left-30">
+              <div class="row row-50">
+                <div class="col-sm-12">
+                  <p><span class="icon icon-xxs novi-icon mdi-calendar-today mdi text-light text-middle"></span> <span class="text-middle">{{ object.creation_date }}</span></p>
+                  <div class="offset-top-20 offset-lg-top-50">
+                    <ul class="list-inline list-inline-sm list-inline-dotted text-dark">
+                      <li class="list-inline-item">{{ object.square }} sqm</li>
+                    </ul>
+                  </div>
+                  <div class="offset-top-20 offset-lg-top-50">
+                    <h5 class="font-weight-bold">{{ object.site_price }} uah</h5>
+                  </div>
+                </div>
+                <div class="col-sm-12"><a class="btn btn-primary" href="#">contact an agent</a>
+                  <div class="offset-top-10"><a class="btn btn-info" href="#">request a visit</a></div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="google-map-container" data-center="9870 St Vincent Place, Glasgow, DC 45 Fr 45." data-zoom="5" data-styles="[{&quot;featureType&quot;: &quot;administrative&quot;,&quot;elementType&quot;: &quot;labels.text.fill&quot;,&quot;stylers&quot;: [{&quot;color&quot;: &quot;#444444&quot;}]}, {&quot;featureType&quot;: &quot;administrative.locality&quot;,&quot;elementType&quot;: &quot;labels&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;on&quot;}]}, {&quot;featureType&quot;: &quot;landscape&quot;,&quot;elementType&quot;: &quot;all&quot;,&quot;stylers&quot;: [{&quot;color&quot;: &quot;#f2f2f2&quot;}, {&quot;visibility&quot;: &quot;simplified&quot;}]}, {&quot;featureType&quot;: &quot;poi&quot;,&quot;elementType&quot;: &quot;all&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;on&quot;}]}, {&quot;featureType&quot;: &quot;poi&quot;,&quot;elementType&quot;: &quot;geometry&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;simplified&quot;}, {&quot;saturation&quot;: &quot;-65&quot;}, {&quot;lightness&quot;: &quot;45&quot;}, {&quot;gamma&quot;: &quot;1.78&quot;}]}, {&quot;featureType&quot;: &quot;poi&quot;,&quot;elementType&quot;: &quot;labels&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;poi&quot;,&quot;elementType&quot;: &quot;labels.icon&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;road&quot;,&quot;elementType&quot;: &quot;all&quot;,&quot;stylers&quot;: [{&quot;saturation&quot;: -100}, {&quot;lightness&quot;: 45}]}, {&quot;featureType&quot;: &quot;road&quot;,&quot;elementType&quot;: &quot;labels&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;on&quot;}]}, {&quot;featureType&quot;: &quot;road&quot;,&quot;elementType&quot;: &quot;labels.icon&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;road.highway&quot;,&quot;elementType&quot;: &quot;all&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;simplified&quot;}]}, {&quot;featureType&quot;: &quot;road.highway&quot;,&quot;elementType&quot;: &quot;labels.icon&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;road.arterial&quot;,&quot;elementType&quot;: &quot;labels.icon&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;transit.line&quot;,&quot;elementType&quot;: &quot;geometry&quot;,&quot;stylers&quot;: [{&quot;saturation&quot;: &quot;-33&quot;}, {&quot;lightness&quot;: &quot;22&quot;}, {&quot;gamma&quot;: &quot;2.08&quot;}]}, {&quot;featureType&quot;: &quot;transit.station.airport&quot;,&quot;elementType&quot;: &quot;geometry&quot;,&quot;stylers&quot;: [{&quot;gamma&quot;: &quot;2.08&quot;}, {&quot;hue&quot;: &quot;#ffa200&quot;}]}, {&quot;featureType&quot;: &quot;transit.station.airport&quot;,&quot;elementType&quot;: &quot;labels&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;transit.station.rail&quot;,&quot;elementType&quot;: &quot;labels.text&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;off&quot;}]}, {&quot;featureType&quot;: &quot;transit.station.rail&quot;,&quot;elementType&quot;: &quot;labels.icon&quot;,&quot;stylers&quot;: [{&quot;visibility&quot;: &quot;simplified&quot;}, {&quot;saturation&quot;: &quot;-55&quot;}, {&quot;lightness&quot;: &quot;-2&quot;}, {&quot;gamma&quot;: &quot;1.88&quot;}, {&quot;hue&quot;: &quot;#ffab00&quot;}]}, {&quot;featureType&quot;: &quot;water&quot;,&quot;elementType&quot;: &quot;all&quot;,&quot;stylers&quot;: [{&quot;color&quot;: &quot;#bbd9e5&quot;}, {&quot;visibility&quot;: &quot;simplified&quot;}]}]" data-icon="images/gmap_marker.png" data-icon-active="images/gmap_marker_active.png">
+                    <div class="google-map"></div>
+                    <ul class="google-map-markers">
+                      <li data-location="9870 St Vincent Place, Glasgow, DC 45 Fr 45." data-description="9870 St Vincent Place, Glasgow"></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="unit unit-md flex-lg-row">
+                    <div class="unit-left"><img class="img-fluid d-inline-block" src="{{ object.realtor.image.url }}" width="120" height="120" alt=""></div>
+                    <div class="unit-body">
+                      <div>
+                        <h5 class="text-primary font-weight-bold">{{ object.realtor.first_name }} {{ object.realtor.last_name }}</h5>
+                      </div>
+                      <div class="offset-top-10"><address class="contact-info text-lg-left">
+                          <ul class="list-unstyled p">
+                            <li class="d-block"><span class="icon novi-icon icon-xxs mdi mdi-phone text-middle"></span> <a class="d-inline-block text-middle" href="tel:{{ object.realtor.phone }}">{{ object.realtor.phone }}</a></li>
+                            <li class="d-block"><span class="icon novi-icon icon-xxs mdi mdi-email-open text-middle"></span> <a class="d-inline-block text-middle" href="mailto:{{ object.realtor.email }}">{{ object.realtor.email }}</a></li>
+                          </ul>
+                        </address></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section-98 section-md-110 bg-default novi-background">
+      <div class="container">
+        <h2 class="font-weight-bold">Similar Properties</h2>
+        <hr class="divider bg-saffron">
+        <div class="offset-md-top-66">
+          <div class="row row-65 justify-content-sm-center">
+            <div class="col-md-4"><img class="img-fluid d-inline-block" src="images/home-img-11-370x250.jpg" width="370" height="250" alt="">
+              <div class="text-md-left offset-top-24">
+                <div>
+                  <h5 class="font-weight-bold text-primary"><a href="#">Scandia Vista Apartments</a></h5>
+                </div>
+                <h6 class="offset-top-10">$1199.00/mon</h6>
+                <ul class="list-inline list-inline-sm list-inline-dotted text-dark">
+                  <li class="list-inline-item">1200 sq ft</li>
+                  <li class="list-inline-item">4 bedrooms</li>
+                  <li class="list-inline-item">2 bathrooms</li>
+                </ul>
+                <div>
+                  <p>Experience the ultimate comfort in one of our most renowned apartments with well thought-out planning, perfect furniture and cozy atmosphere.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4"><img class="img-fluid d-inline-block" src="images/home-img-08-370x250.jpg" width="370" height="250" alt="">
+              <div class="text-md-left offset-top-24">
+                <div>
+                  <h5 class="font-weight-bold text-primary"><a href="#">Alchemy by Alta</a></h5>
+                </div>
+                <h6 class="offset-top-10">$1199.00/mon</h6>
+                <ul class="list-inline list-inline-sm list-inline-dotted text-dark">
+                  <li class="list-inline-item">1200 sq ft</li>
+                  <li class="list-inline-item">4 bedrooms</li>
+                  <li class="list-inline-item">2 bathrooms</li>
+                </ul>
+                <div>
+                  <p>One month FREE on select apartment homes for a limited time.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4"><img class="img-fluid d-inline-block" src="images/home-img-09-370x250.jpg" width="370" height="250" alt="">
+              <div class="text-md-left offset-top-24">
+                <div>
+                  <h5 class="font-weight-bold text-primary"><a href="#">Avalon at Mission Bay</a></h5>
+                </div>
+                <h6 class="offset-top-10">$1595.00/mon</h6>
+                <ul class="list-inline list-inline-sm list-inline-dotted text-dark">
+                  <li class="list-inline-item">1200 sq ft</li>
+                  <li class="list-inline-item">2 bedrooms</li>
+                  <li class="list-inline-item">2 bathrooms</li>
+                </ul>
+                <div>
+                  <p>Avalon at Mission Bay located in San Francisco near the San Francisco Caltrain Station offers thoughtfully designed studio, 1, 2 and 3 bedroom apartments and town homes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,119 @@
+// Custom card styles
+
+.card-accordion {
+  .card-header {
+    position: relative;
+    padding: $card-spacer-y $card-spacer-x*2 $card-spacer-y $card-spacer-x;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &::after {
+      content: '\f465';
+      position: absolute;
+      top: 24px;
+      right: 10px;
+      transform: translateY(-50%);
+      font-family: $icon-font-material-design;
+      font-size: 21px;
+      font-weight: 400;
+      color: $gray-700;
+    }
+    
+    &.collapsed {
+      &::after {
+        content: '\f504';
+      }
+    }
+  }
+}
+
+.card-classic {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid $gray-500;
+
+  .card-header {
+    position: relative;
+    padding: $card-spacer-y $card-spacer-x $card-spacer-y 0;
+    border-radius: 0;
+    border: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: color .25s;
+    background-color: transparent;
+
+    &::after {
+      content: '\f465';
+      position: absolute;
+      top: 24px;
+      right: 0;
+      transform: translateY(-50%);
+      font-family: $icon-font-material-design;
+      font-size: 21px;
+      font-weight: 400;
+      color: inherit;
+    }
+
+    &.collapsed {
+      color: $gray-700;
+
+      &::after {
+        content: '\f504';
+      }
+    }
+
+    &:hover {
+      color: inherit;
+    }
+  }
+  
+  .card-body {
+    padding-top: 3px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.card-boxed {
+  .card-header {
+    position: relative;
+    padding: $card-spacer-y $card-spacer-x*2 $card-spacer-y $card-spacer-x;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: color .25s;
+    background: transparent;
+
+    &::after {
+      content: '\f465';
+      position: absolute;
+      top: 24px;
+      right: 10px;
+      transform: translateY(-50%);
+      font-family: $icon-font-material-design;
+      font-size: 21px;
+      font-weight: 400;
+      color: $gray-700;
+    }
+
+    &.collapsed {
+      color: $gray-700;
+
+      &::after {
+        content: '\f504';
+      }
+    }
+
+    &:hover {
+      color: inherit;
+    }
+  }
+  
+  .card-body {
+    padding-top: 0;
+  }
+}
+
+.card-boxed + .card-boxed {
+  margin-top: 5px;
+}
