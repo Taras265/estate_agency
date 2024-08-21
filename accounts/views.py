@@ -7,6 +7,7 @@ from accounts.forms import LoginForm, AvatarForm
 from accounts.models import CustomUser
 from django.utils.translation import activate
 
+from handbooks.models import UserFilial
 from utils.mixins.mixins import FormMixin
 
 
@@ -43,6 +44,7 @@ class ProfileView(FormMixin, UpdateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs['lang'])
         context = super().get_context_data(**kwargs)
+        context['filial'] = UserFilial.objects.filter(user=context['user']).first()
 
         return context
 

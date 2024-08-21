@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
@@ -13,6 +13,14 @@ from utils.mixins.mixins import FormMixin, DeleteMixin, SpecialRightFormMixin, S
     HandbookListMixin, HandbookHistoryListMixin
 from django.utils.translation import gettext as _
 from django.utils.translation import activate
+
+
+def handbook_redirect(request, lang):
+    user = CustomUser.objects.filter(email=request.user).first()
+
+    if user and user.user_type in CHOICES.keys():
+        return redirect(f'/{lang}/handbook/base/{CHOICES[user.user_type][1][1]}/', {'lang': lang})
+    return render(request, '403.html', {'lang': lang})
 
 
 class HandbookListView(HandbookListMixin, ListView):
