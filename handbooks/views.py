@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
@@ -8,9 +9,9 @@ from handbooks.forms import RegionForm, DistrictForm, LocalityForm, LocalityDist
     HandbookForm, FilialForm, FilialReportForm
 from handbooks.models import (Region, District, Locality, LocalityDistrict,
                               Street, ObjectType, Client, Handbook, FilialAgency, FilialReport)
-from utils.const import CHOICES, QUERYSET, HANDBOOKS_QUERYSET, LIST_BY_USER
-from utils.mixins.mixins import FormMixin, DeleteMixin, SpecialRightFormMixin, SpecialRightDeleteMixin, \
-    HandbookListMixin, HandbookHistoryListMixin
+from utils.const import CHOICES, MODEL, HANDBOOKS_QUERYSET, LIST_BY_USER, PERMISSION, OBJECT_COLUMNS
+from utils.mixins.mixins import FormMixin, DeleteMixin, \
+    HandbookHistoryListMixin, CustomLoginRequiredMixin, HandbookListPermissionMixin
 from django.utils.translation import gettext as _
 from django.utils.translation import activate
 
@@ -23,9 +24,8 @@ def handbook_redirect(request, lang):
     return render(request, '403.html', {'lang': lang})
 
 
-class HandbookListView(HandbookListMixin, ListView):
+class HandbookListView(HandbookListPermissionMixin, ListView):
     handbook_type = None
-    object_columns = None
 
 
 class RegionCreateView(FormMixin, CreateView):
@@ -33,6 +33,7 @@ class RegionCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'region'
+    permission_required = 'handbooks.add_region'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -44,6 +45,7 @@ class DistrictCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'district'
+    permission_required = 'handbooks.add_district'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -55,6 +57,7 @@ class LocalityCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality'
+    permission_required = 'handbooks.add_locality'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -66,6 +69,7 @@ class LocalityDistrictCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality_district'
+    permission_required = 'handbooks.add_localitydistrict'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -77,6 +81,7 @@ class StreetCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'street'
+    permission_required = 'handbooks.add_street'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -88,6 +93,7 @@ class ClientCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'client'
+    permission_required = 'handbooks.add_client'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -98,32 +104,16 @@ class HandbookCreateView(FormMixin, CreateView):
     form_class = HandbookForm
     success_url = reverse_lazy("handbooks:handbooks_list")
 
+    def get_permission_required(self):
+        handbook_type = self.kwargs.get('handbook_type')
+        self.permission_required = PERMISSION[handbook_type]
+        return super().get_permission_required()
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if kwargs.get('data'):
             kwargs['data']._mutable = True
-            if self.kwargs['handbook_type'] == 'withdrawal_reason':
-                kwargs['data']['type'] = 1
-            elif self.kwargs['handbook_type'] == 'condition':
-                kwargs['data']['type'] = 2
-            elif self.kwargs['handbook_type'] == 'material':
-                kwargs['data']['type'] = 3
-            elif self.kwargs['handbook_type'] == 'separation':
-                kwargs['data']['type'] = 4
-            elif self.kwargs['handbook_type'] == 'agency':
-                kwargs['data']['type'] = 5
-            elif self.kwargs['handbook_type'] == 'agency_sales':
-                kwargs['data']['type'] = 6
-            elif self.kwargs['handbook_type'] == 'new_building_name':
-                kwargs['data']['type'] = 7
-            elif self.kwargs['handbook_type'] == 'stair':
-                kwargs['data']['type'] = 8
-            elif self.kwargs['handbook_type'] == 'heating':
-                kwargs['data']['type'] = 9
-            elif self.kwargs['handbook_type'] == 'layout':
-                kwargs['data']['type'] = 10
-            elif self.kwargs['handbook_type'] == 'house_type':
-                kwargs['data']['type'] = 11
+            kwargs['data']['type'] = HANDBOOKS_QUERYSET[self.kwargs['handbook_type']]
         return kwargs
 
     def get_success_url(self):
@@ -136,6 +126,7 @@ class FilialAgencyCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_agency'
+    permission_required = 'handbooks.add_filialagency'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -147,6 +138,7 @@ class FilialReportCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_report'
+    permission_required = 'handbooks.add_filialreport'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -159,6 +151,7 @@ class RegionUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'region'
+    permission_required = 'handbooks.change_region'
 
     def get_success_url(self):
         print(Region.objects.first())
@@ -172,6 +165,7 @@ class DistrictUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'district'
+    permission_required = 'handbooks.change_district'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -184,6 +178,7 @@ class LocalityUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality'
+    permission_required = 'handbooks.change_locality'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -196,6 +191,7 @@ class LocalityDistrictUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality_district'
+    permission_required = 'handbooks.change_localitydistrict'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -208,19 +204,20 @@ class StreetUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'street'
+    permission_required = 'handbooks.change_street'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
                                                                 "handbook_type": "street"})
 
 
-class ClientUpdateView(SpecialRightFormMixin, UpdateView):
+class ClientUpdateView(FormMixin, UpdateView):
     queryset = Client.objects.filter(on_delete=False)
     form_class = ClientForm
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'client'
-    user_field = 'realtor'
+    permission_required = 'handbooks.change_client'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -232,32 +229,16 @@ class HandbookUpdateView(FormMixin, UpdateView):
     form_class = HandbookForm
     success_url = reverse_lazy("handbooks:handbooks_list")
 
+    def get_permission_required(self):
+        handbook_type = self.kwargs.get('handbook_type')
+        self.permission_required = PERMISSION[handbook_type]
+        return super().get_permission_required()
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if kwargs.get('data'):
             kwargs['data']._mutable = True
-            if self.kwargs['handbook_type'] == 'withdrawal_reason':
-                kwargs['data']['type'] = 1
-            elif self.kwargs['handbook_type'] == 'condition':
-                kwargs['data']['type'] = 2
-            elif self.kwargs['handbook_type'] == 'material':
-                kwargs['data']['type'] = 3
-            elif self.kwargs['handbook_type'] == 'separation':
-                kwargs['data']['type'] = 4
-            elif self.kwargs['handbook_type'] == 'agency':
-                kwargs['data']['type'] = 5
-            elif self.kwargs['handbook_type'] == 'agency_sales':
-                kwargs['data']['type'] = 6
-            elif self.kwargs['handbook_type'] == 'new_building_name':
-                kwargs['data']['type'] = 7
-            elif self.kwargs['handbook_type'] == 'stair':
-                kwargs['data']['type'] = 8
-            elif self.kwargs['handbook_type'] == 'heating':
-                kwargs['data']['type'] = 9
-            elif self.kwargs['handbook_type'] == 'layout':
-                kwargs['data']['type'] = 10
-            elif self.kwargs['handbook_type'] == 'house_type':
-                kwargs['data']['type'] = 11
+            kwargs['data']['type'] = HANDBOOKS_QUERYSET[self.kwargs['handbook_type']]
         return kwargs
 
     def get_success_url(self):
@@ -271,6 +252,7 @@ class FilialAgencyUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_agency'
+    permission_required = 'handbooks.change_filialagency'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -283,6 +265,7 @@ class FilialReportUpdateView(FormMixin, UpdateView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_report'
+    permission_required = 'handbooks.change_filialreport'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -295,6 +278,7 @@ class RegionDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'region'
+    permission_required = 'handbooks.change_region'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -307,6 +291,7 @@ class DistrictDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'district'
+    permission_required = 'handbooks.change_district'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -319,6 +304,7 @@ class LocalityDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality'
+    permission_required = 'handbooks.change_locality'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -331,6 +317,7 @@ class LocalityDistrictDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'locality_district'
+    permission_required = 'handbooks.change_localitydistrict'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -343,19 +330,20 @@ class StreetDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'street'
+    permission_required = 'handbooks.change_street'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
                                                                 "handbook_type": "street"})
 
 
-class ClientDeleteView(SpecialRightDeleteMixin, DeleteView):
+class ClientDeleteView(DeleteMixin, DeleteView):
     queryset = Client.objects.filter(on_delete=False)
     form_class = ClientForm
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'client'
-    user_field = 'realtor'
+    permission_required = 'handbooks.change_client'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -367,32 +355,16 @@ class HandbookDeleteView(DeleteMixin, DeleteView):
     form_class = HandbookForm
     success_url = reverse_lazy("handbooks:handbooks_list")
 
+    def get_permission_required(self):
+        handbook_type = self.kwargs.get('handbook_type')
+        self.permission_required = PERMISSION[handbook_type]
+        return super().get_permission_required()
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         if kwargs.get('data'):
             kwargs['data']._mutable = True
-            if self.kwargs['handbook_type'] == 'withdrawal_reason':
-                kwargs['data']['type'] = 1
-            elif self.kwargs['handbook_type'] == 'condition':
-                kwargs['data']['type'] = 2
-            elif self.kwargs['handbook_type'] == 'material':
-                kwargs['data']['type'] = 3
-            elif self.kwargs['handbook_type'] == 'separation':
-                kwargs['data']['type'] = 4
-            elif self.kwargs['handbook_type'] == 'agency':
-                kwargs['data']['type'] = 5
-            elif self.kwargs['handbook_type'] == 'agency_sales':
-                kwargs['data']['type'] = 6
-            elif self.kwargs['handbook_type'] == 'new_building_name':
-                kwargs['data']['type'] = 7
-            elif self.kwargs['handbook_type'] == 'stair':
-                kwargs['data']['type'] = 8
-            elif self.kwargs['handbook_type'] == 'heating':
-                kwargs['data']['type'] = 9
-            elif self.kwargs['handbook_type'] == 'layout':
-                kwargs['data']['type'] = 10
-            elif self.kwargs['handbook_type'] == 'house_type':
-                kwargs['data']['type'] = 11
+            kwargs['data']['type'] = HANDBOOKS_QUERYSET[self.kwargs['handbook_type']]
         return kwargs
 
     def get_success_url(self):
@@ -406,6 +378,7 @@ class FilialAgencyDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_agency'
+    permission_required = 'handbooks.change_filialagency'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],
@@ -418,6 +391,7 @@ class FilialReportDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("handbooks:handbooks_list")
 
     choice_name = 'filial_report'
+    permission_required = 'handbooks.change_filialreport'
 
     def get_success_url(self):
         return reverse_lazy("handbooks:handbooks_list", kwargs={"lang": self.kwargs['lang'],

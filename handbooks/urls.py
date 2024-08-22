@@ -6,12 +6,13 @@ from handbooks.views import (HandbookListView, RegionCreateView, LocalityCreateV
                              FilialAgencyUpdateView, FilialReportUpdateView, HandbookUpdateView, RegionDeleteView,
                              DistrictDeleteView, LocalityDeleteView, LocalityDistrictDeleteView, StreetDeleteView,
                              ClientDeleteView, FilialAgencyDeleteView, FilialReportDeleteView, HandbookDeleteView,
-                             HandbookHistoryDetailView, handbook_redirect
-                             )
+                             HandbookHistoryDetailView, handbook_redirect)
 
 urlpatterns = [
     path('base/', handbook_redirect, name='handbook_redirect'),
+
     path('base/<str:handbook_type>/', HandbookListView.as_view(), name='handbooks_list'),
+
     path('base/create/region/', RegionCreateView.as_view(), name='create_region'),
     path('base/create/district/', DistrictCreateView.as_view(), name='create_district'),
     path('base/create/locality/', LocalityCreateView.as_view(), name='create_locality'),

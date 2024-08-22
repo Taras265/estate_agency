@@ -36,7 +36,7 @@ class ProfileView(FormMixin, UpdateView):
     form_class = AvatarForm
     success_url = reverse_lazy("accounts:profile")
 
-    choice_name = 'profile'
+    permission_required = 'accounts.profile'
 
     def get_success_url(self):
         return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs['lang'], })

@@ -6,25 +6,15 @@ from accounts.models import CustomUser
 from images.models import ApartmentImage
 from objects.forms import ApartmentForm, SearchForm
 from objects.models import Apartment
-from utils.const import CHOICES, LIST_BY_USER, QUERYSET
-from utils.mixins.mixins import FormMixin, DeleteMixin, HandbookListMixin, SpecialRightFormMixin, \
-    SpecialRightDeleteMixin, HandbookHistoryListMixin
+from utils.const import CHOICES, LIST_BY_USER, MODEL
+from utils.mixins.mixins import FormMixin, DeleteMixin, \
+    HandbookHistoryListMixin, HandbookListPermissionMixin
 from django.utils.translation import gettext as _
 from django.utils.translation import activate
 
 
-class HandbookListView(HandbookListMixin, ListView):
+class HandbookListView(HandbookListPermissionMixin, ListView):
     handbook_type = 'apartment'
-    object_columns = ["id", "region_id", "district_id", "locality_id",
-                      "locality_district_id", "street_id"]
-
-    def error_403(self):
-        self.template_name = '403.html'
-        return {'lang': self.kwargs['lang']}
-
-    def choices_by_user(self):
-        user_type = CustomUser.objects.filter(email=self.request.user).first().user_type
-        return CHOICES[user_type]
 
 
 class ApartmentCreateView(FormMixin, CreateView):
@@ -32,29 +22,31 @@ class ApartmentCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("objects:handbooks_list")
 
     choice_name = 'apartment'
+    permission_required = 'objects.add_apartment'
 
     def get_success_url(self):
         return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
 
 
-class ApartmentUpdateView(SpecialRightFormMixin, UpdateView):
+class ApartmentUpdateView(FormMixin, UpdateView):
     queryset = Apartment.objects.filter(on_delete=False)
     form_class = ApartmentForm
     success_url = reverse_lazy("objects:handbooks_list")
 
     choice_name = 'apartment'
-    user_field = []
+    permission_required = 'objects.change_apartment'
 
     def get_success_url(self):
         return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
 
 
-class ApartmentDeleteView(SpecialRightDeleteMixin, DeleteView):
+class ApartmentDeleteView(DeleteMixin, DeleteView):
     queryset = Apartment.objects.filter(on_delete=False)
     form_class = ApartmentForm
     success_url = reverse_lazy("objects:handbooks_list")
 
     choice_name = 'apartment'
+    permission_required = 'objects.change_apartment'
 
     def get_success_url(self):
         return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
