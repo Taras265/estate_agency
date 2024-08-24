@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Permission
 from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
 from accounts.models import CustomUser
+from handbooks.forms import HandbookForm
 from handbooks.models import Handbook
-from utils.const import CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, PERMISSION, OBJECT_COLUMNS
+from utils.const import CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP, OBJECT_COLUMNS, HANDBOOKS_FORMS
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
 
@@ -26,7 +28,8 @@ class HandbookListPermissionMixin(GetQuerysetForMixin, PermissionRequiredMixin, 
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
-        self.permission_required = PERMISSION[handbook_type]
+        cl_handbook_type = ''.join(handbook_type.split('_'))
+        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_{cl_handbook_type}'
         return super().get_permission_required()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -69,7 +72,8 @@ class HandbookHistoryListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
-        self.permission_required = PERMISSION[handbook_type]
+        cl_handbook_type = ''.join(handbook_type.split('_'))
+        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_historical{cl_handbook_type}'
         return super().get_permission_required()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -122,6 +126,34 @@ class FormMixin(PermissionRequiredMixin, CustomLoginRequiredMixin):
         return {'lang': self.kwargs['lang']}
 
 
+class FormHandbooksMixin(FormMixin):
+    # handbook_type = write handbook_type or none if handbook_type writen in url
+    # perm_type = 'view' or something like this
+
+    def get_queryset(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        if MODEL.get(handbook_type):
+            return MODEL[handbook_type].objects.filter(on_delete=False)
+        return Handbook.objects.filter(type=HANDBOOKS_QUERYSET.get(handbook_type), on_delete=False)
+
+    def get_permission_required(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        cl_handbook_type = ''.join(handbook_type.split('_'))
+        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_{cl_handbook_type}'
+        return super().get_permission_required()
+
+    def get_form(self, form_class=None):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)
+
+    def get_success_url(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        kwargs = {"lang": self.kwargs['lang']}
+        if TABLE_TO_APP[handbook_type] == 'handbooks':
+            kwargs.update({"handbook_type": handbook_type})
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
+
+
 class DeleteMixin(PermissionRequiredMixin, CustomLoginRequiredMixin):
     template_name = 'delete_form.html'
     success_message = "Success"
@@ -157,3 +189,30 @@ class DeleteMixin(PermissionRequiredMixin, CustomLoginRequiredMixin):
     def error_403(self):
         self.template_name = '403.html'
         return {'lang': self.kwargs['lang']}
+
+
+class DeleteHandbooksMixin(DeleteMixin):
+    # handbook_type = write handbook_type or none if handbook_type writen in url
+
+    def get_queryset(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        if MODEL.get(handbook_type):
+            return MODEL[handbook_type].objects.filter(on_delete=False)
+        return Handbook.objects.filter(type=HANDBOOKS_QUERYSET.get(handbook_type), on_delete=False)
+
+    def get_permission_required(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        cl_handbook_type = ''.join(handbook_type.split('_'))
+        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.change_{cl_handbook_type}'
+        return super().get_permission_required()
+
+    def get_form(self, form_class=None):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)
+
+    def get_success_url(self):
+        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        kwargs = {"lang": self.kwargs['lang']}
+        if TABLE_TO_APP[handbook_type] == 'handbooks':
+            kwargs.update({"handbook_type": handbook_type})
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)

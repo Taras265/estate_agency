@@ -1,6 +1,9 @@
 from django.utils.translation import gettext as _
 
+from handbooks.forms import RegionForm, StreetForm, LocalityDistrictForm, LocalityForm, DistrictForm, ClientForm, \
+    FilialReportForm, FilialForm
 from handbooks.models import *
+from objects.forms import ApartmentForm
 from objects.models import Apartment
 
 CEO_CHOICES = []
@@ -28,18 +31,21 @@ MODEL = {'region': Region, 'district': District,
 HANDBOOKS_QUERYSET = {'withdrawal_reason': 1, 'condition': 2, 'material': 3, 'separation': 4,
                       'agency': 5, 'agency_sales': 6, 'new_building_name': 7, 'stair': 8,
                       'heating': 9, 'layout': 10, 'house_type': 11}
-PERMISSION = {'region': 'handbooks.view_region', 'district': 'handbooks.view_district',
-              'locality': 'handbooks.view_locality', 'locality_district': 'handbooks.view_localitydistrict',
-              'street': 'handbooks.view_street',
-              'client': 'handbooks.view_client', 'filial_agency': 'handbooks.view_filialagency',
-              'filial_report': 'handbooks.view_filialreport', 'apartment': 'objects.view_apartment',
-              'withdrawal_reason': 'handbooks.view_handbook', 'condition': 'handbooks.view_handbook',
-              'material': 'handbooks.view_handbook', 'separation': 'handbooks.view_handbook',
-              'agency': 'handbooks.view_handbook', 'agency_sales': 'handbooks.view_handbook',
-              'new_building_name': 'handbooks.view_handbook', 'stair': 'handbooks.view_handbook',
-              'heating': 'handbooks.view_handbook', 'layout': 'handbooks.view_handbook',
-              'house_type': 'handbooks.view_handbook'
-              }
+TABLE_TO_APP = {'region': 'handbooks', 'district': 'handbooks',
+              'locality': 'handbooks', 'locality_district': 'handbooks',
+              'street': 'handbooks',
+              'client': 'handbooks', 'filial_agency': 'handbooks',
+              'filial_report': 'handbooks', 'apartment': 'objects',
+              'withdrawal_reason': 'handbooks', 'condition': 'handbooks',
+              'material': 'handbooks', 'separation': 'handbooks',
+              'agency': 'handbooks', 'agency_sales': 'handbooks',
+              'new_building_name': 'handbooks', 'stair': 'handbooks',
+              'heating': 'handbooks', 'layout': 'handbooks',
+              'house_type': 'handbooks'}
+HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
+                   'locality': LocalityForm, 'locality_district': LocalityDistrictForm, 'street': StreetForm,
+                   'client': ClientForm, 'filial_agency': FilialForm, 'filial_report': FilialReportForm,
+                   'apartment': ApartmentForm}
 OBJECT_COLUMNS = {'apartment': ["id", "region_id", "district_id", "locality_id",
                                 "locality_district_id", "street_id"], }
 

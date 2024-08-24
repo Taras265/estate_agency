@@ -8,7 +8,7 @@ from objects.forms import ApartmentForm, SearchForm
 from objects.models import Apartment
 from utils.const import CHOICES, LIST_BY_USER, MODEL
 from utils.mixins.mixins import FormMixin, DeleteMixin, \
-    HandbookHistoryListMixin, HandbookListPermissionMixin
+    HandbookHistoryListMixin, HandbookListPermissionMixin, DeleteHandbooksMixin, FormHandbooksMixin
 from django.utils.translation import gettext as _
 from django.utils.translation import activate
 
@@ -17,39 +17,18 @@ class HandbookListView(HandbookListPermissionMixin, ListView):
     handbook_type = 'apartment'
 
 
-class ApartmentCreateView(FormMixin, CreateView):
-    form_class = ApartmentForm
-    success_url = reverse_lazy("objects:handbooks_list")
-
-    choice_name = 'apartment'
-    permission_required = 'objects.add_apartment'
-
-    def get_success_url(self):
-        return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
+class ApartmentCreateView(FormHandbooksMixin, CreateView):
+    handbook_type = 'apartment'
+    perm_type = 'add'
 
 
-class ApartmentUpdateView(FormMixin, UpdateView):
-    queryset = Apartment.objects.filter(on_delete=False)
-    form_class = ApartmentForm
-    success_url = reverse_lazy("objects:handbooks_list")
-
-    choice_name = 'apartment'
-    permission_required = 'objects.change_apartment'
-
-    def get_success_url(self):
-        return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
+class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
+    handbook_type = 'apartment'
+    perm_type = 'change'
 
 
-class ApartmentDeleteView(DeleteMixin, DeleteView):
-    queryset = Apartment.objects.filter(on_delete=False)
-    form_class = ApartmentForm
-    success_url = reverse_lazy("objects:handbooks_list")
-
-    choice_name = 'apartment'
-    permission_required = 'objects.change_apartment'
-
-    def get_success_url(self):
-        return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang'], })
+class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):
+    handbook_type = 'apartment'
 
 
 class CatalogListView(ListView):
