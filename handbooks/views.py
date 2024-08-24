@@ -19,8 +19,14 @@ from django.utils.translation import activate
 def handbook_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
 
-    if user and user.user_type in CHOICES.keys():
-        return redirect(f'/{lang}/handbook/base/{CHOICES[user.user_type][1][1]}/', {'lang': lang})
+    for choice in CHOICES:
+        cleaned_choice = ''.join(choice[1].split('_'))
+        if (user.has_perm(f'handbooks.view_{cleaned_choice}')
+                or user.has_perm(f'handbooks.view_own_{cleaned_choice}')):
+            return redirect(f'/{lang}/handbook/base/{choice[1]}/', {'lang': lang})
+        if (user.has_perm(f'objects.view_{cleaned_choice}')
+                or user.has_perm(f'objects.view_own_{cleaned_choice}')):
+            return redirect(f'/{lang}/objects/base/{choice[1]}/', {'lang': lang})
     return render(request, '403.html', {'lang': lang})
 
 
