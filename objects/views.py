@@ -1,16 +1,18 @@
-from django.db.models import QuerySet
+from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.http import FileResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView, UpdateView, DeleteView, DetailView
+from django.utils.translation import gettext as _
+from django.utils.translation import activate
+import io
 
 from accounts.models import CustomUser
 from images.models import ApartmentImage
 from objects.forms import ApartmentForm, SearchForm
 from objects.models import Apartment
 from utils.const import CHOICES, LIST_BY_USER, QUERYSET
-from utils.mixins.mixins import FormMixin, DeleteMixin, HandbookListMixin, SpecialRightFormMixin, \
-    SpecialRightDeleteMixin, HandbookHistoryListMixin
-from django.utils.translation import gettext as _
-from django.utils.translation import activate
+from utils.mixins.mixins import FormMixin, HandbookListMixin, SpecialRightFormMixin, \
+    SpecialRightDeleteMixin, HandbookHistoryListMixin, CustomLoginRequiredMixin
+from utils.pdf import generate_pdf
 
 
 class HandbookListView(HandbookListMixin, ListView):
@@ -94,6 +96,33 @@ class CatalogListView(ListView):
             objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).first()})
         context['objects'] = objects
         return context
+    
+
+class PdfView(CustomLoginRequiredMixin, View):
+
+    def get(self, request, lang):
+        queryset = Apartment.objects.filter(on_delete=False)
+
+        form = SearchForm(self.request.GET)
+
+        if form.is_valid():
+            if form.cleaned_data.get('locality'):
+                queryset = queryset.filter(locality__locality__icontains=form.cleaned_data['locality'])
+            if form.cleaned_data.get('street'):
+                queryset = queryset.filter(street__street__icontains=form.cleaned_data['street'])
+            if form.cleaned_data.get('price_min'):
+                queryset = queryset.filter(price__gte=form.cleaned_data['price_min'])
+            if form.cleaned_data.get('price_max'):
+                queryset = queryset.filter(price__lte=form.cleaned_data['price_max'])
+
+        pdf = generate_pdf(queryset, request.user.get_full_name()[0])
+
+        return FileResponse(
+            io.BytesIO(pdf.output()), 
+            as_attachment=True, 
+            filename='document.pdf', 
+            content_type='application/pdf'
+        )
 
 
 class ApartmentDetailView(DetailView):
