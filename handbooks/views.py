@@ -74,3 +74,6 @@ class HandbookHistoryDetailView(HandbookHistoryListMixin, DetailView):
     context_object_name = 'object'
 
     handbook_type = None
+
+    def get_object(self, queryset=None):
+        return super().get_object()

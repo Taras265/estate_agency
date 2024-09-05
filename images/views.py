@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 from images.forms import ApartmentImageForm
 from images.models import ApartmentImage
 from objects.models import Apartment
-from utils.const import CHOICES
+from utils.const import CHOICES, LIST_BY_USER
 from utils.mixins.mixins import FormMixin, DeleteMixin, CustomLoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.utils.translation import activate
@@ -18,10 +18,28 @@ class ApartmentImageListView(PermissionRequiredMixin, CustomLoginRequiredMixin, 
     template_name = 'images/list.html'
     context_object_name = 'images'
 
-    permission_required = 'images.change_apartmentimage'
+    def get_permission_required(self):
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
+        if not user.has_perm(f'objects.view_apartment'):
+            self.permission_required = f'objects.view_own_apartment'
+        else:
+            self.permission_required = f'objects.view_apartment'
+
+        return super().get_permission_required()
 
     def get_queryset(self):
-        return ApartmentImage.objects.filter(on_delete=False).filter(apartment=Apartment.objects.filter(id=self.kwargs['pk']).first())
+        queryset = Apartment.objects.filter(id=self.kwargs['pk'])
+        if self.permission_required.find('own') != -1:
+            user = CustomUser.objects.filter(email=self.request.user).first()
+            new_queryset = None
+            for field in LIST_BY_USER['apartment']:
+                if new_queryset:
+                    new_queryset = new_queryset | queryset.filter(**{field: user})
+                else:
+                    new_queryset = queryset.filter(**{field: user})
+            queryset = new_queryset
+        return ApartmentImage.objects.filter(on_delete=False, apartment=queryset.first())
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = CustomUser.objects.filter(email=self.request.user).first()
@@ -30,7 +48,13 @@ class ApartmentImageListView(PermissionRequiredMixin, CustomLoginRequiredMixin, 
         context = super().get_context_data(**kwargs)
 
         context['lang'] = self.kwargs['lang']
-        context['can_update'] = user.has_perm(f'images.change_apartmentimage')
+        can_update = user.has_perm(f'objects.change_apartment')
+        if not can_update:
+            apartment = context['images'][0].apartment
+            for field in LIST_BY_USER['apartment']:
+                if getattr(apartment, field) == user:
+                    can_update = user.has_perm(f'objects.change_own_apartment')
+        context['can_update'] = can_update
 
         return context
 
@@ -40,7 +64,16 @@ class ApartmentImageCreateView(FormMixin, CreateView):
     success_url = reverse_lazy("images:apartment_images_list")
 
     choice_name = 'apartment'
-    permission_required = 'images.add_apartmentimage'
+
+    def get_permission_required(self):
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
+        if not user.has_perm(f'objects.change_apartment'):
+            self.permission_required = f'objects.change_own_apartment'
+        else:
+            self.permission_required = f'objects.change_apartment'
+
+        return super().get_permission_required()
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -61,7 +94,16 @@ class ApartmentImageDeleteView(DeleteMixin, DeleteView):
     success_url = reverse_lazy("objects:handbooks_list")
 
     choice_name = 'apartment'
-    permission_required = 'images.change_apartmentimage'
+
+    def get_permission_required(self):
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
+        if not user.has_perm(f'objects.change_apartment'):
+            self.permission_required = f'objects.change_own_apartment'
+        else:
+            self.permission_required = f'objects.change_apartment'
+
+        return super().get_permission_required()
 
     def get_success_url(self):
         return reverse_lazy("objects:handbooks_list", kwargs={"lang": self.kwargs['lang']})

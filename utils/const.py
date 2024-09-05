@@ -32,16 +32,16 @@ HANDBOOKS_QUERYSET = {'withdrawal_reason': 1, 'condition': 2, 'material': 3, 'se
                       'agency': 5, 'agency_sales': 6, 'new_building_name': 7, 'stair': 8,
                       'heating': 9, 'layout': 10, 'house_type': 11}
 TABLE_TO_APP = {'region': 'handbooks', 'district': 'handbooks',
-              'locality': 'handbooks', 'locality_district': 'handbooks',
-              'street': 'handbooks',
-              'client': 'handbooks', 'filial_agency': 'handbooks',
-              'filial_report': 'handbooks', 'apartment': 'objects',
-              'withdrawal_reason': 'handbooks', 'condition': 'handbooks',
-              'material': 'handbooks', 'separation': 'handbooks',
-              'agency': 'handbooks', 'agency_sales': 'handbooks',
-              'new_building_name': 'handbooks', 'stair': 'handbooks',
-              'heating': 'handbooks', 'layout': 'handbooks',
-              'house_type': 'handbooks'}
+                'locality': 'handbooks', 'locality_district': 'handbooks',
+                'street': 'handbooks',
+                'client': 'handbooks', 'filial_agency': 'handbooks',
+                'filial_report': 'handbooks', 'apartment': 'objects',
+                'withdrawal_reason': 'handbooks', 'condition': 'handbooks',
+                'material': 'handbooks', 'separation': 'handbooks',
+                'agency': 'handbooks', 'agency_sales': 'handbooks',
+                'new_building_name': 'handbooks', 'stair': 'handbooks',
+                'heating': 'handbooks', 'layout': 'handbooks',
+                'house_type': 'handbooks'}
 HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'locality': LocalityForm, 'locality_district': LocalityDistrictForm, 'street': StreetForm,
                    'client': ClientForm, 'filial_agency': FilialForm, 'filial_report': FilialReportForm,
@@ -49,5 +49,5 @@ HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
 OBJECT_COLUMNS = {'apartment': ["id", "region_id", "district_id", "locality_id",
                                 "locality_district_id", "street_id"], }
 
-LIST_BY_USER = {1: dict(), 3: {'client': 'realtor',
-                               'apartment': ['realtor', 'site_realtor1', 'site_realtor2', 'realtor_5_5']}}
+LIST_BY_USER = {'client': 'realtor',
+                'apartment': ['realtor', 'site_realtor1', 'site_realtor2', 'realtor_5_5']}

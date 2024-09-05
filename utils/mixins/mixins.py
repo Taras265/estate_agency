@@ -12,6 +12,7 @@ from django.utils.translation import activate
 from django.utils.translation import gettext as _
 
 from utils.mixins.utils import GetQuerysetForMixin
+from utils.utils import have_permission_to_do
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -20,7 +21,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
         return reverse('accounts:login', kwargs={"lang": lang})
 
 
-class HandbookListPermissionMixin(GetQuerysetForMixin, PermissionRequiredMixin, CustomLoginRequiredMixin):
+class HandbookListPermissionMixin(GetQuerysetForMixin, CustomLoginRequiredMixin):
     paginate_by = 15
     template_name = 'handbooks/list.html'
 
@@ -28,8 +29,14 @@ class HandbookListPermissionMixin(GetQuerysetForMixin, PermissionRequiredMixin, 
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
         cl_handbook_type = ''.join(handbook_type.split('_'))
-        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_{cl_handbook_type}'
+        if (handbook_type in LIST_BY_USER.keys() and
+                not user.has_perm(f'{TABLE_TO_APP[handbook_type]}.view_{cl_handbook_type}')):
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_own_{cl_handbook_type}'
+        else:
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_{cl_handbook_type}'
         return super().get_permission_required()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -44,9 +51,11 @@ class HandbookListPermissionMixin(GetQuerysetForMixin, PermissionRequiredMixin, 
         context['choice'] = handbook_type
         context.update({'choices': self.choices_by_user(user)})
 
-        context['can_create'] = user.has_perm(f'handbooks.add_{"".join(handbook_type.split("_"))}') or user.has_perm(f'objects.add_{"".join(handbook_type.split("_"))}')
-        context['can_update'] = user.has_perm(f'handbooks.change_{"".join(handbook_type.split("_"))}') or user.has_perm(f'objects.change_{"".join(handbook_type.split("_"))}')
-        context['can_view_history'] = user.has_perm(f'handbooks.view_historical{"".join(handbook_type.split("_"))}') or user.has_perm(f'handbooks.view_historical{"".join(handbook_type.split("_"))}')
+        context['can_create'] = user.has_perm(f'handbooks.add_{"".join(handbook_type.split("_"))}') or user.has_perm(
+            f'objects.add_{"".join(handbook_type.split("_"))}')
+        context['can_view_history'] = user.has_perm(
+            f'handbooks.view_historical{"".join(handbook_type.split("_"))}') or user.has_perm(
+            f'handbooks.view_historical{"".join(handbook_type.split("_"))}')
 
         if context['object_list']:
             object_columns = OBJECT_COLUMNS.get(handbook_type)
@@ -59,21 +68,41 @@ class HandbookListPermissionMixin(GetQuerysetForMixin, PermissionRequiredMixin, 
                     context['object_values'].append(dict())
                     for c in context['object_columns']:
                         context['object_values'][-1].update({c: obj[c]})
+                    can_update = have_permission_to_do(user, 'change', handbook_type, obj)
+                    can_view_history = have_permission_to_do(user, 'view',
+                                                             handbook_type, obj, 'historical')
+
+                    context['object_values'][-1].update({'user_permissions': {'can_update': can_update,
+                                                     'can_view_history': can_view_history}})
             else:
                 context['object_values'] = context['object_list'].values()
+
+                for obj in context['object_values']:
+                    can_update = have_permission_to_do(user, 'change', handbook_type, obj)
+                    can_view_history = have_permission_to_do(user, 'view',
+                                                             handbook_type, obj, 'historical')
+
+                    obj.update({'user_permissions': {'can_update': can_update,
+                                                     'can_view_history': can_view_history}})
                 context['object_columns'] = list(context['object_list'].values()[0])
         else:
             context['object_columns'] = None
         return context
 
 
-class HandbookHistoryListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin, GetQuerysetForMixin):
+class HandbookHistoryListMixin(CustomLoginRequiredMixin, GetQuerysetForMixin):
     template_name = 'handbooks/history_list.html'
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
         cl_handbook_type = ''.join(handbook_type.split('_'))
-        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_historical{cl_handbook_type}'
+        if (handbook_type in LIST_BY_USER.keys() and
+                not user.has_perm(f'{TABLE_TO_APP[handbook_type]}.view_historical{cl_handbook_type}')):
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_own_historical{cl_handbook_type}'
+        else:
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.view_historical{cl_handbook_type}'
         return super().get_permission_required()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -133,13 +162,34 @@ class FormHandbooksMixin(FormMixin):
     def get_queryset(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         if MODEL.get(handbook_type):
-            return MODEL[handbook_type].objects.filter(on_delete=False)
+            queryset = MODEL[handbook_type].objects.filter(on_delete=False)
+            if (handbook_type in LIST_BY_USER.keys() and
+                    self.permission_required.find('own')):
+                user = CustomUser.objects.filter(email=self.request.user).first()
+                if isinstance(LIST_BY_USER[handbook_type], str):
+                    queryset = queryset.filter(**{LIST_BY_USER[handbook_type]: user})
+                else:
+                    new_queryset = None
+                    for field in LIST_BY_USER[handbook_type]:
+                        if new_queryset:
+                            new_queryset = new_queryset | queryset.filter(**{field: user})
+                        else:
+                            new_queryset = queryset.filter(**{field: user})
+                    queryset = new_queryset
+            return queryset
         return Handbook.objects.filter(type=HANDBOOKS_QUERYSET.get(handbook_type), on_delete=False)
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
         cl_handbook_type = ''.join(handbook_type.split('_'))
-        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_{cl_handbook_type}'
+        if (handbook_type in LIST_BY_USER.keys() and
+                not user.has_perm(f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_{cl_handbook_type}')):
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_own_{cl_handbook_type}'
+        else:
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_{cl_handbook_type}'
+
         return super().get_permission_required()
 
     def get_form(self, form_class=None):
@@ -197,18 +247,39 @@ class DeleteHandbooksMixin(DeleteMixin):
     def get_queryset(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         if MODEL.get(handbook_type):
-            return MODEL[handbook_type].objects.filter(on_delete=False)
+            queryset = MODEL[handbook_type].objects.filter(on_delete=False)
+            if (handbook_type in LIST_BY_USER.keys() and
+                    self.permission_required.find('own')):
+                user = CustomUser.objects.filter(email=self.request.user).first()
+                if isinstance(LIST_BY_USER[handbook_type], str):
+                    queryset = queryset.filter(**{LIST_BY_USER[handbook_type]: user})
+                else:
+                    new_queryset = None
+                    for field in LIST_BY_USER[handbook_type]:
+                        if new_queryset:
+                            new_queryset = new_queryset | queryset.filter(**{field: user})
+                        else:
+                            new_queryset = queryset.filter(**{field: user})
+                    queryset = new_queryset
+            return queryset
         return Handbook.objects.filter(type=HANDBOOKS_QUERYSET.get(handbook_type), on_delete=False)
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
         cl_handbook_type = ''.join(handbook_type.split('_'))
-        self.permission_required = f'{TABLE_TO_APP[handbook_type]}.change_{cl_handbook_type}'
+        if (handbook_type in LIST_BY_USER.keys() and
+                not user.has_perm(f'{TABLE_TO_APP[handbook_type]}.change_{cl_handbook_type}')):
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.change_own_{cl_handbook_type}'
+        else:
+            self.permission_required = f'{TABLE_TO_APP[handbook_type]}.change_{cl_handbook_type}'
+
         return super().get_permission_required()
 
-    def get_form(self, form_class=None):
+    """def get_form(self, form_class=None):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
-        return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)
+        return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)"""
 
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
