@@ -1,15 +1,10 @@
-from django.db.models import QuerySet
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, FormView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
-from accounts.models import CustomUser
 from images.models import ApartmentImage
-from objects.forms import ApartmentForm, SearchForm
+from objects.forms import SearchForm
 from objects.models import Apartment
-from utils.const import CHOICES, LIST_BY_USER, MODEL
-from utils.mixins.mixins import FormMixin, DeleteMixin, \
-    HandbookHistoryListMixin, HandbookListPermissionMixin, DeleteHandbooksMixin, FormHandbooksMixin
-from django.utils.translation import gettext as _
+from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissionMixin,
+                                 DeleteHandbooksMixin, FormHandbooksMixin)
 from django.utils.translation import activate
 
 

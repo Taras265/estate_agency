@@ -1,15 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import Permission
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
 
 from accounts.models import CustomUser
 from handbooks.forms import HandbookForm
 from handbooks.models import Handbook
 from utils.const import CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP, OBJECT_COLUMNS, HANDBOOKS_FORMS
 from django.utils.translation import activate
-from django.utils.translation import gettext as _
 
 from utils.mixins.utils import GetQuerysetForMixin
 from utils.utils import have_permission_to_do

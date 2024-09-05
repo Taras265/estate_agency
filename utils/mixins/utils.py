@@ -1,8 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import Permission
 
 from accounts.models import CustomUser
-from handbooks.models import Handbook, Client
+from handbooks.models import Handbook
 from utils.const import MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, CHOICES, TABLE_TO_APP
 
 

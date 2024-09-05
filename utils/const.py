@@ -1,14 +1,10 @@
 from django.utils.translation import gettext as _
 
-from handbooks.forms import RegionForm, StreetForm, LocalityDistrictForm, LocalityForm, DistrictForm, ClientForm, \
-    FilialReportForm, FilialForm
+from handbooks.forms import (RegionForm, StreetForm, LocalityDistrictForm, LocalityForm,
+                             DistrictForm, ClientForm, FilialReportForm, FilialForm)
 from handbooks.models import *
 from objects.forms import ApartmentForm
 from objects.models import Apartment
-
-CEO_CHOICES = []
-REALTOR_CHOICES = [(_('profile'), 'profile'), (_('client'), 'client'), (_('filial_report'), 'filial_report'),
-                   (_('apartment'), 'apartment')]
 
 CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('locality'), 'locality'),

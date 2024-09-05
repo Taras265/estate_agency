@@ -1,20 +1,10 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from accounts.models import CustomUser
-from handbooks.forms import RegionForm, DistrictForm, LocalityForm, LocalityDistrictForm, StreetForm, ClientForm, \
-    HandbookForm, FilialForm, FilialReportForm
-from handbooks.models import (Region, District, Locality, LocalityDistrict,
-                              Street, ObjectType, Client, Handbook, FilialAgency, FilialReport)
-from utils.const import CHOICES, MODEL, HANDBOOKS_QUERYSET, LIST_BY_USER, OBJECT_COLUMNS
-from utils.mixins.mixins import FormMixin, DeleteMixin, \
-    HandbookHistoryListMixin, CustomLoginRequiredMixin, HandbookListPermissionMixin, FormHandbooksMixin, \
-    DeleteHandbooksMixin
-from django.utils.translation import gettext as _
-from django.utils.translation import activate
+from utils.const import CHOICES, HANDBOOKS_QUERYSET
+from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissionMixin,
+                                 FormHandbooksMixin, DeleteHandbooksMixin)
 
 
 def handbook_redirect(request, lang):
