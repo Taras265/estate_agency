@@ -1,19 +1,13 @@
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.http import FileResponse
-from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
-from django.utils.translation import activate
 import io
 
 from images.models import ApartmentImage
 from objects.forms import SearchForm
 from objects.models import Apartment
 from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissionMixin,
-                                 DeleteHandbooksMixin, FormHandbooksMixin)
+                                 DeleteHandbooksMixin, FormHandbooksMixin, CustomLoginRequiredMixin)
 from django.utils.translation import activate
-from utils.const import CHOICES, LIST_BY_USER, QUERYSET
-from utils.mixins.mixins import FormMixin, HandbookListMixin, SpecialRightFormMixin, \
-    SpecialRightDeleteMixin, HandbookHistoryListMixin, CustomLoginRequiredMixin
 from utils.pdf import generate_pdf
 
 
