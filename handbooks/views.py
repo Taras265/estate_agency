@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from accounts.models import CustomUser
@@ -10,15 +11,17 @@ from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissio
 def handbook_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
 
-    for choice in CHOICES:
-        cleaned_choice = ''.join(choice[1].split('_'))
-        if (user.has_perm(f'handbooks.view_{cleaned_choice}')
-                or user.has_perm(f'handbooks.view_own_{cleaned_choice}')):
-            return redirect(f'/{lang}/handbook/base/{choice[1]}/', {'lang': lang})
-        if (user.has_perm(f'objects.view_{cleaned_choice}')
-                or user.has_perm(f'objects.view_own_{cleaned_choice}')):
-            return redirect(f'/{lang}/objects/base/{choice[1]}/', {'lang': lang})
-    return render(request, '403.html', {'lang': lang})
+    if user:
+        for choice in CHOICES:
+            cleaned_choice = ''.join(choice[1].split('_'))
+            if (user.has_perm(f'handbooks.view_{cleaned_choice}')
+                    or user.has_perm(f'handbooks.view_own_{cleaned_choice}')):
+                return redirect(f'/{lang}/handbook/base/{choice[1]}/', {'lang': lang})
+            if (user.has_perm(f'objects.view_{cleaned_choice}')
+                    or user.has_perm(f'objects.view_own_{cleaned_choice}')):
+                return redirect(f'/{lang}/objects/base/{choice[1]}/', {'lang': lang})
+        return render(request, '403.html', {'lang': lang})
+    return redirect(reverse_lazy('accounts:login', kwargs={'lang': 'en'}))
 
 
 class HandbookListView(HandbookListPermissionMixin, ListView):

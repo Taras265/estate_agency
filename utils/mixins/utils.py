@@ -20,7 +20,7 @@ class GetQuerysetForMixin(PermissionRequiredMixin):
 
             cl_handbook_type = ''.join(handbook_type.split('_'))
             if (handbook_type in LIST_BY_USER.keys() and
-                    self.permission_required.find('own')) != -1:
+                    self.permission_required.find('own') != -1):
                 user = CustomUser.objects.filter(email=self.request.user).first()
                 if isinstance(LIST_BY_USER[handbook_type], str):
                     queryset = queryset.filter(**{LIST_BY_USER[handbook_type]: user})

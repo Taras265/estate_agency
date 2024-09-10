@@ -18,7 +18,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
         return reverse('accounts:login', kwargs={"lang": lang})
 
 
-class HandbookListPermissionMixin(GetQuerysetForMixin, CustomLoginRequiredMixin):
+class HandbookListPermissionMixin(CustomLoginRequiredMixin, GetQuerysetForMixin):
     paginate_by = 15
     template_name = 'handbooks/list.html'
 
@@ -129,7 +129,7 @@ class HandbookHistoryListMixin(CustomLoginRequiredMixin, GetQuerysetForMixin):
         return context
 
 
-class FormMixin(PermissionRequiredMixin, CustomLoginRequiredMixin):
+class FormMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'form.html'
     success_message = "Success"
 
@@ -201,7 +201,7 @@ class FormHandbooksMixin(FormMixin):
         return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
 
 
-class DeleteMixin(PermissionRequiredMixin, CustomLoginRequiredMixin):
+class DeleteMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'delete_form.html'
     success_message = "Success"
 

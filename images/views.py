@@ -11,7 +11,7 @@ from utils.mixins.mixins import FormMixin, DeleteMixin, CustomLoginRequiredMixin
 from django.utils.translation import activate
 
 
-class ApartmentImageListView(PermissionRequiredMixin, CustomLoginRequiredMixin, ListView):
+class ApartmentImageListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 15
     template_name = 'images/list.html'
     context_object_name = 'images'
@@ -47,7 +47,7 @@ class ApartmentImageListView(PermissionRequiredMixin, CustomLoginRequiredMixin, 
 
         context['lang'] = self.kwargs['lang']
         can_update = user.has_perm(f'objects.change_apartment')
-        if not can_update:
+        if not can_update and context['images']:
             apartment = context['images'][0].apartment
             for field in LIST_BY_USER['apartment']:
                 if getattr(apartment, field) == user:
