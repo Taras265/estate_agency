@@ -9,6 +9,8 @@ from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissio
 
 
 def handbook_redirect(request, lang):
+    # Функція, яка перебрасує користувача на довідник,
+    # з яким він моєе взаємодіяти
     user = CustomUser.objects.filter(email=request.user).first()
 
     if user:

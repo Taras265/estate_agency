@@ -6,6 +6,12 @@ from utils.const import MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, CHOICES, TABLE_
 
 
 class GetQuerysetForMixin(PermissionRequiredMixin):
+    """
+    Додатковий міксін. Використовуємо для міксінів, де отримаємо дані для справочника
+    Якщо ми використовуємо цей міксін, то треба також вказати змінну handbook_type.
+    Це має бути або сама назва довідника, або None (якщо є ця змінна в url)
+    Ще вказуємо permission_required - які потрібні права.
+    """
     paginate_by = 15
 
     handbook_type = None
@@ -18,7 +24,6 @@ class GetQuerysetForMixin(PermissionRequiredMixin):
         if handbook_type in MODEL:
             queryset = MODEL[handbook_type].objects.filter(on_delete=False)
 
-            cl_handbook_type = ''.join(handbook_type.split('_'))
             if (handbook_type in LIST_BY_USER.keys() and
                     self.permission_required.find('own') != -1):
                 user = CustomUser.objects.filter(email=self.request.user).first()
