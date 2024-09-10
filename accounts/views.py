@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import UpdateView
 
 from accounts.forms import LoginForm, AvatarForm
 from accounts.models import CustomUser
@@ -36,7 +36,7 @@ class ProfileView(FormMixin, UpdateView):
     form_class = AvatarForm
     success_url = reverse_lazy("accounts:profile")
 
-    choice_name = 'profile'
+    permission_required = 'accounts.profile'
 
     def get_success_url(self):
         return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs['lang'], })

@@ -53,15 +53,6 @@ class CustomUser(AbstractUser):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
 
-    USER_TYPE_CHOICES = (
-        (1, "CEO/marketer"),
-        (2, "director"),
-        (3, "realtor"),
-        (4, "secretary"),
-        (5, "user"),
-    )
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=5)
-
     image = models.ImageField(upload_to='avatar/', default='avatar/avatar.png')
 
     on_delete = models.BooleanField(default=False)

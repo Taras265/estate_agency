@@ -102,7 +102,7 @@ class ClientForm(forms.ModelForm):
     phone = forms.CharField(label=_('phone'), widget=forms.TextInput(attrs={'class': 'form-control',
                                                                          'placeholder': _("phone")}))
 
-    realtor = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type=3).all(),
+    realtor = forms.ModelChoiceField(queryset=CustomUser.objects.all(),
                                      label=_('realtor'),
                                      widget=forms.Select(attrs={'class': 'form-control',
                                                                 'placeholder': _('realtor')}))
