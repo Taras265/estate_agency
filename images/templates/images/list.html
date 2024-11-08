@@ -4,20 +4,36 @@
 {% block title %}{% translate 'Images' %}{% endblock %}
 
 {% block content %}
-    <section class="section context-dark">
-      <div class="parallax-container" data-parallax-img="images/bg-header-1920x362.jpg">
-        <div class="parallax-content">
-          <div class="container section-top-34 section-md-top-98 section-bottom-34">
-            <div>
-              <h1 class="font-weight-bold">{% translate 'Images' %}</h1>
-            </div>
-            <ul class="list-inline list-inline-dashed p text-light breadcrumb-modern offset-top-10 offset-md-top-66">
-              <li class="list-inline-item"><a href="index.html">{% translate 'Main' %}</a></li>
-              <li class="list-inline-item">{% translate 'Images' %}</li>
-            </ul>
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Images' %}</h1>
+    <ul>
+      <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+      <li>{% translate 'Base' %} /</li>
+      <li>{% translate 'Images' %}</li>
+    </ul>
+  </div>
+</div>
+<br>
+<div class="container featured_property_section properties_list_section">
+  {% for image in images %}
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+    <div class="item">
+      <div class="featured_div">
+        <div class="img">
+          <img class="img-fluid" src="{{ image.image.url }}" alt="img">
+        </div>
+        <div class="property_price">
+          {% if can_update %}
+          <div>
+            <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+               href="{% url 'images:apartment_image_delete' lang=lang pk=image.id %}"
+               type="button" style="max-width: 120px">{% translate 'Delete' %}</a>
           </div>
+          {% endif %}
         </div>
       </div>
+<<<<<<< Updated upstream
     </section>
     <section class="section section-66 section-md-bottom-110 bg-default novi-background">
       <div class="container">
@@ -61,4 +77,11 @@
         </div>
       </div>
     </section>
+=======
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<!-- Featured Properties End -->
+>>>>>>> Stashed changes
 {% endblock %}

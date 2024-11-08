@@ -4,45 +4,23 @@
 {% block title %}{% translate 'Login' %}{% endblock %}
 
 {% block content %}
-    <section class="section context-dark">
-      <div class="parallax-container" data-parallax-img="images/bg-header-1920x362.jpg">
-        <div class="parallax-content">
-          <div class="container section-top-34 section-md-top-98 section-bottom-34">
-            <div>
-              <h1 class="font-weight-bold">{% translate 'Login' %}</h1>
-            </div>
-            <ul class="list-inline list-inline-dashed p text-light breadcrumb-modern offset-top-10 offset-md-top-66">
-              <li class="list-inline-item"><a href="index.html">{% translate 'Main' %}</a></li>
-              <li class="list-inline-item">{% translate 'Login' %}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section section-98 section-md-110 section-bottom-66 bg-default novi-background">
-      <div class="container">
-        <h2 class="font-weight-bold">{% translate 'Login' %}</h2>
-        <hr class="divider bg-saffron">
-        <div class="offset-md-top-66">
-          <div class="responsive-tabs responsive-tabs-classic" data-type="horizontal">
-            <ul class="resp-tabs-list tabs-1 tabs-group-default" data-group="tabs-group-default">
-              <li>Login</li>
-            </ul>
-            <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
-              <div>
-                <div class="row row-fix justify-content-sm-center section-34">
-                  <div class="col-sm-8 col-md-6 col-lg-4">
-                    <form class="rd-form text-left" method=post>
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                      <div class="offset-top-24"><input class="btn btn-primary" type=submit value="{% translate 'Login' %}"></div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Login' %}</h1>
+    <ul>
+      <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+      <li>{% translate 'Login' %}</li>
+    </ul>
+  </div>
+</div>
+<div class="container contact_info_section">
+  <div class="heading">
+    <h1>Login From</h1>
+  </div>
+  <form enctype="multipart/form-data" action="{{ action }}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+  </form>
+</div>
 {% endblock %}
