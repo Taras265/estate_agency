@@ -193,7 +193,7 @@ class FormHandbooksMixin(FormMixin):
         if MODEL.get(handbook_type):
             queryset = MODEL[handbook_type].objects.filter(on_delete=False)
             if (handbook_type in LIST_BY_USER.keys() and
-                    self.permission_required.find('own')):
+                    self.permission_required.find('own') >= 0):
                 user = CustomUser.objects.filter(email=self.request.user).first()
                 if isinstance(LIST_BY_USER[handbook_type], str):
                     queryset = queryset.filter(**{LIST_BY_USER[handbook_type]: user})
@@ -281,7 +281,7 @@ class DeleteHandbooksMixin(DeleteMixin):
         if MODEL.get(handbook_type):
             queryset = MODEL[handbook_type].objects.filter(on_delete=False)
             if (handbook_type in LIST_BY_USER.keys() and
-                    self.permission_required.find('own')):
+                    self.permission_required.find('own') >= 0):
                 user = CustomUser.objects.filter(email=self.request.user).first()
                 if isinstance(LIST_BY_USER[handbook_type], str):
                     queryset = queryset.filter(**{LIST_BY_USER[handbook_type]: user})
