@@ -126,19 +126,19 @@ class ApartmentForm(forms.ModelForm):
                                             widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                             "placeholder": _("square_meter_price")}))
 
-    realtor = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type=3).all(), label=_("realtor"),
+    realtor = forms.ModelChoiceField(queryset=CustomUser.objects.all(), label=_("realtor"),
                                      widget=forms.Select(attrs={'class': 'form-control',
                                                                 "placeholder": _("realtor")}))
-    site_realtor1 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type=3).all(),
+    site_realtor1 = forms.ModelChoiceField(queryset=CustomUser.objects.all(),
                                            label=_("site_realtor1"),
                                            widget=forms.Select(attrs={'class': 'form-control',
                                                                       "placeholder": _("site_realtor1")}))
-    site_realtor2 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type=3).all(),
+    site_realtor2 = forms.ModelChoiceField(queryset=CustomUser.objects.all().all(),
                                            label=_("site_realtor2"),
                                            widget=forms.Select(attrs={'class': 'form-control',
                                                                       "placeholder": _("site_realtor2")}),
                                            required=False)
-    realtor_5_5 = forms.ModelChoiceField(queryset=CustomUser.objects.filter(user_type=3).all(), label=_("realtor_5_5"),
+    realtor_5_5 = forms.ModelChoiceField(queryset=CustomUser.objects.all(), label=_("realtor_5_5"),
                                          widget=forms.Select(attrs={'class': 'form-control',
                                                                     "placeholder": _("realtor_5_5")}),
                                          required=False)
