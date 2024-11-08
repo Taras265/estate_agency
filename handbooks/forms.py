@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class RegionForm(forms.ModelForm):
-    region = forms.CharField(label=_('region'), widget=forms.TextInput(attrs={'class': 'form-control',
+    region = forms.CharField(label=_('region'), widget=forms.TextInput(attrs={'class': 'customtxt',
                                                                               'placeholder': _("region")}))
 
     class Meta:

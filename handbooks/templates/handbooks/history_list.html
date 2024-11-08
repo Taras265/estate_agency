@@ -4,7 +4,17 @@
 {% block title %}{% translate 'History' %}{% endblock %}
 
 {% block content %}
-
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'History of changes' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Base' %} / </li>
+            <li>{% translate 'History' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
 {% if history %}
 <table class="table table-striped">
 <tbody>

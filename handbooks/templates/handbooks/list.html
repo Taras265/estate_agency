@@ -4,94 +4,117 @@
 {% block title %}{% translate 'Handbooks' %}{% endblock %}
 
 {% block content %}
-<div class="responsive-tabs" data-type="horizontal">
-    <ul class="resp-tabs-list tabs-1 tabs-group-default" data-group="tabs-group-default">
-        <li></li>
-        {% for i in choices %}
-        {% if i.0 != 'profile' and i.1 != 'profile' %}
-        <li {% if i.1 == choice %}class="resp-tab-item tabs-group-default resp-tab-active"{% endif %}>
-            <a href="{% if i.1 == 'apartment' %}{% url 'objects:handbooks_list' lang=lang %}{% else %}
-            {% url 'handbooks:handbooks_list' lang=lang handbook_type=i.1 %}{% endif %}">{{ i.0 }}</a>
-        </li>
-        {% endif %}
-        {% endfor %}
-    </ul>
-    <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
-    {% if page_obj %}
-      <div>
-        <div class="offset-top-66 text-center">
-              <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  {% for column in object_columns %}
-                    {% if column != 'on_delete' %}<th scope="col">{{ column }}</th>{% endif %}
-                  {% endfor %}
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  {% if choice == 'apartment' %}
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  {% endif %}
-                </tr>
-              </thead>
-              <tbody>
-              {% for object in object_values %}
-                <tr>
-                  <td></td>
-                  {% for key, data in object.items %}
-                    {% if key != 'on_delete' and key != 'user_permissions' %}<td>{{data}}</td>{% endif %}
-                  {% endfor %}
-                    {% if object.user_permissions.can_update %}
-                  <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                         href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/update{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                         type="button" style="max-width: 120px">{% translate 'Update' %}</a></td>
-                  <td><a class="btn btn-primary btn-sm btn-danger element-fullwidth"
-                         href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/delete{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                         type="button" style="max-width: 120px">{% translate 'Delete' %}</a></td>
-                    {% else %}
-                    <td></td>
-                    <td></td>
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Base' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Base' %}</li>
+        </ul>
+    </div>
+</div>
+<!-- Properties Search -->
+<div class="container">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for i in choices %}
+            {% if i.0 != 'profile' and i.1 != 'profile' %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if i.1 == choice %}active{% endif %}"
+                   href="{% if i.1 == 'apartment' %}{% url 'objects:handbooks_list' lang=lang %}{% else %}
+                   {% url 'handbooks:handbooks_list' lang=lang handbook_type=i.1 %}{% endif %}">
+                    {% translate i.0 %}
+                </a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="row">
+            <div class="responsive-tabs" data-type="horizontal">
+                <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+                    {% if page_obj %}
+                    <div>
+                        <div class="offset-top-66 text-center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    {% for column in object_columns %}
+                                    {% if column != 'on_delete' %}
+                                    <th scope="col">{{ column }}</th>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    {% if choice == 'apartment' %}
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    {% endif %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in object_values %}
+                                <tr>
+                                    <td></td>
+                                    {% for key, data in object.items %}
+                                    {% if key != 'on_delete' and key != 'user_permissions' %}<td>{{data}}</td>{% endif %}
+                                    {% endfor %}
+                                    {% if object.user_permissions.can_update %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/update{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'Update' %}</a></td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                           href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/delete{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'Delete' %}</a></td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+                                    {% if object.user_permissions.can_view_history %}
+                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                    {% if choice == 'apartment' %}
+                                    {% if object.user_permissions.can_update %}
+                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'images:apartment_image_add' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Add image' %}</a></td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'images:apartment_images_list' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Show images' %}</a></td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     {% endif %}
-                    {% if object.user_permissions.can_view_history %}
-                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                         href="/{{ lang }}/{% if choice == 'apartment' %}objects{% else %}handbook{% endif %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                         type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                    {% if can_view_history %}
+                    {% if choice == 'apartment' %}
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="{% url 'objects:create_apartment' lang=lang %}"
+                       type="button" style="max-width: 120px">{% translate 'Create' %}</a>
                     {% else %}
-                    <td></td>
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="/{{ lang }}/handbook/base/create/{{ choice }}/"
+                             type="button" style="max-width: 120px">{% translate 'Create' %}</a>
                     {% endif %}
-                  {% if choice == 'apartment' %}
-                    {% if object.user_permissions.can_update %}
-                  <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                         href="{% url 'images:apartment_image_add' lang=lang pk=object.id %}"
-                         type="button" style="max-width: 120px">{% translate 'Add image' %}</a></td>
-                    {% else %}
-                    <td></td>
                     {% endif %}
-                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                         href="{% url 'images:apartment_images_list' lang=lang pk=object.id %}"
-                         type="button" style="max-width: 120px">{% translate 'Show images' %}</a></td>
-                    {% else %}
-                    <td></td>
-                    <td></td>
-                    {% endif %}
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+                </div>
+            </div>
         </div>
-      </div>
-    {% endif %}
-        {% if can_view_history %}
-        {% if choice == 'apartment' %}
-            <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="{% url 'objects:create_apartment' lang=lang %}"
-                             type="button" style="max-width: 120px">{% translate 'Create' %}</a>
-        {% else %}
-            <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="/{{ lang }}/handbook/base/create/{{ choice }}/"
-                             type="button" style="max-width: 120px">{% translate 'Create' %}</a>
-        {% endif %}
-        {% endif %}
     </div>
 </div>
 {% endblock %}

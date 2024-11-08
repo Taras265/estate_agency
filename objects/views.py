@@ -103,7 +103,7 @@ class ApartmentDetailView(DetailView):
 
         context['lang'] = self.kwargs['lang']
 
-        context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id)
+        context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
         return context
 
 
