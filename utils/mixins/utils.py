@@ -46,7 +46,8 @@ class GetQuerysetForMixin(PermissionRequiredMixin):
     def choices_by_user(self, user):
         choices = []
         for choice in CHOICES:
-            if ((user.has_perm(f'{TABLE_TO_APP[choice[1]]}.view_{choice[1]}')
+            choice_cleared = ''.join(choice[1].split('_'))
+            if ((user.has_perm(f'{TABLE_TO_APP[choice[1]]}.view_{choice_cleared}')
                  or user.has_perm(f'{TABLE_TO_APP[choice[1]]}.view_own_{choice[1]}'))):
                 choices.append(choice)
         return choices

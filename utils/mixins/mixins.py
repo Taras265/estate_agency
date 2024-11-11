@@ -65,8 +65,10 @@ class HandbookListPermissionMixin(CustomLoginRequiredMixin, GetQuerysetForMixin)
         Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
         Тому ми тут робимо перевірку
         """
-        context['can_create'] = user.has_perm(f'handbooks.add_{"".join(handbook_type.split("_"))}') or user.has_perm(
-            f'objects.add_{"".join(handbook_type.split("_"))}')
+        context['can_create'] = (user.has_perm(f'handbooks.add_{"".join(handbook_type.split("_"))}')
+                                 or user.has_perm(f'objects.add_{"".join(handbook_type.split("_"))}'))
+        print(context['can_create'])
+        print(f'handbooks.add_{"".join(handbook_type.split("_"))}')
         context['can_view_history'] = user.has_perm(
             f'handbooks.view_historical{"".join(handbook_type.split("_"))}') or user.has_perm(
             f'handbooks.view_historical{"".join(handbook_type.split("_"))}')
@@ -91,6 +93,7 @@ class HandbookListPermissionMixin(CustomLoginRequiredMixin, GetQuerysetForMixin)
 
                     # Перевірка що клієнт взагалі щось ще може, крім дивитись на дані
                     can_update = have_permission_to_do(user, 'change', handbook_type, obj)
+                    print(can_update)
                     can_view_history = have_permission_to_do(user, 'view',
                                                              handbook_type, obj, 'historical')
                     context['object_values'][-1].update({'user_permissions': {'can_update': can_update,

@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if can_view_history %}
+                    {% if can_create %}
                     {% if choice == 'apartment' %}
                     <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="{% url 'objects:create_apartment' lang=lang %}"
                        type="button" style="max-width: 120px">{% translate 'Create' %}</a>
