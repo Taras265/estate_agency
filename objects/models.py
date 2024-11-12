@@ -2,7 +2,7 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
-from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, ObjectType, Client
+from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, Client
 
 
 class Apartment(models.Model):
@@ -55,8 +55,12 @@ class Apartment(models.Model):
     )
 
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
-    object_type = models.ForeignKey(ObjectType, on_delete=models.CASCADE,
-                                    related_name="object_type_related_name")
+
+    OBJECT_TYPE_CHOICES = (
+        (1, "Квартира"),
+    )
+
+    object_type = models.PositiveSmallIntegerField(choices=OBJECT_TYPE_CHOICES, default=1)
 
     square = models.IntegerField()
     price = models.IntegerField()

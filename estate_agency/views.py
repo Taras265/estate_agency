@@ -16,16 +16,20 @@ class BaseView(TemplateView):
 
 
 def fill_db(request, lang):
-    from handbooks.models import (Region, District, Locality, LocalityDistrict, Street, Client, Handbook,
-                                  FilialAgency, FilialReport, ObjectType)
+    from handbooks.models import (
+        Region,
+        District,
+        Locality,
+        LocalityDistrict,
+        Street,
+        Client,
+        Handbook,
+        FilialAgency,
+        FilialReport
+    )
     from objects.models import Apartment
     from django.shortcuts import redirect
     import datetime
-
-    object_type = ObjectType()
-    object_type.type = "apartment"
-    object_type.slug = "apartment"
-    object_type.save()
 
     region = Region()
     region.region = 'Region 1'
@@ -112,7 +116,7 @@ def fill_db(request, lang):
     apartment.material = Handbook.objects.first()
 
     apartment.status = 1
-    apartment.object_type = ObjectType.objects.first()
+    apartment.object_type = 1
 
     apartment.square = 11
     apartment.price = 11
