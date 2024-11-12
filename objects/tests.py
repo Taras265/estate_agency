@@ -18,12 +18,12 @@ class ObjectsTest(TestCase):
         self.obj = Apartment.objects.first()
 
     def test_apartment_list_failure(self):
-        response = self.client.get(reverse_lazy('objects:handbooks_list',
+        response = self.client.get(reverse_lazy('objects:apartment_list',
                                                 kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 302)
 
         self.client.force_login(self.user)
-        response = self.client.get(reverse_lazy('objects:handbooks_list',
+        response = self.client.get(reverse_lazy('objects:apartment_list',
                                                 kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 403)
 
@@ -32,7 +32,7 @@ class ObjectsTest(TestCase):
 
         self.client.force_login(self.user)
 
-        response = self.client.get(reverse_lazy('objects:handbooks_list',
+        response = self.client.get(reverse_lazy('objects:apartment_list',
                                                 kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 200)
 

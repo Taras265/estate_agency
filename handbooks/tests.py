@@ -13,10 +13,10 @@ class HandbooksTest(TestCase):
         self.email = "testuser@gmail.com"
         self.password = "secretpassword"
         self.user = CustomUser.objects.create_user(email=self.email, password=self.password)
-        self.handbooks = ['region', 'district', 'locality', 'locality_district',
-                          'street', 'client', 'withdrawal_reason', 'condition',
-                          'material', 'separation', 'agency', 'agency_sales', 'new_building_name',
-                          'stair', 'heating', 'layout', 'house_type', 'filial_agency', 'filial_report']
+        self.handbooks = ['region', 'district', 'locality', 'localitydistrict',
+                          'street', 'client', 'withdrawalreason', 'condition',
+                          'material', 'separation', 'agency', 'agencysales', 'newbuildingname',
+                          'stair', 'heating', 'layout', 'housetype', 'filialagency', 'filialreport']
 
         self.client.get(reverse_lazy('fill_db',
                                      kwargs={'lang': 'en'}))
@@ -26,17 +26,15 @@ class HandbooksTest(TestCase):
                                                 kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 302)
         for handbook in self.handbooks:
-            response = self.client.get(reverse_lazy('handbooks:handbooks_list',
-                                                    kwargs={'lang': 'en',
-                                                            'handbook_type': handbook}))
+            response = self.client.get(reverse_lazy(f'handbooks:{handbook}_list',
+                                                    kwargs={'lang': 'en'}))
             self.assertEqual(response.status_code, 302)
 
         self.client.force_login(self.user)
 
         for handbook in self.handbooks:
-            response = self.client.get(reverse_lazy('handbooks:handbooks_list',
-                                                    kwargs={'lang': 'en',
-                                                            'handbook_type': handbook}))
+            response = self.client.get(reverse_lazy(f'handbooks:{handbook}_list',
+                                                    kwargs={'lang': 'en'}))
             self.assertEqual(response.status_code, 403)
 
     def test_handbook_list_success(self):
@@ -47,9 +45,8 @@ class HandbooksTest(TestCase):
                                                 kwargs={'lang': 'en'}))
         self.assertEqual(response.status_code, 302)
         for handbook in self.handbooks:
-            response = self.client.get(reverse_lazy('handbooks:handbooks_list',
-                                                    kwargs={'lang': 'en',
-                                                            'handbook_type': handbook}))
+            response = self.client.get(reverse_lazy(f'handbooks:{handbook}_list',
+                                                    kwargs={'lang': 'en'}))
             self.assertEqual(response.status_code, 200)
 
     def test_create_handbook_failure(self):
@@ -146,7 +143,6 @@ class HandbooksTest(TestCase):
         if not handbook_list:
             handbook_list = self.handbooks
         for p in handbook_list:
-            p_c = ''.join(p.split('_'))
             if p in MODEL.keys():
                 model = MODEL[p]
                 content_type = ContentType.objects.get_for_model(model)
@@ -154,17 +150,17 @@ class HandbooksTest(TestCase):
                 model = Handbook
                 content_type = ContentType.objects.get_for_model(model)
                 Permission.objects.create(
-                    codename=f'{perm_type}_{p_c}',
-                    name=f'{p_c}',
+                    codename=f'{perm_type}_{p}',
+                    name=f'{p}',
                     content_type=content_type
                 )
-            if not Permission.objects.filter(content_type=content_type, codename=f'{perm_type}_{p_c}'):
+            if not Permission.objects.filter(content_type=content_type, codename=f'{perm_type}_{p}'):
                 Permission.objects.create(
-                    codename=f'{perm_type}_{p_c}',
-                    name=f'{p_c}',
+                    codename=f'{perm_type}_{p}',
+                    name=f'{p}',
                     content_type=content_type
                 )
-            permission = Permission.objects.get(content_type=content_type, codename=f'{perm_type}_{p_c}')
+            permission = Permission.objects.get(content_type=content_type, codename=f'{perm_type}_{p}')
             self.user.user_permissions.add(permission)
             self.user.save()
             self.user.refresh_from_db()
