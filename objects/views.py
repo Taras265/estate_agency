@@ -5,13 +5,15 @@ import io
 from images.models import ApartmentImage
 from objects.forms import SearchForm
 from objects.models import Apartment
-from utils.mixins.mixins import (HandbookHistoryListMixin, HandbookListPermissionMixin,
-                                 DeleteHandbooksMixin, FormHandbooksMixin, CustomLoginRequiredMixin)
+from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
+                                 CustomLoginRequiredMixin,
+                                 HandbookOwnPermissionListMixin)
 from django.utils.translation import activate
 from utils.pdf import generate_pdf
 
 
-class HandbookListView(HandbookListPermissionMixin, ListView):
+class ApartmentListView(HandbookOwnPermissionListMixin, ListView):
+    model = Apartment
     handbook_type = 'apartment'
 
 
