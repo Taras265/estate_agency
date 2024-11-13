@@ -265,7 +265,7 @@ class FormHandbooksMixin(FormMixin):
         kwargs = {"lang": self.kwargs['lang']}
         if TABLE_TO_APP[handbook_type] == 'handbooks':
             kwargs.update({"handbook_type": handbook_type})
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
 
 
 class DeleteMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
@@ -349,4 +349,4 @@ class DeleteHandbooksMixin(DeleteMixin):
         kwargs = {"lang": self.kwargs['lang']}
         if TABLE_TO_APP[handbook_type] == 'handbooks':
             kwargs.update({"handbook_type": handbook_type})
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
