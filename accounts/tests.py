@@ -38,9 +38,8 @@ class AccountsTest(TestCase):
     def test_profile_success(self):
         content_type = ContentType.objects.get_for_model(CustomUser)
 
-        permission = Permission.objects.create(
+        permission = Permission.objects.get(
             codename='profile',
-            name='Profile',
             content_type=content_type
         )
         self.user.user_permissions.add(permission)
