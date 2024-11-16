@@ -18,7 +18,7 @@ CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('stair'), 'stair'), (_('heating'), 'heating'), (_('layout'), 'layout'),
            (_('housetype'), 'housetype'), (_('filialagency'), 'filialagency'),
            (_('filialreport'), 'filialreport'),
-           (_('apartment'), 'apartment')]
+           (_('apartment'), 'apartment'), (_('report'), 'report')]
 
 MODEL = {'region': Region, 'district': District,
          'locality': Locality, 'localitydistrict': LocalityDistrict, 'street': Street,
@@ -37,13 +37,16 @@ TABLE_TO_APP = {'region': 'handbooks', 'district': 'handbooks',
                 'agency': 'handbooks', 'agencysales': 'handbooks',
                 'newbuildingname': 'handbooks', 'stair': 'handbooks',
                 'heating': 'handbooks', 'layout': 'handbooks',
-                'housetype': 'handbooks'}
+                'housetype': 'handbooks', 'report': 'objects', 'history_report': 'objects'}
 HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'locality': LocalityForm, 'localitydistrict': LocalityDistrictForm, 'street': StreetForm,
                    'client': ClientForm, 'filialagency': FilialForm, 'filialreport': FilialReportForm,
                    'apartment': ApartmentForm}
 OBJECT_COLUMNS = {'apartment': ["id", "region_id", "district_id", "locality_id",
-                                "locality_district_id", "street_id"], }
+                                "locality_district_id", "street_id"],
+                  'report': ['id', "locality_id", "locality_district_id", "street_id", 'floor',
+                             'rooms_number', 'creation_date', 'price', 'status', 'owner_id']
+                  }
 
 LIST_BY_USER = {'client': 'realtor',
                 'apartment': ['realtor', 'site_realtor1', 'site_realtor2', 'realtor_5_5']}

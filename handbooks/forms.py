@@ -17,7 +17,7 @@ class RegionForm(forms.ModelForm):
 
 class DistrictForm(forms.ModelForm):
     district = forms.CharField(label=_('district'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                               'placeholder': _("district")}))
+                                                                                  'placeholder': _("district")}))
     region = forms.ModelChoiceField(queryset=Region.objects.filter(on_delete=False), label=_('region'),
                                     widget=forms.Select(attrs={'class': 'form-control',
                                                                'placeholder': _('region')}))
@@ -29,7 +29,7 @@ class DistrictForm(forms.ModelForm):
 
 class LocalityForm(forms.ModelForm):
     locality = forms.CharField(label=_('locality'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                               'placeholder': _("locality")}))
+                                                                                  'placeholder': _("locality")}))
     district = forms.ModelChoiceField(queryset=District.objects.filter(on_delete=False), label=_('district'),
                                       widget=forms.Select(attrs={'class': 'form-control',
                                                                  'placeholder': _('district')}))
@@ -48,12 +48,13 @@ class LocalityForm(forms.ModelForm):
 
 class LocalityDistrictForm(forms.ModelForm):
     district = forms.CharField(label=_('district'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                               'placeholder': _("district")}))
+                                                                                  'placeholder': _("district")}))
     locality = forms.ModelChoiceField(queryset=Locality.objects.filter(on_delete=False), label=_('locality'),
                                       widget=forms.Select(attrs={'class': 'form-control',
                                                                  'placeholder': _('locality')}))
     description = forms.CharField(label=_("description"), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                     'placeholder': _('description')}),
+                                                                                        'placeholder': _(
+                                                                                            'description')}),
                                   required=False)
     group_on_site = forms.CharField(label=_('group_on_site'), required=False,
                                     widget=forms.TextInput(attrs={'class': 'form-control',
@@ -63,7 +64,8 @@ class LocalityDistrictForm(forms.ModelForm):
                                                                        'placeholder': _("hot_deals_limit")}),
                                        required=False)
     prefix_to_site = forms.CharField(label=_('prefix_to_site'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                           'placeholder': _("prefix_to_site")}))
+                                                                                              'placeholder': _(
+                                                                                                  "prefix_to_site")}))
     is_subdistrict = forms.BooleanField(label=_('is_subdistrict'),
                                         widget=forms.CheckboxInput(attrs={'class': 'form-control',
                                                                           'placeholder': _("is_subdistrict")}),
@@ -81,7 +83,7 @@ class LocalityDistrictForm(forms.ModelForm):
 
 class StreetForm(forms.ModelForm):
     street = forms.CharField(label=_('street'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                           'placeholder': _("street")}))
+                                                                              'placeholder': _("street")}))
     locality_district = forms.ModelChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
                                                label=_('locality_district'),
                                                widget=forms.Select(attrs={'class': 'form-control',
@@ -94,27 +96,35 @@ class StreetForm(forms.ModelForm):
 
 class ClientForm(forms.ModelForm):
     email = forms.CharField(label=_('email'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                         'placeholder': _("email")}))
+                                                                            'placeholder': _("email")}))
     first_name = forms.CharField(label=_('first_name'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                   'placeholder': _("first_name")}))
+                                                                                      'placeholder': _("first_name")}))
     last_name = forms.CharField(label=_('last_name'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                 'placeholder': _("last_name")}))
+                                                                                    'placeholder': _("last_name")}))
     phone = forms.CharField(label=_('phone'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                         'placeholder': _("phone")}))
+                                                                            'placeholder': _("phone")}))
 
     realtor = forms.ModelChoiceField(queryset=CustomUser.objects.all(),
                                      label=_('realtor'),
                                      widget=forms.Select(attrs={'class': 'form-control',
                                                                 'placeholder': _('realtor')}))
 
+    status = forms.ChoiceField(choices=((1, "В подборе"),
+                                        (2, "С показом"),
+                                        (3, "Определившиеся"),
+                                        (4, "Отложенный спрос")),
+                               label=_('status'),
+                               widget=forms.Select(attrs={'class': 'form-control',
+                                                          'placeholder': _('status')}))
+
     class Meta:
         model = Client
-        exclude = ('on_delete',)
+        exclude = ('date_of_add', 'on_delete')
 
 
 class HandbookForm(forms.ModelForm):
     handbook = forms.CharField(label=_('handbook'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                               'placeholder': _("handbook")}))
+                                                                                  'placeholder': _("handbook")}))
     type = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
@@ -124,7 +134,8 @@ class HandbookForm(forms.ModelForm):
 
 class FilialForm(forms.ModelForm):
     filial_agency = forms.CharField(label=_('filial_agency'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                                         'placeholder': _("filial_agency")}))
+                                                                                            'placeholder': _(
+                                                                                                "filial_agency")}))
 
     class Meta:
         model = FilialAgency
@@ -133,7 +144,7 @@ class FilialForm(forms.ModelForm):
 
 class FilialReportForm(forms.ModelForm):
     report = forms.CharField(label=_('report'), widget=forms.TextInput(attrs={'class': 'form-control',
-                                                                           'placeholder': _("report")}))
+                                                                              'placeholder': _("report")}))
 
     filial_agency = forms.ModelChoiceField(queryset=FilialAgency.objects.filter(on_delete=False),
                                            label=_('filial_agency'),

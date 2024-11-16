@@ -18,6 +18,7 @@ urlpatterns = [
     path('base/localitydistrict/', LocalityDistrictListView.as_view(), name='localitydistrict_list'),
     path('base/street/', StreetListView.as_view(), name='street_list'),
     path('base/client/', ClientListView.as_view(), name='client_list'),
+    path('base/client/<str:filter>/', ClientListView.as_view(), name='client_list'),
     path('base/withdrawalreason/', WithdrawalReasonListView.as_view(), name='withdrawalreason_list'),
     path('base/condition/', ConditionListView.as_view(), name='condition_list'),
     path('base/material/', MaterialListView.as_view(), name='material_list'),

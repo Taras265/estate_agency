@@ -32,6 +32,8 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     handbook_type = None
     model = None
 
+    custom = False
+
     def get_queryset(self):
         return self.model.objects.filter(on_delete=False)
 
@@ -57,11 +59,12 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
         Тому ми тут робимо перевірку
         """
-        context['can_create'] = (user.has_perm(f'handbooks.add_{self.handbook_type}')
-                                 or user.has_perm(f'objects.add_{self.handbook_type}'))
-        context['can_view_history'] = user.has_perm(
-            f'handbooks.view_historical{self.handbook_type}') or user.has_perm(
-            f'handbooks.view_historical{self.handbook_type}')
+        if not self.custom:
+            context['can_create'] = (user.has_perm(f'handbooks.add_{self.handbook_type}')
+                                     or user.has_perm(f'objects.add_{self.handbook_type}'))
+            context['can_view_history'] = user.has_perm(
+                f'handbooks.view_historical{self.handbook_type}') or user.has_perm(
+                f'handbooks.view_historical{self.handbook_type}')
 
         """
         Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
@@ -85,8 +88,9 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
                     can_update = have_permission_to_do(user, 'change', self.handbook_type, obj)
                     can_view_history = have_permission_to_do(user, 'view',
                                                              self.handbook_type, obj, 'historical')
-                    context['object_values'][-1].update({'user_permissions': {'can_update': can_update,
-                                                                              'can_view_history': can_view_history}})
+                    if not self.custom:
+                        context['object_values'][-1].update({'user_permissions': {'can_update': can_update,
+                                                                                  'can_view_history': can_view_history}})
             else:
                 # Теж саме, що і в частині коду вище, але нам потрібні всі дані, тож ми нічого не викидуємо
                 context['object_values'] = context['object_list'].values()
@@ -96,8 +100,9 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
                     can_view_history = have_permission_to_do(user, 'view',
                                                              self.handbook_type, obj, 'historical')
 
-                    obj.update({'user_permissions': {'can_update': can_update,
-                                                     'can_view_history': can_view_history}})
+                    if not self.custom:
+                        obj.update({'user_permissions': {'can_update': can_update,
+                                                         'can_view_history': can_view_history}})
                 context['object_columns'] = list(context['object_list'].values()[0])
         else:
             context['object_columns'] = None
@@ -106,9 +111,9 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     def choices_by_user(self, user):
         choices = []
         for choice in CHOICES:
-            choice_cleared = ''.join(choice[1].split('_'))
-            if ((user.has_perm(f'{TABLE_TO_APP[choice[1]]}.view_{choice_cleared}')
-                 or user.has_perm(f'{TABLE_TO_APP[choice[1]]}.view_own_{choice[1]}'))):
+            app = TABLE_TO_APP.get(choice[1]) or 'objects'
+            if ((user.has_perm(f'{app}.view_{choice[1]}')
+                 or user.has_perm(f'{app}.view_own_{choice[1]}'))):
                 choices.append(choice)
         return choices
 
@@ -134,7 +139,7 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
                     else:
                         new_queryset = self.queryset.filter(**{field: user})
                 self.queryset = new_queryset
-        return super().get_queryset()
+        return self.queryset
 
     def get_permission_required(self):  # Отримаємо яке нам потрібно право для цієї сторінки
         user = CustomUser.objects.filter(email=self.request.user).first()
@@ -144,6 +149,28 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
         else:
             self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}'
         return (self.permission_required, )
+
+
+class HandbookWithFilterListMixin(HandbookListMixin):
+    filters = []
+    queryset_filters = {}
+    
+    def get_queryset(self):
+        f = self.kwargs.get('filter') or list(self.queryset_filters.keys())[0]  # просто вір - так і має бути
+        queryset = self.queryset_filters[f].all()
+        if queryset.model != self.model:
+            self.model = queryset.model
+        return queryset
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        f = self.kwargs.get('filter') or list(self.queryset_filters.keys())[0]  # просто вір - так і має бути
+
+        context = super().get_context_data(**kwargs)
+        context['filters'] = self.filters
+        context['filter'] = f
+        context['app'] = TABLE_TO_APP[context['choice']]
+
+        return context
 
 
 class HandbookHistoryListMixin(CustomLoginRequiredMixin, GetQuerysetForMixin):
@@ -263,9 +290,7 @@ class FormHandbooksMixin(FormMixin):
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         kwargs = {"lang": self.kwargs['lang']}
-        if TABLE_TO_APP[handbook_type] == 'handbooks':
-            kwargs.update({"handbook_type": handbook_type})
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
 
 
 class DeleteMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
@@ -343,10 +368,7 @@ class DeleteHandbooksMixin(DeleteMixin):
 
         return super().get_permission_required()
 
-
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         kwargs = {"lang": self.kwargs['lang']}
-        if TABLE_TO_APP[handbook_type] == 'handbooks':
-            kwargs.update({"handbook_type": handbook_type})
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:handbooks_list", kwargs=kwargs)
+        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)

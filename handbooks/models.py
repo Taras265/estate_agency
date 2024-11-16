@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
@@ -80,6 +81,8 @@ class Street(models.Model):
 
 
 class Client(models.Model):
+    date_of_add = models.DateField(default=timezone.now)
+
     email = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -87,6 +90,14 @@ class Client(models.Model):
 
     realtor = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
                                 related_name="realtor_related_name")
+
+    STATUS_CHOICES = (
+        (1, "В подборе"),
+        (2, "С показом"),
+        (3, "Определившиеся"),
+        (4, "Отложенный спрос")
+    )
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=1)
 
     on_delete = models.BooleanField(default=False)
 
