@@ -168,3 +168,12 @@ class Apartment(models.Model):
 
     on_delete = models.BooleanField(default=False)
     history = HistoricalRecords()
+
+    class Meta:
+        default_permissions = ("add", "change", "view")
+        permissions = (
+            ("add_own_apartment", "Can add own apartment"),
+            ("change_own_apartment", "Can change own apartment"),
+            ("view_own_apartment", "Can view own apartment"),
+            ("view_own_historicalapartment", "Can view own historical apartment"),
+        )

@@ -6,19 +6,28 @@ from handbooks.models import *
 from objects.forms import ApartmentForm
 from objects.models import Apartment
 
-CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
-           (_('locality'), 'locality'),
-           (_('localitydistrict'), 'localitydistrict'),
-           (_('street'), 'street'), (_('client'), 'client'),
-           (_('withdrawalreason'), 'withdrawalreason'),
-           (_('condition'), 'condition'), (_('material'), 'material'),
-           (_('separation'), 'separation'), (_('agency'), 'agency'),
-           (_('agencysales'), 'agencysales'),
-           (_('newbuildingname'), 'newbuildingname'),
-           (_('stair'), 'stair'), (_('heating'), 'heating'), (_('layout'), 'layout'),
-           (_('housetype'), 'housetype'), (_('filialagency'), 'filialagency'),
-           (_('filialreport'), 'filialreport'),
-           (_('apartment'), 'apartment')]
+CHOICES = [
+    (_('region'), 'region'),
+    (_('district'), 'district'),
+    (_('locality'), 'locality'),
+    (_('localitydistrict'), 'localitydistrict'),
+    (_('street'), 'street'),
+    (_('client'), 'client'),
+    (_('withdrawalreason'), 'withdrawalreason'),
+    (_('condition'), 'condition'),
+    (_('material'), 'material'),
+    (_('separation'), 'separation'),
+    (_('agency'), 'agency'),
+    (_('agencysales'), 'agencysales'),
+    (_('newbuildingname'), 'newbuildingname'),
+    (_('stair'), 'stair'),
+    (_('heating'), 'heating'),
+    (_('layout'), 'layout'),
+    (_('housetype'), 'housetype'),
+    (_('filialagency'), 'filialagency'),
+    (_('filialreport'), 'filialreport'),
+    (_('apartment'), 'apartment')
+]
 
 MODEL = {'region': Region, 'district': District,
          'locality': Locality, 'localitydistrict': LocalityDistrict, 'street': Street,
