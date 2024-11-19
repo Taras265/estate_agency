@@ -305,6 +305,8 @@ class FormHandbooksMixin(FormMixin):
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         kwargs = {"lang": self.kwargs['lang']}
+        if TABLE_TO_APP[handbook_type] == 'handbooks':
+            kwargs.update({"handbook_type": handbook_type})
         return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
 
 
@@ -386,4 +388,6 @@ class DeleteHandbooksMixin(DeleteMixin):
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         kwargs = {"lang": self.kwargs['lang']}
+        if TABLE_TO_APP[handbook_type] == 'handbooks':
+            kwargs.update({"handbook_type": handbook_type})
         return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
