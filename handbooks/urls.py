@@ -7,9 +7,10 @@ from handbooks.views import (HandbookUpdateView, HandbookDeleteView,
                              MaterialListView, SeparationListView, AgencyListView,
                              AgencySalesListView, NewBuildingNameListView, StairListView,
                              HeatingListView, LayoutListView, HouseTypeListView, FilialAgencyListView,
-                             FilialReportListView)
+                             FilialReportListView, sale_redirect)
 
 urlpatterns = [
+    path('sale/', sale_redirect, name='sale_redirect'),
     path('base/', handbook_redirect, name='handbook_redirect'),
 
     path('base/region/', RegionListView.as_view(), name='region_list'),
@@ -17,8 +18,10 @@ urlpatterns = [
     path('base/locality/', LocalityListView.as_view(), name='locality_list'),
     path('base/localitydistrict/', LocalityDistrictListView.as_view(), name='localitydistrict_list'),
     path('base/street/', StreetListView.as_view(), name='street_list'),
-    path('base/client/', ClientListView.as_view(), name='client_list'),
-    path('base/client/<str:filter>/', ClientListView.as_view(), name='client_list'),
+
+    path('sale/client/', ClientListView.as_view(), name='client_list'),
+    path('sale/client/<str:filter>/', ClientListView.as_view(), name='client_list'),
+
     path('base/withdrawalreason/', WithdrawalReasonListView.as_view(), name='withdrawalreason_list'),
     path('base/condition/', ConditionListView.as_view(), name='condition_list'),
     path('base/material/', MaterialListView.as_view(), name='material_list'),

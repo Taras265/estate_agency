@@ -117,6 +117,60 @@ class ClientForm(forms.ModelForm):
                                widget=forms.Select(attrs={'class': 'form-control',
                                                           'placeholder': _('status')}))
 
+    rooms_number = forms.IntegerField(label=_("rooms_number"), required=False,
+                                      widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                      "placeholder": _("rooms_number")}))
+    locality = forms.ModelChoiceField(queryset=Locality.objects.filter(on_delete=False),
+                                      label=_('locality'), required=False,
+                                      widget=forms.Select(attrs={'class': 'form-control',
+                                                                 'placeholder': _('locality')}))
+    locality_district = forms.ModelChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
+                                               label=_('locality_district'), required=False,
+                                               widget=forms.Select(attrs={'class': 'form-control',
+                                                                          'placeholder': _('locality_district')}))
+    street = forms.ModelChoiceField(queryset=Street.objects.filter(on_delete=False),
+                                    label=_('street'), required=False,
+                                    widget=forms.Select(attrs={'class': 'form-control',
+                                                               'placeholder': _('street')}))
+    house = forms.CharField(label=_('house'), required=False,
+                            widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': _("house")}))
+    floor_min = forms.IntegerField(label=_("floor_min"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("floor_min")}))
+    floor_max = forms.IntegerField(label=_("floor_max"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("floor_max")}))
+    not_first = forms.BooleanField(label=_('not_first'),
+                                   widget=forms.CheckboxInput(attrs={'class': '',
+                                                                     'placeholder': _("not_first")}),
+                                   required=False)
+    not_last = forms.BooleanField(label=_('not_last'),
+                                  widget=forms.CheckboxInput(attrs={'class': '',
+                                                                    'placeholder': _("not_last")}),
+                                  required=False)
+    storeys_num_min = forms.IntegerField(label=_("storeys_num_min"), required=False,
+                                         widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                         "placeholder": _("storeys_num_min")}))
+    storeys_num_max = forms.IntegerField(label=_("storeys_num_max"), required=False,
+                                         widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                         "placeholder": _("storeys_num_max")}))
+    price_min = forms.IntegerField(label=_("price_min"), required=False,
+                                      widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                      "placeholder": _("price_min")}))
+    price_max = forms.IntegerField(label=_("price_max"), required=False,
+                                      widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                      "placeholder": _("price_max")}))
+    square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
+                                      widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                      "placeholder": _("square_meter_price_max")}))
+    condition = forms.ModelChoiceField(
+        queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
+        required=False,
+        label=_("condition"),
+        widget=forms.Select(attrs={'class': 'form-control',
+                                   "placeholder": _("condition")}))
+
     class Meta:
         model = Client
         exclude = ('date_of_add', 'on_delete')
@@ -154,3 +208,68 @@ class FilialReportForm(forms.ModelForm):
     class Meta:
         model = FilialReport
         exclude = ('on_delete',)
+
+
+class SelectionForm(forms.Form):
+    rooms_number = forms.IntegerField(label=_("rooms_number"), required=False,
+                                      widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                      "placeholder": _("rooms_number")}))
+    locality = forms.ModelChoiceField(queryset=Locality.objects.filter(on_delete=False),
+                                      label=_('locality'), required=False,
+                                      widget=forms.Select(attrs={'class': 'form-control',
+                                                                 'placeholder': _('locality')}))
+    locality_district = forms.ModelChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
+                                               label=_('locality_district'), required=False,
+                                               widget=forms.Select(attrs={'class': 'form-control',
+                                                                          'placeholder': _('locality_district')}))
+    street = forms.ModelChoiceField(queryset=Street.objects.filter(on_delete=False),
+                                    label=_('street'), required=False,
+                                    widget=forms.Select(attrs={'class': 'form-control',
+                                                               'placeholder': _('street')}))
+    house = forms.CharField(label=_('house'), required=False,
+                            widget=forms.TextInput(attrs={'class': 'form-control',
+                                                          'placeholder': _("house")}))
+    floor_min = forms.IntegerField(label=_("floor_min"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("floor_min")}))
+    floor_max = forms.IntegerField(label=_("floor_max"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("floor_max")}))
+    not_first = forms.BooleanField(label=_('not_first'),
+                                   widget=forms.CheckboxInput(attrs={'class': '',
+                                                                     'placeholder': _("not_first")}),
+                                   required=False)
+    not_last = forms.BooleanField(label=_('not_last'),
+                                  widget=forms.CheckboxInput(attrs={'class': '',
+                                                                    'placeholder': _("not_last")}),
+                                  required=False)
+    storeys_num_min = forms.IntegerField(label=_("storeys_num_min"), required=False,
+                                         widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                         "placeholder": _("storeys_num_min")}))
+    storeys_num_max = forms.IntegerField(label=_("storeys_num_max"), required=False,
+                                         widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                         "placeholder": _("storeys_num_max")}))
+    price_min = forms.IntegerField(label=_("price_min"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("price_min")}))
+    price_max = forms.IntegerField(label=_("price_max"), required=False,
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("price_max")}))
+    square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
+                                                widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                "placeholder": _(
+                                                                                    "square_meter_price_max")}))
+    condition = forms.ModelChoiceField(
+        queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
+        required=False,
+        label=_("condition"),
+        widget=forms.Select(attrs={'class': 'form-control',
+                                   "placeholder": _("condition")}))
+
+
+class IdSearchForm(forms.Form):
+    id = forms.IntegerField(label=_("id"),
+                            widget=forms.NumberInput(attrs={'class': 'customtxt',
+                                                            "placeholder": _("id")}),
+                            required=False)
+

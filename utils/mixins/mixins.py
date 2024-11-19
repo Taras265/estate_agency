@@ -3,8 +3,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 
 from accounts.models import CustomUser
-from handbooks.forms import HandbookForm
+from handbooks.forms import HandbookForm, IdSearchForm
 from handbooks.models import Handbook
+from objects.forms import HandbooksSearchForm
 from utils.const import (CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
                          OBJECT_COLUMNS, HANDBOOKS_FORMS)
 from django.utils.translation import activate
@@ -31,11 +32,19 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
     handbook_type = None
     model = None
+    form = IdSearchForm
+    choices = CHOICES
 
     custom = False
 
     def get_queryset(self):
-        return self.model.objects.filter(on_delete=False)
+        form = self.form(self.request.GET)
+        queryset = self.model.objects.filter(on_delete=False)
+        if form.is_valid():
+            for field in form.cleaned_data.keys():
+                if form.cleaned_data.get(field):
+                    queryset = queryset.filter(**{field: form.cleaned_data.get(field)})
+        return queryset
 
     def get_permission_required(self):  # Отримаємо яке нам потрібно право для цієї сторінки
         user = CustomUser.objects.filter(email=self.request.user).first()
@@ -51,6 +60,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context['lang'] = self.kwargs['lang']
+        context['form'] = self.form(self.request.GET)
 
         context['choice'] = self.handbook_type
         context.update({'choices': self.choices_by_user(user)})
@@ -110,7 +120,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
     def choices_by_user(self, user):
         choices = []
-        for choice in CHOICES:
+        for choice in self.choices:
             app = TABLE_TO_APP.get(choice[1]) or 'objects'
             if ((user.has_perm(f'{app}.view_{choice[1]}')
                  or user.has_perm(f'{app}.view_own_{choice[1]}'))):
@@ -120,12 +130,17 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
 class HandbooksListMixin(HandbookListMixin):
     def get_queryset(self):
-        return Handbook.objects.filter(on_delete=False, type=HANDBOOKS_QUERYSET[self.handbook_type])
+        form = HandbooksSearchForm(self.request.GET)
+        queryset = Handbook.objects.filter(on_delete=False, type=HANDBOOKS_QUERYSET[self.handbook_type])
+        if form.is_valid():
+            if form.cleaned_data.get('id'):
+                queryset = queryset.filter(id=form.cleaned_data['id'])
+        return queryset
 
 
 class HandbookOwnPermissionListMixin(HandbookListMixin):
     def get_queryset(self):
-        self.queryset = super().get_queryset()
+        self.queryset = HandbookListMixin.get_queryset(self)
 
         if self.permission_required.find('own') != -1:
             user = CustomUser.objects.filter(email=self.request.user).first()

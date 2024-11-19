@@ -1,16 +1,125 @@
-from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.http import FileResponse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
+from django.http import FileResponse, QueryDict
 import io
 
 from accounts.models import CustomUser
+from handbooks.forms import SelectionForm
+from handbooks.models import Client
 from images.models import ApartmentImage
-from objects.forms import SearchForm
+from objects.forms import SearchForm, HandbooksSearchForm
 from objects.models import Apartment
+from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
                                  CustomLoginRequiredMixin,
                                  HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
 from django.utils.translation import activate
 from utils.pdf import generate_pdf
+
+
+class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+    template_name = "objects/selection_list.html"
+    context_object_name = "objects"
+    permission_required = "objects:selection"
+
+    def get_form(self, client):
+        if len(self.request.GET) == 0:
+            initial_data = {
+                'rooms_number': client.rooms_number,
+                'locality': client.locality,
+                'locality_district': client.locality_district,
+                'street': client.street,
+                'house': client.house,
+                'floor_min': client.floor_min,
+                'floor_max': client.floor_max,
+                'not_first': client.not_first,
+                'not_last': client.not_last,
+                'storeys_num_min': client.storeys_num_min,
+                'storeys_num_max': client.storeys_num_max,
+                'price_min': client.price_min,
+                'price_max': client.price_max,
+                'square_meter_price_max': client.square_meter_price_max,
+                'condition': client.condition
+            }
+            return SelectionForm(initial_data)
+        return SelectionForm(self.request.GET)
+
+    def get_queryset(self):
+        queryset = Apartment.objects.filter(on_delete=False)
+
+        client_id = self.kwargs.get('client_id')
+        client = Client.objects.filter(id=client_id).first()
+        form = self.get_form(client)
+        form.is_valid()
+
+        if form.cleaned_data.get('rooms_number') is not None:
+            queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
+        if form.cleaned_data.get('locality') is not None:
+            queryset = queryset.filter(locality=form.cleaned_data.get('locality'))
+        if form.cleaned_data.get('locality_district') is not None:
+            queryset = queryset.filter(locality_district=form.cleaned_data.get('locality_district'))
+        if form.cleaned_data.get('street') is not None:
+            queryset = queryset.filter(street=form.cleaned_data.get('street'))
+        if form.cleaned_data.get('house') is not None and form.cleaned_data.get('house') != '':
+            queryset = queryset.filter(house=form.cleaned_data.get('house'))
+        if form.cleaned_data.get('floor_min') is not None:
+            queryset = queryset.filter(floor__gte=form.cleaned_data.get('floor_min'))
+        if form.cleaned_data.get('floor_max') is not None:
+            queryset = queryset.filter(floor__lte=form.cleaned_data.get('floor_max'))
+        if form.cleaned_data.get('not_first'):
+            queryset = queryset.exclude(floor=1)
+        if form.cleaned_data.get('storeys_num_min') is not None:
+            queryset = queryset.filter(storeys_number__gte=form.cleaned_data.get('storeys_num_min'))
+        if form.cleaned_data.get('storeys_num_max') is not None:
+            queryset = queryset.filter(storeys_number__lte=form.cleaned_data.get('storeys_num_max'))
+        if form.cleaned_data.get('price_min') is not None:
+            queryset = queryset.filter(price__gte=form.cleaned_data.get('price_min'))
+        if form.cleaned_data.get('price_max') is not None:
+            queryset = queryset.filter(price__lte=form.cleaned_data.get('price_max'))
+        if form.cleaned_data.get('square_meter_price_max') is not None:
+            queryset = queryset.filter(
+                square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
+            )
+        if form.cleaned_data.get('condition') is not None:
+            queryset = queryset.filter(condition=form.cleaned_data.get('condition'))
+
+        n_queryset = queryset
+        for obj in n_queryset:
+            if form.cleaned_data.get('not_last') and obj.storeys_number == obj.floor:
+                n_queryset = n_queryset.exclude(id=obj.id)
+
+        return n_queryset
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs['lang'])  # Перекладаємо
+
+        client_id = self.kwargs.get('client_id')
+        client = Client.objects.filter(id=client_id).first()
+
+        context = super().get_context_data(**kwargs)
+        context['lang'] = self.kwargs['lang']
+        context['client'] = client
+
+        context['form'] = self.get_form(client)
+
+        return context
+
+
+class ShowingActView(TemplateView):
+    template_name = "objects/showing_act.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        selected_ids = self.request.GET.getlist("apartments")
+
+        context['lang'] = self.kwargs['lang']
+        objects = []
+        for obj in Apartment.objects.filter(id__in=selected_ids):
+            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).first()})
+        context['objects'] = objects
+
+        return context
 
 
 class ApartmentListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
@@ -22,6 +131,11 @@ class ApartmentListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMi
                         'houses': Apartment.objects.filter(object_type=3).filter(on_delete=False),
                         'lands': Apartment.objects.filter(object_type=4).filter(on_delete=False),
                         'rooms': Apartment.objects.filter(object_type=5).filter(on_delete=False)}
+    form = HandbooksSearchForm
+    choices = SALE_CHOICES
+
+    def get_queryset(self):
+        return HandbookWithFilterListMixin.get_queryset(self).intersection(HandbookOwnPermissionListMixin.get_queryset(self))
 
 
 class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
@@ -37,6 +151,15 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
                         'all_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
                         'my_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False)}
     custom = True
+    form = HandbooksSearchForm
+    choices = SALE_CHOICES
+
+    def get_queryset(self):
+        q1 = HandbookWithFilterListMixin.get_queryset(self)
+        q2 = HandbookOwnPermissionListMixin.get_queryset(self)
+        print(q1)
+        print(q2)
+        return q1.intersection(q2)
 
 
 class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
@@ -141,7 +264,7 @@ class CatalogListView(ListView):
             objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).first()})
         context['objects'] = objects
         return context
-    
+
 
 class PdfView(CustomLoginRequiredMixin, View):
 
@@ -163,9 +286,9 @@ class PdfView(CustomLoginRequiredMixin, View):
         pdf = generate_pdf(queryset, request.user.get_full_name()[0])
 
         return FileResponse(
-            io.BytesIO(pdf.output()), 
-            as_attachment=True, 
-            filename='document.pdf', 
+            io.BytesIO(pdf.output()),
+            as_attachment=True,
+            filename='document.pdf',
             content_type='application/pdf'
         )
 
