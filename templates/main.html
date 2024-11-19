@@ -9,6 +9,30 @@
         <div class="item">
             <div class="featured_div">
                 <div class="featured_content">
+                    <h2>{% translate 'Rent' %}</h2>
+                    <div class="explore_btn">
+                        <a class="custombtn" href="#">
+                            {% translate 'Rent' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="featured_div">
+                <div class="featured_content">
+                    <h2>{% translate 'Sale' %}</h2>
+                    <div class="explore_btn">
+                        <a class="custombtn" href="{% url 'handbooks:sale_redirect' lang=lang %}">
+                            {% translate 'Sale' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="featured_div">
+                <div class="featured_content">
                     <h2>{% translate 'Handbooks' %}</h2>
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'handbooks:handbook_redirect' lang=lang %}">

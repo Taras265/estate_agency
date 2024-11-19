@@ -1,14 +1,16 @@
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from accounts.models import CustomUser
 from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
                               Client, Handbook, FilialAgency, FilialReport)
-from utils.const import CHOICES, HANDBOOKS_QUERYSET
+from utils.const import CHOICES, HANDBOOKS_QUERYSET, BASE_CHOICES, SALE_CHOICES
 from utils.mixins.mixins import (HandbookHistoryListMixin,
                                  FormHandbooksMixin, DeleteHandbooksMixin, HandbookListMixin,
-                                 HandbooksListMixin, HandbookOwnPermissionListMixin)
+                                 HandbooksListMixin, HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
 
 
 def handbook_redirect(request, lang):
@@ -17,14 +19,30 @@ def handbook_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
 
     if user:
-        for choice in CHOICES:
+        for choice in BASE_CHOICES:
             cleaned_choice = ''.join(choice[1].split('_'))
             if (user.has_perm(f'handbooks.view_{cleaned_choice}')
                     or user.has_perm(f'handbooks.view_own_{cleaned_choice}')):
-                return redirect(f'/{lang}/handbook/base/{choice[1]}/', {'lang': lang})
+                return redirect(f'/{lang}/handbooks/base/{choice[1]}/', {'lang': lang})
             if (user.has_perm(f'objects.view_{cleaned_choice}')
                     or user.has_perm(f'objects.view_own_{cleaned_choice}')):
                 return redirect(f'/{lang}/objects/base/{choice[1]}/', {'lang': lang})
+        return render(request, '403.html', {'lang': lang})
+    return redirect(reverse_lazy('accounts:login', kwargs={'lang': 'en'}))
+
+
+def sale_redirect(request, lang):
+    user = CustomUser.objects.filter(email=request.user).first()
+
+    if user:
+        for choice in SALE_CHOICES:
+            cleaned_choice = ''.join(choice[1].split('_'))
+            if (user.has_perm(f'handbooks.view_{cleaned_choice}')
+                    or user.has_perm(f'handbooks.view_own_{cleaned_choice}')):
+                return redirect(f'/{lang}/handbooks/sale/{choice[1]}/', {'lang': lang})
+            if (user.has_perm(f'objects.view_{cleaned_choice}')
+                    or user.has_perm(f'objects.view_own_{cleaned_choice}')):
+                return redirect(f'/{lang}/objects/sale/{choice[1]}/', {'lang': lang})
         return render(request, '403.html', {'lang': lang})
     return redirect(reverse_lazy('accounts:login', kwargs={'lang': 'en'}))
 
@@ -54,9 +72,17 @@ class StreetListView(HandbookListMixin, ListView):
     handbook_type = 'street'
 
 
-class ClientListView(HandbookOwnPermissionListMixin, ListView):
+class ClientListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Client
     handbook_type = 'client'
+    filters = ['all', 'new', 'in_selection', 'with_show', 'decided', 'deferred_demand']
+    queryset_filters = {'all': Client.objects.filter(on_delete=False),
+                        'new': Client.objects.filter(date_of_add__gte=timezone.now()-relativedelta(months=1)).filter(on_delete=False),
+                        'in_selection': Client.objects.filter(status=1).filter(on_delete=False),
+                        'with_show': Client.objects.filter(status=2).filter(on_delete=False),
+                        'decided': Client.objects.filter(status=3).filter(on_delete=False),
+                        'deferred_demand': Client.objects.filter(status=4).filter(on_delete=False)}
+    choices = SALE_CHOICES
 
 
 class WithdrawalReasonListView(HandbooksListMixin, ListView):

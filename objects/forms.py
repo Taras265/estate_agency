@@ -2,7 +2,7 @@ from django import forms
 # from django.contrib.admin.widgets import AdminSplitDateTime
 
 from accounts.models import CustomUser
-from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, ObjectType, Client
+from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, Client
 from objects.models import Apartment
 from django.utils.translation import gettext_lazy as _
 
@@ -106,14 +106,17 @@ class ApartmentForm(forms.ModelForm):
                                       label=_("material"),
                                       widget=forms.Select(attrs={'class': 'form-control',
                                                                  "placeholder": _("material")}))
-    status = forms.ChoiceField(choices=((1, "В продаже"), (2, "Задаток"), (3, "Снята"),
-                                        (4, "Продана"), (5, "Снята совсем")),
-                               label=_("status"),
-                               widget=forms.Select(attrs={'class': 'form-control',
-                                                          "placeholder": _("status")}))
-    object_type = forms.ModelChoiceField(queryset=ObjectType.objects.filter(on_delete=False), label=_("object_type"),
-                                         widget=forms.Select(attrs={'class': 'form-control',
-                                                                    "placeholder": _("object_type")}))
+    status = forms.ChoiceField(
+        choices=Apartment.STATUS_CHOICES,
+        label=_("status"),
+        widget=forms.Select(attrs={'class': 'form-control', "placeholder": _("status")})
+    )
+
+    object_type = forms.ChoiceField(
+        choices=Apartment.OBJECT_TYPE_CHOICES,
+        label=_("object_type"),
+        widget=forms.Select(attrs={'class': 'form-control', "placeholder": _("object_type")})
+    )
 
     square = forms.IntegerField(label=_("square"), widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                    "placeholder": _("square")}))
@@ -314,8 +317,8 @@ class ApartmentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     locality = forms.CharField(label=_("locality"), required=False,
-                           widget=forms.TextInput(attrs={'class': 'customtxt',
-                                                         "placeholder": _("locality")}))
+                               widget=forms.TextInput(attrs={'class': 'customtxt',
+                                                             "placeholder": _("locality")}))
     street = forms.CharField(label=_("street"), required=False,
                              widget=forms.TextInput(attrs={'class': 'customtxt',
                                                            "placeholder": _("street")}))
@@ -326,4 +329,13 @@ class SearchForm(forms.Form):
     price_max = forms.IntegerField(label=_("price_max"),
                                    widget=forms.NumberInput(attrs={'class': 'customtxt',
                                                                    "placeholder": _("price_max")}),
+                                   required=False)
+
+
+class HandbooksSearchForm(forms.Form):
+    id = forms.IntegerField(label=_("id"),
+                            widget=forms.NumberInput(attrs={'class': 'customtxt',
+                                                            "placeholder": _("id")}),
+                            required=False)
+    exclusive = forms.BooleanField(label=_("exclusive"), widget=forms.CheckboxInput(),
                                    required=False)
