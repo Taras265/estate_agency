@@ -6,6 +6,7 @@ from handbooks.models import *
 from objects.forms import ApartmentForm
 from objects.models import Apartment
 
+
 CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('locality'), 'locality'),
            (_('localitydistrict'), 'localitydistrict'),

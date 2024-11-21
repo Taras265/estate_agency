@@ -149,17 +149,7 @@ class HandbooksTest(TestCase):
             else:
                 model = Handbook
                 content_type = ContentType.objects.get_for_model(model)
-                Permission.objects.create(
-                    codename=f'{perm_type}_{p}',
-                    name=f'{p}',
-                    content_type=content_type
-                )
-            if not Permission.objects.filter(content_type=content_type, codename=f'{perm_type}_{p}'):
-                Permission.objects.create(
-                    codename=f'{perm_type}_{p}',
-                    name=f'{p}',
-                    content_type=content_type
-                )
+
             permission = Permission.objects.get(content_type=content_type, codename=f'{perm_type}_{p}')
             self.user.user_permissions.add(permission)
             self.user.save()

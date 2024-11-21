@@ -69,6 +69,10 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+        default_permissions = ("add", "change", "view")
+        permissions = (
+            ("profile", "Profile"),
+        )
 
     def get_full_name(self):
         return self.first_name, self.last_name, self.email
