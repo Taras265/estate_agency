@@ -118,7 +118,7 @@ OBJECT_FIELDS = {
     ],
     'report': [
         'id', "locality__locality", "locality_district__district", "street__street", 'floor',
-        'rooms_number', 'creation_date', 'price', 'status', 'client__email'
+        'rooms_number', 'creation_date', 'price', 'status', 'owner__email'
     ],
 }
 

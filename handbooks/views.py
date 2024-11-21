@@ -61,10 +61,37 @@ class LocalityListView(HandbookListMixin, ListView):
     model = Locality
     handbook_type = 'locality'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полях city_type і center_type замінюємо число на відповідний їм текст
+        for index, obj in enumerate(context['object_values']):
+            locality: Locality = context['object_list'][index]
+            obj['city_type'] = locality.get_city_type_display()
+            obj['center_type'] = locality.get_center_type_display()
+
+        return context
+
 
 class LocalityDistrictListView(HandbookListMixin, ListView):
     model = LocalityDistrict
     handbook_type = 'localitydistrict'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полі new_building_district замінюємо число на відповідний йому текст
+        for index, obj in enumerate(context['object_values']):
+            locality_district: LocalityDistrict = context['object_list'][index]
+            obj['new_building_district'] = locality_district.get_new_building_district_display()
+
+        return context
 
 
 class StreetListView(HandbookListMixin, ListView):
@@ -83,6 +110,19 @@ class ClientListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
                         'decided': Client.objects.filter(status=3).filter(on_delete=False),
                         'deferred_demand': Client.objects.filter(status=4).filter(on_delete=False)}
     choices = SALE_CHOICES
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полі status замінюємо число на відповідний йому текст
+        for index, obj in enumerate(context['object_values']):
+            client: Client = context['object_list'][index]
+            obj['status'] = client.get_status_display()
+
+        return context
 
 
 class WithdrawalReasonListView(HandbooksListMixin, ListView):
