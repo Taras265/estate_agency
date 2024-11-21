@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
@@ -94,30 +95,6 @@ class Street(models.Model):
         return self.street
 
 
-class Client(models.Model):
-    email = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
-
-    realtor = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
-                                related_name="realtor_related_name")
-
-    on_delete = models.BooleanField(default=False)
-
-    class Meta:
-        default_permissions = ("add", "change", "view")
-        permissions = (
-            ("add_own_client", "Can add own client"),
-            ("change_own_client", "Can change own client"),
-            ("view_own_client", "Can view own client"),
-            ("view_own_historicalclient", "Can view own historical client"),
-        )
-
-    def __str__(self):
-        return f'{self.email} {self.first_name} {self.last_name}'
-
-
 class Handbook(models.Model):
     handbook = models.CharField(max_length=100)
 
@@ -210,6 +187,63 @@ class FilialAgency(models.Model):
 
     def __str__(self):
         return self.filial_agency
+
+
+class Client(models.Model):
+    date_of_add = models.DateField(default=timezone.now)
+
+    email = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+
+    STATUS_CHOICES = (
+        (1, "В подборе"),
+        (2, "С показом"),
+        (3, "Определившиеся"),
+        (4, "Отложенный спрос")
+    )
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=1)
+
+    realtor = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
+                                related_name="realtor_client_related_name")
+
+    rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
+    locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
+                                 related_name="locality_client_related_name",
+                                 null=True, blank=True)
+    locality_district = models.ForeignKey(LocalityDistrict, on_delete=models.CASCADE,
+                                          related_name="locality_district_client_related_name",
+                                          null=True, blank=True)
+    street = models.ForeignKey(Street, on_delete=models.CASCADE, related_name="street_client_related_name",
+                               null=True, blank=True)
+    house = models.CharField(max_length=100, null=True, blank=True)
+    floor_min = models.PositiveIntegerField(null=True, blank=True)
+    floor_max = models.PositiveIntegerField(null=True, blank=True)
+    not_first = models.BooleanField(default=False)
+    not_last = models.BooleanField(default=False)
+    storeys_num_min = models.PositiveIntegerField(null=True, blank=True)
+    storeys_num_max = models.PositiveIntegerField(null=True, blank=True)
+    price_min = models.IntegerField(null=True, blank=True)
+    price_max = models.IntegerField(null=True, blank=True)
+    square_meter_price_max = models.IntegerField(null=True, blank=True)
+    condition = models.ForeignKey(Handbook, on_delete=models.CASCADE,
+                                  related_name="condition_client_related_name",
+                                  null=True, blank=True)
+
+    on_delete = models.BooleanField(default=False)
+    
+    class Meta:
+        default_permissions = ("add", "change", "view")
+        permissions = (
+            ("add_own_client", "Can add own client"),
+            ("change_own_client", "Can change own client"),
+            ("view_own_client", "Can view own client"),
+            ("view_own_historicalclient", "Can view own historical client"),
+        )
+
+    def __str__(self):
+        return f'{self.email} {self.first_name} {self.last_name}'
 
 
 class FilialReport(models.Model):

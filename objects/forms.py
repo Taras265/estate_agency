@@ -317,8 +317,8 @@ class ApartmentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     locality = forms.CharField(label=_("locality"), required=False,
-                           widget=forms.TextInput(attrs={'class': 'customtxt',
-                                                         "placeholder": _("locality")}))
+                               widget=forms.TextInput(attrs={'class': 'customtxt',
+                                                             "placeholder": _("locality")}))
     street = forms.CharField(label=_("street"), required=False,
                              widget=forms.TextInput(attrs={'class': 'customtxt',
                                                            "placeholder": _("street")}))
@@ -329,4 +329,13 @@ class SearchForm(forms.Form):
     price_max = forms.IntegerField(label=_("price_max"),
                                    widget=forms.NumberInput(attrs={'class': 'customtxt',
                                                                    "placeholder": _("price_max")}),
+                                   required=False)
+
+
+class HandbooksSearchForm(forms.Form):
+    id = forms.IntegerField(label=_("id"),
+                            widget=forms.NumberInput(attrs={'class': 'customtxt',
+                                                            "placeholder": _("id")}),
+                            required=False)
+    exclusive = forms.BooleanField(label=_("exclusive"), widget=forms.CheckboxInput(),
                                    required=False)

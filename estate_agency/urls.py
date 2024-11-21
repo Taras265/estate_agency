@@ -28,7 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('<str:lang>/', BaseView.as_view(), name='main'),
     path('<str:lang>/accounts/', include(('accounts.urls', 'accounts'))),
-    path('<str:lang>/handbook/', include(('handbooks.urls', 'handbooks'))),
+    path('<str:lang>/handbooks/', include(('handbooks.urls', 'handbooks'))),
     path('<str:lang>/objects/', include(('objects.urls', 'objects'))),
     path('<str:lang>/images/', include(('images.urls', 'images'))),
 

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Showing act' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Showing act' %}</h1>
+    <ul>
+        <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+        <li>{% translate 'Showing act' %}</li>
+    </ul>
+  </div>
+</div>
+<br>
+<div class="container featured_property_section properties_list_section">
+    {% for object in objects %}
+    <div class="featured_div">
+        <div class="img" style="width: 300px; height: 200px; overflow: hidden;">
+            <img class="img-fluid"  src="{{ object.image.image.url }}" alt="img">
+        </div>
+        <div class="featured_content">
+            <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }}</a></h2>
+            <p><span><i class='bx bx-map'></i></span>{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</p>
+            <ul class="property_spec">
+                <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
+            </ul>
+        </div>
+        <div class="property_price">
+            <div class="price_div">
+                <p>₴{{ object.object.site_price }}</p>
+            </div>
+            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">See Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!-- Featured Properties End -->
+
+{% endblock %}
