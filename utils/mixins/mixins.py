@@ -12,7 +12,7 @@ from utils.mixins.utils import GetQuerysetForMixin
 from utils.utils import have_permission_to_do
 from utils.const import (
     CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
-    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_VALUES
+    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS
 )
 
 from typing import Any
@@ -92,7 +92,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
             context['object_columns'] = None
             return context
 
-        # Якщо нам є з чим працювати
+        # беремо список назв стовпців, які потрібно відображати на вебсторінці
         object_columns: list[str] | None = OBJECT_COLUMNS.get(self.handbook_type)
 
         # Якщо ми налаштували, які дані потрібно відображати в таблиці
@@ -102,13 +102,11 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
             # Теж саме, що і в частині коду вище, але нам потрібні всі дані, тож ми нічого не викидуємо
             context['object_columns'] = list(context['object_list'].values()[0])
 
-        #
-        object_fields: list[str] | None = OBJECT_VALUES.get(self.handbook_type)
+        # беремо список полів таблиці, значення яких потрібно відображати на вебсторінці
+        object_fields: list[str] | None = OBJECT_FIELDS.get(self.handbook_type)
 
         if object_fields:
-            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values(
-                *OBJECT_VALUES[self.handbook_type]
-            )
+            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values(*object_fields)
         else:
             context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values()
 
