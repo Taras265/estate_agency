@@ -33,7 +33,7 @@ BASE_CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('housetype'), 'housetype'), (_('filialagency'), 'filialagency'),
            (_('filialreport'), 'filialreport')]
 SALE_CHOICES = [(_('client'), 'client'), (_('apartment'), 'apartment'),
-                (_('report'), 'report')]
+                (_('report'), 'report'), (_('contract'), 'contract')]
 
 MODEL = {'region': Region, 'district': District,
          'locality': Locality, 'localitydistrict': LocalityDistrict, 'street': Street,
@@ -52,7 +52,8 @@ TABLE_TO_APP = {'region': 'handbooks', 'district': 'handbooks',
                 'agency': 'handbooks', 'agencysales': 'handbooks',
                 'newbuildingname': 'handbooks', 'stair': 'handbooks',
                 'heating': 'handbooks', 'layout': 'handbooks',
-                'housetype': 'handbooks', 'report': 'objects', 'history_report': 'objects'}
+                'housetype': 'handbooks', 'report': 'objects', 'history_report': 'objects',
+                'contract': 'objects'}
 HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'locality': LocalityForm, 'localitydistrict': LocalityDistrictForm, 'street': StreetForm,
                    'client': ClientForm, 'filialagency': FilialForm, 'filialreport': FilialReportForm,
@@ -121,6 +122,8 @@ OBJECT_FIELDS = {
         'rooms_number', 'creation_date', 'price', 'status', 'client__email'
     ],
 }
+
+OBJECT_COLUMNS['contract'] = OBJECT_COLUMNS['apartment']
 
 LIST_BY_USER = {'client': 'realtor',
                 'apartment': ['realtor', 'site_realtor1', 'site_realtor2', 'realtor_5_5']}

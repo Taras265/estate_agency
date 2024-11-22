@@ -176,4 +176,7 @@ class Apartment(models.Model):
             ("change_own_apartment", "Can change own apartment"),
             ("view_own_apartment", "Can view own apartment"),
             ("view_own_historicalapartment", "Can view own historical apartment"),
+
+            ("view_report", "Can view reports"),
+            ("view_contract", "Can view contracts"),
         )

@@ -189,6 +189,7 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
             self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
         else:
             self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}'
+        print(self.permission_required)
         return (self.permission_required, )
 
 
