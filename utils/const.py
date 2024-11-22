@@ -88,7 +88,10 @@ OBJECT_COLUMNS = {
     'report': [
         'id', "locality", "locality district", "street", 'floor',
         'rooms number', 'creation date', 'price', 'status', 'owner'
-    ]
+    ],
+    'contract': [
+        'id', 'region', 'district', 'locality', 'locality district', 'street'
+    ],
 }
 
 # хеш-таблиця, в якій ключі - це назви таблиць з БД,
@@ -121,9 +124,11 @@ OBJECT_FIELDS = {
         'id', "locality__locality", "locality_district__district", "street__street", 'floor',
         'rooms_number', 'creation_date', 'price', 'status', 'owner__email'
     ],
+    'contract': [
+        'id', 'region__region', 'district__district', 'locality__locality',
+        'locality_district__district', 'street__street'
+    ],
 }
-
-OBJECT_COLUMNS['contract'] = OBJECT_COLUMNS['apartment']
 
 LIST_BY_USER = {'client': 'realtor',
                 'apartment': ['realtor', 'site_realtor1', 'site_realtor2', 'realtor_5_5']}
