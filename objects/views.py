@@ -116,7 +116,7 @@ class ShowingActView(TemplateView):
         context['lang'] = self.kwargs['lang']
         objects = []
         for obj in Apartment.objects.filter(id__in=selected_ids):
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).first()})
+            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
         context['objects'] = objects
 
         return context
@@ -292,7 +292,7 @@ class CatalogListView(ListView):
 
         objects = []
         for obj in context['objects']:
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).first()})
+            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
         context['objects'] = objects
         return context
 
