@@ -20,7 +20,7 @@ from utils.pdf import generate_pdf
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "objects/selection_list.html"
     context_object_name = "objects"
-    permission_required = "objects:selection"
+    permission_required = "objects.selection"
 
     def get_form(self, client):
         if len(self.request.GET) == 0:
