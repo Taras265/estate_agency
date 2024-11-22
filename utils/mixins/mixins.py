@@ -150,6 +150,19 @@ class HandbooksListMixin(HandbookListMixin):
                 queryset = queryset.filter(id=form.cleaned_data['id'])
         return queryset
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полі type заміняємо число на відповідний йому текст
+        for index, obj in enumerate(context['object_values']):
+            handbook: Handbook = context['object_list'][index]
+            obj['type'] = handbook.get_type_display()
+
+        return context
+
 
 class HandbookOwnPermissionListMixin(HandbookListMixin):
     def get_queryset(self):
@@ -176,6 +189,7 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
             self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
         else:
             self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}'
+        print(self.permission_required)
         return (self.permission_required, )
 
 

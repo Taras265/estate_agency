@@ -175,6 +175,39 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
         return context
 
 
+class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
+    model = Apartment
+    handbook_type = 'contract'
+    filters = ['apartments', 'commerce', 'houses',
+               'lands', 'rooms']
+    queryset_filters = {'apartments': Apartment.objects.filter(object_type=1).filter(status__gte=4).filter(on_delete=False),
+                        'commerce': Apartment.objects.filter(object_type=2).filter(status__gte=4).filter(on_delete=False),
+                        'houses': Apartment.objects.filter(object_type=3).filter(status__gte=4).filter(on_delete=False),
+                        'lands': Apartment.objects.filter(object_type=4).filter(status__gte=4).filter(on_delete=False),
+                        'rooms': Apartment.objects.filter(object_type=5).filter(status__gte=4).filter(on_delete=False)}
+    custom = True
+    form = HandbooksSearchForm
+    choices = SALE_CHOICES
+
+    def get_queryset(self):
+        q1 = HandbookWithFilterListMixin.get_queryset(self)
+        q2 = HandbookOwnPermissionListMixin.get_queryset(self)
+        return q1.intersection(q2)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полі status замінюємо число на відповідний йому текст
+        for index, obj in enumerate(context['object_values']):
+            apartment: Apartment = context['object_list'][index]
+            obj['status'] = apartment.get_status_display()
+
+        return context
+
+
 class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment.history.all().model
     handbook_type = 'report'

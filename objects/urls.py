@@ -1,7 +1,7 @@
 from django.urls import path
 from objects.views import ApartmentListView, ApartmentCreateView, ApartmentUpdateView, ApartmentDeleteView, \
     CatalogListView, ApartmentDetailView, ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView, \
-    SelectionListView, ShowingActView
+    SelectionListView, ShowingActView, ContractListView
 
 urlpatterns = [
     path('catalog/', CatalogListView.as_view(), name='catalog'),
@@ -13,6 +13,9 @@ urlpatterns = [
     path('sale/report/changes/', HistoryReportListView.as_view(), name='changes_report_list'),
     path('sale/report/', ReportListView.as_view(), name='report_list'),
     path('sale/report/<str:filter>/', ReportListView.as_view(), name='report_list'),
+
+    path('sale/contract/', ContractListView.as_view(), name='contract_list'),
+    path('sale/contract/<str:filter>/', ContractListView.as_view(), name='contract_list'),
 
     path('base/create/', ApartmentCreateView.as_view(), name='create_apartment'),
     path('base/update/<int:pk>/', ApartmentUpdateView.as_view(), name='update_apartment'),
