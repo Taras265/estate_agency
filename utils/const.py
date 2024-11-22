@@ -58,13 +58,71 @@ HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'locality': LocalityForm, 'localitydistrict': LocalityDistrictForm, 'street': StreetForm,
                    'client': ClientForm, 'filialagency': FilialForm, 'filialreport': FilialReportForm,
                    'apartment': ApartmentForm}
-OBJECT_COLUMNS = {'client': ["id", "email", "first_name",
-                                "last_name", "phone", "status"],
-                  'apartment': ["id", "region_id", "district_id", "locality_id",
-                                "locality_district_id", "street_id"],
-                  'report': ['id', "locality_id", "locality_district_id", "street_id", 'floor',
-                             'rooms_number', 'creation_date', 'price', 'status', 'owner_id']
-                  }
+
+OBJECT_COLUMNS = {
+    'district': [
+        'id', 'district', 'region',
+    ],
+    'locality': [
+        'id', 'locality', 'district', 'city type', 'center type',
+    ],
+    'localitydistrict': [
+        'id', 'district', 'locality', 'description', 'group on site',
+        'hot deals limit', 'prefix to site', 'new building district',
+    ],
+    'street': [
+        'id', 'street', 'locality district',
+    ],
+    'client': [
+        'id', 'email', 'first_name', 'last_name', 'phone', 'status'
+    ],
+    'apartment': [
+        'id', 'region', 'district', 'locality', 'locality district', 'street'
+    ],
+    'filialagency': [
+        'id', 'filial agency'
+    ],
+    'filialreport': [
+        'id', 'report', 'filial agency', 'user',
+    ],
+    'report': [
+        'id', "locality", "locality district", "street", 'floor',
+        'rooms number', 'creation date', 'price', 'status', 'owner'
+    ]
+}
+
+# хеш-таблиця, в якій ключі - це назви таблиць з БД,
+# а значення - список полів відповідної таблиці, які потрібно відображати на вебсторінці
+OBJECT_FIELDS = {
+    'district': [
+        'id', 'district', 'region__region',
+    ],
+    'locality': [
+        'id', 'locality', 'district__district', 'city_type', 'center_type',
+    ],
+    'localitydistrict': [
+        'id', 'district', 'locality__locality', 'description', 'group_on_site',
+        'hot_deals_limit', 'prefix_to_site', 'new_building_district',
+    ],
+    'street': [
+        'id', 'street', 'locality_district__district',
+    ],
+    'client': [
+        'id', 'email', 'first_name', 'last_name', 'phone', 'status'
+    ],
+    'apartment': [
+        'id', 'region__region', 'district__district', 'locality__locality',
+        'locality_district__district', 'street__street'
+    ],
+    'filialreport': [
+        'id', 'report', 'filial_agency__filial_agency', 'user__email',
+    ],
+    'report': [
+        'id', "locality__locality", "locality_district__district", "street__street", 'floor',
+        'rooms_number', 'creation_date', 'price', 'status', 'client__email'
+    ],
+}
+
 OBJECT_COLUMNS['contract'] = OBJECT_COLUMNS['apartment']
 
 LIST_BY_USER = {'client': 'realtor',

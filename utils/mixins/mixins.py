@@ -1,17 +1,21 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import QuerySet
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import activate
 
 from accounts.models import CustomUser
 from handbooks.forms import HandbookForm, IdSearchForm
 from handbooks.models import Handbook
 from objects.forms import HandbooksSearchForm
-from utils.const import (CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
-                         OBJECT_COLUMNS, HANDBOOKS_FORMS)
-from django.utils.translation import activate
-
 from utils.mixins.utils import GetQuerysetForMixin
 from utils.utils import have_permission_to_do
+from utils.const import (
+    CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
+    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS
+)
+
+from typing import Any
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -70,52 +74,61 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         Тому ми тут робимо перевірку
         """
         if not self.custom:
-            context['can_create'] = (user.has_perm(f'handbooks.add_{self.handbook_type}')
-                                     or user.has_perm(f'objects.add_{self.handbook_type}'))
-            context['can_view_history'] = user.has_perm(
-                f'handbooks.view_historical{self.handbook_type}') or user.has_perm(
-                f'handbooks.view_historical{self.handbook_type}')
+            context['can_create'] = (
+                user.has_perm(f'handbooks.add_{self.handbook_type}')
+                or user.has_perm(f'objects.add_{self.handbook_type}')
+            )
+            context['can_view_history'] = (
+                user.has_perm(f'handbooks.view_historical{self.handbook_type}')
+                or user.has_perm(f'handbooks.view_historical{self.handbook_type}')
+            )
 
         """
-        Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
-        (районами, квартирами ітд). Бажано колись спростити, коли буде час.
+        Обробляємо список з ДІЙСНО потрібними для клієнта даними 
+        (районами, квартирами ітд).
         """
-        if context['object_list']:  # Якщо нам взагалі є з чим працювати
-            object_columns = OBJECT_COLUMNS.get(self.handbook_type)
-            if object_columns:  # Якщо ми настроіли які дані потрібно відображати в таблиці
-                context['object_values'] = []
-                context['object_columns'] = object_columns  # Назва стовпців
-
-                obj_list = context['object_list'].values()
-
-                # Переробляємо всі дані для object_values (даних в таблиці), викидуючи те що нам не потрібно
-                for obj in obj_list:
-                    context['object_values'].append(dict())
-                    for c in context['object_columns']:
-                        context['object_values'][-1].update({c: obj[c]})
-
-                    # Перевірка що клієнт взагалі щось ще може, крім дивитись на дані
-                    can_update = have_permission_to_do(user, 'change', self.handbook_type, obj)
-                    can_view_history = have_permission_to_do(user, 'view',
-                                                             self.handbook_type, obj, 'historical')
-                    if not self.custom:
-                        context['object_values'][-1].update({'user_permissions': {'can_update': can_update,
-                                                                                  'can_view_history': can_view_history}})
-            else:
-                # Теж саме, що і в частині коду вище, але нам потрібні всі дані, тож ми нічого не викидуємо
-                context['object_values'] = context['object_list'].values()
-
-                for obj in context['object_values']:
-                    can_update = have_permission_to_do(user, 'change', self.handbook_type, obj)
-                    can_view_history = have_permission_to_do(user, 'view',
-                                                             self.handbook_type, obj, 'historical')
-
-                    if not self.custom:
-                        obj.update({'user_permissions': {'can_update': can_update,
-                                                         'can_view_history': can_view_history}})
-                context['object_columns'] = list(context['object_list'].values()[0])
-        else:
+        # Якщо нам немає з чим працювати
+        if not context['object_list']:
             context['object_columns'] = None
+            return context
+
+        # беремо список назв стовпців, які потрібно відображати на вебсторінці
+        object_columns: list[str] | None = OBJECT_COLUMNS.get(self.handbook_type)
+
+        # Якщо ми налаштували, які дані потрібно відображати в таблиці
+        if object_columns:
+            context['object_columns'] = object_columns  # Назви стовпців
+        else:
+            # Теж саме, що і в частині коду вище, але нам потрібні всі дані, тож ми нічого не викидуємо
+            context['object_columns'] = list(context['object_list'].values()[0])
+
+        # беремо список полів таблиці, значення яких потрібно відображати на вебсторінці
+        object_fields: list[str] | None = OBJECT_FIELDS.get(self.handbook_type)
+
+        if object_fields:
+            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values(*object_fields)
+        else:
+            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values()
+
+        for obj in context['object_values']:
+            # Перевірка того, що клієнт взагалі щось ще може, крім як дивитись на дані
+            can_update = have_permission_to_do(user, 'change', self.handbook_type, obj)
+            can_view_history = have_permission_to_do(
+                user,
+                'view',
+                self.handbook_type,
+                obj,
+                'historical'
+            )
+
+            if not self.custom:
+                obj.update({
+                    'user_permissions': {
+                        'can_update': can_update,
+                        'can_view_history': can_view_history
+                    }
+                })
+
         return context
 
     def choices_by_user(self, user):
@@ -136,6 +149,19 @@ class HandbooksListMixin(HandbookListMixin):
             if form.cleaned_data.get('id'):
                 queryset = queryset.filter(id=form.cleaned_data['id'])
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context['object_list']:
+            return context
+
+        # у полі type заміняємо число на відповідний йому текст
+        for index, obj in enumerate(context['object_values']):
+            handbook: Handbook = context['object_list'][index]
+            obj['type'] = handbook.get_type_display()
+
+        return context
 
 
 class HandbookOwnPermissionListMixin(HandbookListMixin):
