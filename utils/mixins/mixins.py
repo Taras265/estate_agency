@@ -12,7 +12,7 @@ from utils.mixins.utils import GetQuerysetForMixin
 from utils.utils import have_permission_to_do
 from utils.const import (
     CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
-    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS
+    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS, BASE_CHOICES
 )
 
 from typing import Any
@@ -37,7 +37,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     handbook_type = None
     model = None
     form = IdSearchForm
-    choices = CHOICES
+    choices = BASE_CHOICES
 
     custom = False
 
@@ -332,8 +332,6 @@ class FormHandbooksMixin(FormMixin):
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
         kwargs = {"lang": self.kwargs['lang']}
-        if TABLE_TO_APP[handbook_type] == 'handbooks':
-            kwargs.update({"handbook_type": handbook_type})
         return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
 
 
