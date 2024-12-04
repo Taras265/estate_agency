@@ -42,7 +42,7 @@
     </div>
 </div>
 {% if objects %}
-<form action="{% url 'objects:showing_act' lang=lang %}" method="get">
+<form method="get">
     <table class="table table-striped">
         <tbody>
         <tr>
@@ -53,6 +53,7 @@
             <th>{% translate 'locality' %}</th>
             <th>{% translate 'locality_district' %}</th>
             <th>{% translate 'street' %}</th>
+            <th></th>
         </tr>
         {% for obj in objects %}
         <tr>
@@ -63,11 +64,13 @@
             <td>{{ obj.locality }}</td>
             <td>{{ obj.locality_district }}</td>
             <td>{{ obj.street }}</td>
+            <td><a class="custombtnsm" href="{% url 'objects:apartment_detail' lang=lang pk=obj.id %}">See Details</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <button class="custombtn" type="submit">{% translate 'Selection' %}</button>
+    <button class="custombtn" formaction="{% url 'objects:showing_act' lang=lang %}" type="submit">{% translate 'Selection' %}</button>
+    <button class="custombtn" formaction="{% url 'objects:generate_pdf' lang=lang %}" type="submit">{% translate 'PDF' %}</button>
 </form>
 {% endif %}
 {% endblock %}

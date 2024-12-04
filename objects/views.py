@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db.models import Q
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.http import FileResponse, QueryDict
 import io
@@ -26,9 +27,9 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         if len(self.request.GET) == 0:
             initial_data = {
                 'rooms_number': client.rooms_number,
-                'locality': client.locality,
-                'locality_district': client.locality_district,
-                'street': client.street,
+                'locality': client.locality.all(),
+                'locality_district': client.locality_district.all(),
+                'street': client.street.all(),
                 'house': client.house,
                 'floor_min': client.floor_min,
                 'floor_max': client.floor_max,
@@ -39,7 +40,7 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
                 'price_min': client.price_min,
                 'price_max': client.price_max,
                 'square_meter_price_max': client.square_meter_price_max,
-                'condition': client.condition
+                'condition': client.condition.all()
             }
             return SelectionForm(initial_data)
         return SelectionForm(self.request.GET)
@@ -49,17 +50,22 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         client_id = self.kwargs.get('client_id')
         client = Client.objects.filter(id=client_id).first()
+
+        if client.status == 1:
+            client.status = 2
+            client.save()
+
         form = self.get_form(client)
         form.is_valid()
 
         if form.cleaned_data.get('rooms_number') is not None:
             queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
-        if form.cleaned_data.get('locality') is not None:
-            queryset = queryset.filter(locality=form.cleaned_data.get('locality'))
-        if form.cleaned_data.get('locality_district') is not None:
-            queryset = queryset.filter(locality_district=form.cleaned_data.get('locality_district'))
-        if form.cleaned_data.get('street') is not None:
-            queryset = queryset.filter(street=form.cleaned_data.get('street'))
+        if form.cleaned_data.get('locality').exists():
+            queryset = queryset.filter(locality__in=form.cleaned_data.get('locality'))
+        if form.cleaned_data.get('locality_district').exists():
+            queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
+        if form.cleaned_data.get('street').exists():
+            queryset = queryset.filter(street__in=form.cleaned_data.get('street'))
         if form.cleaned_data.get('house') is not None and form.cleaned_data.get('house') != '':
             queryset = queryset.filter(house=form.cleaned_data.get('house'))
         if form.cleaned_data.get('floor_min') is not None:
@@ -80,8 +86,18 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             queryset = queryset.filter(
                 square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
             )
-        if form.cleaned_data.get('condition') is not None:
-            queryset = queryset.filter(condition=form.cleaned_data.get('condition'))
+        if form.cleaned_data.get('condition').exists():
+            queryset = queryset.filter(condition__in=form.cleaned_data.get('condition'))
+
+        if form.cleaned_data.get('key_word') is not None and form.cleaned_data.get('key_word') != '':
+            key_word = form.cleaned_data.get('key_word')
+            queryset = queryset.filter(Q(region__region__icontains=key_word) |
+                                       Q(district__district__icontains=key_word) |
+                                       Q(locality__locality__icontains=key_word) |
+                                       Q(locality_district__district__icontains=key_word) |
+                                       Q(street__street__icontains=key_word) |
+                                       Q(house__icontains=key_word) |
+                                       Q(comment__icontains=key_word))
 
         n_queryset = queryset
         for obj in n_queryset:
@@ -302,19 +318,9 @@ class PdfView(CustomLoginRequiredMixin, View):
     def get(self, request, lang):
         queryset = Apartment.objects.filter(on_delete=False)
 
-        form = SearchForm(self.request.GET)
+        selected_ids = self.request.GET.getlist("apartments")
 
-        if form.is_valid():
-            if form.cleaned_data.get('locality'):
-                queryset = queryset.filter(locality__locality__icontains=form.cleaned_data['locality'])
-            if form.cleaned_data.get('street'):
-                queryset = queryset.filter(street__street__icontains=form.cleaned_data['street'])
-            if form.cleaned_data.get('price_min'):
-                queryset = queryset.filter(price__gte=form.cleaned_data['price_min'])
-            if form.cleaned_data.get('price_max'):
-                queryset = queryset.filter(price__lte=form.cleaned_data['price_max'])
-
-        pdf = generate_pdf(queryset, request.user.get_full_name()[0])
+        pdf = generate_pdf(Apartment.objects.filter(id__in=selected_ids), request.user.get_full_name()[0])
 
         return FileResponse(
             io.BytesIO(pdf.output()),

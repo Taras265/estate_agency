@@ -21,10 +21,9 @@ urlpatterns = [
     path('base/update/<int:pk>/', ApartmentUpdateView.as_view(), name='update_apartment'),
     path('base/delete/<int:pk>/', ApartmentDeleteView.as_view(), name='delete_apartment'),
 
-    path('catalog/pdf/', PdfView.as_view(), name='generate_pdf'),
-
     path('base/history/<int:pk>/', ObjectHistoryDetailView.as_view(), name='history_apartment'),
 
     path('base/selection/<int:client_id>/', SelectionListView.as_view(), name='selection'),
     path('showing_act/', ShowingActView.as_view(), name='showing_act'),
+    path('showing_act/pdf/', PdfView.as_view(), name='generate_pdf'),
 ]
