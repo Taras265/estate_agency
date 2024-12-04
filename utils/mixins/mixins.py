@@ -207,6 +207,9 @@ class HandbookWithFilterListMixin(HandbookListMixin):
     def get_context_data(self, *, object_list=None, **kwargs):
         f = self.kwargs.get('filter') or list(self.queryset_filters.keys())[0]  # просто вір - так і має бути
 
+        print(22222222222222)
+        print(f)
+
         context = super().get_context_data(**kwargs)
         context['filters'] = self.filters
         context['filter'] = f
