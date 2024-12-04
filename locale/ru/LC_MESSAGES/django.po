@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-04 21:46+0200\n"
+"POT-Creation-Date: 2024-12-04 22:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr "изображение"
 
 #: .\accounts\templates\accounts\login.html:4
 #: .\accounts\templates\accounts\login.html:9
-#: .\accounts\templates\accounts\login.html:12
+#: .\accounts\templates\accounts\login.html:12 .\templates\base.html:81
 msgid "Login"
 msgstr "Логин"
 
@@ -64,7 +64,7 @@ msgstr "Логин"
 #: .\objects\templates\objects\catalog.html:12
 #: .\objects\templates\objects\details.html:12
 #: .\objects\templates\objects\selection_list.html:12
-#: .\objects\templates\objects\showing_act.html:12
+#: .\objects\templates\objects\showing_act.html:12 .\templates\base.html:78
 #: .\templates\delete_form.html:12 .\templates\form.html:11
 #: .\templates\main.html:4
 msgid "Main"
@@ -76,7 +76,7 @@ msgstr "Подтвердить"
 
 #: .\accounts\templates\accounts\profile.html:4
 #: .\accounts\templates\accounts\profile.html:9
-#: .\accounts\templates\accounts\profile.html:12
+#: .\accounts\templates\accounts\profile.html:12 .\templates\base.html:80
 msgid "Profile"
 msgstr "Профиль"
 
@@ -263,7 +263,7 @@ msgstr "Цена за квадратный метр"
 #: .\objects\templates\objects\details.html:147 .\utils\const.py:15
 #: .\utils\const.py:28
 msgid "condition"
-msgstr "Састояние"
+msgstr "Состояние"
 
 #: .\handbooks\forms.py:180 .\handbooks\forms.py:181
 #, fuzzy
@@ -300,7 +300,7 @@ msgstr "История изменений"
 #: .\handbooks\templates\handbooks\list.html:10
 #: .\handbooks\templates\handbooks\list.html:13
 #: .\images\templates\images\list.html:12
-#: .\objects\templates\objects\selection_list.html:13
+#: .\objects\templates\objects\selection_list.html:13 .\templates\base.html:79
 msgid "Base"
 msgstr "База"
 
@@ -786,6 +786,10 @@ msgstr "Русский"
 #: .\templates\base.html:59
 msgid "Ukrainian"
 msgstr "Украинский"
+
+#: .\templates\base.html:82
+msgid "Logout"
+msgstr ""
 
 #: .\templates\delete_form.html:5
 msgid "Delete form"
