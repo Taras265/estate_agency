@@ -120,18 +120,19 @@ class ClientForm(forms.ModelForm):
     rooms_number = forms.IntegerField(label=_("rooms_number"), required=False,
                                       widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                       "placeholder": _("rooms_number")}))
-    locality = forms.ModelChoiceField(queryset=Locality.objects.filter(on_delete=False),
-                                      label=_('locality'), required=False,
-                                      widget=forms.Select(attrs={'class': 'form-control',
-                                                                 'placeholder': _('locality')}))
-    locality_district = forms.ModelChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
-                                               label=_('locality_district'), required=False,
-                                               widget=forms.Select(attrs={'class': 'form-control',
-                                                                          'placeholder': _('locality_district')}))
-    street = forms.ModelChoiceField(queryset=Street.objects.filter(on_delete=False),
-                                    label=_('street'), required=False,
-                                    widget=forms.Select(attrs={'class': 'form-control',
-                                                               'placeholder': _('street')}))
+    locality = forms.ModelMultipleChoiceField(queryset=Locality.objects.filter(on_delete=False),
+                                              label=_('locality'), required=False,
+                                              widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                                 'placeholder': _('locality')}))
+    locality_district = forms.ModelMultipleChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
+                                                       label=_('locality_district'), required=False,
+                                                       widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                                          'placeholder': _(
+                                                                                              'locality_district')}))
+    street = forms.ModelMultipleChoiceField(queryset=Street.objects.filter(on_delete=False),
+                                            label=_('street'), required=False,
+                                            widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                               'placeholder': _('street')}))
     house = forms.CharField(label=_('house'), required=False,
                             widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': _("house")}))
@@ -156,20 +157,21 @@ class ClientForm(forms.ModelForm):
                                          widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                          "placeholder": _("storeys_num_max")}))
     price_min = forms.IntegerField(label=_("price_min"), required=False,
-                                      widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                      "placeholder": _("price_min")}))
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("price_min")}))
     price_max = forms.IntegerField(label=_("price_max"), required=False,
-                                      widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                      "placeholder": _("price_max")}))
+                                   widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                   "placeholder": _("price_max")}))
     square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
-                                      widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                      "placeholder": _("square_meter_price_max")}))
-    condition = forms.ModelChoiceField(
+                                                widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                                "placeholder": _(
+                                                                                    "square_meter_price_max")}))
+    condition = forms.ModelMultipleChoiceField(
         queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
         required=False,
         label=_("condition"),
-        widget=forms.Select(attrs={'class': 'form-control',
-                                   "placeholder": _("condition")}))
+        widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                           "placeholder": _("condition")}))
 
     class Meta:
         model = Client
@@ -211,21 +213,25 @@ class FilialReportForm(forms.ModelForm):
 
 
 class SelectionForm(forms.Form):
+    key_word = forms.CharField(label=_('key_word'), required=False,
+                               widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'placeholder': _("key_word")}))
     rooms_number = forms.IntegerField(label=_("rooms_number"), required=False,
                                       widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                       "placeholder": _("rooms_number")}))
-    locality = forms.ModelChoiceField(queryset=Locality.objects.filter(on_delete=False),
-                                      label=_('locality'), required=False,
-                                      widget=forms.Select(attrs={'class': 'form-control',
-                                                                 'placeholder': _('locality')}))
-    locality_district = forms.ModelChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
-                                               label=_('locality_district'), required=False,
-                                               widget=forms.Select(attrs={'class': 'form-control',
-                                                                          'placeholder': _('locality_district')}))
-    street = forms.ModelChoiceField(queryset=Street.objects.filter(on_delete=False),
-                                    label=_('street'), required=False,
-                                    widget=forms.Select(attrs={'class': 'form-control',
-                                                               'placeholder': _('street')}))
+    locality = forms.ModelMultipleChoiceField(queryset=Locality.objects.filter(on_delete=False),
+                                              label=_('locality'), required=False,
+                                              widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                                 'placeholder': _('locality')}))
+    locality_district = forms.ModelMultipleChoiceField(queryset=LocalityDistrict.objects.filter(on_delete=False),
+                                                       label=_('locality_district'), required=False,
+                                                       widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                                          'placeholder': _(
+                                                                                              'locality_district')}))
+    street = forms.ModelMultipleChoiceField(queryset=Street.objects.filter(on_delete=False),
+                                            label=_('street'), required=False,
+                                            widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                                                               'placeholder': _('street')}))
     house = forms.CharField(label=_('house'), required=False,
                             widget=forms.TextInput(attrs={'class': 'form-control',
                                                           'placeholder': _("house")}))
@@ -259,12 +265,12 @@ class SelectionForm(forms.Form):
                                                 widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                 "placeholder": _(
                                                                                     "square_meter_price_max")}))
-    condition = forms.ModelChoiceField(
+    condition = forms.ModelMultipleChoiceField(
         queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
         required=False,
         label=_("condition"),
-        widget=forms.Select(attrs={'class': 'form-control',
-                                   "placeholder": _("condition")}))
+        widget=forms.SelectMultiple(attrs={'class': 'form-control',
+                                           "placeholder": _("condition")}))
 
 
 class IdSearchForm(forms.Form):
@@ -272,4 +278,3 @@ class IdSearchForm(forms.Form):
                             widget=forms.NumberInput(attrs={'class': 'customtxt',
                                                             "placeholder": _("id")}),
                             required=False)
-

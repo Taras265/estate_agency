@@ -209,14 +209,14 @@ class Client(models.Model):
                                 related_name="realtor_client_related_name")
 
     rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
-    locality = models.ForeignKey(Locality, on_delete=models.CASCADE,
-                                 related_name="locality_client_related_name",
-                                 null=True, blank=True)
-    locality_district = models.ForeignKey(LocalityDistrict, on_delete=models.CASCADE,
-                                          related_name="locality_district_client_related_name",
-                                          null=True, blank=True)
-    street = models.ForeignKey(Street, on_delete=models.CASCADE, related_name="street_client_related_name",
-                               null=True, blank=True)
+    locality = models.ManyToManyField(Locality,
+                                      related_name="locality_client_related_name",
+                                      null=True, blank=True)
+    locality_district = models.ManyToManyField(LocalityDistrict,
+                                               related_name="locality_district_client_related_name",
+                                               null=True, blank=True)
+    street = models.ManyToManyField(Street, related_name="street_client_related_name",
+                                    null=True, blank=True)
     house = models.CharField(max_length=100, null=True, blank=True)
     floor_min = models.PositiveIntegerField(null=True, blank=True)
     floor_max = models.PositiveIntegerField(null=True, blank=True)
@@ -227,12 +227,12 @@ class Client(models.Model):
     price_min = models.IntegerField(null=True, blank=True)
     price_max = models.IntegerField(null=True, blank=True)
     square_meter_price_max = models.IntegerField(null=True, blank=True)
-    condition = models.ForeignKey(Handbook, on_delete=models.CASCADE,
-                                  related_name="condition_client_related_name",
-                                  null=True, blank=True)
+    condition = models.ManyToManyField(Handbook,
+                                       related_name="condition_client_related_name",
+                                       null=True, blank=True)
 
     on_delete = models.BooleanField(default=False)
-    
+
     class Meta:
         default_permissions = ("add", "change", "view")
         permissions = (
