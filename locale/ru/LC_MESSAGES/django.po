@@ -145,7 +145,7 @@ msgstr "Группа на сайт"
 
 #: .\handbooks\forms.py:62 .\handbooks\forms.py:64
 msgid "hot_deals_limit"
-msgstr ""
+msgstr "Скидки"
 
 #: .\handbooks\forms.py:66 .\handbooks\forms.py:68
 msgid "prefix_to_site"
@@ -743,7 +743,7 @@ msgstr "Дата эксклюзива"
 
 #: .\objects\templates\objects\details.html:171
 msgid "objectect_type"
-msgstr "objectect_type"
+msgstr "Тип обєкту"
 
 #: .\objects\templates\objects\details.html:277
 msgid "Realtor notes"
@@ -789,7 +789,7 @@ msgstr "Украинский"
 
 #: .\templates\base.html:82
 msgid "Logout"
-msgstr ""
+msgstr "Выйти с аккаунта"
 
 #: .\templates\delete_form.html:5
 msgid "Delete form"
