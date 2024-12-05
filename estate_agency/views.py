@@ -71,7 +71,7 @@ def fill_db(request, lang):
     client.realtor = CustomUser.objects.first()
     client.save()
 
-    for i in range(1, 12):
+    for i in range(1, 13):
         handbooks = Handbook()
         handbooks.handbook = 'Handbook'
         handbooks.type = i

@@ -154,6 +154,11 @@ class ApartmentForm(forms.ModelForm):
         label=_("material"),
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('material')})
     )
+    complex = forms.ModelChoiceField(
+        queryset=Handbook.objects.filter(on_delete=False, type=12).all(),
+        label=_("complex"),
+        widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('complex')})
+    )
     status = forms.ChoiceField(
         choices=Apartment.STATUS_CHOICES,
         label=_("status"),

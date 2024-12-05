@@ -109,7 +109,8 @@ class Handbook(models.Model):
         (8, "stair"),
         (9, "heating"),
         (10, "layout"),
-        (11, "house_type")
+        (11, "house_type"),
+        (12, "complex"),
     )
 
     type = models.PositiveSmallIntegerField(choices=HANDBOOKS_TYPE_CHOICE)

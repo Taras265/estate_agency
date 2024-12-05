@@ -162,6 +162,10 @@ class Apartment(models.Model):
     construction_number = models.CharField(max_length=150)
     house_type = models.ForeignKey(Handbook, on_delete=models.CASCADE,
                                    related_name="house_type_related_name")
+    complex = models.ForeignKey(Handbook, on_delete=models.CASCADE,
+                                default=None,
+                                null=True,
+                                related_name="complex_related_name")
     two_level_apartment = models.BooleanField()
     loggia = models.PositiveIntegerField()
     attic = models.BooleanField()
