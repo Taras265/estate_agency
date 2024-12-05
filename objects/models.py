@@ -146,6 +146,9 @@ class Apartment(models.Model):
                                 related_name="heating_related_name")
     office = models.BooleanField()
     penthouse = models.BooleanField()
+    parking = models.BooleanField(default=False)
+    generator = models.BooleanField(default=False)
+    e_home = models.BooleanField(default=False) # єОселя
 
     REDEVELOPMENT_CHOICES = (
         (1, "Нет"),

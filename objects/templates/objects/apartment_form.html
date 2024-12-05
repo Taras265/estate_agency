@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Form' %}{% endblock %}
+
+{% block content %}
+<style>
+    .select-date-widget fieldset {
+        display: flex;
+    }
+</style>
+
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Form' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Form' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
+<div class="text-center">
+    <form enctype="multipart/form-data" action="{{ action }}" method="post">
+        {% csrf_token %}
+        <div class="d-flex gap-3 mb-5">
+            <div class="d-flex align-items-center gap-2">
+                {{ form.object_type.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.room_types.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.realtor.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.deposit_date.label_tag }}
+                {{ form.deposit_date }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.status.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.locality.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.street.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.house.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.apartment.as_field_group }}
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-3 mb-5">
+            <button type="button" id="btn-verify-address" class="btn btn-secondary">verify</button>
+            <label></label>
+        </div>
+        <div class="d-flex gap-3 mb-5">
+            <div class="d-flex align-items-center gap-2">
+                {{ form.agency.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.square.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.living_square.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.kitchen_square.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.height.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.price.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.exclusive.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.e_home.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.document.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.image.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.house_type.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.material.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                Комплекс
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.condition.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.floor.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.layout.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.balcony.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.stair.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.storeys_number.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.parking.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.generator.as_field_group }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.creation_date.label_tag }}
+                {{ form.creation_date }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="d-flex flex-grow-1 align-items-center gap-2">
+                {{ form.realtor_notes.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col d-flex flex-grow-1 align-items-center gap-2">
+                {{ form.sale_terms.as_field_group }}
+            </div>
+            <div class="col d-flex flex-grow-1 align-items-center gap-2">
+                {{ form.owner.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="d-flex flex-grow-1 align-items-center gap-2">
+                {{ form.comment.as_field_group }}
+            </div>
+        </div>
+        <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'objects/js/main.js' %}"></script>
+{% endblock %}
