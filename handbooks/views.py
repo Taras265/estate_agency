@@ -169,6 +169,10 @@ class HouseTypeListView(HandbooksListMixin, ListView):
     handbook_type = 'housetype'
 
 
+class ComplexListView(HandbooksListMixin, ListView):
+    handbook_type = 'complex'
+
+
 class FilialAgencyListView(HandbookListMixin, ListView):
     model = FilialAgency
     handbook_type = 'filialagency'

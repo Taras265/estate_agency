@@ -277,7 +277,6 @@ class FormMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
         context = super().get_context_data(**kwargs)
         context['lang'] = self.kwargs['lang']
-
         return context
 
 

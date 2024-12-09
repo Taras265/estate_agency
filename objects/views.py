@@ -287,6 +287,7 @@ class ApartmentCreateView(FormHandbooksMixin, CreateView):
 class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
     handbook_type = 'apartment'
     perm_type = 'change'
+    template_name = 'objects/apartment_form.html'
 
 
 class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):

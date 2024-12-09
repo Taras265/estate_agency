@@ -10,7 +10,7 @@ btnVerifyAddress.addEventListener("click", async e => {
     const house = document.getElementById("id_house").value;
     const apartment = document.getElementById("id_apartment").value;
 
-    const url = `http://localhost:8000/en/objects/verify-address?locality=${locality}&street=${street}&house=${house}&apartment=${apartment}`
+    const url = `/en/objects/verify-address?locality=${locality}&street=${street}&house=${house}&apartment=${apartment}`
 
     fetch(url)
         .then(response => response.json())
