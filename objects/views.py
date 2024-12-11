@@ -284,6 +284,26 @@ class ApartmentCreateView(FormHandbooksMixin, CreateView):
     perm_type = 'add'
     template_name = 'objects/apartment_form.html'
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid() and form.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES,
+                                                       queryset=Apartment.objects.none())
+        else:
+            context['formset'] = ApartmentImageFormSet(queryset=Apartment.objects.none())
+        return context
+
 
 class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
     handbook_type = 'apartment'
