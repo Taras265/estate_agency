@@ -85,10 +85,7 @@
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
-                                    {% if choice == 'apartment' %}
-                                    <th scope="col"></th>
-                                    <th scope="col"></th>
-                                    {% elif choice == 'client' %}
+                                    {% if choice == 'client' %}
                                     <th scope="col"></th>
                                     {% endif %}
                                 </tr>
@@ -125,22 +122,6 @@
                                            href="/{{ lang }}/{% url_app choice %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
                                            type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
                                     {% else %}
-                                    <td></td>
-                                    {% endif %}
-                                    {% if choice == 'apartment' %}
-                                    {% if object.user_permissions.can_update %}
-                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                           href="{% url 'images:apartment_image_add' lang=lang pk=object.id %}"
-                                           type="button" style="max-width: 120px">{% translate 'Add image' %}</a></td>
-                                    {% else %}
-                                    <td></td>
-                                    {% endif %}
-                                    <td>
-                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                           href="{% url 'images:apartment_images_list' lang=lang pk=object.id %}"
-                                           type="button" style="max-width: 120px">{% translate 'Show images' %}</a></td>
-                                    {% else %}
-                                    <td></td>
                                     <td></td>
                                     {% endif %}
                                 </tr>

@@ -1,8 +1,11 @@
 from django import forms
+from django.forms import inlineformset_factory
+
 # from django.contrib.admin.widgets import AdminSplitDateTime
 
 from accounts.models import CustomUser
 from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, Client
+from images.models import ApartmentImage
 from objects.models import Apartment
 from django.utils.translation import gettext_lazy as _
 
@@ -382,10 +385,6 @@ class ApartmentForm(forms.ModelForm):
     parking = forms.BooleanField(label=_("parking"), widget=forms.CheckboxInput(), required=False)
     generator = forms.BooleanField(label=_("generator"), widget=forms.CheckboxInput(), required=False)
     e_home = forms.BooleanField(label=_("EHome"), widget=forms.CheckboxInput(), required=False)
-    image = forms.ImageField(
-        label=_("image"),
-        widget=forms.FileInput(attrs={'class': 'form-control', 'placeholder': _("image")})
-    )
     """redevelopment = forms.ChoiceField(
         choices=Apartment.REDEVELOPMENT_CHOICES,
         label=_("redevelopment"),
@@ -441,12 +440,22 @@ class ApartmentForm(forms.ModelForm):
                   'status', 'locality', 'street',
                   'house', 'apartment', 'agency', 'square', 'living_square',
                   'kitchen_square', 'height', 'price', 'exclusive',
-                  'e_home', 'document', 'image', 'house_type', 'material',
+                  'e_home', 'document', 'house_type', 'material',
                   'complex', 'condition', 'floor', 'layout',
                   'balcony', 'stair', 'storeys_number', 'parking',
                   'generator', 'creation_date', 'realtor_notes',
                   'sale_terms', 'owner', 'comment')
         # exclude = ('on_delete',)
+
+
+ApartmentImageFormSet = inlineformset_factory(
+    Apartment,
+    ApartmentImage,
+    form=forms.ModelForm,
+    fields=['image', ],
+    extra=1,
+    can_delete=True
+)
 
 
 class SearchForm(forms.Form):

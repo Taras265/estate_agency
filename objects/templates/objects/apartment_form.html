@@ -95,10 +95,24 @@
                 {{ form.document.as_field_group }}
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col d-flex align-items-center gap-2">
-                {{ form.image.as_field_group }}
-            </div>
+        {{ formset.management_form }}
+        <div id="photo-formset" class="row mb-10">
+            {% for f in formset %}
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 18rem;">
+                        {% if f.instance.pk %}
+                        <img src="{{ f.instance.image.url }}" style="height: 18rem; object-fit: cover;" alt="Apartment image">
+                        {% endif %}
+                        <div class="photo-form card-body">
+                            {{ f.as_p }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex align-items-center gap-3 mb-5">
+            <button type="button" id="add-photo-form" class="btn btn-secondary">Add Photo</button>
+            <label></label>
         </div>
         <div class="row mb-5">
             <div class="col d-flex align-items-center gap-2">
@@ -168,4 +182,29 @@
 
 {% block scripts %}
 <script src="{% static 'objects/js/main.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const formsetContainer = document.getElementById('photo-formset');
+        const addFormButton = document.getElementById('add-photo-form');
+
+        addFormButton.addEventListener('click', () => {
+            const formCount = document.getElementById('id_images-TOTAL_FORMS');
+            console.log(formCount);
+            const currentCount = parseInt(formCount.value, 10);
+            console.log(currentCount);
+            const newForm = formsetContainer.lastElementChild.cloneNode(true);
+            console.log(newForm);
+
+            const regex = new RegExp(`-${currentCount - 1}-`, 'g');
+            newForm.innerHTML = newForm.innerHTML.replace(regex, `-${currentCount}-`);
+            newForm.innerHTML = newForm.innerHTML.replace(/-__prefix__-/g, `-${currentCount}-`);
+
+            newForm.querySelectorAll('input').forEach(input => input.value = '');
+
+            formsetContainer.appendChild(newForm);
+
+            formCount.value = currentCount + 1;
+        });
+    });
+</script>
 {% endblock %}
