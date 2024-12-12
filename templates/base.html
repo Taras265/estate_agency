@@ -54,7 +54,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-6 lang_region">
                     <select class="form-control customtxt show-tick" onchange="redirectToPage(this)">
                         <option disabled>{% translate 'Language' %}</option>
-                        <option value="eng" {% if lang == 'eng' %}selected{% endif %}>{% translate 'English' %}</option>
+                        <option value="en" {% if lang == 'en' %}selected{% endif %}>{% translate 'English' %}</option>
                         <option value="ru" {% if lang == 'ru' %}selected{% endif %}>{% translate 'Russian' %}</option>
                         <option value="uk" {% if lang == 'uk' %}selected{% endif %}>{% translate 'Ukrainian' %}</option>
                     </select>
@@ -75,11 +75,11 @@
                 <div class="nav-item">
                     <nav class="d-none d-lg-block">
                         <ul>
-                            <li><a href="/{{lang}}/" class="active">Main</a></li>
-                            <li><a href="/{{lang}}/handbooks/base/">Base</a></li>
-                            <li><a href="/{{lang}}/accounts/profile/">Profile</a></li>
-                            <li><a href="/{{lang}}/accounts/login/">Login</a></li>
-                            <li><a href="/{{lang}}/accounts/logout/">Logout</a></li>
+                            <li><a href="/{{lang}}/" class="active">{% translate 'Main' %}</a></li>
+                            <li><a href="/{{lang}}/handbooks/base/">{% translate 'Base' %}</a></li>
+                            <li><a href="/{{lang}}/accounts/profile/">{% translate 'Profile' %}</a></li>
+                            <li><a href="/{{lang}}/accounts/login/">{% translate 'Login' %}</a></li>
+                            <li><a href="/{{lang}}/accounts/logout/">{% translate 'Logout' %}</a></li>
                         </ul>
                     </nav>
                     <div

@@ -98,7 +98,7 @@ LANGUAGES = [
     ('uk', 'Ukrainian')
 ]
 
-LOCALE_PATHS = [BASE_DIR.joinpath('locale/')]
+LOCALE_PATHS = [BASE_DIR.joinpath('locale')]
 
 TIME_ZONE = 'UTC'
 

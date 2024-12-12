@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.utils.translation import activate
 
 from accounts.models import CustomUser
 
@@ -8,6 +9,7 @@ class BaseView(TemplateView):
     template_name = "main.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs['lang'])  # переклад
         context = super().get_context_data(**kwargs)
 
         context['lang'] = self.kwargs['lang']

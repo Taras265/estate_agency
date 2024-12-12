@@ -111,6 +111,9 @@ class ClientListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
                         'deferred_demand': Client.objects.filter(status=4).filter(on_delete=False)}
     choices = SALE_CHOICES
 
+    def get_queryset(self):
+        return HandbookWithFilterListMixin.get_queryset(self).intersection(HandbookOwnPermissionListMixin.get_queryset(self))
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
 
