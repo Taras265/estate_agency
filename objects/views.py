@@ -1,14 +1,15 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import redirect
 from django.db.models import Q
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
-from django.http import FileResponse, QueryDict
+from django.http import FileResponse, JsonResponse
 import io
 
 from accounts.models import CustomUser
 from handbooks.forms import SelectionForm
 from handbooks.models import Client
 from images.models import ApartmentImage
-from objects.forms import SearchForm, HandbooksSearchForm
+from objects.forms import SearchForm, HandbooksSearchForm, ApartmentImageFormSet
 from objects.models import Apartment
 from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
@@ -16,6 +17,37 @@ from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin,
                                  HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
 from django.utils.translation import activate
 from utils.pdf import generate_pdf
+
+
+def verify_address(request, lang):
+    if request.method == 'GET':
+        locality = request.GET.get('locality')
+        if not locality:
+            return JsonResponse({'message': 'You did not specify a locality!'})
+
+        street = request.GET.get('street')
+        if not street:
+            return JsonResponse({'message': 'You did not specify a street!'})
+
+        house = request.GET.get('house')
+        if not house:
+            return JsonResponse({'message': 'You did not specify a house!'})
+
+        apartment = request.GET.get('apartment')
+        if not apartment:
+            return JsonResponse({'message': 'You did not specify a apartment!'})
+
+        apartment_count = Apartment.objects.filter(
+            locality__locality=locality,
+            street__street=street,
+            house=house,
+            apartment=apartment
+        ).count()
+
+        if not apartment_count:
+            return JsonResponse({'message': 'Apartment does not exists.'})
+
+        return JsonResponse({'message': 'Apartment exists.'})
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -266,11 +298,52 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
 class ApartmentCreateView(FormHandbooksMixin, CreateView):
     handbook_type = 'apartment'
     perm_type = 'add'
+    template_name = 'objects/apartment_form.html'
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid() and form.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES,
+                                                       queryset=Apartment.objects.none())
+        else:
+            context['formset'] = ApartmentImageFormSet(queryset=Apartment.objects.none())
+        return context
 
 
 class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
     handbook_type = 'apartment'
     perm_type = 'change'
+    template_name = 'objects/apartment_form.html'
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid() and form.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['formset'] = ApartmentImageFormSet(instance=self.object)
+        return context
 
 
 class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):

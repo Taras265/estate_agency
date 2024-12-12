@@ -7,7 +7,7 @@ from handbooks.views import (HandbookUpdateView, HandbookDeleteView,
                              MaterialListView, SeparationListView, AgencyListView,
                              AgencySalesListView, NewBuildingNameListView, StairListView,
                              HeatingListView, LayoutListView, HouseTypeListView, FilialAgencyListView,
-                             FilialReportListView, sale_redirect)
+                             FilialReportListView, sale_redirect, ComplexListView)
 
 urlpatterns = [
     path('sale/', sale_redirect, name='sale_redirect'),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('base/heating/', HeatingListView.as_view(), name='heating_list'),
     path('base/layout/', LayoutListView.as_view(), name='layout_list'),
     path('base/housetype/', HouseTypeListView.as_view(), name='housetype_list'),
+    path('base/complex/', ComplexListView.as_view(), name='complex_list'),
     path('base/filialagency/', FilialAgencyListView.as_view(), name='filialagency_list'),
     path('base/filialreport/', FilialReportListView.as_view(), name='filialreport_list'),
 

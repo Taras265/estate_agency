@@ -89,7 +89,7 @@ class ApartmentImageCreateView(FormMixin, CreateView):
 class ApartmentImageDeleteView(DeleteMixin, DeleteView):
     queryset = ApartmentImage.objects.filter(on_delete=False)
     form_class = ApartmentImageForm
-    success_url = reverse_lazy("objects:handbooks_list")
+    success_url = reverse_lazy("images:apartment_images_list")
 
     choice_name = 'apartment'
 
