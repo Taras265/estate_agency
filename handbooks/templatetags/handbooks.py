@@ -1,5 +1,6 @@
 from django import template
 from django.template.defaultfilters import stringfilter
+from django.utils.translation import gettext_lazy as _
 
 from utils.const import TABLE_TO_APP, BASE_CHOICES
 
@@ -16,6 +17,6 @@ def url_app(value):
 @register.simple_tag
 @stringfilter
 def choices_url(value):
-    if (value, value) in BASE_CHOICES:
+    if (_(value), value) in BASE_CHOICES:
         return 'base'
     return 'sale'
