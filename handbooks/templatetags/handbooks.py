@@ -17,6 +17,7 @@ def url_app(value):
 @register.simple_tag
 @stringfilter
 def choices_url(value):
-    if (_(value), value) in BASE_CHOICES:
-        return 'base'
+    for choice in BASE_CHOICES:
+        if value == choice[1]:
+            return 'base'
     return 'sale'
