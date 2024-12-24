@@ -37,17 +37,17 @@ def verify_address(request, lang):
         if not apartment:
             return JsonResponse({'message': 'You did not specify a apartment!'})
 
-        apartment_count = Apartment.objects.filter(
+        apartment = Apartment.objects.filter(
             locality__locality=locality,
             street__street=street,
             house=house,
             apartment=apartment
-        ).count()
+        )
 
-        if not apartment_count:
+        if not apartment.count():
             return JsonResponse({'message': 'Apartment does not exists.'})
 
-        return JsonResponse({'message': 'Apartment exists.'})
+        return JsonResponse({'message': f'Apartment exists (id {apartment.first().id}).'})
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -67,10 +67,8 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
                 'floor_max': client.floor_max,
                 'not_first': client.not_first,
                 'not_last': client.not_last,
-                'storeys_num_min': client.storeys_num_min,
-                'storeys_num_max': client.storeys_num_max,
-                'price_min': client.price_min,
-                'price_max': client.price_max,
+                'price_from': client.price_from,
+                'price_to': client.price_to,
                 'square_meter_price_max': client.square_meter_price_max,
                 'condition': client.condition.all()
             }
@@ -106,14 +104,11 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             queryset = queryset.filter(floor__lte=form.cleaned_data.get('floor_max'))
         if form.cleaned_data.get('not_first'):
             queryset = queryset.exclude(floor=1)
-        if form.cleaned_data.get('storeys_num_min') is not None:
-            queryset = queryset.filter(storeys_number__gte=form.cleaned_data.get('storeys_num_min'))
-        if form.cleaned_data.get('storeys_num_max') is not None:
             queryset = queryset.filter(storeys_number__lte=form.cleaned_data.get('storeys_num_max'))
-        if form.cleaned_data.get('price_min') is not None:
-            queryset = queryset.filter(price__gte=form.cleaned_data.get('price_min'))
-        if form.cleaned_data.get('price_max') is not None:
-            queryset = queryset.filter(price__lte=form.cleaned_data.get('price_max'))
+        if form.cleaned_data.get('price_from') is not None:
+            queryset = queryset.filter(price__gte=form.cleaned_data.get('price_from'))
+        if form.cleaned_data.get('price_to') is not None:
+            queryset = queryset.filter(price__lte=form.cleaned_data.get('price_to'))
         if form.cleaned_data.get('square_meter_price_max') is not None:
             queryset = queryset.filter(
                 square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
@@ -149,6 +144,13 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         context['client'] = client
 
         context['form'] = self.get_form(client)
+
+        objects = []
+        for obj in context['objects']:
+            images = ApartmentImage.objects.filter(apartment=obj)
+            objects.append({'image': images.first(),
+                            'object': obj})
+        context['objects'] = objects
 
         return context
 

@@ -175,7 +175,7 @@ msgstr "Вулиця"
 #: .\objects\templates\objects\details.html:71
 #: .\objects\templates\objects\selection_list.html:54
 msgid "locality_district"
-msgstr "Область города"
+msgstr "Район города"
 
 #: .\handbooks\forms.py:98 .\handbooks\forms.py:99
 msgid "email"

@@ -82,6 +82,11 @@ class ApartmentForm(forms.ModelForm):
     street = forms.ModelChoiceField(
         queryset=Street.objects.filter(on_delete=False), label=_("street"),
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('street')}))
+    frame = forms.CharField(
+        label=_("frame"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('frame')}),
+        required=False
+    )
     house = forms.CharField(
         label=_("house"),
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('house')}),
@@ -218,7 +223,7 @@ class ApartmentForm(forms.ModelForm):
     )"""
     realtor_notes = forms.CharField(
         label=_("realtor_notes"),
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('realtor_notes')}),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('realtor_notes')}),
         required=False
     )
     """reference_point = forms.CharField(
@@ -248,7 +253,7 @@ class ApartmentForm(forms.ModelForm):
     )"""
     comment = forms.CharField(
         label=_("comment"),
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('comment')})
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': _('comment')})
     )
     """separation = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(on_delete=False).filter(type=4).all(),
@@ -444,7 +449,7 @@ class ApartmentForm(forms.ModelForm):
                   'complex', 'condition', 'floor', 'layout',
                   'balcony', 'stair', 'storeys_number', 'parking',
                   'generator', 'creation_date', 'realtor_notes',
-                  'sale_terms', 'owner', 'comment')
+                  'sale_terms', 'owner', 'comment', 'frame')
         # exclude = ('on_delete',)
 
 

@@ -150,18 +150,12 @@ class ClientForm(forms.ModelForm):
                                   widget=forms.CheckboxInput(attrs={'class': '',
                                                                     'placeholder': _("not_last")}),
                                   required=False)
-    storeys_num_min = forms.IntegerField(label=_("storeys_num_min"), required=False,
-                                         widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                         "placeholder": _("storeys_num_min")}))
-    storeys_num_max = forms.IntegerField(label=_("storeys_num_max"), required=False,
-                                         widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                         "placeholder": _("storeys_num_max")}))
-    price_min = forms.IntegerField(label=_("price_min"), required=False,
+    price_from = forms.IntegerField(label=_("price_from"), required=False,
                                    widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_min")}))
-    price_max = forms.IntegerField(label=_("price_max"), required=False,
+                                                                   "placeholder": _("price_from")}))
+    price_to = forms.IntegerField(label=_("price_to"), required=False,
                                    widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_max")}))
+                                                                   "placeholder": _("price_to")}))
     square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
                                                 widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                 "placeholder": _(
@@ -249,18 +243,12 @@ class SelectionForm(forms.Form):
                                   widget=forms.CheckboxInput(attrs={'class': '',
                                                                     'placeholder': _("not_last")}),
                                   required=False)
-    storeys_num_min = forms.IntegerField(label=_("storeys_num_min"), required=False,
-                                         widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                         "placeholder": _("storeys_num_min")}))
-    storeys_num_max = forms.IntegerField(label=_("storeys_num_max"), required=False,
-                                         widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                         "placeholder": _("storeys_num_max")}))
-    price_min = forms.IntegerField(label=_("price_min"), required=False,
+    price_from = forms.IntegerField(label=_("price_from"), required=False,
                                    widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_min")}))
-    price_max = forms.IntegerField(label=_("price_max"), required=False,
+                                                                   "placeholder": _("price_from")}))
+    price_to = forms.IntegerField(label=_("price_to"), required=False,
                                    widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_max")}))
+                                                                   "placeholder": _("price_to")}))
     square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
                                                 widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                 "placeholder": _(
