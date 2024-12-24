@@ -223,10 +223,8 @@ class Client(models.Model):
     floor_max = models.PositiveIntegerField(null=True, blank=True)
     not_first = models.BooleanField(default=False)
     not_last = models.BooleanField(default=False)
-    storeys_num_min = models.PositiveIntegerField(null=True, blank=True)
-    storeys_num_max = models.PositiveIntegerField(null=True, blank=True)
-    price_min = models.IntegerField(null=True, blank=True)
-    price_max = models.IntegerField(null=True, blank=True)
+    price_from = models.IntegerField(null=True, blank=True)
+    price_to = models.IntegerField(null=True, blank=True)
     square_meter_price_max = models.IntegerField(null=True, blank=True)
     condition = models.ManyToManyField(Handbook,
                                        related_name="condition_client_related_name",

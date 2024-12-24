@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load handbooks %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% translate 'Selection' %}{% endblock %}
 
@@ -42,35 +43,38 @@
     </div>
 </div>
 {% if objects %}
-<form method="get">
-    <table class="table table-striped">
-        <tbody>
-        <tr>
-            <th></th>
-            <th>{% translate 'id' %}</th>
-            <th>{% translate 'region' %}</th>
-            <th>{% translate 'district' %}</th>
-            <th>{% translate 'locality' %}</th>
-            <th>{% translate 'locality_district' %}</th>
-            <th>{% translate 'street' %}</th>
-            <th></th>
-        </tr>
-        {% for obj in objects %}
-        <tr>
-            <th><input type="checkbox" name="apartments" value="{{ obj.id }}"></th>
-            <th>{{ obj.id }}</th>
-            <td>{{ obj.region }}</td>
-            <td>{{ obj.district }}</td>
-            <td>{{ obj.locality }}</td>
-            <td>{{ obj.locality_district }}</td>
-            <td>{{ obj.street }}</td>
-            <td><a class="custombtnsm" href="{% url 'objects:apartment_detail' lang=lang pk=obj.id %}">See Details</a></td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <button class="custombtn" formaction="{% url 'objects:showing_act' lang=lang %}" type="submit">{% translate 'Selection' %}</button>
+<div class="container featured_property_section properties_list_section">
+    <form method="get">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            {% for object in objects %}
+            <tr>
+                <td valign="top"><input type="checkbox" name="apartments" value="{{ object.object.id }}"></td>
+                <td valign="top">
+                    <div class="featured_div">
+                        <div class="img" style="width: 300px; height: 200px; overflow: hidden;">
+                            <img class="img-fluid"  src="{{ object.image.image.url }}" alt="img">
+                        </div>
+                        <div class="featured_content">
+                            <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }}</a></h2>
+                            <p><span><i class='bx bx-map'></i></span>{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</p>
+                            <ul class="property_spec">
+                                <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
+                            </ul>
+                        </div>
+                        <div class="property_price">
+                            <div class="price_div">
+                                <p>₴{{ object.object.site_price }}</p>
+                            </div>
+                            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">See Details</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button class="custombtn" formaction="{% url 'objects:showing_act' lang=lang %}" type="submit">{% translate 'Selection' %}</button>
     <button class="custombtn" formaction="{% url 'objects:generate_pdf' lang=lang %}" type="submit">{% translate 'PDF' %}</button>
-</form>
+    </form>
+</div>
 {% endif %}
 {% endblock %}
