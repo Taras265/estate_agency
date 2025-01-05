@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Form' %}{% endblock %}
+
+{% block content %}
+<style>
+    .select-date-widget fieldset {
+        display: flex;
+    }
+
+    .errorlist {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: rgb(220, 53, 69);
+        text-align: left;
+    }
+</style>
+
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Form' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Form' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
+<div>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.realtor_type.label_tag }} {{ form.realtor_type }}
+                </div>
+                {{ form.realtor_type.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.realtor.label_tag }} {{ form.realtor }}
+                </div>
+                {{ form.realtor.errors }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.first_name.label_tag }} {{ form.first_name }}
+                </div>
+                {{ form.first_name.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.last_name.label_tag }} {{ form.last_name }}
+                </div>
+                {{ form.last_name.errors }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.phone.label_tag }} {{ form.phone }}
+                </div>
+                {{ form.phone.errors }}
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.messenger.label_tag }} {{ form.messenger }}
+                </div>
+                {{ form.messenger.errors }}
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.email.label_tag }} {{ form.email }}
+                </div>
+                {{ form.email.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.income_source.label_tag }} {{ form.income_source }}
+                </div>
+                {{ form.income_source.errors }}
+
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.status.label_tag }} {{ form.status }}
+                </div>
+                {{ form.status.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.object_type.label_tag }} {{ form.object_type }}
+                </div>
+                {{ form.object_type.errors }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.locality.label_tag }} {{ form.locality }}
+                </div>
+                {{ form.locality.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.locality_district.label_tag }} {{ form.locality_district }}
+                </div>
+                {{ form.locality_district.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.street.label_tag }} {{ form.street }}
+                </div>
+                {{ form.street.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.house.label_tag }} {{ form.house }}
+                </div>
+                {{ form.house.errors }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.rooms_number.label_tag }} {{ form.rooms_number }}
+                </div>
+                {{ form.rooms_number.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.floor_min.label_tag }} {{ form.floor_min }}
+                </div>
+                {{ form.floor_min.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.floor_max.label_tag }} {{ form.floor_max }}
+                </div>
+                {{ form.floor_max.errors }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.not_first.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.price_from.label_tag }} {{ form.price_from }}
+                </div>
+                {{ form.price_from.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.price_to.label_tag }} {{ form.price_to }}
+                </div>
+                {{ form.price_to.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.square_meter_price_max.label_tag }} {{ form.square_meter_price_max }}
+                </div>
+                {{ form.square_meter_price_max.errors }}
+            </div>
+            <div class="col d-flex align-items-center gap-2">
+                {{ form.not_last.as_field_group }}
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.condition.label_tag }} {{ form.condition }}
+                </div>
+                {{ form.condition.errors }}
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

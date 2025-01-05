@@ -103,6 +103,29 @@ class ClientForm(forms.ModelForm):
                                                                                     'placeholder': _("last_name")}))
     phone = forms.CharField(label=_('phone'), widget=forms.TextInput(attrs={'class': 'form-control',
                                                                             'placeholder': _("phone")}))
+    messenger = forms.CharField(label=_('messenger'), widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                    'placeholder': _("messenger")}))
+
+    income_source = forms.ChoiceField(choices=((1, "Рекомендації"),
+                                               (2, "Продавець"),
+                                               (3, "Інтернет"),
+                                               (4, "Відвідувач"),
+                                               (5, "Баннер"),
+                                               (6, "Расклейка")),
+                                      label=_('income_source'),
+                                      widget=forms.Select(attrs={'class': 'form-control',
+                                                                 'placeholder': _('income_source')}))
+
+    object_type = forms.ChoiceField(choices=((1, "Квартира"),),
+                                    label=_('object_type'),
+                                    widget=forms.Select(attrs={'class': 'form-control',
+                                                               'placeholder': _('object_type')}))
+
+    realtor_type = forms.ChoiceField(choices=((1, "realtor"),
+                                              (2, "realtor 5 to 5"),),
+                                     label=_('realtor_type'),
+                                     widget=forms.Select(attrs={'class': 'form-control',
+                                                                'placeholder': _('realtor_type')}))
 
     realtor = forms.ModelChoiceField(queryset=CustomUser.objects.all(),
                                      label=_('realtor'),
@@ -151,11 +174,11 @@ class ClientForm(forms.ModelForm):
                                                                     'placeholder': _("not_last")}),
                                   required=False)
     price_from = forms.IntegerField(label=_("price_from"), required=False,
-                                   widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_from")}))
+                                    widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                    "placeholder": _("price_from")}))
     price_to = forms.IntegerField(label=_("price_to"), required=False,
-                                   widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_to")}))
+                                  widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                  "placeholder": _("price_to")}))
     square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
                                                 widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                 "placeholder": _(
@@ -244,11 +267,11 @@ class SelectionForm(forms.Form):
                                                                     'placeholder': _("not_last")}),
                                   required=False)
     price_from = forms.IntegerField(label=_("price_from"), required=False,
-                                   widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_from")}))
+                                    widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                    "placeholder": _("price_from")}))
     price_to = forms.IntegerField(label=_("price_to"), required=False,
-                                   widget=forms.NumberInput(attrs={'class': 'form-control',
-                                                                   "placeholder": _("price_to")}))
+                                  widget=forms.NumberInput(attrs={'class': 'form-control',
+                                                                  "placeholder": _("price_to")}))
     square_meter_price_max = forms.IntegerField(label=_("square_meter_price_max"), required=False,
                                                 widget=forms.NumberInput(attrs={'class': 'form-control',
                                                                                 "placeholder": _(

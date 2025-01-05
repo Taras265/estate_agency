@@ -197,6 +197,18 @@ class Client(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
+    messenger = models.CharField(max_length=200)
+
+    INCOME_SOURCE_CHOICES = (
+        (1, "Рекомендації"),
+        (2, "Продавець"),
+        (3, "Інтернет"),
+        (4, "Відвідувач"),
+        (5, "Баннер"),
+        (6, "Расклейка")
+    )
+
+    income_source = models.PositiveSmallIntegerField(choices=INCOME_SOURCE_CHOICES, default=1)
 
     STATUS_CHOICES = (
         (1, "В подборе"),
@@ -206,6 +218,11 @@ class Client(models.Model):
     )
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=1)
 
+    object_type = models.PositiveSmallIntegerField(choices=((1, "Квартира"), ), default=1)
+
+    realtor_type = models.PositiveSmallIntegerField(choices=((1, "realtor"),
+                                                             (2, "realtor 5 to 5")),
+                                                    default=1)
     realtor = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
                                 related_name="realtor_client_related_name")
 
