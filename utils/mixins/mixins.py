@@ -12,7 +12,7 @@ from utils.mixins.utils import GetQuerysetForMixin
 from utils.utils import have_permission_to_do
 from utils.const import (
     CHOICES, MODEL, LIST_BY_USER, HANDBOOKS_QUERYSET, TABLE_TO_APP,
-    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS, BASE_CHOICES
+    OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS, BASE_CHOICES, TEMPLATES
 )
 
 from typing import Any
@@ -321,6 +321,7 @@ class FormHandbooksMixin(FormMixin):
         else:
             self.permission_required = f'{TABLE_TO_APP[handbook_type]}.{self.perm_type}_{cl_handbook_type}'
 
+        self.template_name = TEMPLATES.get(handbook_type) or self.template_name
         return super().get_permission_required()
 
     def get_form(self, form_class=None):

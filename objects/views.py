@@ -300,7 +300,6 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
 class ApartmentCreateView(FormHandbooksMixin, CreateView):
     handbook_type = 'apartment'
     perm_type = 'add'
-    template_name = 'objects/apartment_form.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -326,7 +325,6 @@ class ApartmentCreateView(FormHandbooksMixin, CreateView):
 class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
     handbook_type = 'apartment'
     perm_type = 'change'
-    template_name = 'objects/apartment_form.html'
 
     def form_valid(self, form):
         context = self.get_context_data()
