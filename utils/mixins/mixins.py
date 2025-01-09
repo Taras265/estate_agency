@@ -30,7 +30,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
 
 class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
-    paginate_by = 15
+    paginate_by = 1
     template_name = 'handbooks/list.html'
     context_object_name = 'objects'
 
