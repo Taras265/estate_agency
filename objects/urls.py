@@ -1,10 +1,11 @@
 from django.urls import path
 from objects.views import ApartmentListView, ApartmentCreateView, ApartmentUpdateView, ApartmentDeleteView, \
     CatalogListView, ApartmentDetailView, ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView, \
-    SelectionListView, ShowingActView, ContractListView, verify_address
+    SelectionListView, ShowingActView, ContractListView, verify_apartment_address, fill_apartment_address
 
 urlpatterns = [
-    path('verify-address/', verify_address),
+    path('verify-address/', verify_apartment_address, name='verify_apartment_address'),
+    path('fill-address/', fill_apartment_address, name='fill_apartment_address'),
     path('catalog/', CatalogListView.as_view(), name='catalog'),
     path('catalog/<int:pk>/', ApartmentDetailView.as_view(), name='apartment_detail'),
 

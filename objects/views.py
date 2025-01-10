@@ -3,11 +3,12 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.http import FileResponse, JsonResponse
+from django.views.decorators.http import require_GET
 import io
 
 from accounts.models import CustomUser
 from handbooks.forms import SelectionForm
-from handbooks.models import Client
+from handbooks.models import Client, Street
 from images.models import ApartmentImage
 from objects.forms import SearchForm, HandbooksSearchForm, ApartmentImageFormSet
 from objects.models import Apartment
@@ -19,35 +20,69 @@ from django.utils.translation import activate
 from utils.pdf import generate_pdf
 
 
-def verify_address(request, lang):
-    if request.method == 'GET':
-        locality = request.GET.get('locality')
-        if not locality:
-            return JsonResponse({'message': 'You did not specify a locality!'})
+@require_GET
+def verify_apartment_address(request, lang):
+    '''
+    Перевіряє, чи існує квартира з введенними даними (localityId, streetId, house, apartment).
+    Дані про квартиру передаються через query параметри.
+    Список необхідних query параметрів: localityId, streetId, house, apartment.
+    '''
+    locality_id = request.GET.get('localityId')
+    if not locality_id:
+        return JsonResponse({'message': 'You did not specify a locality!'})
 
-        street = request.GET.get('street')
-        if not street:
-            return JsonResponse({'message': 'You did not specify a street!'})
+    street_id = request.GET.get('streetId')
+    if not street_id:
+        return JsonResponse({'message': 'You did not specify a street!'})
 
-        house = request.GET.get('house')
-        if not house:
-            return JsonResponse({'message': 'You did not specify a house!'})
+    house_number = request.GET.get('house')
+    if not house_number:
+        return JsonResponse({'message': 'You did not specify a house!'})
 
-        apartment = request.GET.get('apartment')
-        if not apartment:
-            return JsonResponse({'message': 'You did not specify a apartment!'})
+    apartment_number = request.GET.get('apartment')
+    if not apartment_number:
+        return JsonResponse({'message': 'You did not specify an apartment!'})
 
-        apartment = Apartment.objects.filter(
-            locality__locality=locality,
-            street__street=street,
-            house=house,
-            apartment=apartment
+    try:
+        apartment = Apartment.objects.get(
+            locality=locality_id,
+            street=street_id,
+            house=str(house_number),
+            apartment=str(apartment_number),
+            on_delete=False
         )
+    except Apartment.DoesNotExist:
+        return JsonResponse({'message': 'Apartment does not exists.'})
+    except Apartment.MultipleObjectsReturned:
+        return JsonResponse({'message': 'Multiple apartments exist.'})
 
-        if not apartment.count():
-            return JsonResponse({'message': 'Apartment does not exists.'})
+    return JsonResponse({'message': f'Apartment exists (id {apartment.id}).'})
 
-        return JsonResponse({'message': f'Apartment exists (id {apartment.first().id}).'})
+
+@require_GET
+def fill_apartment_address(request, lang):
+    '''
+    Доповнює адресу квартири за вже введеними даними адреси.
+    Наприклад, якщо користувач ввів вулицю, 
+    то шукає відповідний район міста, місто, район області та область.
+    Дані передаються через query параметри.
+    Список допустимих query параметрів: streetId.
+    Якщо параметр streetId не вказаний, то {"localityId": None}
+    Якщо вулиці з id=streetId не існує, то {"localityId": -1}
+    Якщо вулиця існує, то {"localityId": int}
+    '''
+    street_id = request.GET.get('streetId')
+    if not street_id:
+        return JsonResponse({'localityId': None})
+    
+    try:
+        street = Street.objects\
+                    .select_related('locality_district__locality')\
+                    .get(pk=street_id, on_delete=False)
+    except Street.DoesNotExist:
+        return JsonResponse({'localityId': '-1'})
+
+    return JsonResponse({'localityId': street.locality_district.locality.pk})
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
