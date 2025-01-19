@@ -1,6 +1,6 @@
 from django import forms
 
-from images.models import ApartmentImage
+from images.models import RealEstateImage
 from objects.models import Apartment
 from django.utils.translation import gettext_lazy as _
 
@@ -11,5 +11,5 @@ class ApartmentImageForm(forms.ModelForm):
                                                                              'placeholder': _("image")}))
 
     class Meta:
-        model = ApartmentImage
+        model = RealEstateImage
         fields = ['apartment', 'image']

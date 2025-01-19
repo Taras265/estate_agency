@@ -76,23 +76,23 @@ OBJECT_COLUMNS = {
         'id', 'street', 'locality district',
     ],
     'client': [
-        'id', 'email', 'first_name', 'last_name', 'phone', 'status'
+        'id', 'email', 'first_name', 'last_name', 'phone', 'status',
     ],
     'apartment': [
-        'id', 'region', 'district', 'locality', 'locality district', 'street'
+        'id', 'locality', 'street',
     ],
     'filialagency': [
-        'id', 'filial agency'
+        'id', 'filial agency',
     ],
     'filialreport': [
         'id', 'report', 'filial agency', 'user',
     ],
     'report': [
-        'id', "locality", "locality district", "street", 'floor',
-        'rooms number', 'creation date', 'price', 'status', 'owner'
+        'id', "locality", "street", 'floor',
+        'creation date', 'price', 'status', 'owner',
     ],
     'contract': [
-        'id', 'region', 'district', 'locality', 'locality district', 'street'
+        'id', 'locality', 'street',
     ],
 }
 
@@ -116,19 +116,17 @@ OBJECT_FIELDS = {
         'id', 'email', 'first_name', 'last_name', 'phone', 'status'
     ],
     'apartment': [
-        'id', 'region__region', 'district__district', 'locality__locality',
-        'locality_district__district', 'street__street'
+        'id', 'locality__locality', 'street__street',
     ],
     'filialreport': [
         'id', 'report', 'filial_agency__filial_agency', 'user__email',
     ],
     'report': [
-        'id', "locality__locality", "locality_district__district", "street__street", 'floor',
-        'rooms_number', 'creation_date', 'price', 'status', 'owner__email'
+        'id', "locality__locality", "street__street", 'floor',
+        'creation_date', 'price', 'status', 'owner__email'
     ],
     'contract': [
-        'id', 'region__region', 'district__district', 'locality__locality',
-        'locality_district__district', 'street__street'
+        'id', 'locality__locality', 'street__street',
     ],
 }
 

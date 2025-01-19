@@ -1,12 +1,13 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.contrib.contenttypes.forms import generic_inlineformset_factory
 
 # from django.contrib.admin.widgets import AdminSplitDateTime
 
 from accounts.models import CustomUser
-from handbooks.models import Region, District, Locality, LocalityDistrict, Street, Handbook, Client
-from images.models import ApartmentImage
+from handbooks.models import Locality, Street, Handbook, Client
+from images.models import RealEstateImage
 from objects.models import Apartment
+from objects.choices import RealEstateStatus, RoomType
 from django.utils.translation import gettext_lazy as _
 
 
@@ -169,14 +170,9 @@ class ApartmentForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('complex')})
     )
     status = forms.ChoiceField(
-        choices=Apartment.STATUS_CHOICES,
+        choices=RealEstateStatus.choices,
         label=_("status"),
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('status')})
-    )
-    object_type = forms.ChoiceField(
-        choices=Apartment.OBJECT_TYPE_CHOICES,
-        label=_("add"),
-        widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('object_type')})
     )
     square = forms.IntegerField(
         label=_("square"),
@@ -318,7 +314,7 @@ class ApartmentForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': _('rooms_number')})
     )"""
     room_types = forms.ChoiceField(
-        choices=Apartment.ROOM_TYPE_CHOICES,
+        choices=RoomType.choices,
         label=_("rubric"),
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': _('room_types')})
     )
@@ -441,7 +437,7 @@ class ApartmentForm(forms.ModelForm):
 
     class Meta:
         model = Apartment
-        fields = ('object_type', 'room_types', 'realtor', 'deposit_date',
+        fields = ('room_types', 'realtor', 'deposit_date',
                   'status', 'locality', 'street',
                   'house', 'apartment', 'agency', 'square', 'living_square',
                   'kitchen_square', 'height', 'price', 'exclusive',
@@ -453,13 +449,19 @@ class ApartmentForm(forms.ModelForm):
         # exclude = ('on_delete',)
 
 
-ApartmentImageFormSet = inlineformset_factory(
-    Apartment,
-    ApartmentImage,
-    form=forms.ModelForm,
-    fields=['image', ],
+# ApartmentImageFormSet = inlineformset_factory(
+#     Apartment,
+#     ApartmentImage,
+#     form=forms.ModelForm,
+#     fields=['image', ],
+#     extra=1,
+#     can_delete=True
+# )
+
+RealEstateImageFormSet = generic_inlineformset_factory(
+    RealEstateImage,
+    fields=["image"],
     extra=1,
-    can_delete=True
 )
 
 

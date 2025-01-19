@@ -9,9 +9,9 @@ import io
 from accounts.models import CustomUser
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from images.models import ApartmentImage
-from objects.forms import SearchForm, HandbooksSearchForm, ApartmentImageFormSet
-from objects.models import Apartment
+from images.models import RealEstateImage
+from objects.forms import SearchForm, HandbooksSearchForm, RealEstateImageFormSet
+from objects.models import Apartment, Commerce, House
 from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
                                  CustomLoginRequiredMixin,
@@ -182,9 +182,11 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         objects = []
         for obj in context['objects']:
-            images = ApartmentImage.objects.filter(apartment=obj)
-            objects.append({'image': images.first(),
-                            'object': obj})
+            # images = ApartmentImage.objects.filter(apartment=obj)
+            images = Apartment.images.all()
+            objects.append(
+                {'image': images.first(), 'object': obj}
+            )
         context['objects'] = objects
 
         return context
@@ -201,7 +203,14 @@ class ShowingActView(TemplateView):
         context['lang'] = self.kwargs['lang']
         objects = []
         for obj in Apartment.objects.filter(id__in=selected_ids):
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
+            # objects.append({
+            #     'object': obj,
+            #     'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()
+            # })
+            objects.append({
+                'object': obj,
+                'image': Apartment.images.filter(on_delete=False).first(),
+            })
         context['objects'] = objects
 
         return context
@@ -211,11 +220,11 @@ class ApartmentListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMi
     model = Apartment
     handbook_type = 'apartment'
     filters = ['apartments', 'commerce', 'houses', 'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'commerce': Apartment.objects.filter(object_type=2).filter(on_delete=False),
-                        'houses': Apartment.objects.filter(object_type=3).filter(on_delete=False),
-                        'lands': Apartment.objects.filter(object_type=4).filter(on_delete=False),
-                        'rooms': Apartment.objects.filter(object_type=5).filter(on_delete=False)}
+    queryset_filters = {'apartments': Apartment.objects.filter(on_delete=False),
+                        'commerce': Commerce.objects.filter(on_delete=False),
+                        'houses': House.objects.filter(on_delete=False),
+                        'lands': Apartment.objects.none(),
+                        'rooms': Apartment.objects.none()}
     form = HandbooksSearchForm
     choices = SALE_CHOICES
 
@@ -228,13 +237,13 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
                'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
-    queryset_filters = {'new_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'new_commerce': Apartment.objects.filter(object_type=2).filter(on_delete=False),
-                        'new_houses': Apartment.objects.filter(object_type=3).filter(on_delete=False),
-                        'new_lands': Apartment.objects.filter(object_type=4).filter(on_delete=False),
-                        'new_rooms': Apartment.objects.filter(object_type=5).filter(on_delete=False),
-                        'all_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'my_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False)}
+    queryset_filters = {'new_apartments': Apartment.objects.filter(on_delete=False),
+                        'new_commerce': Commerce.objects.filter(on_delete=False),
+                        'new_houses': House.objects.filter(on_delete=False),
+                        'new_lands': Apartment.objects.none(),
+                        'new_rooms': Apartment.objects.none(),
+                        'all_apartments': Apartment.objects.filter(on_delete=False),
+                        'my_apartments': Apartment.objects.filter(on_delete=False)}
     custom = True
     form = HandbooksSearchForm
     choices = SALE_CHOICES
@@ -263,11 +272,11 @@ class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMix
     handbook_type = 'contract'
     filters = ['apartments', 'commerce', 'houses',
                'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(object_type=1).filter(status__gte=4).filter(on_delete=False),
-                        'commerce': Apartment.objects.filter(object_type=2).filter(status__gte=4).filter(on_delete=False),
-                        'houses': Apartment.objects.filter(object_type=3).filter(status__gte=4).filter(on_delete=False),
-                        'lands': Apartment.objects.filter(object_type=4).filter(status__gte=4).filter(on_delete=False),
-                        'rooms': Apartment.objects.filter(object_type=5).filter(status__gte=4).filter(on_delete=False)}
+    queryset_filters = {'apartments': Apartment.objects.filter(status__gte=4).filter(on_delete=False),
+                        'commerce': Commerce.objects.filter(status__gte=4).filter(on_delete=False),
+                        'houses': House.objects.filter(status__gte=4).filter(on_delete=False),
+                        'lands': Apartment.objects.none(),
+                        'rooms': Apartment.objects.none()}
     custom = True
     form = HandbooksSearchForm
     choices = SALE_CHOICES
@@ -350,10 +359,17 @@ class ApartmentCreateView(FormHandbooksMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES,
-                                                       queryset=Apartment.objects.none())
+            context['formset'] = RealEstateImageFormSet(
+                self.request.POST,
+                self.request.FILES,
+                queryset=Apartment.objects.none(),
+                prefix='images'
+            )
         else:
-            context['formset'] = ApartmentImageFormSet(queryset=Apartment.objects.none())
+            context['formset'] = RealEstateImageFormSet(
+                queryset=Apartment.objects.none(),
+                prefix='images'
+            )
         return context
 
 
@@ -375,9 +391,13 @@ class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            context['formset'] = RealEstateImageFormSet(
+                self.request.POST,
+                self.request.FILES,
+                instance=self.object
+            )
         else:
-            context['formset'] = ApartmentImageFormSet(instance=self.object)
+            context['formset'] = RealEstateImageFormSet(instance=self.object)
         return context
 
 
@@ -416,7 +436,10 @@ class CatalogListView(ListView):
 
         objects = []
         for obj in context['objects']:
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
+            objects.append({
+                'object': obj,
+                'image': obj.images.filter(on_delete=False).first()
+            })
         context['objects'] = objects
         return context
 
@@ -449,7 +472,9 @@ class ApartmentDetailView(DetailView):
 
         context['lang'] = self.kwargs['lang']
 
-        context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
+        # context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
+        apartment = Apartment.objects.get(id=context['object'].id)
+        context['images'] = apartment.images.filter(on_delete=False)
         return context
 
 
