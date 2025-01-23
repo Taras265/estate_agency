@@ -30,7 +30,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
 
 class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
-    paginate_by = 1
+    paginate_by = 5
     template_name = 'handbooks/list.html'
     context_object_name = 'objects'
 
@@ -276,6 +276,7 @@ class FormMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
         context = super().get_context_data(**kwargs)
         context['lang'] = self.kwargs['lang']
+
         return context
 
 
@@ -325,8 +326,10 @@ class FormHandbooksMixin(FormMixin):
         return super().get_permission_required()
 
     def get_form(self, form_class=None):
-        handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
-        return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)
+        if not form_class:
+            handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
+            return super().get_form(HANDBOOKS_FORMS.get(handbook_type) or HandbookForm)
+        return super().get_form(form_class)
 
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')
@@ -395,6 +398,13 @@ class DeleteHandbooksMixin(DeleteMixin):
                     queryset = new_queryset
             return queryset
         return Handbook.objects.filter(type=HANDBOOKS_QUERYSET.get(handbook_type), on_delete=False)
+
+    def form_valid(self, form):
+        if form.is_valid() and form.cleaned_data['on_delete'] == True:
+            old_instance = self.get_object()
+            old_instance.children.all().delete()
+
+        return super().form_valid(form)
 
     def get_permission_required(self):
         handbook_type = self.handbook_type or self.kwargs.get('handbook_type')

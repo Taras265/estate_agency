@@ -132,13 +132,9 @@
                     </div>
                     {% endif %}
                     {% if can_create %}
-                    {% if choice == 'apartment' %}
-                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="{% url 'objects:create_apartment' lang=lang %}"
-                       type="button" style="max-width: 120px">{% translate 'Create' %}</a>
-                    {% else %}
-                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth" href="/{{ lang }}/handbooks/base/create/{{ choice }}/"
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                       href="/{{ lang }}/{% url_app choice %}/base/create{% if choice != 'apartment' %}/{{ choice }}{% endif %}/"
                              type="button" style="max-width: 120px">{% translate 'Create' %}</a>
-                    {% endif %}
                     {% endif %}
                 </div>
             </div>
