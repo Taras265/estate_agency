@@ -1,88 +1,127 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.db.models import Q
-from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.http import FileResponse, JsonResponse
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
+from django.utils.translation import activate
+from django.core.exceptions import PermissionDenied
+from django.views.generic import (
+    View, ListView, CreateView, UpdateView, DeleteView,
+    DetailView, TemplateView
+)
 import io
 
 from accounts.models import CustomUser
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from images.models import RealEstateImage
-from objects.forms import SearchForm, HandbooksSearchForm, RealEstateImageFormSet
-from objects.models import Apartment, Commerce, House
+from images.forms import RealEstateImageFormSet
+from .models import Apartment, Commerce, House
+from .services import real_estate_form_save
+from .choices import RealEstateType
+from .mixins import RealEstateCreateContextMixin, RealEstateUpdateContextMixin
+from .forms import (
+    SearchForm, HandbooksSearchForm, 
+    ApartmentForm, CommerceForm, HouseForm,
+    ApartmentVerifyAddressForm, CommerceVerifyAddressForm,
+    HouseVerifyAddressForm,
+)
 from utils.const import SALE_CHOICES
-from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
-                                 CustomLoginRequiredMixin,
-                                 HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
-from django.utils.translation import activate
+from utils.mixins.mixins import (
+    HandbookHistoryListMixin, DeleteHandbooksMixin,
+    CustomLoginRequiredMixin, HandbookOwnPermissionListMixin, 
+    HandbookWithFilterListMixin, HasAnyPermissionFromList
+)
 from utils.pdf import generate_pdf
 
 
 @require_GET
-def verify_apartment_address(request, lang):
-    '''
-    Перевіряє, чи існує квартира з введенними даними (localityId, streetId, house, apartment).
-    Дані про квартиру передаються через query параметри.
-    Список необхідних query параметрів: localityId, streetId, house, apartment.
-    '''
-    locality_id = request.GET.get('localityId')
-    if not locality_id:
-        return JsonResponse({'message': 'You did not specify a locality!'})
-
-    street_id = request.GET.get('streetId')
-    if not street_id:
-        return JsonResponse({'message': 'You did not specify a street!'})
-
-    house_number = request.GET.get('house')
-    if not house_number:
-        return JsonResponse({'message': 'You did not specify a house!'})
-
-    apartment_number = request.GET.get('apartment')
-    if not apartment_number:
-        return JsonResponse({'message': 'You did not specify an apartment!'})
-
+def verify_real_estate_address(request, lang):
+    """
+    Перевіряє, чи існує обʼєкт нерухомості з типом type за введенною
+    адресою (localityId, streetId, house, apartment/premises/housing).
+    Дані про обʼєкт нерухомості передаються через query параметри.
+    Список необхідних query параметрів:
+    - type: int
+    - locality: int
+    - street: int
+    - house: str
+    - apartment/premises/housing: str (в залежності від типу обʼєкта)
+    """
     try:
-        apartment = Apartment.objects.get(
-            locality=locality_id,
-            street=street_id,
-            house=str(house_number),
-            apartment=str(apartment_number),
-            on_delete=False
-        )
-    except Apartment.DoesNotExist:
-        return JsonResponse({'message': 'Apartment does not exists.'})
-    except Apartment.MultipleObjectsReturned:
-        return JsonResponse({'message': 'Multiple apartments exist.'})
+        real_estate_type = int(request.GET.get("type"))
+    except ValueError:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": "Invalid real estate type."},
+        })
 
-    return JsonResponse({'message': f'Apartment exists (id {apartment.id}).'})
+    form = None
+
+    if real_estate_type == RealEstateType.APARTMENT:
+        form = ApartmentVerifyAddressForm(request.GET)
+    elif real_estate_type == RealEstateType.COMMERCE:
+        form = CommerceVerifyAddressForm(request.GET)
+    elif real_estate_type == RealEstateType.HOUSE:
+        form = HouseVerifyAddressForm(request.GET)
+    
+    if not form:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": "Invalid real estate type."},
+        })
+
+    if not form.is_valid():
+        return JsonResponse({
+            "success": False,
+            "errors": form.errors.get_json_data(),
+        })
+
+    real_estate = None
+
+    if real_estate_type == RealEstateType.APARTMENT:
+        real_estate = Apartment.objects.filter(**form.cleaned_data).only("id").first()
+    elif real_estate_type ==  RealEstateType.COMMERCE:
+        real_estate = Commerce.objects.filter(**form.cleaned_data).only("id").first()
+    elif real_estate_type ==  RealEstateType.HOUSE:
+        real_estate = House.objects.filter(**form.cleaned_data).only("id").first()
+
+    if not real_estate:
+        return JsonResponse({
+            "success": True,
+            "message": f"{RealEstateType.labels[real_estate_type-1]} doesn't exist.",
+        })
+    return JsonResponse({
+        "success": True,
+        "message": f"{RealEstateType.labels[real_estate_type-1]} exists (id {real_estate.id}).",
+    })
 
 
 @require_GET
-def fill_apartment_address(request, lang):
-    '''
-    Доповнює адресу квартири за вже введеними даними адреси.
+def fill_real_estate_address(request, lang):
+    """
+    Доповнює адресу обʼєкта нерухомості за вже введеними даними адреси.
     Наприклад, якщо користувач ввів вулицю, 
     то шукає відповідний район міста, місто, район області та область.
     Дані передаються через query параметри.
-    Список допустимих query параметрів: streetId.
-    Якщо параметр streetId не вказаний, то {"localityId": None}
-    Якщо вулиці з id=streetId не існує, то {"localityId": -1}
-    Якщо вулиця існує, то {"localityId": int}
-    '''
-    street_id = request.GET.get('streetId')
+    Список необхідних query параметрів:
+    - street: int
+    """
+    street_id = request.GET.get("street")
     if not street_id:
-        return JsonResponse({'localityId': None})
-    
+        return JsonResponse({"success": False, "locality": None})
+
     try:
         street = Street.objects\
-                    .select_related('locality_district__locality')\
+                    .select_related("locality_district__locality")\
                     .get(pk=street_id, on_delete=False)
     except Street.DoesNotExist:
-        return JsonResponse({'localityId': '-1'})
+        return JsonResponse({"success": False, "locality": -1})
 
-    return JsonResponse({'localityId': street.locality_district.locality.pk})
+    return JsonResponse({
+        "success": True,
+        "locality": street.locality_district.locality.pk,
+    })
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -341,64 +380,259 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         return context
 
 
-class ApartmentCreateView(FormHandbooksMixin, CreateView):
-    handbook_type = 'apartment'
-    perm_type = 'add'
+class RealEstateCreateRedirectView(CustomLoginRequiredMixin, View):
+    """
+    Перенаправляє користувача на відповідну форму створення 
+    обʼєкта нерухомості в залежності від наявних в нього прав.
+    """
+    def get(self, request):
+        can_add_apartment = request.user.has_perm("objects.add_apartment")
+        can_add_own_apartment = request.user.has_perm("objects.add_own_apartment")
+        if (can_add_apartment or can_add_own_apartment):
+            return redirect(reverse_lazy("objects:create_apartment"))
+        
+        can_add_commerce = request.user.has_perm("objects.add_commerce")
+        can_add_own_commerce = request.user.has_perm("objects.add_own_commerce")
+        if (can_add_commerce or can_add_own_commerce):
+            return redirect(reverse_lazy("objects:create_commerce"))
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['formset']
-        if formset.is_valid() and form.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
+        can_add_house = request.user.has_perm("objects.add_house")
+        can_add_own_house = request.user.has_perm("objects.add_own_house")
+        if (can_add_house or can_add_own_house):
+            return redirect(reverse_lazy("objects:create_house"))
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = RealEstateImageFormSet(
-                self.request.POST,
-                self.request.FILES,
-                queryset=Apartment.objects.none(),
-                prefix='images'
-            )
-        else:
-            context['formset'] = RealEstateImageFormSet(
-                queryset=Apartment.objects.none(),
-                prefix='images'
-            )
-        return context
+        raise PermissionDenied()
 
 
-class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
-    handbook_type = 'apartment'
-    perm_type = 'change'
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['formset']
-        if formset.is_valid() and form.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
+class ApartmentCreateView(HasAnyPermissionFromList,
+                          RealEstateCreateContextMixin,
+                          CreateView):
+    """
+    Форма створення нової квартири.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_apartment або objects.add_own_apartment.
+    """
+    model = Apartment
+    form_class = ApartmentForm
+    template_name = "objects/real_estate_create_form.html"
+    permission_any_required = (
+        "objects.add_apartment",
+        "objects.add_own_apartment",
+    )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = RealEstateImageFormSet(
-                self.request.POST,
-                self.request.FILES,
-                instance=self.object
-            )
-        else:
-            context['formset'] = RealEstateImageFormSet(instance=self.object)
+        context["type"] = RealEstateType.APARTMENT
         return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+    
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+    
+
+class CommerceCreateView(HasAnyPermissionFromList,
+                         RealEstateCreateContextMixin,
+                         CreateView):
+    """
+    Форма створення нової комерції.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_commerce або objects.add_own_commerce.
+    """
+    model = Commerce
+    form_class = CommerceForm
+    template_name = "objects/real_estate_create_form.html"
+    permission_any_required = (
+        "objects.add_commerce",
+        "objects.add_own_commerce",
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.COMMERCE
+        return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+    
+
+class HouseCreateView(HasAnyPermissionFromList,
+                      RealEstateCreateContextMixin,
+                      CreateView):
+    """
+    Форма створення нового будинку.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_house або objects.add_own_house.
+    """
+    model = House
+    form_class = HouseForm
+    template_name = "objects/real_estate_create_form.html"
+    permission_any_required = (
+        "objects.add_house",
+        "objects.add_own_house",
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.HOUSE
+        return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+    
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+
+class ApartmentUpdateView(HasAnyPermissionFromList,
+                          RealEstateUpdateContextMixin,
+                          UpdateView):
+    """
+    Форма редагування квартири.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.change_apartment або objects.change_own_apartment.
+    """
+    model = Apartment
+    form_class = ApartmentForm
+    template_name = "objects/real_estate_update_form.html"
+    permission_any_required = (
+        "objects.change_apartment",
+        "objects.change_own_apartment",
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.APARTMENT
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+    
+
+class CommerceUpdateView(HasAnyPermissionFromList,
+                         RealEstateUpdateContextMixin,
+                         UpdateView):
+    """
+    Форма редагування комерції.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.change_commerce або objects.change_own_commerce.
+    """
+    model = Commerce
+    form_class = CommerceForm
+    template_name = "objects/real_estate_update_form.html"
+    permission_any_required = (
+        "objects.change_commerce",
+        "objects.change_own_commerce",
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.COMMERCE
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+
+class HouseUpdateView(HasAnyPermissionFromList,
+                      RealEstateUpdateContextMixin,
+                      UpdateView):
+    """
+    Форма редагування будинку.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.change_house або objects.change_own_house.
+    """
+    model = House
+    form_class = HouseForm
+    template_name = "objects/real_estate_update_form.html"
+    permission_any_required = (
+        "objects.change_house",
+        "objects.change_own_house",
+    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.HOUSE
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
 class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):

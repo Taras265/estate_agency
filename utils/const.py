@@ -59,7 +59,7 @@ HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'client': ClientForm, 'filialagency': FilialForm, 'filialreport': FilialReportForm,
                    'apartment': ApartmentForm}
 
-TEMPLATES = {'apartment': 'objects/apartment_form.html', 'client': 'handbooks/client_form.html'}
+TEMPLATES = {'apartment': 'objects/real_estate_create_form.html', 'client': 'handbooks/client_form.html'}
 
 OBJECT_COLUMNS = {
     'district': [

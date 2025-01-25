@@ -1,6 +1,13 @@
 from django.db import models
 
 
+class RealEstateType(models.IntegerChoices):
+    """Тип обʼєкта нерухомості"""
+    APARTMENT = 1, "Apartment"
+    COMMERCE = 2, "Commerce"
+    HOUSE = 3, "House"
+
+
 class RealEstateStatus(models.IntegerChoices):
     """Статус обʼєкта нерухомості"""
     ON_SALE = 1, "В продаже"

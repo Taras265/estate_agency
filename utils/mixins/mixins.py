@@ -1,5 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import QuerySet
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import activate
@@ -15,8 +14,6 @@ from utils.const import (
     OBJECT_COLUMNS, HANDBOOKS_FORMS, OBJECT_FIELDS, BASE_CHOICES, TEMPLATES
 )
 
-from typing import Any
-
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
     """
@@ -27,6 +24,19 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
     def get_login_url(self):
         lang = self.kwargs['lang']
         return reverse('accounts:login', kwargs={"lang": lang})
+    
+
+class HasAnyPermissionFromList(UserPassesTestMixin):
+    """
+    Перевіряє, чи має користувач хоча б одне з вказаних у прав зі списку 
+    permission_any_required. Якщо користувач не має жодного з вказаних прав, 
+    то він не матиме доступу до сторінки.
+    """
+    permission_any_required = []
+
+    def test_func(self):
+        user_permissions = self.request.user.get_all_permissions()
+        return len(set(self.permission_any_required) & set(user_permissions)) != 0
 
 
 class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
@@ -106,9 +116,9 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         object_fields: list[str] | None = OBJECT_FIELDS.get(self.handbook_type)
 
         if object_fields:
-            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values(*object_fields)
+            context['object_values'] = context['object_list'].values(*object_fields)
         else:
-            context['object_values']: QuerySet[dict[str, Any]] = context['object_list'].values()
+            context['object_values'] = context['object_list'].values()
 
         for obj in context['object_values']:
             # Перевірка того, що клієнт взагалі щось ще може, крім як дивитись на дані

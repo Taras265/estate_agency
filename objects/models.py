@@ -69,7 +69,6 @@ class BaseRealEstate(models.Model):
     #     CustomUser, on_delete=models.CASCADE, null=True, blank=True,
     #     related_name="%(app_label)s_%(class)ss",
     # )
-
     condition = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="condition_%(app_label)s_%(class)ss",
@@ -85,10 +84,6 @@ class BaseRealEstate(models.Model):
     house_type = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="house_type_%(app_label)s_%(class)ss",
-    )
-    complex = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE, default=None, null=True,
-        related_name="complex_%(app_label)s_%(class)ss",
     )
     layout = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
@@ -186,6 +181,10 @@ class Apartment(BaseRealEstate):
     living_square = models.PositiveIntegerField()
     balcony = models.BooleanField(default=False)
     balcony_number = models.PositiveSmallIntegerField(default=0)
+    complex = models.ForeignKey(
+        Handbook, on_delete=models.CASCADE,
+        related_name="complex_objects_apartment",
+    )
 
     # two_level_apartment = models.BooleanField(default=False)
     # commune = models.BooleanField(default=False)
@@ -243,6 +242,10 @@ class Commerce(BaseRealEstate):
     own_courtyard = models.BooleanField(default=False) # свій двір
     separate_building = models.BooleanField(default=False)
     # office = models.BooleanField(default=False) # квартира під офіс
+    complex = models.ForeignKey(
+        Handbook, on_delete=models.CASCADE,
+        related_name="complex_objects_commerce",
+    )
 
 class House(BaseRealEstate):
     """Приватний будинок"""
