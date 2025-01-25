@@ -43,5 +43,6 @@ urlpatterns = [
 
     path('base/delete/<str:handbook_type>/<int:pk>/', HandbookDeleteView.as_view(), name='delete_handbook'),
 
-    path('base/history/<str:handbook_type>/<int:pk>/', HandbookHistoryDetailView.as_view(), name='handbook_history'),
+    path('base/history/<str:handbook_type>/<int:pk>/', HandbookHistoryDetailView.as_view(),
+         name='handbook_history'),
 ]

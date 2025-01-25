@@ -1,7 +1,8 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 from django.utils import timezone
+from simple_history.models import HistoricalRecords
 
 
 class UserManager(BaseUserManager):
@@ -65,6 +66,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = 'User'
@@ -84,3 +86,13 @@ class CustomUser(AbstractUser):
         """Set is_active to True and save"""
         self.is_active = True
         self.save()
+
+
+class CustomGroup(Group):
+    on_delete = models.BooleanField(default=False)
+    history = HistoricalRecords()
+
+    class Meta:
+        verbose_name = 'Group'
+        verbose_name_plural = 'Groups'
+        default_permissions = ("add", "change", "view")

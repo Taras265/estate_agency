@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import check_password
 
-from accounts.models import CustomUser
+from accounts.models import CustomUser, CustomGroup
 from django.utils.translation import gettext_lazy as _
 
 
@@ -34,3 +34,59 @@ class AvatarForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['image', ]
+
+
+class UserForm(forms.ModelForm):
+    groups = forms.ChoiceField
+    email = forms.CharField(
+        label=_("email"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('email')}))
+    first_name = forms.CharField(
+        label=_("first_name"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('first_name')}))
+    last_name = forms.CharField(
+        label=_("last_name"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('last_name')}))
+    phone = forms.CharField(
+        label=_("phone"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('phone')}))
+
+    class Meta:
+        model = CustomUser
+        exclude = ['on_delete', 'image', 'last_login',
+                   'date_joined', 'is_staff', 'is_superuser',
+                   'is_active', 'password']
+
+
+class RegisterForm(forms.ModelForm):
+    email = forms.CharField(
+        label=_("email"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('email')}))
+    password = forms.CharField(
+        label=_("password"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': _('password')}))
+    first_name = forms.CharField(
+        label=_("first_name"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('first_name')}))
+    last_name = forms.CharField(
+        label=_("last_name"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('last_name')}))
+    phone = forms.CharField(
+        label=_("phone"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('phone')}))
+
+    class Meta:
+        model = CustomUser
+        exclude = ['on_delete', 'image', 'last_login',
+                   'date_joined', 'is_staff', 'is_superuser',
+                   'is_active']
+
+
+class GroupForm(forms.ModelForm):
+    name = forms.CharField(
+        label=_("name"),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('name')}))
+
+    class Meta:
+        model = CustomGroup
+        exclude = ['on_delete']

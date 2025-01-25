@@ -1,5 +1,7 @@
 from django.utils.translation import gettext as _
 
+from accounts.forms import UserForm, GroupForm
+from accounts.models import CustomGroup
 from handbooks.forms import (RegionForm, StreetForm, LocalityDistrictForm, LocalityForm,
                              DistrictForm, ClientForm, FilialReportForm, FilialForm)
 from handbooks.models import *
@@ -34,11 +36,12 @@ BASE_CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('filialreport'), 'filialreport'), (_('complex'), 'complex')]
 SALE_CHOICES = [(_('client'), 'client'), (_('apartment'), 'apartment'),
                 (_('report'), 'report'), (_('contract'), 'contract')]
+USER_CHOICES = [(_('user'), 'user'), (_('group'), 'group')]
 
 MODEL = {'region': Region, 'district': District,
          'locality': Locality, 'localitydistrict': LocalityDistrict, 'street': Street,
          'client': Client, 'filialagency': FilialAgency, 'filialreport': FilialReport,
-         'apartment': Apartment}
+         'apartment': Apartment, 'user': CustomUser, 'group': CustomGroup}
 HANDBOOKS_QUERYSET = {'withdrawalreason': 1, 'condition': 2, 'material': 3, 'separation': 4,
                       'agency': 5, 'agencysales': 6, 'newbuildingname': 7, 'stair': 8,
                       'heating': 9, 'layout': 10, 'housetype': 11, 'complex': 12}
@@ -53,11 +56,11 @@ TABLE_TO_APP = {'region': 'handbooks', 'district': 'handbooks',
                 'newbuildingname': 'handbooks', 'stair': 'handbooks',
                 'heating': 'handbooks', 'layout': 'handbooks',
                 'housetype': 'handbooks', 'report': 'objects', 'history_report': 'objects',
-                'contract': 'objects', 'complex': 'handbooks'}
+                'contract': 'objects', 'complex': 'handbooks', 'user': 'accounts', 'group': 'accounts'}
 HANDBOOKS_FORMS = {'region': RegionForm, 'district': DistrictForm,
                    'locality': LocalityForm, 'localitydistrict': LocalityDistrictForm, 'street': StreetForm,
                    'client': ClientForm, 'filialagency': FilialForm, 'filialreport': FilialReportForm,
-                   'apartment': ApartmentForm}
+                   'apartment': ApartmentForm, 'user': UserForm, 'group': GroupForm}
 
 TEMPLATES = {'apartment': 'objects/apartment_form.html', 'client': 'handbooks/client_form.html'}
 
@@ -94,6 +97,9 @@ OBJECT_COLUMNS = {
     'contract': [
         'id', 'region', 'district', 'locality', 'locality district', 'street'
     ],
+    'user': [
+        'id', 'email', 'first_name', 'last_name', 'phone'
+    ],
 }
 
 # хеш-таблиця, в якій ключі - це назви таблиць з БД,
@@ -129,6 +135,9 @@ OBJECT_FIELDS = {
     'contract': [
         'id', 'region__region', 'district__district', 'locality__locality',
         'locality_district__district', 'street__street'
+    ],
+    'user': [
+        'id', 'email', 'first_name', 'last_name', 'phone'
     ],
 }
 
