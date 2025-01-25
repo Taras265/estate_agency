@@ -3,11 +3,11 @@ from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
+from estate_agency.models import BaseModel
 
 
-class Region(models.Model):
+class Region(BaseModel):
     region = models.CharField(max_length=100)
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -16,10 +16,9 @@ class Region(models.Model):
         return self.region
 
 
-class District(models.Model):
+class District(BaseModel):
     district = models.CharField(max_length=100)
     region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="region_related_name")
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -28,7 +27,7 @@ class District(models.Model):
         return self.district
 
 
-class Locality(models.Model):
+class Locality(BaseModel):
     locality = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE, related_name="district_related_name")
 
@@ -46,7 +45,6 @@ class Locality(models.Model):
     )
     center_type = models.PositiveSmallIntegerField(choices=CENTER_TYPE_CHOICES)
 
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -55,7 +53,7 @@ class Locality(models.Model):
         return self.locality
 
 
-class LocalityDistrict(models.Model):
+class LocalityDistrict(BaseModel):
     district = models.CharField(max_length=100)
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE, related_name="locality_related_name")
 
@@ -73,7 +71,6 @@ class LocalityDistrict(models.Model):
     )
     new_building_district = models.PositiveSmallIntegerField(choices=NEW_BUILDING_DISTRICT_CHOICES)
 
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -82,11 +79,10 @@ class LocalityDistrict(models.Model):
         return self.district
 
 
-class Street(models.Model):
+class Street(BaseModel):
     street = models.CharField(max_length=100)
     locality_district = models.ForeignKey(LocalityDistrict, on_delete=models.CASCADE,
                                           related_name="locality_district_related_name")
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -95,7 +91,7 @@ class Street(models.Model):
         return self.street
 
 
-class Handbook(models.Model):
+class Handbook(BaseModel):
     handbook = models.CharField(max_length=100)
 
     HANDBOOKS_TYPE_CHOICE = (
@@ -114,7 +110,6 @@ class Handbook(models.Model):
     )
 
     type = models.PositiveSmallIntegerField(choices=HANDBOOKS_TYPE_CHOICE)
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ()
@@ -179,9 +174,8 @@ class Handbook(models.Model):
         return self.handbook
 
 
-class FilialAgency(models.Model):
+class FilialAgency(BaseModel):
     filial_agency = models.CharField(max_length=100)
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -190,7 +184,7 @@ class FilialAgency(models.Model):
         return self.filial_agency
 
 
-class Client(models.Model):
+class Client(BaseModel):
     date_of_add = models.DateField(default=timezone.now)
 
     email = models.CharField(max_length=100)
@@ -247,7 +241,6 @@ class Client(models.Model):
                                        related_name="condition_client_related_name",
                                        null=True, blank=True)
 
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -262,13 +255,12 @@ class Client(models.Model):
         return f'{self.email} {self.first_name} {self.last_name}'
 
 
-class FilialReport(models.Model):
+class FilialReport(BaseModel):
     report = models.TextField()
     filial_agency = models.ForeignKey(FilialAgency, on_delete=models.CASCADE,
                                       related_name="filial_agency_related_name")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
                              related_name="user_report_related_name")
-    on_delete = models.BooleanField(default=False)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -277,7 +269,7 @@ class FilialReport(models.Model):
         return self.report
 
 
-class UserFilial(models.Model):
+class UserFilial(BaseModel):
     filial_agency = models.ForeignKey(FilialAgency, on_delete=models.CASCADE,
                                       related_name="filial_user_related_name")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,

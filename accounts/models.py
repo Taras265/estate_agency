@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
+from estate_agency.models import BaseModel
+
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -88,8 +90,7 @@ class CustomUser(AbstractUser):
         self.save()
 
 
-class CustomGroup(Group):
-    on_delete = models.BooleanField(default=False)
+class CustomGroup(Group, BaseModel):
     history = HistoricalRecords()
 
     class Meta:
