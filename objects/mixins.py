@@ -1,5 +1,7 @@
 from django.views.generic.base import ContextMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
+from .models import BaseRealEstate
 from .choices import RealEstateType
 from images.models import RealEstateImage
 from images.forms import RealEstateImageFormSet

@@ -163,6 +163,10 @@ class BaseRealEstate(models.Model):
     )
     history = HistoricalRecords(inherit=True)
 
+    def delete(self):
+        self.on_delete = True
+        self.save()
+
 
 class Apartment(BaseRealEstate):
     """Квартира"""

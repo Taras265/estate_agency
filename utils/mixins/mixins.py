@@ -24,19 +24,6 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
     def get_login_url(self):
         lang = self.kwargs['lang']
         return reverse('accounts:login', kwargs={"lang": lang})
-    
-
-class HasAnyPermissionFromList(UserPassesTestMixin):
-    """
-    Перевіряє, чи має користувач хоча б одне з вказаних у прав зі списку 
-    permission_any_required. Якщо користувач не має жодного з вказаних прав, 
-    то він не матиме доступу до сторінки.
-    """
-    permission_any_required = []
-
-    def test_func(self):
-        user_permissions = self.request.user.get_all_permissions()
-        return len(set(self.permission_any_required) & set(user_permissions)) != 0
 
 
 class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):

@@ -3,8 +3,9 @@ from objects.views import (
     ApartmentListView, RealEstateCreateRedirectView,
     ApartmentCreateView, CommerceCreateView, HouseCreateView,
     ApartmentUpdateView, CommerceUpdateView, HouseUpdateView,
-    ApartmentDeleteView, CatalogListView, ApartmentDetailView,
-    ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView,
+    ApartmentDeleteView, CommerceDeleteView, HouseDeleteView,
+    CatalogListView, ApartmentDetailView, ObjectHistoryDetailView,
+    PdfView, ReportListView, HistoryReportListView,
     SelectionListView, ShowingActView, ContractListView,
     verify_real_estate_address, fill_real_estate_address,
 )
@@ -32,7 +33,9 @@ urlpatterns = [
     path('base/update/apartment/<int:pk>/', ApartmentUpdateView.as_view(), name='update_apartment'),
     path('base/update/commerce/<int:pk>/', CommerceUpdateView.as_view(), name='update_commerce'),
     path('base/update/house/<int:pk>/', HouseUpdateView.as_view(), name='update_house'),
-    path('base/delete/<int:pk>/', ApartmentDeleteView.as_view(), name='delete_apartment'),
+    path('base/delete/apartment/<int:pk>/', ApartmentDeleteView.as_view(), name='delete_apartment'),
+    path('base/delete/commerce/<int:pk>/', CommerceDeleteView.as_view(), name='delete_commerce'),
+    path('base/delete/house/<int:pk>/', HouseDeleteView.as_view(), name='delete_house'),
 
     path('base/history/<int:pk>/', ObjectHistoryDetailView.as_view(), name='history_apartment'),
 

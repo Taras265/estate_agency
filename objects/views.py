@@ -1,4 +1,3 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
@@ -10,6 +9,9 @@ from django.views.generic import (
     View, ListView, CreateView, UpdateView, DeleteView,
     DetailView, TemplateView
 )
+from django.contrib.auth.mixins import (
+    PermissionRequiredMixin, UserPassesTestMixin,
+)
 import io
 
 from accounts.models import CustomUser
@@ -17,9 +19,14 @@ from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from images.forms import RealEstateImageFormSet
 from .models import Apartment, Commerce, House
-from .services import real_estate_form_save
+from .services import (
+    real_estate_form_save, has_any_perm_form_list,
+    has_appropriate_change_perm,
+)
 from .choices import RealEstateType
-from .mixins import RealEstateCreateContextMixin, RealEstateUpdateContextMixin
+from .mixins import (
+    RealEstateCreateContextMixin, RealEstateUpdateContextMixin,
+)
 from .forms import (
     SearchForm, HandbooksSearchForm, 
     ApartmentForm, CommerceForm, HouseForm,
@@ -28,9 +35,9 @@ from .forms import (
 )
 from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (
-    HandbookHistoryListMixin, DeleteHandbooksMixin,
+    HandbookHistoryListMixin,
     CustomLoginRequiredMixin, HandbookOwnPermissionListMixin, 
-    HandbookWithFilterListMixin, HasAnyPermissionFromList
+    HandbookWithFilterListMixin,
 )
 from utils.pdf import generate_pdf
 
@@ -404,7 +411,8 @@ class RealEstateCreateRedirectView(CustomLoginRequiredMixin, View):
         raise PermissionDenied()
 
 
-class ApartmentCreateView(HasAnyPermissionFromList,
+class ApartmentCreateView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
                           RealEstateCreateContextMixin,
                           CreateView):
     """
@@ -415,10 +423,13 @@ class ApartmentCreateView(HasAnyPermissionFromList,
     model = Apartment
     form_class = ApartmentForm
     template_name = "objects/real_estate_create_form.html"
-    permission_any_required = (
-        "objects.add_apartment",
-        "objects.add_own_apartment",
-    )
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user,
+            "objects.add_apartment",
+            "objects.add_own_apartment"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -442,7 +453,8 @@ class ApartmentCreateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
     
 
-class CommerceCreateView(HasAnyPermissionFromList,
+class CommerceCreateView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
                          RealEstateCreateContextMixin,
                          CreateView):
     """
@@ -453,10 +465,13 @@ class CommerceCreateView(HasAnyPermissionFromList,
     model = Commerce
     form_class = CommerceForm
     template_name = "objects/real_estate_create_form.html"
-    permission_any_required = (
-        "objects.add_commerce",
-        "objects.add_own_commerce",
-    )
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user,
+            "objects.add_commerce",
+            "objects.add_own_commerce"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -480,7 +495,8 @@ class CommerceCreateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
     
 
-class HouseCreateView(HasAnyPermissionFromList,
+class HouseCreateView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
                       RealEstateCreateContextMixin,
                       CreateView):
     """
@@ -491,10 +507,13 @@ class HouseCreateView(HasAnyPermissionFromList,
     model = House
     form_class = HouseForm
     template_name = "objects/real_estate_create_form.html"
-    permission_any_required = (
-        "objects.add_house",
-        "objects.add_own_house",
-    )
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user,
+            "objects.add_house",
+            "objects.add_own_house"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -518,21 +537,23 @@ class HouseCreateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class ApartmentUpdateView(HasAnyPermissionFromList,
+class ApartmentUpdateView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
                           RealEstateUpdateContextMixin,
                           UpdateView):
-    """
-    Форма редагування квартири.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.change_apartment або objects.change_own_apartment.
-    """
+    """Форма редагування квартири."""
     model = Apartment
     form_class = ApartmentForm
     template_name = "objects/real_estate_update_form.html"
-    permission_any_required = (
-        "objects.change_apartment",
-        "objects.change_own_apartment",
-    )
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_apartment",
+            "objects.change_own_apartment"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -557,21 +578,23 @@ class ApartmentUpdateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
     
 
-class CommerceUpdateView(HasAnyPermissionFromList,
+class CommerceUpdateView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
                          RealEstateUpdateContextMixin,
                          UpdateView):
-    """
-    Форма редагування комерції.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.change_commerce або objects.change_own_commerce.
-    """
+    """Форма редагування комерції."""
     model = Commerce
     form_class = CommerceForm
     template_name = "objects/real_estate_update_form.html"
-    permission_any_required = (
-        "objects.change_commerce",
-        "objects.change_own_commerce",
-    )
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_commerce",
+            "objects.change_own_commerce",
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -596,21 +619,23 @@ class CommerceUpdateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class HouseUpdateView(HasAnyPermissionFromList,
+class HouseUpdateView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
                       RealEstateUpdateContextMixin,
                       UpdateView):
-    """
-    Форма редагування будинку.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.change_house або objects.change_own_house.
-    """
+    """Форма редагування будинку."""
     model = House
     form_class = HouseForm
     template_name = "objects/real_estate_update_form.html"
-    permission_any_required = (
-        "objects.change_house",
-        "objects.change_own_house",
-    )
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_house",
+            "objects.change_own_house",
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -635,8 +660,85 @@ class HouseUpdateView(HasAnyPermissionFromList,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):
-    handbook_type = 'apartment'
+class ApartmentDeleteView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
+                          DeleteView):
+    """Видалення квартири."""
+    template_name = "delete_form.html"
+    model = Apartment
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_apartment",
+            "objects.change_own_apartment"
+        )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+
+class CommerceDeleteView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
+                         DeleteView):
+    """Видалення комерції."""
+    template_name = "delete_form.html"
+    model = Commerce
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_commerce",
+            "objects.change_own_commerce"
+        )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+
+class HouseDeleteView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
+                      DeleteView):
+    """Видалення будинку."""
+    template_name = "delete_form.html"
+    model = House
+
+    def test_func(self):
+        return has_appropriate_change_perm(
+            self.request.user,
+            self.model,
+            self.kwargs["pk"],
+            "objects.change_house",
+            "objects.change_own_house"
+        )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
 class CatalogListView(ListView):
@@ -716,25 +818,3 @@ class ObjectHistoryDetailView(HandbookHistoryListMixin, DetailView):
     context_object_name = 'object'
 
     handbook_type = 'apartment'
-
-
-"""
-class ApartmentCreateView(FormMixin, FormView):
-    form_class = FlatForm
-    success_url = reverse_lazy("objects:handbooks_list")
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST)
-
-        obj = ObjectCreateForm(self.request.POST)
-        apartment = ApartmentCreateForm(self.request.POST)
-
-        apartment.object = 1
-
-        if obj.is_valid():
-            print(apartment.initial)
-            print(apartment.is_valid())
-
-        if form.is_valid():
-            return self.success_url
-"""
