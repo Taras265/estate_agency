@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<ul class="nav nav-tabs" id="myTab1" role="tablist">
+    {% with url_name=request.resolver_match.url_name %}
+        {% if can_view_apartment %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'apartment_list' %}active{% endif %}"
+                   href="{% url 'objects:apartment_list' lang=lang %}">
+                    {% translate "Apartments" %}
+                </a>
+            </li>
+        {% endif %}
+        {% if can_view_commerce %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'commerce_list' %}active{% endif %}"
+                   href="{% url 'objects:commerce_list' lang=lang %}">
+                    {% translate "Commerces" %}
+                </a>
+            </li>
+        {% endif %}
+        {% if can_view_house %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'house_list' %}active{% endif %}"
+                   href="{% url 'objects:house_list' lang=lang %}">
+                    {% translate "Houses" %}
+                </a>
+            </li>
+        {% endif %}
+    {% endwith %}
+</ul>

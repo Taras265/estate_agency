@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
@@ -21,11 +21,13 @@ from images.forms import RealEstateImageFormSet
 from .models import Apartment, Commerce, House
 from .services import (
     real_estate_form_save, has_any_perm_form_list,
-    has_appropriate_change_perm,
+    can_interact_with_object, can_interact_with_object_list,
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user
 )
 from .choices import RealEstateType
 from .mixins import (
     RealEstateCreateContextMixin, RealEstateUpdateContextMixin,
+    SaleListContextMixin
 )
 from .forms import (
     SearchForm, HandbooksSearchForm, 
@@ -262,20 +264,220 @@ class ShowingActView(TemplateView):
         return context
 
 
-class ApartmentListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
+class RealEstateListRedirect(CustomLoginRequiredMixin, View):
+    """
+    Перенаправляє користувача на певну сторінку зі списком обʼєктів 
+    в залежності від його прав для перегляду обʼєктів.
+    """
+    def get(self, request, *args, **kwargs):
+        kwargs = {"lang": self.kwargs["lang"]}
+
+        if has_any_perm_form_list(
+            self.request.user,
+            "objects.view_apartment", "objects.view_own_apartment"
+        ):
+            return redirect(reverse_lazy("objects:apartment_list", kwargs=kwargs))
+
+        if has_any_perm_form_list(
+            self.request.user,
+            "objects.view_commerce", "objects.view_own_commerce"
+        ):
+            return redirect(reverse_lazy("objects:commerce_list", kwargs=kwargs))
+        
+        if has_any_perm_form_list(
+            self.request.user,
+            "objects.view_house", "objects.view_own_house"
+        ):
+            return redirect(reverse_lazy("objects:house_list", kwargs=kwargs))
+        
+        raise PermissionDenied()
+
+
+class ApartmentListView(CustomLoginRequiredMixin,
+                        UserPassesTestMixin,
+                        SaleListContextMixin,
+                        ListView):
+    """Список квартир."""
+    template_name = "objects/list.html"
     model = Apartment
-    handbook_type = 'apartment'
-    filters = ['apartments', 'commerce', 'houses', 'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(on_delete=False),
-                        'commerce': Commerce.objects.filter(on_delete=False),
-                        'houses': House.objects.filter(on_delete=False),
-                        'lands': Apartment.objects.none(),
-                        'rooms': Apartment.objects.none()}
-    form = HandbooksSearchForm
-    choices = SALE_CHOICES
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user, "objects.view_apartment", "objects.view_own_apartment"
+        )
 
     def get_queryset(self):
-        return HandbookWithFilterListMixin.get_queryset(self).intersection(HandbookOwnPermissionListMixin.get_queryset(self))
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return apartment_filter_for_user(self.request.user.id, **filters)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "filters_template_name": "objects/_real_estate_sale_filters.html",
+            "can_view_apartment": True,
+            "can_view_commerce": has_any_perm_form_list(
+                self.request.user, "objects.view_commerce", "objects.view_own_commerce"
+            ),
+            "can_view_house": has_any_perm_form_list(
+                self.request.user, "objects.view_house", "objects.view_own_house"
+            ),
+            "table_head_data": ("id", "locality", "street"),
+            "can_create": has_any_perm_form_list(
+                self.request.user, "objects.add_apartment", "objects.add_own_apartment"
+            ),
+            "can_update": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.change_apartment",
+                "objects.change_own_apartment"
+            ),
+            "can_view_history": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.view_historicalapartment",
+                "objects.view_own_historicalapartment"
+            ),
+            "create_url_name": "objects:create_apartment",
+            "update_url_name": "objects:update_apartment",
+            "delete_url_name": "objects:delete_apartment",
+        })
+        return context
+
+
+class CommerceListView(CustomLoginRequiredMixin,
+                       UserPassesTestMixin,
+                       SaleListContextMixin,
+                       ListView):
+    """Список комерцій."""
+    template_name = "objects/list.html"
+    model = Commerce
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user, "objects.view_commerce", "objects.view_own_commerce"
+        )
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return commerce_filter_for_user(self.request.user.id, **filters)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "filters_template_name": "objects/_real_estate_sale_filters.html",
+            "can_view_apartment": has_any_perm_form_list(
+                self.request.user, "objects.view_apartment", "objects.view_own_apartment"
+            ),
+            "can_view_commerce": True,
+            "can_view_house": has_any_perm_form_list(
+                self.request.user, "objects.view_house", "objects.view_own_house"
+            ),
+            "table_head_data": ("id", "locality", "street"),
+            "can_create": has_any_perm_form_list(
+                self.request.user, "objects.add_commerce", "objects.add_own_commerce"
+            ),
+            "can_update": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.change_commerce",
+                "objects.change_own_commerce"
+            ),
+            "can_view_history": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.view_historicalcommerce",
+                "objects.view_own_historicalcommerce"
+            ),
+            "create_url_name": "objects:create_commerce",
+            "update_url_name": "objects:update_commerce",
+            "delete_url_name": "objects:delete_commerce",
+        })
+        return context
+
+
+class HouseListView(CustomLoginRequiredMixin,
+                    UserPassesTestMixin,
+                    SaleListContextMixin,
+                    ListView):
+    """Список будинків."""
+    template_name = "objects/list.html"
+    model = House
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return has_any_perm_form_list(
+            self.request.user, "objects.view_house", "objects.view_own_house"
+        )
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return house_filter_for_user(self.request.user.id, **filters)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "filters_template_name": "objects/_real_estate_sale_filters.html",
+            "can_view_apartment": has_any_perm_form_list(
+                self.request.user, "objects.view_apartment", "objects.view_own_apartment"
+            ),
+            "can_view_commerce": has_any_perm_form_list(
+                self.request.user, "objects.view_commerce", "objects.view_own_commerce"
+            ),
+            "can_view_house": True,
+            "table_head_data": ("id", "locality", "street"),
+            "can_create": has_any_perm_form_list(
+                self.request.user, "objects.add_house", "objects.add_own_house"
+            ),
+            "can_update": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.change_house",
+                "objects.change_own_house"
+            ),
+            "can_view_history": can_interact_with_object_list(
+                self.request.user,
+                context["object_list"],
+                "objects.view_historicalhouse",
+                "objects.view_own_historicalhouse"
+            ),
+            "create_url_name": "objects:create_house",
+            "update_url_name": "objects:update_house",
+            "delete_url_name": "objects:delete_house",
+        })
+        return context
 
 
 class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
@@ -387,30 +589,6 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         return context
 
 
-class RealEstateCreateRedirectView(CustomLoginRequiredMixin, View):
-    """
-    Перенаправляє користувача на відповідну форму створення 
-    обʼєкта нерухомості в залежності від наявних в нього прав.
-    """
-    def get(self, request):
-        can_add_apartment = request.user.has_perm("objects.add_apartment")
-        can_add_own_apartment = request.user.has_perm("objects.add_own_apartment")
-        if (can_add_apartment or can_add_own_apartment):
-            return redirect(reverse_lazy("objects:create_apartment"))
-        
-        can_add_commerce = request.user.has_perm("objects.add_commerce")
-        can_add_own_commerce = request.user.has_perm("objects.add_own_commerce")
-        if (can_add_commerce or can_add_own_commerce):
-            return redirect(reverse_lazy("objects:create_commerce"))
-
-        can_add_house = request.user.has_perm("objects.add_house")
-        can_add_own_house = request.user.has_perm("objects.add_own_house")
-        if (can_add_house or can_add_own_house):
-            return redirect(reverse_lazy("objects:create_house"))
-
-        raise PermissionDenied()
-
-
 class ApartmentCreateView(CustomLoginRequiredMixin,
                           UserPassesTestMixin,
                           RealEstateCreateContextMixin,
@@ -426,9 +604,7 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
 
     def test_func(self):
         return has_any_perm_form_list(
-            self.request.user,
-            "objects.add_apartment",
-            "objects.add_own_apartment"
+            self.request.user, "objects.add_apartment", "objects.add_own_apartment"
         )
 
     def get_context_data(self, **kwargs):
@@ -468,9 +644,7 @@ class CommerceCreateView(CustomLoginRequiredMixin,
 
     def test_func(self):
         return has_any_perm_form_list(
-            self.request.user,
-            "objects.add_commerce",
-            "objects.add_own_commerce"
+            self.request.user, "objects.add_commerce", "objects.add_own_commerce"
         )
 
     def get_context_data(self, **kwargs):
@@ -510,9 +684,7 @@ class HouseCreateView(CustomLoginRequiredMixin,
 
     def test_func(self):
         return has_any_perm_form_list(
-            self.request.user,
-            "objects.add_house",
-            "objects.add_own_house"
+            self.request.user, "objects.add_house", "objects.add_own_house"
         )
 
     def get_context_data(self, **kwargs):
@@ -547,10 +719,13 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_apartment",
             "objects.change_own_apartment"
         )
@@ -588,12 +763,15 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_commerce",
-            "objects.change_own_commerce",
+            "objects.change_own_commerce"
         )
 
     def get_context_data(self, **kwargs):
@@ -629,12 +807,15 @@ class HouseUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_house",
-            "objects.change_own_house",
+            "objects.change_own_house"
         )
 
     def get_context_data(self, **kwargs):
@@ -668,10 +849,13 @@ class ApartmentDeleteView(CustomLoginRequiredMixin,
     model = Apartment
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_apartment",
             "objects.change_own_apartment"
         )
@@ -695,10 +879,13 @@ class CommerceDeleteView(CustomLoginRequiredMixin,
     model = Commerce
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_commerce",
             "objects.change_own_commerce"
         )
@@ -722,10 +909,13 @@ class HouseDeleteView(CustomLoginRequiredMixin,
     model = House
 
     def test_func(self):
-        return has_appropriate_change_perm(
-            self.request.user,
+        current_object = get_object_or_404(
             self.model,
-            self.kwargs["pk"],
+            id=self.kwargs["pk"], on_delete=False
+        )
+        return can_interact_with_object(
+            self.request.user,
+            current_object,
             "objects.change_house",
             "objects.change_own_house"
         )

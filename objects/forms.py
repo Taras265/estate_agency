@@ -178,12 +178,17 @@ class SearchForm(forms.Form):
 
 
 class HandbooksSearchForm(forms.Form):
-    id = forms.IntegerField(label=_("id"),
-                            widget=forms.NumberInput(attrs={"class": "customtxt",
-                                                            "placeholder": _("id")}),
-                            required=False)
-    exclusive = forms.BooleanField(label=_("exclusive"), widget=forms.CheckboxInput(),
-                                   required=False)
+    id = forms.IntegerField(
+        label=_("id"),
+        widget=forms.NumberInput(attrs={"class": "customtxt",}),
+        required=False
+    )
+    exclusive = forms.BooleanField(
+        label=_("exclusive"),
+        widget=forms.CheckboxInput(),
+        required=False,
+        initial=False
+    )
 
 
 class BaseVerifyAddressForm(forms.Form):
