@@ -1,88 +1,140 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.db.models import Q
-from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.http import FileResponse, JsonResponse
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
+from django.utils.translation import activate
+from django.core.exceptions import PermissionDenied
+from django.views.generic import (
+    View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
+)
+from django.contrib.auth.mixins import (
+    PermissionRequiredMixin, UserPassesTestMixin,
+)
 import io
 
 from accounts.models import CustomUser
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from images.models import ApartmentImage
-from objects.forms import SearchForm, HandbooksSearchForm, ApartmentImageFormSet
-from objects.models import Apartment
+from images.forms import RealEstateImageFormSet
+from .models import Apartment, Commerce, House
+from .services import (
+    has_any_perm_from_list,
+    user_can_view_apartment_list, user_can_view_commerce_list, 
+    user_can_view_house_list, user_can_view_real_estate_list,
+    user_can_create_apartment, user_can_create_commerce,
+    user_can_create_house, user_can_update_apartment,
+    user_can_update_commerce, user_can_update_house,
+    user_can_update_apartment_list, user_can_update_commerce_list,
+    user_can_update_house_list, user_can_view_apartment_list_history,
+    user_can_view_commerce_list_history, user_can_view_house_list_history,
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user
+)
+from .utils import real_estate_form_save
+from .choices import RealEstateType
+from .mixins import (
+    RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin
+)
+from .forms import (
+    SearchForm, HandbooksSearchForm, ApartmentForm, CommerceForm, HouseForm,
+    ApartmentVerifyAddressForm, CommerceVerifyAddressForm, HouseVerifyAddressForm,
+)
 from utils.const import SALE_CHOICES
-from utils.mixins.mixins import (HandbookHistoryListMixin, DeleteHandbooksMixin, FormHandbooksMixin,
-                                 CustomLoginRequiredMixin,
-                                 HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
-from django.utils.translation import activate
+from utils.mixins.mixins import (
+    HandbookHistoryListMixin,
+    CustomLoginRequiredMixin, HandbookOwnPermissionListMixin, 
+    HandbookWithFilterListMixin,
+)
 from utils.pdf import generate_pdf
 
 
 @require_GET
-def verify_apartment_address(request, lang):
-    '''
-    Перевіряє, чи існує квартира з введенними даними (localityId, streetId, house, apartment).
-    Дані про квартиру передаються через query параметри.
-    Список необхідних query параметрів: localityId, streetId, house, apartment.
-    '''
-    locality_id = request.GET.get('localityId')
-    if not locality_id:
-        return JsonResponse({'message': 'You did not specify a locality!'})
-
-    street_id = request.GET.get('streetId')
-    if not street_id:
-        return JsonResponse({'message': 'You did not specify a street!'})
-
-    house_number = request.GET.get('house')
-    if not house_number:
-        return JsonResponse({'message': 'You did not specify a house!'})
-
-    apartment_number = request.GET.get('apartment')
-    if not apartment_number:
-        return JsonResponse({'message': 'You did not specify an apartment!'})
-
+def verify_real_estate_address(request, lang):
+    """
+    Перевіряє, чи існує обʼєкт нерухомості з типом type за введенною
+    адресою (localityId, streetId, house, apartment/premises/housing).
+    Дані про обʼєкт нерухомості передаються через query параметри.
+    Список необхідних query параметрів:
+    - type: int
+    - locality: int
+    - street: int
+    - house: str
+    - apartment/premises/housing: str (в залежності від типу обʼєкта)
+    """
     try:
-        apartment = Apartment.objects.get(
-            locality=locality_id,
-            street=street_id,
-            house=str(house_number),
-            apartment=str(apartment_number),
-            on_delete=False
-        )
-    except Apartment.DoesNotExist:
-        return JsonResponse({'message': 'Apartment does not exists.'})
-    except Apartment.MultipleObjectsReturned:
-        return JsonResponse({'message': 'Multiple apartments exist.'})
+        real_estate_type = int(request.GET.get("type"))
+    except ValueError:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": "Invalid real estate type."},
+        })
 
-    return JsonResponse({'message': f'Apartment exists (id {apartment.id}).'})
+    form = None
+
+    if real_estate_type == RealEstateType.APARTMENT:
+        form = ApartmentVerifyAddressForm(request.GET)
+    elif real_estate_type == RealEstateType.COMMERCE:
+        form = CommerceVerifyAddressForm(request.GET)
+    elif real_estate_type == RealEstateType.HOUSE:
+        form = HouseVerifyAddressForm(request.GET)
+    
+    if not form:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": "Invalid real estate type."},
+        })
+
+    if not form.is_valid():
+        return JsonResponse({
+            "success": False,
+            "errors": form.errors.get_json_data(),
+        })
+
+    real_estate = None
+
+    if real_estate_type == RealEstateType.APARTMENT:
+        real_estate = Apartment.objects.filter(**form.cleaned_data).only("id").first()
+    elif real_estate_type ==  RealEstateType.COMMERCE:
+        real_estate = Commerce.objects.filter(**form.cleaned_data).only("id").first()
+    elif real_estate_type ==  RealEstateType.HOUSE:
+        real_estate = House.objects.filter(**form.cleaned_data).only("id").first()
+
+    if not real_estate:
+        return JsonResponse({
+            "success": True,
+            "message": f"{RealEstateType.labels[real_estate_type-1]} doesn't exist.",
+        })
+    return JsonResponse({
+        "success": True,
+        "message": f"{RealEstateType.labels[real_estate_type-1]} exists (id {real_estate.id}).",
+    })
 
 
 @require_GET
-def fill_apartment_address(request, lang):
-    '''
-    Доповнює адресу квартири за вже введеними даними адреси.
+def fill_real_estate_address(request, lang):
+    """
+    Доповнює адресу обʼєкта нерухомості за вже введеними даними адреси.
     Наприклад, якщо користувач ввів вулицю, 
     то шукає відповідний район міста, місто, район області та область.
     Дані передаються через query параметри.
-    Список допустимих query параметрів: streetId.
-    Якщо параметр streetId не вказаний, то {"localityId": None}
-    Якщо вулиці з id=streetId не існує, то {"localityId": -1}
-    Якщо вулиця існує, то {"localityId": int}
-    '''
-    street_id = request.GET.get('streetId')
+    Список необхідних query параметрів:
+    - street: int
+    """
+    street_id = request.GET.get("street")
     if not street_id:
-        return JsonResponse({'localityId': None})
-    
+        return JsonResponse({"success": False, "locality": None})
+
     try:
         street = Street.objects\
-                    .select_related('locality_district__locality')\
+                    .select_related("locality_district__locality")\
                     .get(pk=street_id, on_delete=False)
     except Street.DoesNotExist:
-        return JsonResponse({'localityId': '-1'})
+        return JsonResponse({"success": False, "locality": -1})
 
-    return JsonResponse({'localityId': street.locality_district.locality.pk})
+    return JsonResponse({
+        "success": True,
+        "locality": street.locality_district.locality.pk,
+    })
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -123,12 +175,12 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         form = self.get_form(client)
         form.is_valid()
 
-        if form.cleaned_data.get('rooms_number') is not None:
-            queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
+        # if form.cleaned_data.get('rooms_number') is not None:
+        #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
         if form.cleaned_data.get('locality').exists():
             queryset = queryset.filter(locality__in=form.cleaned_data.get('locality'))
-        if form.cleaned_data.get('locality_district').exists():
-            queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
+        # if form.cleaned_data.get('locality_district').exists():
+        #     queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
         if form.cleaned_data.get('street').exists():
             queryset = queryset.filter(street__in=form.cleaned_data.get('street'))
         if form.cleaned_data.get('house') is not None and form.cleaned_data.get('house') != '':
@@ -148,7 +200,7 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             queryset = queryset.filter(
                 square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
             )
-        if form.cleaned_data.get('condition').exists():
+        if form.cleaned_data.get('condition'):
             queryset = queryset.filter(condition__in=form.cleaned_data.get('condition'))
 
         if form.cleaned_data.get('key_word') is not None and form.cleaned_data.get('key_word') != '':
@@ -182,9 +234,11 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         objects = []
         for obj in context['objects']:
-            images = ApartmentImage.objects.filter(apartment=obj)
-            objects.append({'image': images.first(),
-                            'object': obj})
+            # images = ApartmentImage.objects.filter(apartment=obj)
+            image = obj.images.first()
+            objects.append(
+                {'image': image, 'object': obj}
+            )
         context['objects'] = objects
 
         return context
@@ -201,40 +255,191 @@ class ShowingActView(TemplateView):
         context['lang'] = self.kwargs['lang']
         objects = []
         for obj in Apartment.objects.filter(id__in=selected_ids):
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
+            # objects.append({
+            #     'object': obj,
+            #     'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()
+            # })
+            objects.append({
+                'object': obj,
+                'image': obj.images.filter(on_delete=False).first(),
+            })
         context['objects'] = objects
 
         return context
 
 
-class ApartmentListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
+class RealEstateListRedirect(CustomLoginRequiredMixin, View):
+    """
+    Перенаправляє користувача на певну сторінку зі списком обʼєктів 
+    в залежності від його прав для перегляду обʼєктів.
+    """
+    def get(self, request, *args, **kwargs):
+        kwargs = {"lang": self.kwargs["lang"]}
+
+        if user_can_view_apartment_list(self.request.user):
+            return redirect(reverse_lazy("objects:apartment_list", kwargs=kwargs))
+
+        if user_can_view_commerce_list(self.request.user):
+            return redirect(reverse_lazy("objects:commerce_list", kwargs=kwargs))
+        
+        if user_can_view_house_list(self.request.user):
+            return redirect(reverse_lazy("objects:house_list", kwargs=kwargs))
+        
+        raise PermissionDenied()
+
+
+class ApartmentListView(CustomLoginRequiredMixin,
+                        UserPassesTestMixin,
+                        SaleListContextMixin,
+                        ListView):
+    """Список квартир."""
+    template_name = "objects/real_estate_list.html"
     model = Apartment
-    handbook_type = 'apartment'
-    filters = ['apartments', 'commerce', 'houses', 'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'commerce': Apartment.objects.filter(object_type=2).filter(on_delete=False),
-                        'houses': Apartment.objects.filter(object_type=3).filter(on_delete=False),
-                        'lands': Apartment.objects.filter(object_type=4).filter(on_delete=False),
-                        'rooms': Apartment.objects.filter(object_type=5).filter(on_delete=False)}
-    form = HandbooksSearchForm
-    choices = SALE_CHOICES
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return user_can_view_apartment_list(self.request.user)
 
     def get_queryset(self):
-        return HandbookWithFilterListMixin.get_queryset(self).intersection(HandbookOwnPermissionListMixin.get_queryset(self))
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return apartment_filter_for_user(self.request.user.id, **filters)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "can_view_apartment": True,
+            "can_view_commerce": user_can_view_commerce_list(self.request.user),
+            "can_view_house": user_can_view_house_list(self.request.user),
+            "can_create": user_can_create_apartment(self.request.user),
+            "can_update": user_can_update_apartment_list(
+                self.request.user, context["object_list"],
+            ),
+            "can_view_history": user_can_view_apartment_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_apartment",
+            "update_url_name": "objects:update_apartment",
+            "delete_url_name": "objects:delete_apartment",
+        })
+        return context
+
+
+class CommerceListView(CustomLoginRequiredMixin,
+                       UserPassesTestMixin,
+                       SaleListContextMixin,
+                       ListView):
+    """Список комерцій."""
+    template_name = "objects/real_estate_list.html"
+    model = Commerce
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return user_can_view_commerce_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return commerce_filter_for_user(self.request.user.id, **filters)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "can_view_apartment": user_can_view_apartment_list(self.request.user),
+            "can_view_commerce": True,
+            "can_view_house": user_can_view_house_list(self.request.user),
+            "can_create": user_can_create_commerce(self.request.user),
+            "can_update": user_can_update_commerce_list(
+                self.request.user, context["object_list"]
+            ),
+            "can_view_history": user_can_view_commerce_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_commerce",
+            "update_url_name": "objects:update_commerce",
+            "delete_url_name": "objects:delete_commerce",
+        })
+        return context
+
+
+class HouseListView(CustomLoginRequiredMixin,
+                    UserPassesTestMixin,
+                    SaleListContextMixin,
+                    ListView):
+    """Список будинків."""
+    template_name = "objects/real_estate_list.html"
+    model = House
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return user_can_view_house_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+            
+            filters = {field: value 
+                       for field, value in form.cleaned_data.items() 
+                       if value != None}
+        
+        return house_filter_for_user(self.request.user.id, **filters)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "can_view_apartment": user_can_view_apartment_list(self.request.user),
+            "can_view_commerce": user_can_view_commerce_list(self.request.user),
+            "can_view_house": True,
+            "can_create": user_can_create_house(self.request.user),
+            "can_update": user_can_update_house_list(
+                self.request.user, context["object_list"]
+            ),
+            "can_view_history": user_can_view_house_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_house",
+            "update_url_name": "objects:update_house",
+            "delete_url_name": "objects:delete_house",
+        })
+        return context
 
 
 class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment
+    template_name = "objects/report_list.html"
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
                'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
-    queryset_filters = {'new_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'new_commerce': Apartment.objects.filter(object_type=2).filter(on_delete=False),
-                        'new_houses': Apartment.objects.filter(object_type=3).filter(on_delete=False),
-                        'new_lands': Apartment.objects.filter(object_type=4).filter(on_delete=False),
-                        'new_rooms': Apartment.objects.filter(object_type=5).filter(on_delete=False),
-                        'all_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False),
-                        'my_apartments': Apartment.objects.filter(object_type=1).filter(on_delete=False)}
+    queryset_filters = {'new_apartments': Apartment.objects.filter(on_delete=False),
+                        'new_commerce': Commerce.objects.filter(on_delete=False),
+                        'new_houses': House.objects.filter(on_delete=False),
+                        'new_lands': Apartment.objects.none(),
+                        'new_rooms': Apartment.objects.none(),
+                        'all_apartments': Apartment.objects.filter(on_delete=False),
+                        'my_apartments': Apartment.objects.filter(on_delete=False)}
     custom = True
     form = HandbooksSearchForm
     choices = SALE_CHOICES
@@ -246,28 +451,28 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-
-        if not context['object_list']:
-            return context
-
-        # у полі status замінюємо число на відповідний йому текст
-        for index, obj in enumerate(context['object_values']):
-            apartment: Apartment = context['object_list'][index]
-            obj['status'] = apartment.get_status_display()
-
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
         return context
 
 
 class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment
+    template_name = "objects/contract_list.html"
     handbook_type = 'contract'
     filters = ['apartments', 'commerce', 'houses',
                'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(object_type=1).filter(status__gte=4).filter(on_delete=False),
-                        'commerce': Apartment.objects.filter(object_type=2).filter(status__gte=4).filter(on_delete=False),
-                        'houses': Apartment.objects.filter(object_type=3).filter(status__gte=4).filter(on_delete=False),
-                        'lands': Apartment.objects.filter(object_type=4).filter(status__gte=4).filter(on_delete=False),
-                        'rooms': Apartment.objects.filter(object_type=5).filter(status__gte=4).filter(on_delete=False)}
+    queryset_filters = {'apartments': Apartment.objects.filter(status__gte=4).filter(on_delete=False),
+                        'commerce': Commerce.objects.filter(status__gte=4).filter(on_delete=False),
+                        'houses': House.objects.filter(status__gte=4).filter(on_delete=False),
+                        'lands': Apartment.objects.none(),
+                        'rooms': Apartment.objects.none()}
     custom = True
     form = HandbooksSearchForm
     choices = SALE_CHOICES
@@ -276,10 +481,23 @@ class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMix
         q1 = HandbookWithFilterListMixin.get_queryset(self)
         q2 = HandbookOwnPermissionListMixin.get_queryset(self)
         return q1.intersection(q2)
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
+        return context
 
 
 class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment.history.all().model
+    template_name = "objects/report_list.html"
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
                'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
@@ -294,6 +512,15 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context['lang'] = self.kwargs['lang']
+
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
 
         context['choice'] = self.handbook_type
         context.update({'choices': self.choices_by_user(user)})
@@ -332,57 +559,286 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         return context
 
 
-class ApartmentCreateView(FormHandbooksMixin, CreateView):
-    handbook_type = 'apartment'
-    perm_type = 'add'
+class ApartmentCreateView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
+                          RealEstateCreateContextMixin,
+                          CreateView):
+    """
+    Форма створення нової квартири.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_apartment або objects.add_own_apartment.
+    """
+    model = Apartment
+    form_class = ApartmentForm
+    template_name = "objects/real_estate_create_form.html"
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['formset']
-        if formset.is_valid() and form.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES,
-                                                       queryset=Apartment.objects.none())
-        else:
-            context['formset'] = ApartmentImageFormSet(queryset=Apartment.objects.none())
-        return context
-
-
-class ApartmentUpdateView(FormHandbooksMixin, UpdateView):
-    handbook_type = 'apartment'
-    perm_type = 'change'
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['formset']
-        if formset.is_valid() and form.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return redirect(self.get_success_url())
-        else:
-            return self.form_invalid(form)
+    def test_func(self):
+        return user_can_create_apartment(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = ApartmentImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
-        else:
-            context['formset'] = ApartmentImageFormSet(instance=self.object)
+        context["type"] = RealEstateType.APARTMENT
+        return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+    
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+    
+
+class CommerceCreateView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
+                         RealEstateCreateContextMixin,
+                         CreateView):
+    """
+    Форма створення нової комерції.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_commerce або objects.add_own_commerce.
+    """
+    model = Commerce
+    form_class = CommerceForm
+    template_name = "objects/real_estate_create_form.html"
+
+    def test_func(self):
+        return user_can_create_commerce(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.COMMERCE
+        return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
+    
+
+class HouseCreateView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
+                      RealEstateCreateContextMixin,
+                      CreateView):
+    """
+    Форма створення нового будинку.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_house або objects.add_own_house.
+    """
+    model = House
+    form_class = HouseForm
+    template_name = "objects/real_estate_create_form.html"
+
+    def test_func(self):
+        return user_can_create_house(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.HOUSE
+        return context
+    
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+    
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
+
+
+class ApartmentUpdateView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
+                          RealEstateUpdateContextMixin,
+                          UpdateView):
+    """Форма редагування квартири."""
+    model = Apartment
+    form_class = ApartmentForm
+    template_name = "objects/real_estate_update_form.html"
+
+    def test_func(self):
+        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.APARTMENT
         return context
 
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
 
-class ApartmentDeleteView(DeleteHandbooksMixin, DeleteView):
-    handbook_type = 'apartment'
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+    
+
+class CommerceUpdateView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
+                         RealEstateUpdateContextMixin,
+                         UpdateView):
+    """Форма редагування комерції."""
+    model = Commerce
+    form_class = CommerceForm
+    template_name = "objects/real_estate_update_form.html"
+
+    def test_func(self):
+        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.COMMERCE
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
+
+
+class HouseUpdateView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
+                      RealEstateUpdateContextMixin,
+                      UpdateView):
+    """Форма редагування будинку."""
+    model = House
+    form_class = HouseForm
+    template_name = "objects/real_estate_update_form.html"
+
+    def test_func(self):
+        return user_can_update_house(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.HOUSE
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
+
+
+class ApartmentDeleteView(CustomLoginRequiredMixin,
+                          UserPassesTestMixin,
+                          DeleteView):
+    """Видалення квартири."""
+    template_name = "delete_form.html"
+    model = Apartment
+
+    def test_func(self):
+        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+
+class CommerceDeleteView(CustomLoginRequiredMixin,
+                         UserPassesTestMixin,
+                         DeleteView):
+    """Видалення комерції."""
+    template_name = "delete_form.html"
+    model = Commerce
+
+    def test_func(self):
+        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
+
+
+class HouseDeleteView(CustomLoginRequiredMixin,
+                      UserPassesTestMixin,
+                      DeleteView):
+    """Видалення будинку."""
+    template_name = "delete_form.html"
+    model = House
+
+    def test_func(self):
+        return user_can_update_house(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
 class CatalogListView(ListView):
@@ -416,7 +872,10 @@ class CatalogListView(ListView):
 
         objects = []
         for obj in context['objects']:
-            objects.append({'object': obj, 'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()})
+            objects.append({
+                'object': obj,
+                'image': obj.images.filter(on_delete=False).first()
+            })
         context['objects'] = objects
         return context
 
@@ -449,7 +908,9 @@ class ApartmentDetailView(DetailView):
 
         context['lang'] = self.kwargs['lang']
 
-        context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
+        # context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
+        apartment = Apartment.objects.get(id=context['object'].id)
+        context['images'] = apartment.images.filter(on_delete=False)
         return context
 
 
@@ -457,25 +918,3 @@ class ObjectHistoryDetailView(HandbookHistoryListMixin, DetailView):
     context_object_name = 'object'
 
     handbook_type = 'apartment'
-
-
-"""
-class ApartmentCreateView(FormMixin, FormView):
-    form_class = FlatForm
-    success_url = reverse_lazy("objects:handbooks_list")
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST)
-
-        obj = ObjectCreateForm(self.request.POST)
-        apartment = ApartmentCreateForm(self.request.POST)
-
-        apartment.object = 1
-
-        if obj.is_valid():
-            print(apartment.initial)
-            print(apartment.is_valid())
-
-        if form.is_valid():
-            return self.success_url
-"""
