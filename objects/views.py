@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
@@ -6,8 +6,7 @@ from django.views.decorators.http import require_GET
 from django.utils.translation import activate
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
-    View, ListView, CreateView, UpdateView, DeleteView,
-    DetailView, TemplateView
+    View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
 from django.contrib.auth.mixins import (
     PermissionRequiredMixin, UserPassesTestMixin,
@@ -20,20 +19,25 @@ from handbooks.models import Client, Street
 from images.forms import RealEstateImageFormSet
 from .models import Apartment, Commerce, House
 from .services import (
-    real_estate_form_save, has_any_perm_form_list,
-    can_interact_with_object, can_interact_with_object_list,
+    has_any_perm_from_list,
+    user_can_view_apartment_list, user_can_view_commerce_list, 
+    user_can_view_house_list, user_can_view_real_estate_list,
+    user_can_create_apartment, user_can_create_commerce,
+    user_can_create_house, user_can_update_apartment,
+    user_can_update_commerce, user_can_update_house,
+    user_can_update_apartment_list, user_can_update_commerce_list,
+    user_can_update_house_list, user_can_view_apartment_list_history,
+    user_can_view_commerce_list_history, user_can_view_house_list_history,
     apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user
 )
+from .utils import real_estate_form_save
 from .choices import RealEstateType
 from .mixins import (
-    RealEstateCreateContextMixin, RealEstateUpdateContextMixin,
-    SaleListContextMixin
+    RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin
 )
 from .forms import (
-    SearchForm, HandbooksSearchForm, 
-    ApartmentForm, CommerceForm, HouseForm,
-    ApartmentVerifyAddressForm, CommerceVerifyAddressForm,
-    HouseVerifyAddressForm,
+    SearchForm, HandbooksSearchForm, ApartmentForm, CommerceForm, HouseForm,
+    ApartmentVerifyAddressForm, CommerceVerifyAddressForm, HouseVerifyAddressForm,
 )
 from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (
@@ -171,12 +175,12 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         form = self.get_form(client)
         form.is_valid()
 
-        if form.cleaned_data.get('rooms_number') is not None:
-            queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
+        # if form.cleaned_data.get('rooms_number') is not None:
+        #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
         if form.cleaned_data.get('locality').exists():
             queryset = queryset.filter(locality__in=form.cleaned_data.get('locality'))
-        if form.cleaned_data.get('locality_district').exists():
-            queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
+        # if form.cleaned_data.get('locality_district').exists():
+        #     queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
         if form.cleaned_data.get('street').exists():
             queryset = queryset.filter(street__in=form.cleaned_data.get('street'))
         if form.cleaned_data.get('house') is not None and form.cleaned_data.get('house') != '':
@@ -196,7 +200,7 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             queryset = queryset.filter(
                 square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
             )
-        if form.cleaned_data.get('condition').exists():
+        if form.cleaned_data.get('condition'):
             queryset = queryset.filter(condition__in=form.cleaned_data.get('condition'))
 
         if form.cleaned_data.get('key_word') is not None and form.cleaned_data.get('key_word') != '':
@@ -231,9 +235,9 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         objects = []
         for obj in context['objects']:
             # images = ApartmentImage.objects.filter(apartment=obj)
-            images = Apartment.images.all()
+            image = obj.images.first()
             objects.append(
-                {'image': images.first(), 'object': obj}
+                {'image': image, 'object': obj}
             )
         context['objects'] = objects
 
@@ -257,7 +261,7 @@ class ShowingActView(TemplateView):
             # })
             objects.append({
                 'object': obj,
-                'image': Apartment.images.filter(on_delete=False).first(),
+                'image': obj.images.filter(on_delete=False).first(),
             })
         context['objects'] = objects
 
@@ -272,22 +276,13 @@ class RealEstateListRedirect(CustomLoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         kwargs = {"lang": self.kwargs["lang"]}
 
-        if has_any_perm_form_list(
-            self.request.user,
-            "objects.view_apartment", "objects.view_own_apartment"
-        ):
+        if user_can_view_apartment_list(self.request.user):
             return redirect(reverse_lazy("objects:apartment_list", kwargs=kwargs))
 
-        if has_any_perm_form_list(
-            self.request.user,
-            "objects.view_commerce", "objects.view_own_commerce"
-        ):
+        if user_can_view_commerce_list(self.request.user):
             return redirect(reverse_lazy("objects:commerce_list", kwargs=kwargs))
         
-        if has_any_perm_form_list(
-            self.request.user,
-            "objects.view_house", "objects.view_own_house"
-        ):
+        if user_can_view_house_list(self.request.user):
             return redirect(reverse_lazy("objects:house_list", kwargs=kwargs))
         
         raise PermissionDenied()
@@ -298,15 +293,13 @@ class ApartmentListView(CustomLoginRequiredMixin,
                         SaleListContextMixin,
                         ListView):
     """Список квартир."""
-    template_name = "objects/list.html"
+    template_name = "objects/real_estate_list.html"
     model = Apartment
     paginate_by = 5
     form_class = HandbooksSearchForm
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.view_apartment", "objects.view_own_apartment"
-        )
+        return user_can_view_apartment_list(self.request.user)
 
     def get_queryset(self):
         filters = {}
@@ -325,29 +318,15 @@ class ApartmentListView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "filters_template_name": "objects/_real_estate_sale_filters.html",
             "can_view_apartment": True,
-            "can_view_commerce": has_any_perm_form_list(
-                self.request.user, "objects.view_commerce", "objects.view_own_commerce"
+            "can_view_commerce": user_can_view_commerce_list(self.request.user),
+            "can_view_house": user_can_view_house_list(self.request.user),
+            "can_create": user_can_create_apartment(self.request.user),
+            "can_update": user_can_update_apartment_list(
+                self.request.user, context["object_list"],
             ),
-            "can_view_house": has_any_perm_form_list(
-                self.request.user, "objects.view_house", "objects.view_own_house"
-            ),
-            "table_head_data": ("id", "locality", "street"),
-            "can_create": has_any_perm_form_list(
-                self.request.user, "objects.add_apartment", "objects.add_own_apartment"
-            ),
-            "can_update": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.change_apartment",
-                "objects.change_own_apartment"
-            ),
-            "can_view_history": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.view_historicalapartment",
-                "objects.view_own_historicalapartment"
+            "can_view_history": user_can_view_apartment_list_history(
+                self.request.user, context["object_list"]
             ),
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
@@ -361,15 +340,13 @@ class CommerceListView(CustomLoginRequiredMixin,
                        SaleListContextMixin,
                        ListView):
     """Список комерцій."""
-    template_name = "objects/list.html"
+    template_name = "objects/real_estate_list.html"
     model = Commerce
     paginate_by = 5
     form_class = HandbooksSearchForm
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.view_commerce", "objects.view_own_commerce"
-        )
+        return user_can_view_commerce_list(self.request.user)
 
     def get_queryset(self):
         filters = {}
@@ -387,29 +364,15 @@ class CommerceListView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "filters_template_name": "objects/_real_estate_sale_filters.html",
-            "can_view_apartment": has_any_perm_form_list(
-                self.request.user, "objects.view_apartment", "objects.view_own_apartment"
-            ),
+            "can_view_apartment": user_can_view_apartment_list(self.request.user),
             "can_view_commerce": True,
-            "can_view_house": has_any_perm_form_list(
-                self.request.user, "objects.view_house", "objects.view_own_house"
+            "can_view_house": user_can_view_house_list(self.request.user),
+            "can_create": user_can_create_commerce(self.request.user),
+            "can_update": user_can_update_commerce_list(
+                self.request.user, context["object_list"]
             ),
-            "table_head_data": ("id", "locality", "street"),
-            "can_create": has_any_perm_form_list(
-                self.request.user, "objects.add_commerce", "objects.add_own_commerce"
-            ),
-            "can_update": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.change_commerce",
-                "objects.change_own_commerce"
-            ),
-            "can_view_history": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.view_historicalcommerce",
-                "objects.view_own_historicalcommerce"
+            "can_view_history": user_can_view_commerce_list_history(
+                self.request.user, context["object_list"]
             ),
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
@@ -423,15 +386,13 @@ class HouseListView(CustomLoginRequiredMixin,
                     SaleListContextMixin,
                     ListView):
     """Список будинків."""
-    template_name = "objects/list.html"
+    template_name = "objects/real_estate_list.html"
     model = House
     paginate_by = 5
     form_class = HandbooksSearchForm
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.view_house", "objects.view_own_house"
-        )
+        return user_can_view_house_list(self.request.user)
 
     def get_queryset(self):
         filters = {}
@@ -449,29 +410,15 @@ class HouseListView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "filters_template_name": "objects/_real_estate_sale_filters.html",
-            "can_view_apartment": has_any_perm_form_list(
-                self.request.user, "objects.view_apartment", "objects.view_own_apartment"
-            ),
-            "can_view_commerce": has_any_perm_form_list(
-                self.request.user, "objects.view_commerce", "objects.view_own_commerce"
-            ),
+            "can_view_apartment": user_can_view_apartment_list(self.request.user),
+            "can_view_commerce": user_can_view_commerce_list(self.request.user),
             "can_view_house": True,
-            "table_head_data": ("id", "locality", "street"),
-            "can_create": has_any_perm_form_list(
-                self.request.user, "objects.add_house", "objects.add_own_house"
+            "can_create": user_can_create_house(self.request.user),
+            "can_update": user_can_update_house_list(
+                self.request.user, context["object_list"]
             ),
-            "can_update": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.change_house",
-                "objects.change_own_house"
-            ),
-            "can_view_history": can_interact_with_object_list(
-                self.request.user,
-                context["object_list"],
-                "objects.view_historicalhouse",
-                "objects.view_own_historicalhouse"
+            "can_view_history": user_can_view_house_list_history(
+                self.request.user, context["object_list"]
             ),
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
@@ -482,6 +429,7 @@ class HouseListView(CustomLoginRequiredMixin,
 
 class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment
+    template_name = "objects/report_list.html"
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
                'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
@@ -503,20 +451,20 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-
-        if not context['object_list']:
-            return context
-
-        # у полі status замінюємо число на відповідний йому текст
-        for index, obj in enumerate(context['object_values']):
-            apartment: Apartment = context['object_list'][index]
-            obj['status'] = apartment.get_status_display()
-
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
         return context
 
 
 class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment
+    template_name = "objects/contract_list.html"
     handbook_type = 'contract'
     filters = ['apartments', 'commerce', 'houses',
                'lands', 'rooms']
@@ -533,10 +481,23 @@ class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMix
         q1 = HandbookWithFilterListMixin.get_queryset(self)
         q2 = HandbookOwnPermissionListMixin.get_queryset(self)
         return q1.intersection(q2)
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
+        return context
 
 
 class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment.history.all().model
+    template_name = "objects/report_list.html"
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
                'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
@@ -551,6 +512,15 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context['lang'] = self.kwargs['lang']
+
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
 
         context['choice'] = self.handbook_type
         context.update({'choices': self.choices_by_user(user)})
@@ -603,9 +573,7 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_create_form.html"
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.add_apartment", "objects.add_own_apartment"
-        )
+        return user_can_create_apartment(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -625,7 +593,7 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
     
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
     
 
@@ -643,9 +611,7 @@ class CommerceCreateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_create_form.html"
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.add_commerce", "objects.add_own_commerce"
-        )
+        return user_can_create_commerce(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -665,8 +631,8 @@ class CommerceCreateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
     
 
 class HouseCreateView(CustomLoginRequiredMixin,
@@ -683,9 +649,7 @@ class HouseCreateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_create_form.html"
 
     def test_func(self):
-        return has_any_perm_form_list(
-            self.request.user, "objects.add_house", "objects.add_own_house"
-        )
+        return user_can_create_house(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -705,8 +669,8 @@ class HouseCreateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
     
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
 class ApartmentUpdateView(CustomLoginRequiredMixin,
@@ -719,16 +683,7 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_apartment",
-            "objects.change_own_apartment"
-        )
+        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -749,7 +704,7 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
     
 
@@ -763,16 +718,7 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_commerce",
-            "objects.change_own_commerce"
-        )
+        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -793,8 +739,8 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
 
 
 class HouseUpdateView(CustomLoginRequiredMixin,
@@ -807,16 +753,7 @@ class HouseUpdateView(CustomLoginRequiredMixin,
     template_name = "objects/real_estate_update_form.html"
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_house",
-            "objects.change_own_house"
-        )
+        return user_can_update_house(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -837,8 +774,8 @@ class HouseUpdateView(CustomLoginRequiredMixin,
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
 class ApartmentDeleteView(CustomLoginRequiredMixin,
@@ -849,16 +786,7 @@ class ApartmentDeleteView(CustomLoginRequiredMixin,
     model = Apartment
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_apartment",
-            "objects.change_own_apartment"
-        )
+        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -867,7 +795,7 @@ class ApartmentDeleteView(CustomLoginRequiredMixin,
         return context
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "apartments"}
+        kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
@@ -879,16 +807,7 @@ class CommerceDeleteView(CustomLoginRequiredMixin,
     model = Commerce
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_commerce",
-            "objects.change_own_commerce"
-        )
+        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -897,8 +816,8 @@ class CommerceDeleteView(CustomLoginRequiredMixin,
         return context
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "commerce"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
 
 
 class HouseDeleteView(CustomLoginRequiredMixin,
@@ -909,16 +828,7 @@ class HouseDeleteView(CustomLoginRequiredMixin,
     model = House
 
     def test_func(self):
-        current_object = get_object_or_404(
-            self.model,
-            id=self.kwargs["pk"], on_delete=False
-        )
-        return can_interact_with_object(
-            self.request.user,
-            current_object,
-            "objects.change_house",
-            "objects.change_own_house"
-        )
+        return user_can_update_house(self.request.user, self.kwargs["pk"])
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -927,8 +837,8 @@ class HouseDeleteView(CustomLoginRequiredMixin,
         return context
 
     def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"], "filter": "houses"}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
 class CatalogListView(ListView):

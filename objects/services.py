@@ -1,14 +1,150 @@
 from collections.abc import Iterable
 
 from django.db.models import QuerySet
-from django.forms import ModelForm
-from django.forms.formsets import BaseFormSet
-from django.http.request import QueryDict
-from django.utils.datastructures import MultiValueDict
 from django.shortcuts import get_object_or_404
 
 from .models import BaseRealEstate, Apartment, Commerce, House
 from accounts.models import CustomUser
+
+
+def user_can_view_apartment_list(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_apartment", "objects.view_own_apartment"
+    )
+
+
+def user_can_view_commerce_list(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_commerce", "objects.view_own_commerce"
+    )
+
+
+def user_can_view_house_list(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_house", "objects.view_own_house"
+    )
+
+
+def user_can_view_real_estate_list(user: CustomUser) -> bool:
+    return (
+        user_can_view_apartment_list(user) or
+        user_can_view_commerce_list(user) or
+        user_can_view_house_list(user)
+    )
+
+
+def user_can_create_apartment(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.add_apartment", "objects.add_own_apartment"
+    )
+
+
+def user_can_create_commerce(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.add_commerce", "objects.add_own_commerce"
+    )
+
+
+def user_can_create_house(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.add_house", "objects.add_own_house"
+    )
+
+
+def user_can_update_apartment(user: CustomUser, apartment_id: int) -> bool:
+    try:
+        apartment = Apartment.objects.only("realtor").get(id=apartment_id, on_delete=False)
+    except Apartment.DoesNotExist:
+        return False
+
+    return can_interact_with_object(
+        user, apartment, "objects.change_apartment", "objects.change_own_apartment"
+    )
+
+
+def user_can_update_apartment_list(
+    user: CustomUser,
+    apartment_list: Iterable[Apartment]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user, apartment_list, "objects.change_apartment", "objects.change_own_apartment"
+    )
+
+
+def user_can_update_commerce(user: CustomUser, commerce_id: int) -> bool:
+    try:
+        commerce = Commerce.objects.only("realtor").get(id=commerce_id, on_delete=False)
+    except Commerce.DoesNotExist:
+        return False
+    
+    return can_interact_with_object(
+        user, commerce, "objects.change_commerce", "objects.change_own_commerce"
+    )
+
+
+def user_can_update_commerce_list(
+    user: CustomUser,
+    commerce_list: Iterable[Commerce]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user, commerce_list, "objects.change_commerce", "objects.change_own_commerce"
+    )
+
+
+def user_can_update_house(user: CustomUser, house_id: int) -> bool:
+    try:
+        house = House.objects.only("realtor").get(id=house_id, on_delete=False)
+    except House.DoesNotExist:
+        return False
+    
+    return can_interact_with_object(
+        user, house, "objects.change_house", "objects.change_own_house"
+    )
+
+
+def user_can_update_house_list(
+    user: CustomUser,
+    house_list: Iterable[House]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user, house_list, "objects.change_house", "objects.change_own_house"
+    )
+
+
+def user_can_view_apartment_list_history(
+    user: CustomUser,
+    apartment_list: Iterable[Apartment]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user,
+        apartment_list,
+        "objects.view_historicalapartment",
+        "objects.view_own_historicalapartment"
+    )
+
+
+def user_can_view_commerce_list_history(
+    user: CustomUser,
+    commerce_list: Iterable[Commerce]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user,
+        commerce_list,
+        "objects.view_historicalcommerce",
+        "objects.view_own_historicalcommerce"
+    )
+
+
+def user_can_view_house_list_history(
+    user: CustomUser,
+    house_list: Iterable[House]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user,
+        house_list,
+        "objects.view_historicalhouse",
+        "objects.view_own_historicalhouse"
+    )
 
 
 def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
@@ -68,7 +204,7 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
     return queryset.filter(realtor=user_id)
 
 
-def has_any_perm_form_list(user: CustomUser, *args: str) -> bool:
+def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
     """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
     return any(user.has_perm(perm) for perm in args)
 
@@ -119,27 +255,3 @@ def can_interact_with_object_list(
 
     return {item.id: item.realtor == user for item in object_list}
 
-
-def real_estate_form_save(
-    form: ModelForm,
-    formset_class: BaseFormSet,
-    formset_data: QueryDict,
-    formset_files: MultiValueDict,
-    instance: BaseRealEstate = None
-) -> tuple[BaseFormSet, bool]:
-    """
-    Зберігає дані форми та формсету для обʼєкту нерухомості.
-    Якщо переданий параметр instance, то виконується оновлення обʼєкта.
-    """
-    formset = formset_class(
-        formset_data,
-        formset_files,
-        prefix="images",
-        instance=instance,
-    )
-    if not formset.is_valid():
-        return (formset, False)
-
-    form.save()
-    formset.save()
-    return (formset, True)

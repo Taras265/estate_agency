@@ -49,7 +49,7 @@
                 {% if can_view_client %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
-                           href="{% url 'handbooks:client_list' lang=lang %}">
+                           href="{% url 'handbooks:client_list' lang=lang filter='all' %}">
                             {% translate "Client" %}
                         </a>
                     </li>
@@ -65,7 +65,7 @@
                 {% if can_view_report %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
-                           href="{% url 'objects:report_list' lang=lang %}">
+                           href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
                             {% translate "Report" %}
                         </a>
                     </li>
@@ -73,14 +73,39 @@
                 {% if can_view_contract %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
-                           href="{% url 'objects:contract_list' lang=lang %}">
+                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
                             {% translate "Contract" %}
                         </a>
                     </li>
                 {% endif %}
             </ul>
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                    {% if can_view_apartment %}
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {% if url_name == 'apartment_list' %}active{% endif %}"
+                               href="{% url 'objects:apartment_list' lang=lang %}">
+                                {% translate "Apartments" %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if can_view_commerce %}
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {% if url_name == 'commerce_list' %}active{% endif %}"
+                               href="{% url 'objects:commerce_list' lang=lang %}">
+                                {% translate "Commerces" %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if can_view_house %}
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {% if url_name == 'house_list' %}active{% endif %}"
+                               href="{% url 'objects:house_list' lang=lang %}">
+                                {% translate "Houses" %}
+                            </a>
+                        </li>
+                    {% endif %}
+            </ul>
         {% endwith %}
-        {% include filters_template_name %}
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
@@ -91,15 +116,12 @@
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
-                                        {% for column in table_head_data %}
-                                            <th scope="col">{{ column|capfirst }}</th>
-                                        {% endfor %}
+                                        <th scope="col">{% translate "Id" %}</th>
+                                        <th scope="col">{% translate "Locality" %}</th>
+                                        <th scope="col">{% translate "Street" %}</th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
-                                        {% if choice == "client" %}
-                                            <th scope="col"></th>
-                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,16 +131,7 @@
                                         <td>{{object.id}}</td>
                                         <td>{{object.locality}}</td>
                                         <td>{{object.street}}</td>
-                                        {% if choice == "client" %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                href="{% url 'selection' lang object.id %}"
-                                                type="button" style="max-width: 120px">
-                                                    {% translate "Selection" %}
-                                                </a>
-                                            <td>
-                                        {% endif %}
-                                        {% if can_update|get_dict_value:object.id %}
+                                        {% if can_update and can_update|get_dict_value:object.id %}
                                             <td>
                                                 <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                                                    href="{% url update_url_name lang=lang pk=object.id %}"
@@ -137,30 +150,32 @@
                                             <td></td>
                                             <td></td>
                                         {% endif %}
-                                        {% if can_view_history|get_dict_value:object.id %}
+                                        {% if can_view_history and can_view_history|get_dict_value:object.id %}
                                             <td>
                                                 <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="/{{ lang }}/{% url_app choice %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                                                   type="button" style="max-width: 120px">{% translate 'History' %}</a>
+                                                   href="/{{ lang }}/{% url_app choice %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}{{ object.id }}/"
+                                                   type="button" style="max-width: 120px">
+                                                    {% translate 'History' %}
+                                                </a>
                                             </td>
                                         {% else %}
                                             <td></td>
                                         {% endif %}
                                     </tr>
-                                {% empty %}
-                                    <div>Not found</div>
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    {% else %}
+                        <div style="text-align:center">Not found</div>
                     {% endif %}
                     {% if can_create %}
                         <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                            href="{% url create_url_name lang=lang %}"
                            type="button"
                            style="max-width: 120px">
-                                {% translate "Create" %}
+                            {% translate "Create" %}
                         </a>
                     {% endif %}
                 </div>
