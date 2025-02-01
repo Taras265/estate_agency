@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Form' %}{% endblock %}
+
+{% block content %}
+<style>
+    .select-date-widget fieldset {
+        display: flex;
+    }
+
+    .errorlist {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: rgb(220, 53, 69);
+        text-align: left;
+    }
+</style>
+
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Form' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Form' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
+<div>
+    <div class="d-inline-block mb-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <label>{% translate "Add" %}</label>
+            <select id="real-estate-type-select" name="real-estate-type">
+                {% if can_add_apartment or can_add_own_apartment %}
+                    <option value="{{ real_estate_choices.0.0 }}">{{ real_estate_choices.0.1 }}</option>
+                {% endif %}
+                {% if can_add_commerce or can_add_own_commerce %}
+                    <option value="{{ real_estate_choices.1.0 }}">{{ real_estate_choices.1.1 }}</option>
+                {% endif %}
+                {% if can_add_house or can_add_own_house %}
+                    <option value="{{ real_estate_choices.2.0 }}">{{ real_estate_choices.2.1 }}</option>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <form enctype="multipart/form-data" action="{{ action }}" method="post">
+        {% csrf_token %}
+        {% include form.template_name %}
+        <div class="text-center">
+            <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script defer 
+    src="{% static '/js/real_estate_form.js' %}" 
+    data-main-url="{% url 'main' lang %}"
+    data-real-estate-type={{ type }}>
+</script>
+<script defer 
+    src="{% static '/js/real_estate_create_form.js' %}" 
+    data-main-url="{% url 'main' lang %}"
+    data-real-estate-type={{ type }}>
+</script>
+{% endblock %}

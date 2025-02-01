@@ -11,7 +11,7 @@ from utils.const import CHOICES, HANDBOOKS_QUERYSET, BASE_CHOICES, SALE_CHOICES
 from utils.mixins.mixins import (HandbookHistoryListMixin,
                                  FormHandbooksMixin, DeleteHandbooksMixin, HandbookListMixin,
                                  HandbooksListMixin, HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
-
+from objects.services import has_any_perm_from_list, user_can_view_real_estate_list
 
 def handbook_redirect(request, lang):
     # Функція, яка перебрасує користувача на довідник,
@@ -101,6 +101,7 @@ class StreetListView(HandbookListMixin, ListView):
 
 class ClientListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Client
+    template_name = "handbooks/client_list.html"
     handbook_type = 'client'
     filters = ['all', 'new', 'in_selection', 'with_show', 'decided', 'deferred_demand']
     queryset_filters = {'all': Client.objects.filter(on_delete=False),
@@ -116,15 +117,16 @@ class ClientListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
-
-        if not context['object_list']:
-            return context
-
-        # у полі status замінюємо число на відповідний йому текст
-        for index, obj in enumerate(context['object_values']):
-            client: Client = context['object_list'][index]
-            obj['status'] = client.get_status_display()
-
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+            "can_update": {item.id: True for item in context["object_list"]},
+            "can_view_history": {item.id: True for item in context["object_list"]},
+        })
         return context
 
 

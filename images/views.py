@@ -4,7 +4,7 @@ from django.views.generic import CreateView, ListView, DeleteView
 
 from accounts.models import CustomUser
 from images.forms import ApartmentImageForm
-from images.models import ApartmentImage
+from images.models import RealEstateImage
 from objects.models import Apartment
 from utils.const import LIST_BY_USER
 from utils.mixins.mixins import FormMixin, DeleteMixin, CustomLoginRequiredMixin
@@ -37,7 +37,8 @@ class ApartmentImageListView(CustomLoginRequiredMixin, PermissionRequiredMixin, 
                 else:
                     new_queryset = queryset.filter(**{field: user})
             queryset = new_queryset
-        return ApartmentImage.objects.filter(on_delete=False, apartment=queryset.first())
+        # return ApartmentImage.objects.filter(on_delete=False, apartment=queryset.first())
+        return queryset.first().images
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user = CustomUser.objects.filter(email=self.request.user).first()
@@ -87,7 +88,7 @@ class ApartmentImageCreateView(FormMixin, CreateView):
 
 
 class ApartmentImageDeleteView(DeleteMixin, DeleteView):
-    queryset = ApartmentImage.objects.filter(on_delete=False)
+    queryset = RealEstateImage.objects.filter(on_delete=False)
     form_class = ApartmentImageForm
     success_url = reverse_lazy("images:apartment_images_list")
 
