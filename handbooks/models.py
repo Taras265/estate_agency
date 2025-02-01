@@ -218,7 +218,8 @@ class Client(models.Model):
     )
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=1)
 
-    object_type = models.PositiveSmallIntegerField(choices=((1, "Квартира"), ), default=1)
+    object_type = models.PositiveSmallIntegerField(choices=((1, "Квартира"), (2, "Комерція"), (3, "Дім"),),
+                                                   default=1)
 
     realtor_type = models.PositiveSmallIntegerField(choices=((1, "realtor"),
                                                              (2, "realtor 5 to 5")),

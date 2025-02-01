@@ -163,7 +163,6 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         return SelectionForm(self.request.GET)
 
     def get_queryset(self):
-        queryset = Apartment.objects.filter(on_delete=False)
 
         client_id = self.kwargs.get('client_id')
         client = Client.objects.filter(id=client_id).first()
@@ -174,6 +173,14 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         form = self.get_form(client)
         form.is_valid()
+
+        # треба буде виправити і зробити адекватним
+        if client.object_type == 1:
+            queryset = Apartment.objects.filter(on_delete=False)
+        elif client.object_type == 2:
+            queryset = Commerce.objects.filter(on_delete=False)
+        else:
+            queryset = House.objects.filter(on_delete=False)
 
         # if form.cleaned_data.get('rooms_number') is not None:
         #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
