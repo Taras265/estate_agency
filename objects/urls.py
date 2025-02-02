@@ -16,10 +16,10 @@ urlpatterns = [
     path("catalog/", CatalogListView.as_view(), name="catalog"),
     path("catalog/<int:pk>/", ApartmentDetailView.as_view(), name="apartment_detail"),
 
-    path("sale/real-estate", RealEstateListRedirect.as_view(), name="real_estate_list_redirect"),
-    path("sale/apartments", ApartmentListView.as_view(), name="apartment_list"),
-    path("sale/commerces", CommerceListView.as_view(), name="commerce_list"),
-    path("sale/houses", HouseListView.as_view(), name="house_list"),
+    path("sale/real-estate/", RealEstateListRedirect.as_view(), name="real_estate_list_redirect"),
+    path("sale/apartments/", ApartmentListView.as_view(), name="apartment_list"),
+    path("sale/commerces/", CommerceListView.as_view(), name="commerce_list"),
+    path("sale/houses/", HouseListView.as_view(), name="house_list"),
 
     path("sale/report/changes/", HistoryReportListView.as_view(), name="changes_report_list"),
     path("sale/report/", ReportListView.as_view(), name="report_list"),
