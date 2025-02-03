@@ -51,7 +51,7 @@
                    {% elif i.1 == "realestate" %}href='{% url 'objects:real_estate_list_redirect' lang=lang %}'
                    {% elif i.1 == "report" %}href='{% url 'objects:report_list' lang=lang %}'
                    {% elif i.1 == "contract" %}href='{% url 'objects:contract_list' lang=lang %}'{% endif %}>
-                    {% translate i.1 %}
+                   {% if i.1 == "realestate" %}{% translate "Real estate" %}{% else %}{% translate i.1 %}{% endif %}
                 </a>
             </li>
             {% endfor %}
