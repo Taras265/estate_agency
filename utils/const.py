@@ -34,7 +34,7 @@ BASE_CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('stair'), 'stair'), (_('heating'), 'heating'), (_('layout'), 'layout'),
            (_('housetype'), 'housetype'), (_('filialagency'), 'filialagency'),
            (_('filialreport'), 'filialreport'), (_('complex'), 'complex')]
-SALE_CHOICES = [(_('client'), 'client'), (_('real-estate'), 'real-estate'),
+SALE_CHOICES = [(_('client'), 'client'), (_('realestate'), 'realestate'),
                 (_('report'), 'report'), (_('contract'), 'contract')]
 USER_CHOICES = [(_('user'), 'user'), (_('group'), 'group')]
 

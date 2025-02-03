@@ -1,17 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load handbooks %}
-{% load objects_tags %}
 {% load i18n %}
 
-{% block title %}{% translate "Handbooks" %}{% endblock %}
+{% block title %}{% translate 'Handbooks' %}{% endblock %}
 
 {% block content %}
 <div class="container-fluid page_heading_banner">
     <div class="banner_caption">
-        <h1>{% translate "Base" %}</h1>
+        <h1>{% translate 'Base' %}</h1>
         <ul>
-            <li><a href="{% url 'main' lang=lang %}">{% translate "Main" %}</a></li>
-            <li>{% translate "Base" %}</li>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Base' %}</li>
         </ul>
     </div>
 </div>
@@ -22,18 +21,18 @@
                 <form method="get" class="search-form">
                     <div class="row g-4">
                         {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label class="customlbl" for="id_{{ field.name }}">
+                                {{ field.label }}
+                            </label>
+                            <div class="form-group">
+                                {{ field }}
                             </div>
+                        </div>
                         {% endfor %}
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                             <br>
-                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
+                            <button type="submit" class="custombtn">{% translate 'Search' %}</button>
                         </div>
                     </div>
                 </form>
@@ -44,82 +43,57 @@
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
-        {% with url_name=request.resolver_match.url_name %}
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                {% if can_view_client %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
-                           href="{% url 'handbooks:client_list' lang=lang filter='all' %}">
-                            {% translate "Client" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_real_estate %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_list' or url_name == 'commerce_list' or url_name == 'house_list' %}active{% endif %}"
-                           href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
-                            {% translate "Real estate" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_report %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
-                           href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Report" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_contract %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endwith %}
-        {% with current_filter=request.resolver_match.kwargs.filter %}
-            <ul class="nav nav-tabs" id="myTab1" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'all' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='all' %}">
-                        {% translate "All" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='new' %}">
-                        {% translate "New" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'in_selection' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='in_selection' %}">
-                        {% translate "In selection" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'with_show' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='with_show' %}">
-                        {% translate "With show" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'decided' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='decided' %}">
-                        {% translate "Decided" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'deferred_demand' %}active{% endif %}"
-                       href="{% url 'handbooks:client_list' lang=lang filter='deferred_demand' %}">
-                        {% translate "Deferred demand" %}
-                    </a>
-                </li>
-            </ul>
-        {% endwith %}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for i in choices %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if i.1 == choice %}active{% endif %}"
+                   {% if i.1 == "client" %}href='{% url 'handbooks:client_list' lang=lang %}'
+                   {% elif i.1 == "realestate" %}href='{% url 'objects:real_estate_list_redirect' lang=lang %}'
+                   {% elif i.1 == "report" %}href='{% url 'objects:report_list' lang=lang %}'
+                   {% elif i.1 == "contract" %}href='{% url 'objects:contract_list' lang=lang %}'{% endif %}>
+                    {% translate i.1 %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'all' %}active{% endif %}"
+                   href="{% url 'handbooks:all_clients_list' lang=lang %}">
+                    {% translate 'all' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'new' %}active{% endif %}"
+                   href="{% url 'handbooks:new_client_list' lang=lang %}">
+                    {% translate 'new' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'in_selection' %}active{% endif %}"
+                   href="{% url 'handbooks:in_selection_client_list' lang=lang %}">
+                    {% translate 'in_selection' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'with_show' %}active{% endif %}"
+                   href="{% url 'handbooks:with_show_client_list' lang=lang %}">
+                    {% translate 'with_show' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'decided' %}active{% endif %}"
+                   href="{% url 'handbooks:decided_client_list' lang=lang %}">
+                    {% translate 'decided' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'deferred_demand' %}active{% endif %}"
+                   href="{% url 'handbooks:deferred_demand_client_list' lang=lang %}">
+                    {% translate 'deferred_demand' %}
+                </a>
+            </li>
+        </ul>
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
@@ -128,97 +102,77 @@
                         <div class="offset-top-66 text-center">
                             <table class="table">
                                 <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">{% translate "Id" %}</th>
-                                        <th scope="col">{% translate "Email" %}</th>
-                                        <th scope="col">{% translate "First name" %}</th>
-                                        <th scope="col">{% translate "Last name" %}</th>
-                                        <th scope="col">{% translate "Phone" %}</th>
-                                        <th scope="col">{% translate "Status" %}</th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                    </tr>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">{% translate 'id' %}</th>
+                                    <th scope="col">{% translate 'email' %}</th>
+                                    <th scope="col">{% translate 'first_name' %}</th>
+                                    <th scope="col">{% translate 'last_name' %}</th>
+                                    <th scope="col">{% translate 'phone' %}</th>
+                                    <th scope="col">{% translate 'status' %}</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                {% for object in object_list %}
-                                    <tr>
-                                        <td></td>
-                                        <td>{{ object.id }}</td>
-                                        <td>{{ object.email }}</td>
-                                        <td>{{ object.first_name|default:"-" }}</td>
-                                        <td>{{ object.last_name|default:"-" }}</td>
-                                        <td>{{ object.phone|default:"-" }}</td>
-                                        <td>{{ object.get_status_display }}</td>
-                                        <td>
-                                            <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                               href="{% url 'objects:selection' lang object.id %}"
-                                               type="button" style="max-width: 120px">
-                                                {% translate "Selection" %}
-                                            </a>
-                                        </td>
-                                        {% if can_update and can_update|get_dict_value:object.id %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="{% url "handbooks:update_handbook" lang=lang handbook_type='client' pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                        {% translate "Update" %}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
-                                                   href="{% url "handbooks:delete_handbook" lang=lang handbook_type='client' pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                        {% translate "Delete" %}
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td></td>
-                                            <td></td>
-                                        {% endif %}
-                                        {% if can_view_history and can_view_history|get_dict_value:object.id %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="{% url "handbooks:handbook_history" lang=lang handbook_type='client' pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                    {% translate 'History' %}
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
-                                    </tr>
+                                {% for object in object_values %}
+                                <tr>
+                                    <td></td>
+                                    {% for key, data in object.items %}
+                                    {% if key != 'on_delete' and key != 'user_permissions' %}
+                                    <td>{{data}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection' lang=lang client_id=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Selection' %}</a>
+                                    </td>
+                                    {% if object.user_permissions.can_update %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'handbooks:client_update' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Update' %}</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                           href="{% url 'handbooks:client_delete' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Delete' %}</a>
+                                    </td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'handbooks:client_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                                </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    {% else %}
-                        <div style="text-align:center">Not found</div>
                     {% endif %}
                     {% if can_create %}
-                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                           href="{% url "handbooks:create_handbook" lang=lang handbook_type="client"%}"
-                           type="button"
-                           style="max-width: 120px">
-                            {% translate "Create" %}
-                        </a>
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                       href="{% url 'handbooks:client_create' lang=lang %}"
+                       type="button" style="max-width: 120px">{% translate 'Create' %}</a>
                     {% endif %}
                 </div>
             </div>
             <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
                 <div class="btn-group" role="group">
                     {% if page_obj.has_previous %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">Previous</a>
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">Previous</a>
                     {% endif %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
                        href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
                     {% if page_obj.has_next %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
                     {% endif %}
                 </div>
             </nav>
