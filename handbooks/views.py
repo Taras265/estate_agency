@@ -960,6 +960,7 @@ class DeferredDemandClientListView(ClientListMixin, ByUserMixin, CustomListView)
 
 class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
     form_class = ClientForm
+    template_name = "handbooks/client_form.html"
     permission_required = "handbooks.add_client"
 
     app = "handbooks"
@@ -969,6 +970,7 @@ class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custom
 class ClientUpdateView(ByUserMixin, CustomUpdateView):
     queryset = client_all_visible()
     form_class = ClientForm
+    template_name = "handbooks/client_form.html"
     perm = "change"
 
     app = "handbooks"
