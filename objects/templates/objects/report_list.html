@@ -49,7 +49,7 @@
                 {% if can_view_client %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
-                           href="{% url 'handbooks:client_list' lang=lang filter='all' %}">
+                           href="{% url 'handbooks:client_list' lang=lang %}">
                             {% translate "Client" %}
                         </a>
                     </li>

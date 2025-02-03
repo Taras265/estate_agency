@@ -57,6 +57,7 @@ class ClientListMixin:
     main_service = {"objects_filter": client_filter, }
     choices = SALE_CHOICES
     permission_required = "handbooks.view_client"
+    template_name = "handbooks/client_list.html"
 
     app = "handbooks"
     handbook_type = "client"

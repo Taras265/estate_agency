@@ -981,104 +981,126 @@ class ClientDeleteView(ByUserMixin, CustomDeleteView):
     success_message = "Success"
     handbook_type = "client"
     perm = "change"
+    app="handbooks"
 
 
 class RegionHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_region"
     handbook_type = "region"
+    queryset = region_all_visible()
 
 
 class DistrictHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_district"
     handbook_type = "district"
+    queryset = district_all_visible()
 
 
 class LocalityHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_locality"
     handbook_type = "locality"
+    queryset = locality_all_visible()
 
 
 class LocalityDistrictHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_localitydistrict"
     handbook_type = "localitydistrict"
+    queryset = localitydistrict_all_visible()
 
 
 class StreetHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_street"
     handbook_type = "street"
+    queryset = street_all_visible()
 
 
 class WithdrawalReasonHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_withdrawalreason"
     handbook_type = "withdrawalreason"
+    queryset = handbook_all_visible()
 
 
 class ConditionHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_condition"
     handbook_type = "condition"
+    queryset = handbook_all_visible()
 
 
 class MaterialHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_material"
     handbook_type = "material"
+    queryset = handbook_all_visible()
 
 
 class SeparationHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_separation"
     handbook_type = "separation"
+    queryset = handbook_all_visible()
 
 
 class AgencyHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_agency"
     handbook_type = "agency"
+    queryset = handbook_all_visible()
 
 
 class AgencySalesHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_agencysales"
     handbook_type = "agencysales"
+    queryset = handbook_all_visible()
 
 
 class NewBuildingNameHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_newbuildingname"
     handbook_type = "newbuildingname"
+    queryset = handbook_all_visible()
 
 
 class StairHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_stair"
     handbook_type = "stair"
+    queryset = handbook_all_visible()
 
 
 class HeatingHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_heating"
     handbook_type = "heating"
+    queryset = handbook_all_visible()
 
 
 class LayoutHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_layout"
     handbook_type = "layout"
+    queryset = handbook_all_visible()
 
 
 class HouseTypeHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_housetype"
     handbook_type = "housetype"
+    queryset = handbook_all_visible()
 
 
 class FilialAgencyHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_filialagency"
     handbook_type = "filialagency"
+    queryset = filialagency_all_visible()
 
 
 class FilialReportHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_filialreport"
     handbook_type = "filialreport"
+    queryset = filialreport_all_visible()
 
 
 class ComplexHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_complex"
     handbook_type = "complex"
+    queryset = handbook_all_visible()
 
 
-class ClientHistoryView(ByUserMixin, HistoryView):
+class ClientHistoryView(HistoryView):
     permission_required = "handbooks.view_client"
     handbook_type = "client"
     perm = "view"
+    app="handbooks"
+    queryset = client_all_visible()
