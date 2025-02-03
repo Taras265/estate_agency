@@ -116,10 +116,11 @@ class ClientForm(forms.ModelForm):
                                       widget=forms.Select(attrs={"class": "form-control",
                                                                  "placeholder": _("income_source")}))
 
-    object_type = forms.ChoiceField(choices=((1, "Квартира"),),
-                                    label=_("object_type"),
-                                    widget=forms.Select(attrs={"class": "form-control",
-                                                               "placeholder": _("object_type")}))
+
+    object_type = forms.ChoiceField(choices=((1, "Квартира"), (2, "Комерція"), (3, "Дім"),),
+                                    label=_('object_type'),
+                                    widget=forms.Select(attrs={'class': 'form-control',
+                                                               'placeholder': _('object_type')}))
 
     realtor_type = forms.ChoiceField(choices=((1, "realtor"),
                                               (2, "realtor 5 to 5"),),

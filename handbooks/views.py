@@ -18,6 +18,14 @@ from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, B
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
 
+from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
+                              Client, Handbook, FilialAgency, FilialReport)
+from utils.const import CHOICES, HANDBOOKS_QUERYSET, BASE_CHOICES, SALE_CHOICES
+from utils.mixins.mixins import (HandbookHistoryListMixin,
+                                 FormHandbooksMixin, DeleteHandbooksMixin, HandbookListMixin,
+                                 HandbooksListMixin, HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
+from objects.services import has_any_perm_from_list, user_can_view_real_estate_list
+
 
 def handbook_redirect(request, lang):
     # Функція, яка перебрасує користувача на довідник,
@@ -133,6 +141,7 @@ class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomLi
 class WithdrawalReasonListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=1)
     permission_required = "handbooks.view_withdrawalreason"
+
 
     app = "handbooks"
     handbook_type = "withdrawalreason"

@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from images.models import *
+from images.models import RealEstateImage
 
-admin.site.register(ApartmentImage)
+admin.site.register(RealEstateImage)
