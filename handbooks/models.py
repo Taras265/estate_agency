@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
 from estate_agency.models import BaseModel
@@ -252,7 +251,7 @@ class Client(BaseModel):
         )
 
     def __str__(self):
-        return f'{self.email} {self.first_name} {self.last_name}'
+        return f"{self.email} {self.first_name} {self.last_name}"
 
 
 class FilialReport(BaseModel):
@@ -279,4 +278,4 @@ class UserFilial(BaseModel):
         default_permissions = ("add", "change", "view")
 
     def __str__(self):
-        return f'{self.user}: {self.filial_agency}'
+        return f"{self.user}: {self.filial_agency}"
