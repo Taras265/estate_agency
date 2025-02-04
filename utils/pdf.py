@@ -17,12 +17,10 @@ document_data_ua: tuple[str] = (
 
     # table head data
     '№ п/п', 
-    'ID', 
-    'К-сть кімнат', 
+    'ID',
     'Адреса обʼекту', 
     'Короткий опис технічного стану об\'єкта показу', 
-    'Ціна', 
-    'Ціна за 1кв.м', 
+    'Ціна',
     'Відгуки та рекомендації клієнта', 
     'Підпис клієнта',
 
@@ -34,7 +32,7 @@ document_data_ua: tuple[str] = (
 )
 
 TABLE_WIDTH = 277
-COLUMN_WIDTHS = (14, 17, 17, 56, 62, 17, 19, 56, 20)
+COLUMN_WIDTHS = (14, 17, 56, 62, 17, 56, 20)
 
 
 def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
@@ -137,8 +135,8 @@ def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
     with pdf.table(width=TABLE_WIDTH, col_widths=COLUMN_WIDTHS, text_align='CENTER', v_align=VAlign.B, line_height=4) as table:
 
         # table head
-        table.row(document_data_ua[data_index:data_index + 9])
-        data_index += 9
+        table.row(document_data_ua[data_index:data_index + 7])
+        data_index += 7
 
         # table body
         pdf.set_line_width(0.1)
@@ -151,18 +149,17 @@ def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
             data_row: tuple[str] = (
                 str(row_index + 1), # first cell
                 str(apartment.pk), # second
-                str(apartment.rooms_number), # third
-                f'{apartment.region} {apartment.district} {apartment.locality} {apartment.locality_district} {apartment.street}', # fourth
+                f'{apartment.locality} {apartment.street}', # fourth-1
 
                 f'{document_data_ua[data_index]}: {apartment.floor}/{apartment.storeys_number}. ' +
-                f'{document_data_ua[data_index + 1]}: {apartment.square}/{apartment.living_square}/{apartment.kitchen_square}. ' + 
-                f'{document_data_ua[data_index + 2]}: {apartment.house_type.handbook}.', # fifth
+                f'{document_data_ua[data_index + 1]}: {apartment.square}. ' +
+                f'{document_data_ua[data_index + 2]}: {apartment.house_type.handbook}.', # fifth-1
 
-                str(apartment.site_price), # sixth
-                str(apartment.square_meter_price), # seventh
+                str(apartment.price), # sixth-1
                 apartment.comment, # eighth
                 '' # ninth
             )
+            print(document_data_ua[data_index])
 
             for cell_index, cell_data in enumerate(data_row):
 

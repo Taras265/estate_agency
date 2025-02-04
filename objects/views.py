@@ -897,9 +897,13 @@ class PdfView(CustomLoginRequiredMixin, View):
     def get(self, request, lang):
         queryset = Apartment.objects.filter(on_delete=False)
 
-        selected_ids = self.request.GET.getlist("apartments")
+        selected_ids = self.request.GET.getlist("objects")
+        object_type = int(self.request.GET.get("object_type"))
 
-        pdf = generate_pdf(Apartment.objects.filter(id__in=selected_ids), request.user.get_full_name()[0])
+        pdf = generate_pdf(estate_objects_filter_visible(
+                object_type=object_type,
+                id__in=selected_ids
+        ), request.user.get_full_name()[0])
 
         return FileResponse(
             io.BytesIO(pdf.output()),
