@@ -7,8 +7,7 @@ from django.views.generic import UpdateView
 from accounts.forms import LoginForm, AvatarForm, UserForm, RegisterForm, GroupForm
 from accounts.models import CustomUser
 
-from handbooks.models import UserFilial
-from accounts.services import user_all_visible, user_filter, group_filter, group_all_visible, user_get
+from accounts.services import user_all_visible, user_filter, group_filter, group_all_visible
 from utils.const import USER_CHOICES
 from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin, GetQuerysetMixin
 from utils.views import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView, HistoryView
@@ -45,13 +44,8 @@ class ProfileView(StandardContextDataMixin, GetQuerysetMixin, CustomLoginRequire
     def get_success_url(self):
         return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs["lang"], })
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filial"] = UserFilial.objects.filter(user=context["user"]).first()
-        return context
-
     def get_object(self, queryset=None):
-        return user_get(email=self.request.user)
+        return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
 
 def users_list_redirect(request, lang):
