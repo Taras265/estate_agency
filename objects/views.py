@@ -20,7 +20,7 @@ from images.forms import RealEstateImageFormSet
 from .models import Apartment, Commerce, House
 from .services import (
     has_any_perm_from_list,
-    user_can_view_apartment_list, user_can_view_commerce_list, 
+    user_can_view_apartment_list, user_can_view_commerce_list,
     user_can_view_house_list, user_can_view_real_estate_list,
     user_can_create_apartment, user_can_create_commerce,
     user_can_create_house, user_can_update_apartment,
@@ -28,7 +28,7 @@ from .services import (
     user_can_update_apartment_list, user_can_update_commerce_list,
     user_can_update_house_list, user_can_view_apartment_list_history,
     user_can_view_commerce_list_history, user_can_view_house_list_history,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType
@@ -157,7 +157,8 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
                 'price_from': client.price_from,
                 'price_to': client.price_to,
                 'square_meter_price_max': client.square_meter_price_max,
-                'condition': client.condition.all()
+                'condition': client.condition.all(),
+                'object_type': client.object_type,
             }
             return SelectionForm(initial_data)
         return SelectionForm(self.request.GET)
@@ -174,10 +175,10 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         form = self.get_form(client)
         form.is_valid()
 
-        # треба буде виправити і зробити адекватним
-        if client.object_type == 1:
+        obj_type = int(form.cleaned_data.get('object_type'))
+        if obj_type == RealEstateType.APARTMENT:
             queryset = Apartment.objects.filter(on_delete=False)
-        elif client.object_type == 2:
+        elif obj_type == RealEstateType.COMMERCE:
             queryset = Commerce.objects.filter(on_delete=False)
         else:
             queryset = House.objects.filter(on_delete=False)
@@ -257,11 +258,15 @@ class ShowingActView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        selected_ids = self.request.GET.getlist("apartments")
+        selected_ids = self.request.GET.getlist("objects")
+        object_type = int(self.request.GET.get("object_type"))
 
         context['lang'] = self.kwargs['lang']
         objects = []
-        for obj in Apartment.objects.filter(id__in=selected_ids):
+        for obj in estate_objects_filter_visible(
+                object_type=object_type,
+                id__in=selected_ids
+        ):
             # objects.append({
             #     'object': obj,
             #     'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()

@@ -3,6 +3,8 @@ from collections.abc import Iterable
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
+from estate_agency.services import objects_filter
+from .choices import RealEstateType
 from .models import BaseRealEstate, Apartment, Commerce, House
 from accounts.models import CustomUser
 
@@ -255,3 +257,10 @@ def can_interact_with_object_list(
 
     return {item.id: item.realtor == user for item in object_list}
 
+
+def estate_objects_filter_visible(object_type:int, *args, **kwargs) -> QuerySet[Apartment | Commerce | House]:
+    if object_type == RealEstateType.APARTMENT:
+        return objects_filter(Apartment.objects, on_delete=False, *args, **kwargs)
+    elif object_type == RealEstateType.COMMERCE:
+        return objects_filter(Commerce.objects, on_delete=False, *args, **kwargs)
+    return objects_filter(House.objects, on_delete=False, *args, **kwargs)
