@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.translation import activate
 
 from accounts.services import user_get
+from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES, LIST_BY_USER
 
@@ -63,6 +64,19 @@ class ClientListMixin:
     handbook_type = "client"
 
     filters = ["all", "new", "in_selection", "with_show", "decided", "deferred_demand"]
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+
+        if not context["object_list"]:
+            return context
+
+        # у полі object_type замінюємо число на відповідний текст
+        for index, obj in enumerate(context["object_values"]):
+            client: Client = context["object_list"][index]
+            obj["object_type"] = client.get_object_type_display()
+
+        return context
 
 
 class GetQuerysetMixin:

@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from accounts.models import CustomUser
 from estate_agency.models import BaseModel
+from objects.choices import RealEstateType
 
 
 class Region(BaseModel):
@@ -211,7 +212,7 @@ class Client(BaseModel):
     )
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=1)
 
-    object_type = models.PositiveSmallIntegerField(choices=((1, "Квартира"), (2, "Комерція"), (3, "Дім"),),
+    object_type = models.PositiveSmallIntegerField(choices=RealEstateType,
                                                    default=1)
 
     realtor_type = models.PositiveSmallIntegerField(choices=((1, "realtor"),
