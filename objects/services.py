@@ -1,11 +1,12 @@
 from collections.abc import Iterable
 
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
-from estate_agency.services import objects_filter
+from estate_agency.services import objects_filter, object_create, objects_all_visible, objects_all
 from .choices import RealEstateType
-from .models import BaseRealEstate, Apartment, Commerce, House
+from .models import BaseRealEstate, Apartment, Commerce, House, Selection
 from accounts.models import CustomUser
 
 
@@ -258,9 +259,35 @@ def can_interact_with_object_list(
     return {item.id: item.realtor == user for item in object_list}
 
 
-def estate_objects_filter_visible(object_type:int, *args, **kwargs) -> QuerySet[Apartment | Commerce | House]:
+def estate_objects_filter_visible(object_type: int, *args, **kwargs) -> QuerySet[Apartment | Commerce | House]:
+    """
+    Функція для того щоб отримати кверісет об'єктів в залежності від object_type (типа об'єкта)
+    """
     if object_type == RealEstateType.APARTMENT:
         return objects_filter(Apartment.objects, on_delete=False, *args, **kwargs)
     elif object_type == RealEstateType.COMMERCE:
         return objects_filter(Commerce.objects, on_delete=False, *args, **kwargs)
     return objects_filter(House.objects, on_delete=False, *args, **kwargs)
+
+
+def selection_add_selected(object_type: int, selection: Selection, selected, *args, **kwargs) -> None:
+    """
+    Функція для того щоб створити запис того, що ми зробили виборку для клієнтів (Selection)
+    """
+    if object_type == RealEstateType.APARTMENT:
+        selection.selected_apartments.add(selected)
+    elif object_type == RealEstateType.COMMERCE:
+        selection.selected_commerces.add(selected)
+    selection.selected_houses.add(selected)
+
+
+def selection_create(*args, **kwargs) -> Selection:
+    return object_create(Selection.objects, *args, **kwargs)
+
+
+def selection_all(*args, **kwargs) -> QuerySet[Selection]:
+    return objects_all(Selection.objects, *args, **kwargs)
+
+
+def selection_filter(*args, **kwargs) -> QuerySet[Selection]:
+    return Selection.objects.filter(*args, **kwargs)

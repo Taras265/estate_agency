@@ -159,7 +159,6 @@ def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
                 apartment.comment, # eighth
                 '' # ninth
             )
-            print(document_data_ua[data_index])
 
             for cell_index, cell_data in enumerate(data_row):
 

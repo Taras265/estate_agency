@@ -42,7 +42,7 @@ def handbook_redirect(request, lang):
                     or user.has_perm(f"objects.view_own_{cleaned_choice}")):
                 return redirect(f"/{lang}/objects/base/{choice[1]}/", {"lang": lang})
         return render(request, "403.html", {"lang": lang})
-    return redirect(reverse_lazy("accounts:login", kwargs={"lang": "en"}))
+    return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
 def sale_redirect(request, lang):
@@ -58,7 +58,7 @@ def sale_redirect(request, lang):
                     or user.has_perm(f"objects.view_own_{cleaned_choice}")):
                 return redirect(f"/{lang}/objects/sale/{choice[1]}/", {"lang": lang})
         return render(request, "403.html", {"lang": lang})
-    return redirect(reverse_lazy("accounts:login", kwargs={"lang": "en"}))
+    return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
 class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):

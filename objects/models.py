@@ -1,5 +1,9 @@
+import datetime
+
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from simple_history.models import HistoricalRecords
 
 from images.models import RealEstateImage
@@ -271,3 +275,12 @@ class House(BaseRealEstate):
     own_parking = models.BooleanField(default=False)
     # attic = models.BooleanField(default=False)
     # gas = models.BooleanField(default=False)
+
+
+class Selection(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    date = models.DateField(default=datetime.date.today)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    selected_apartments = models.ManyToManyField(Apartment, blank=True, related_name="related_selected_apartments")
+    selected_houses = models.ManyToManyField(House, blank=True, related_name="related_selected_houses" )
+    selected_commerces = models.ManyToManyField(Commerce, blank=True, related_name="related_selected_commerces")

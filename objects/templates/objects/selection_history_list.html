@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Selection history' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Selection history' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Base' %} / </li>
+            <li>{% translate 'Selection' %} / </li>
+            <li>{% translate 'History' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
+{% if selections %}
+<table class="table table-striped">
+<tbody>
+  <tr>
+    <th>{% translate 'date' %}</th>
+    <th>{% translate 'user' %}</th>
+    <th>{% translate 'selection' %}</th>
+  </tr>
+  {% for selection in selections %}
+  <tr>
+    <th>{{ selection.date  }}</th>
+    <th>{{ selection.user }}</th>
+    <td>
+        {% for obj in selection.selected_apartments.all %}
+        {% translate "Apartment" %} id {{ obj.id }},
+        {% endfor %}
+        {% for obj in selection.selected_houses.all %}
+        {% translate "House" %} id {{ obj.id }},
+        {% endfor %}
+        {% for obj in selection.selected_commerces.all %}
+        {% translate "Commerce" %} id {{ obj.id }},
+        {% endfor %}
+    </td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+
+{% endblock %}

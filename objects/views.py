@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
@@ -14,9 +16,12 @@ from django.contrib.auth.mixins import (
 import io
 
 from accounts.models import CustomUser
+from accounts.services import user_get
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
+from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
+from utils.mixins.new_mixins import StandardContextDataMixin, GetQuerysetMixin
 from .models import Apartment, Commerce, House
 from .services import (
     has_any_perm_from_list,
@@ -28,7 +33,8 @@ from .services import (
     user_can_update_apartment_list, user_can_update_commerce_list,
     user_can_update_house_list, user_can_view_apartment_list_history,
     user_can_view_commerce_list_history, user_can_view_house_list_history,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible,
+    selection_create, selection_filter, selection_all, selection_add_selected
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType
@@ -248,8 +254,91 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
                 {'image': image, 'object': obj}
             )
         context['objects'] = objects
+        context["client"] = client
 
         return context
+
+
+class SelectionHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin,
+                           StandardContextDataMixin, GetQuerysetMixin, ListView):
+    object_list = selection_all()
+    permission_required = "objects.selection"
+    template_name = "objects/selection_history_list.html"
+    context_object_name = "objects"
+
+
+    def get(self, request, *args, **kwargs):
+        pk = self.kwargs.get("pk")
+        context = self.get_context_data()
+        context['selections'] = selection_filter(client_id=pk)
+        return self.render_to_response(context)
+
+
+def showing_act_redirect(request, lang):
+    selected_ids = request.GET.getlist("objects")
+    object_type = int(request.GET.get("object_type"))
+
+    objects = estate_objects_filter_visible(
+                object_type=object_type,
+                id__in=selected_ids
+        )
+
+    client_id = int(request.GET.get("client"))
+    client = client_get(id=client_id)
+    user = user_get(email=request.user)
+
+    selection = selection_create(client=client,
+                     user=user,
+                     )
+    for obj in objects:
+        selection_add_selected(object_type, selection, obj)
+    selection.save()
+
+    url = reverse_lazy("objects:showing_act", kwargs={"lang": "en"})
+    return redirect(f"{url}?{urlencode(request.GET)}")
+
+
+def pdf_redirect(request, lang):
+    selected_ids = request.GET.getlist("objects")
+    object_type = int(request.GET.get("object_type"))
+
+    objects = estate_objects_filter_visible(
+                object_type=object_type,
+                id__in=selected_ids
+        )
+
+    client_id = int(request.GET.get("client"))
+    client = client_get(id=client_id)
+    user = user_get(email=request.user)
+
+    selection = selection_create(client=client,
+                                 user=user,
+                                 )
+    for obj in objects:
+        selection_add_selected(object_type, selection, obj)
+    selection.save()
+
+    url = reverse_lazy("objects:generate_pdf", kwargs={"lang": "en"})
+    return redirect(f"{url}?{urlencode(request.GET)}")
+
+
+class PdfView(CustomLoginRequiredMixin, View):
+
+    def get(self, request, lang):
+        selected_ids = self.request.GET.getlist("objects")
+        object_type = int(self.request.GET.get("object_type"))
+
+        pdf = generate_pdf(estate_objects_filter_visible(
+                object_type=object_type,
+                id__in=selected_ids
+        ), request.user.get_full_name()[0])
+
+        return FileResponse(
+            io.BytesIO(pdf.output()),
+            as_attachment=True,
+            filename='document.pdf',
+            content_type='application/pdf'
+        )
 
 
 class ShowingActView(TemplateView):
@@ -890,27 +979,6 @@ class CatalogListView(ListView):
             })
         context['objects'] = objects
         return context
-
-
-class PdfView(CustomLoginRequiredMixin, View):
-
-    def get(self, request, lang):
-        queryset = Apartment.objects.filter(on_delete=False)
-
-        selected_ids = self.request.GET.getlist("objects")
-        object_type = int(self.request.GET.get("object_type"))
-
-        pdf = generate_pdf(estate_objects_filter_visible(
-                object_type=object_type,
-                id__in=selected_ids
-        ), request.user.get_full_name()[0])
-
-        return FileResponse(
-            io.BytesIO(pdf.output()),
-            as_attachment=True,
-            filename='document.pdf',
-            content_type='application/pdf'
-        )
 
 
 class ApartmentDetailView(DetailView):
