@@ -5,6 +5,8 @@ from handbooks.models import Region, District, Locality, LocalityDistrict, Filia
     FilialReport
 from django.utils.translation import gettext_lazy as _
 
+from objects.choices import RealEstateType
+
 
 class RegionForm(forms.ModelForm):
     region = forms.CharField(label=_("region"), widget=forms.TextInput(attrs={"class": "customtxt",
@@ -283,6 +285,9 @@ class SelectionForm(forms.Form):
         label=_("condition"),
         widget=forms.SelectMultiple(attrs={"class": "form-control",
                                            "placeholder": _("condition")}))
+    object_type = forms.ChoiceField(choices=RealEstateType, label=_("object_type"),
+                                  widget=forms.Select(attrs={"class": "form-control",
+                                                             "placeholder": _("object_type")}))
 
 
 class IdSearchForm(forms.Form):

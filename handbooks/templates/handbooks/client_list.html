@@ -107,9 +107,10 @@
                                     <th scope="col">{% translate 'id' %}</th>
                                     <th scope="col">{% translate 'email' %}</th>
                                     <th scope="col">{% translate 'first_name' %}</th>
-                                    <th scope="col">{% translate 'last_name' %}</th>
+                                    <th scope="col">{% translate 'object_type' %}</th>
                                     <th scope="col">{% translate 'phone' %}</th>
                                     <th scope="col">{% translate 'status' %}</th>
+                                    <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -129,6 +130,11 @@
                                         <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                                            href="{% url 'objects:selection' lang=lang client_id=object.id %}"
                                            type="button" style="max-width: 120px">{% translate 'Selection' %}</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Selection history' %}</a>
                                     </td>
                                     {% if object.user_permissions.can_update %}
                                     <td>

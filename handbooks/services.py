@@ -1,11 +1,11 @@
 from typing import Any
 
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Model
 
 from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
                               Handbook, FilialAgency, FilialReport, Client)
 
-from estate_agency.services import objects_all_visible, objects_filter
+from estate_agency.services import objects_all_visible, objects_filter, object_get
 
 
 def region_all_visible(objects: QuerySet = Region.objects, *args: Any, **kwargs: Any) -> QuerySet:
@@ -86,3 +86,7 @@ def client_filter(objects: QuerySet = Client.objects, *args: Any, **kwargs: Any)
 
 def client_filter_visible(objects: QuerySet = Client.objects, *args: Any, **kwargs: Any) -> QuerySet:
     return objects_filter(objects, on_delete=False, **kwargs)
+
+
+def client_get(objects: QuerySet = Client.objects, *args: Any, **kwargs: Any) -> Model | None:
+    return object_get(objects, on_delete=False, **kwargs)

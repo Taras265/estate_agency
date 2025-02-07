@@ -79,7 +79,7 @@ OBJECT_COLUMNS = {
         'id', 'street', 'locality district',
     ],
     'client': [
-        'id', 'email', 'first_name', 'last_name', 'phone', 'status',
+        'id', 'email', 'first_name', 'object_type', 'phone', 'status',
     ],
     'apartment': [
         'id', 'locality', 'street',
@@ -119,7 +119,7 @@ OBJECT_FIELDS = {
         'id', 'street', 'locality_district__district',
     ],
     'client': [
-        'id', 'email', 'first_name', 'last_name', 'phone', 'status'
+        'id', 'email', 'first_name', 'object_type', 'phone', 'status'
     ],
     'apartment': [
         'id', 'locality__locality', 'street__street',

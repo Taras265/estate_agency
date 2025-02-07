@@ -7,7 +7,7 @@ from objects.views import (
     CatalogListView, ApartmentDetailView, ObjectHistoryDetailView,
     PdfView, ReportListView, HistoryReportListView,
     SelectionListView, ShowingActView, ContractListView,
-    verify_real_estate_address, fill_real_estate_address,
+    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, SelectionHistoryView,
 )
 
 urlpatterns = [
@@ -41,6 +41,10 @@ urlpatterns = [
     path("base/history/<int:pk>/", ObjectHistoryDetailView.as_view(), name="history_apartment"),
 
     path("base/selection/<int:client_id>/", SelectionListView.as_view(), name="selection"),
+    path("pre/showing_act/", showing_act_redirect, name="showing_act_redirect"),
     path("showing_act/", ShowingActView.as_view(), name="showing_act"),
+    path("pre/showing_act/pdf/", pdf_redirect, name="generate_pdf_redirect"),
     path("showing_act/pdf/", PdfView.as_view(), name="generate_pdf"),
+
+    path("base/selection/history/<int:pk>/", SelectionHistoryView.as_view(), name="selection_history"),
 ]
