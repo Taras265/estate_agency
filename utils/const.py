@@ -98,7 +98,7 @@ OBJECT_COLUMNS = {
         'id', 'locality', 'street',
     ],
     'user': [
-        'id', 'email', 'first_name', 'last_name', 'phone'
+        'id', 'email', 'first_name', 'last_name', 'phone_numbers'
     ],
 }
 
@@ -135,7 +135,7 @@ OBJECT_FIELDS = {
         'id', 'locality__locality', 'street__street',
     ],
     'user': [
-        'id', 'email', 'first_name', 'last_name', 'phone'
+        'id', 'email', 'first_name', 'last_name', 'phone_numbers__number'
     ],
 }
 

@@ -39,7 +39,14 @@
             </div>
             <ul class="basic_detail">
                 <li>{% translate 'Name' %} : <span>{{ user.first_name }} {{ user.last_name }}</span></li>
-                <li>{% translate 'Phone' %} : <span>{{ user.phone }}</span></li>
+                <li>
+                    {% translate 'Phone' %} : 
+                    {% for phone_number in user.phone_numbers.all %}
+                        <span>{{ phone_number.number }}{% if not forloop.last %}, {% endif %}</span>
+                    {% empty %}
+                        -
+                    {% endfor %}
+                </li>
                 <li>{% translate 'Email' %} : <span>{{ user.email }}</span></li>
             </ul>
         </div>

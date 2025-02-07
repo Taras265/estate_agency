@@ -2,12 +2,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
+from django.utils.translation import activate
 
 from accounts.forms import LoginForm, AvatarForm, UserForm, RegisterForm, GroupForm
 from accounts.models import CustomUser
-
-from accounts.services import user_all_visible, user_filter, group_filter, group_all_visible
+from accounts.services import (
+    user_all_visible, user_filter, group_filter, group_all_visible,
+    user_can_create_user, user_can_update_user, user_can_view_custom_group,
+    user_can_view_user_history
+)
+from handbooks.forms import PhoneNumberFormSet, IdSearchForm
 from utils.const import USER_CHOICES
 from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin, GetQuerysetMixin
 from utils.views import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView, HistoryView
@@ -59,13 +64,37 @@ def users_list_redirect(request, lang):
     return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
-class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
-    queryset = user_all_visible()
-    main_service = {"objects_filter": user_filter, }
-    choices = USER_CHOICES
+class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+    paginate_by = 5
+    form = IdSearchForm
     permission_required = "accounts.view_user"
+    template_name = "accounts/user_list.html"
+    context_object_name = "user_list"
 
-    handbook_type = "user"
+    def get_queryset(self):
+        queryset = user_all_visible().prefetch_related("phone_numbers")
+
+        form = self.form(self.request.GET)
+        if not form.is_valid():
+            return []
+
+        for field in form.cleaned_data.keys():
+            if form.cleaned_data.get(field):
+                queryset = user_filter(queryset, **{field: form.cleaned_data.get(field)})
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self.form(self.request.GET),
+            "can_view_customgroup": user_can_view_custom_group(self.request.user),
+            "can_create": user_can_create_user(self.request.user),
+            "can_update": user_can_update_user(self.request.user),
+            "can_view_history": user_can_view_user_history(self.request.user),
+        })
+        return context
 
 
 class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
@@ -78,16 +107,35 @@ class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomLis
 
 
 class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
+    template_name = "accounts/user_form.html"
     form_class = RegisterForm
     permission_required = "accounts.add_user"
 
     handbook_type = "user"
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        if self.request.POST:
+            context["formset"] = PhoneNumberFormSet(self.request.POST)
+        else:
+            context["formset"] = PhoneNumberFormSet()
+        return context
+
     def form_valid(self, form):
+        formset = PhoneNumberFormSet(self.request.POST)
+        if not formset.is_valid():
+            return super().form_invalid(form)
+
         user = form.save(commit=False)
         user.set_password(form.cleaned_data["password"])
         user.save()
-        return super().form_valid(form)
+        form.save_m2m()
+
+        for phone_number in formset.save(commit=False):
+            phone_number.user = user
+            phone_number.save()
+
+        return redirect(super().get_success_url())
 
 
 class GroupCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
@@ -98,10 +146,28 @@ class GroupCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomC
 
 
 class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView):
+    template_name = "accounts/user_form.html"
     queryset = user_all_visible()
     form_class = UserForm
     permission_required = "accounts.change_user"
     handbook_type = "user"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        if self.request.POST:
+            context["formset"] = PhoneNumberFormSet(self.request.POST, instance=self.object)
+        else:
+            context["formset"] = PhoneNumberFormSet(instance=self.object)
+        return context
+    
+    def form_valid(self, form):
+        formset = PhoneNumberFormSet(self.request.POST, instance=self.object)
+        if not formset.is_valid():
+            return super().form_invalid(form)
+
+        form.save()
+        formset.save()
+        return redirect(super().get_success_url())
 
 
 class GroupUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView):

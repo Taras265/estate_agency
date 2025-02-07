@@ -1,9 +1,13 @@
 from django import forms
+from django.forms import inlineformset_factory
+from django.core.validators import RegexValidator
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import CustomUser
-from handbooks.models import Region, District, Locality, LocalityDistrict, FilialAgency, Street, Client, Handbook, \
-    FilialReport
-from django.utils.translation import gettext_lazy as _
+from handbooks.models import (
+    Region, District, Locality, LocalityDistrict, FilialAgency, Street, Client,
+    Handbook, FilialReport, PhoneNumber
+)
 
 
 class RegionForm(forms.ModelForm):
@@ -290,3 +294,29 @@ class IdSearchForm(forms.Form):
                             widget=forms.NumberInput(attrs={"class": "customtxt",
                                                             "placeholder": _("id")}),
                             required=False)
+
+
+class PhoneNumberForm(forms.ModelForm):
+    number = forms.CharField(
+        label=_("Phone number"),
+        max_length=15,
+        widget=forms.TextInput(attrs={"class": "form-control mb-2"}),
+        validators=[
+            RegexValidator(
+                regex=r"^\+?\d{9,15}$",
+                message=_("Phone number must contain 9 to 15 digits without spaces."))
+        ],
+    )
+
+    class Meta:
+        model = PhoneNumber
+        fields = ("number",)
+
+
+PhoneNumberFormSet = inlineformset_factory(
+    CustomUser,
+    PhoneNumber,
+    PhoneNumberForm,
+    fields=["number"],
+    extra=1,
+)
