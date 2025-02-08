@@ -268,3 +268,19 @@ class FilialReport(BaseModel):
 
     def __str__(self):
         return self.report
+
+
+class PhoneNumber(models.Model):
+    """
+    Номер телефону користувача
+    (може бути декілька номерів у одного користувача).
+    """
+    number = models.CharField(max_length=15)
+    user = models.ForeignKey(
+        "accounts.CustomUser",
+        related_name="phone_numbers",
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.number

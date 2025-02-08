@@ -51,10 +51,6 @@ class UserForm(forms.ModelForm):
         label=_("last_name"),
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
     )
-    phone = forms.CharField(
-        label=_("phone"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")})
-    )
 
     class Meta:
         model = CustomUser
@@ -80,10 +76,6 @@ class RegisterForm(forms.ModelForm):
     last_name = forms.CharField(
         label=_("last_name"),
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
-    )
-    phone = forms.CharField(
-        label=_("phone"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")})
     )
 
     class Meta:

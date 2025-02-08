@@ -47,7 +47,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     first_name = models.CharField(blank=True, null=True, max_length=150)
     last_name = models.CharField(blank=True, null=True, max_length=150)
-    phone = models.CharField(blank=True, null=True, max_length=15)
     filials = models.ManyToManyField(
         "handbooks.FilialAgency",
         related_name="users",

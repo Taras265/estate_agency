@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Form' %}{% endblock %}
+
+{% block content %}
+<style>
+    .errorlist {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: rgb(220, 53, 69);
+        text-align: left;
+    }
+</style>
+
+<div class="container-fluid page_heading_banner">
+    <div class="banner_caption">
+        <h1>{% translate 'Form' %}</h1>
+        <ul>
+            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+            <li>{% translate 'Form' %}</li>
+        </ul>
+    </div>
+</div>
+<br>
+<div>
+    <form enctype="multipart/form-data" action="{{ action }}" method="post">{% csrf_token %}
+        {% for field in form %}
+            <div class="form-group text-center">
+                {% if not field.is_hidden %}
+                    <br>
+                    <label class="customlbl" for="id_{{field.name}}">{{field.label}}</label>
+                    {{ field }}
+                    {{ field.errors }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        {{ formset.management_form }}
+        <div id="phone-number-formset" class="row mt-4">
+            {% for f in formset %}
+                <div class="col-md-3 mb-4">
+                    <div>
+                        <div class="card-body">
+                            {{ f.id }}
+                            <label for="id_{{f.number.name}}" class="mb-1">{{f.number.label}} {{ forloop.counter }}</label>
+                            {{ f.number }}
+                            {% if formset.can_delete %}
+                                {{ f.DELETE.label }} {{ f.DELETE }}
+                            {% endif %}
+                        </div>
+                        {{ f.number.errors }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" id="add-phone-number-form" class="btn btn-secondary">Add phone number</button>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script defer 
+        src="{% static 'js/user_form.js' %}"
+        data-phone-number-label="{{ formset.0.number.label }}">
+</script>
+{% endblock %}
