@@ -29,7 +29,11 @@
                         {{ user.first_name }} {{ user.last_name }}
                     </h4>
                     <div class="agent_desc">
-                        <p>{{ filial }}</p>
+                        <ul>
+                            {% for filial in user.filials.all %}
+                                <li>{{ filial.filial_agency }}{% if not forloop.last %}, {% endif %}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>

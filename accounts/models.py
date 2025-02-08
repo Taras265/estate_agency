@@ -48,6 +48,11 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(blank=True, null=True, max_length=150)
     last_name = models.CharField(blank=True, null=True, max_length=150)
     phone = models.CharField(blank=True, null=True, max_length=15)
+    filials = models.ManyToManyField(
+        "handbooks.FilialAgency",
+        related_name="users",
+        related_query_name="user",
+    )
 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)

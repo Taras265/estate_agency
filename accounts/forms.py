@@ -37,19 +37,24 @@ class AvatarForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
+    """Форма для редагування користувача."""
     groups = forms.ChoiceField
     email = forms.CharField(
         label=_("email"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")})
+    )
     first_name = forms.CharField(
         label=_("first_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")})
+    )
     last_name = forms.CharField(
         label=_("last_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
+    )
     phone = forms.CharField(
         label=_("phone"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")})
+    )
 
     class Meta:
         model = CustomUser
@@ -59,21 +64,27 @@ class UserForm(forms.ModelForm):
 
 
 class RegisterForm(forms.ModelForm):
+    """Форма для створення нового користувача."""
     email = forms.CharField(
         label=_("email"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")})
+    )
     password = forms.CharField(
         label=_("password"),
-        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": _("password")}))
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": _("password")})
+    )
     first_name = forms.CharField(
         label=_("first_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")})
+    )
     last_name = forms.CharField(
         label=_("last_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
+    )
     phone = forms.CharField(
         label=_("phone"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")}))
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("phone")})
+    )
 
     class Meta:
         model = CustomUser

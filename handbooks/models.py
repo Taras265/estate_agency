@@ -268,16 +268,3 @@ class FilialReport(BaseModel):
 
     def __str__(self):
         return self.report
-
-
-class UserFilial(BaseModel):
-    filial_agency = models.ForeignKey(FilialAgency, on_delete=models.CASCADE,
-                                      related_name="filial_user_related_name")
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,
-                             related_name="user_filial_related_name")
-
-    class Meta:
-        default_permissions = ("add", "change", "view")
-
-    def __str__(self):
-        return f"{self.user}: {self.filial_agency}"
