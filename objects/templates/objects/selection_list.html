@@ -67,7 +67,7 @@
                             <div class="price_div">
                                 <p>₴{{ object.object.site_price }}</p>
                             </div>
-                            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">See Details</a>
+                            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
                         </div>
                     </div>
                 </td>

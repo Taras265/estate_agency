@@ -7,10 +7,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label=_("Email"), widget=forms.TextInput(attrs={"class": "form-control",
-                                                                             "placeholder": _("Email")}))
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class": "form-control",
-                                                                                      "placeholder": _("Password")}))
+    email = forms.EmailField(label=_("Email"), widget=forms.TextInput(attrs={"class": "form-control"}))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
     def clean(self, *args, **kwargs):
         email = self.cleaned_data.get("email")
@@ -28,8 +26,7 @@ class LoginForm(forms.Form):
 
 
 class AvatarForm(forms.ModelForm):
-    image = forms.ImageField(label=_("image"), widget=forms.FileInput(attrs={"class": "form-control",
-                                                                             "placeholder": _("image")}))
+    image = forms.ImageField(label=_("Image"), widget=forms.FileInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = CustomUser
@@ -40,16 +37,16 @@ class UserForm(forms.ModelForm):
     """Форма для редагування користувача."""
     groups = forms.ChoiceField
     email = forms.CharField(
-        label=_("email"),
+        label=_("Email"),
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")})
     )
     first_name = forms.CharField(
-        label=_("first_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")})
+        label=_("First name"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
-        label=_("last_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
+        label=_("Last name"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
     class Meta:
@@ -62,20 +59,20 @@ class UserForm(forms.ModelForm):
 class RegisterForm(forms.ModelForm):
     """Форма для створення нового користувача."""
     email = forms.CharField(
-        label=_("email"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("email")})
+        label=_("Email"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     password = forms.CharField(
-        label=_("password"),
-        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": _("password")})
+        label=_("Password"),
+        widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
     first_name = forms.CharField(
-        label=_("first_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("first_name")})
+        label=_("First name"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
-        label=_("last_name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("last_name")})
+        label=_("Last name"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
     class Meta:
@@ -87,8 +84,8 @@ class RegisterForm(forms.ModelForm):
 
 class GroupForm(forms.ModelForm):
     name = forms.CharField(
-        label=_("name"),
-        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": _("name")}))
+        label=_("Name"),
+        widget=forms.TextInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = CustomGroup

@@ -35,13 +35,13 @@
             <label>{% translate "Add" %}</label>
             <select id="real-estate-type-select" name="real-estate-type">
                 {% if can_add_apartment or can_add_own_apartment %}
-                    <option value="{{ real_estate_choices.0.0 }}">{{ real_estate_choices.0.1 }}</option>
+                    <option value="1">{% translate 'Apartment' %}</option>
                 {% endif %}
                 {% if can_add_commerce or can_add_own_commerce %}
-                    <option value="{{ real_estate_choices.1.0 }}">{{ real_estate_choices.1.1 }}</option>
+                    <option value="2">{% translate 'Commerce' %}</option>
                 {% endif %}
                 {% if can_add_house or can_add_own_house %}
-                    <option value="{{ real_estate_choices.2.0 }}">{{ real_estate_choices.2.1 }}</option>
+                    <option value="3">{% translate 'House' %}</option>
                 {% endif %}
             </select>
         </div>

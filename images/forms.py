@@ -12,13 +12,13 @@ class ApartmentImageForm(forms.ModelForm):
         widget=forms.HiddenInput()
     )
     image = forms.ImageField(
-        label=_("image"),
-        widget=forms.FileInput(attrs={'class': 'form-control'})
+        label=_("Image"),
+        widget=forms.FileInput(attrs={"class": "form-control"})
     )
 
     class Meta:
         model = RealEstateImage
-        fields = ['apartment', 'image']
+        fields = ["apartment", "image"]
 
 
 RealEstateImageFormSet = generic_inlineformset_factory(

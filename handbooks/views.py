@@ -18,13 +18,8 @@ from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, B
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
 
-from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
-                              Client, Handbook, FilialAgency, FilialReport)
-from utils.const import CHOICES, HANDBOOKS_QUERYSET, BASE_CHOICES, SALE_CHOICES
-from utils.mixins.mixins import (HandbookHistoryListMixin,
-                                 FormHandbooksMixin, DeleteHandbooksMixin, HandbookListMixin,
-                                 HandbooksListMixin, HandbookOwnPermissionListMixin, HandbookWithFilterListMixin)
-from objects.services import has_any_perm_from_list, user_can_view_real_estate_list
+from handbooks.models import Locality, LocalityDistrict
+from utils.const import BASE_CHOICES, SALE_CHOICES
 
 
 def handbook_redirect(request, lang):

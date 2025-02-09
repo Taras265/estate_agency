@@ -60,37 +60,37 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'all' %}active{% endif %}"
                    href="{% url 'handbooks:all_clients_list' lang=lang %}">
-                    {% translate 'all' %}
+                    {% translate 'All' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'new' %}active{% endif %}"
                    href="{% url 'handbooks:new_client_list' lang=lang %}">
-                    {% translate 'new' %}
+                    {% translate 'New' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'in_selection' %}active{% endif %}"
                    href="{% url 'handbooks:in_selection_client_list' lang=lang %}">
-                    {% translate 'in_selection' %}
+                    {% translate 'In selection' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'with_show' %}active{% endif %}"
                    href="{% url 'handbooks:with_show_client_list' lang=lang %}">
-                    {% translate 'with_show' %}
+                    {% translate 'With a show' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'decided' %}active{% endif %}"
                    href="{% url 'handbooks:decided_client_list' lang=lang %}">
-                    {% translate 'decided' %}
+                    {% translate 'Decided' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'deferred_demand' %}active{% endif %}"
                    href="{% url 'handbooks:deferred_demand_client_list' lang=lang %}">
-                    {% translate 'deferred_demand' %}
+                    {% translate 'Deferred demand' %}
                 </a>
             </li>
         </ul>
@@ -104,12 +104,12 @@
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">{% translate 'id' %}</th>
-                                    <th scope="col">{% translate 'email' %}</th>
-                                    <th scope="col">{% translate 'first_name' %}</th>
-                                    <th scope="col">{% translate 'object_type' %}</th>
-                                    <th scope="col">{% translate 'phone' %}</th>
-                                    <th scope="col">{% translate 'status' %}</th>
+                                    <th scope="col">{% translate 'Id' %}</th>
+                                    <th scope="col">{% translate 'Email' %}</th>
+                                    <th scope="col">{% translate 'First name' %}</th>
+                                    <th scope="col">{% translate 'Real estate type' %}</th>
+                                    <th scope="col">{% translate 'Phone number' %}</th>
+                                    <th scope="col">{% translate 'Status' %}</th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -172,13 +172,13 @@
                 <div class="btn-group" role="group">
                     {% if page_obj.has_previous %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">Previous</a>
+                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
                     {% endif %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
                        href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
                     {% if page_obj.has_next %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
+                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
                     {% endif %}
                 </div>
             </nav>
