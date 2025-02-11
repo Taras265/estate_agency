@@ -29,43 +29,43 @@ msgstr ""
 #: .\objects\templates\objects\details.html:357
 #: .\objects\templates\objects\details.html:378
 msgid "Email"
-msgstr ""
+msgstr "Почта"
 
 #: .\accounts\forms.py:11 .\accounts\forms.py:66
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: .\accounts\forms.py:19
 msgid "There is no user with this email"
-msgstr ""
+msgstr "Нету пользователя с такой почтой"
 
 #: .\accounts\forms.py:21
 msgid "The password is not valid"
-msgstr ""
+msgstr "Пароль не правильный"
 
 #: .\accounts\forms.py:24
 msgid "The user is inactive"
-msgstr ""
+msgstr "Пользователь не активен"
 
 #: .\accounts\forms.py:29 .\accounts\models.py:75 .\images\forms.py:15
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #: .\accounts\forms.py:41
 msgid "email"
-msgstr ""
+msgstr "почта"
 
 #: .\accounts\forms.py:44 .\accounts\forms.py:70 .\accounts\models.py:52
 #: .\accounts\templates\accounts\user_list.html:75 .\handbooks\forms.py:139
 #: .\handbooks\templates\handbooks\client_list.html:109
 msgid "First name"
-msgstr ""
+msgstr "Имя"
 
 #: .\accounts\forms.py:48 .\accounts\forms.py:74 .\accounts\models.py:57
 #: .\accounts\templates\accounts\user_list.html:76 .\handbooks\forms.py:143
 msgid "Last name"
-msgstr ""
+msgstr "Фамилия"
 
 #: .\accounts\forms.py:87 .\accounts\templates\accounts\profile.html:41
 #: .\objects\templates\objects\details.html:314
@@ -73,14 +73,14 @@ msgstr ""
 #: .\objects\templates\objects\details.html:355
 #: .\objects\templates\objects\details.html:376
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #: .\accounts\templates\accounts\login.html:4
 #: .\accounts\templates\accounts\login.html:9
 #: .\accounts\templates\accounts\login.html:12
 #: .\accounts\templates\accounts\login.html:18 .\templates\base.html:81
 msgid "Login"
-msgstr ""
+msgstr "Ввойти"
 
 #: .\accounts\templates\accounts\login.html:11
 #: .\accounts\templates\accounts\profile.html:11
@@ -104,7 +104,7 @@ msgstr ""
 #: .\templates\delete_form.html:12 .\templates\form.html:11
 #: .\templates\main.html:4
 msgid "Main"
-msgstr ""
+msgstr "Главная"
 
 #: .\accounts\templates\accounts\login.html:23
 #: .\accounts\templates\accounts\user_form.html:62
@@ -113,13 +113,13 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_update_form.html:37
 #: .\templates\form.html:29
 msgid "Submit"
-msgstr ""
+msgstr "Подтвердить"
 
 #: .\accounts\templates\accounts\profile.html:4
-#: .\accounts\templates\accounts\profile.html:9
+ #: .\accounts\templates\accounts\profile.html:9
 #: .\accounts\templates\accounts\profile.html:12 .\templates\base.html:80
 msgid "Profile"
-msgstr ""
+msgstr "Профиль"
 
 #: .\accounts\templates\accounts\profile.html:43
 #: .\objects\templates\objects\details.html:315
@@ -127,11 +127,11 @@ msgstr ""
 #: .\objects\templates\objects\details.html:356
 #: .\objects\templates\objects\details.html:377
 msgid "Phone"
-msgstr ""
+msgstr "Номер телефона"
 
 #: .\accounts\templates\accounts\profile.html:57
 msgid "New avatar"
-msgstr ""
+msgstr "Новый аватар"
 
 #: .\accounts\templates\accounts\user_form.html:5
 #: .\accounts\templates\accounts\user_form.html:20
@@ -147,11 +147,11 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_update_form.html:27
 #: .\templates\form.html:4 .\templates\form.html:9 .\templates\form.html:12
 msgid "Form"
-msgstr ""
+msgstr "Форма"
 
 #: .\accounts\templates\accounts\user_form.html:59
 msgid "Add phone number"
-msgstr ""
+msgstr "Добавить номер телефона"
 
 #: .\accounts\templates\accounts\user_list.html:4
 #: .\handbooks\templates\handbooks\client_list.html:5
@@ -161,7 +161,7 @@ msgstr ""
 #: .\objects\templates\objects\report_list.html:6 .\templates\main.html:48
 #: .\templates\main.html:51
 msgid "Handbooks"
-msgstr ""
+msgstr "Справочник"
 
 #: .\accounts\templates\accounts\user_list.html:9
 #: .\accounts\templates\accounts\user_list.html:12
@@ -180,7 +180,7 @@ msgstr ""
 #: .\objects\templates\objects\selection_history_list.html:12
 #: .\objects\templates\objects\selection_list.html:14 .\templates\base.html:79
 msgid "Base"
-msgstr ""
+msgstr "База"
 
 #: .\accounts\templates\accounts\user_list.html:34
 #: .\handbooks\templates\handbooks\client_list.html:35
@@ -191,16 +191,16 @@ msgstr ""
 #: .\objects\templates\objects\report_list.html:36
 #: .\objects\templates\objects\selection_list.html:37
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: .\accounts\templates\accounts\user_list.html:50 .\templates\main.html:12
 #: .\templates\main.html:15
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: .\accounts\templates\accounts\user_list.html:57
 msgid "Groups"
-msgstr ""
+msgstr "Группы"
 
 #: .\accounts\templates\accounts\user_list.html:73 .\handbooks\forms.py:376
 #: .\handbooks\templates\handbooks\client_list.html:107 .\objects\forms.py:178
@@ -208,18 +208,18 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:119
 #: .\objects\templates\objects\report_list.html:139
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: .\accounts\templates\accounts\user_list.html:77
 msgid "Phone numbers"
-msgstr ""
+msgstr "Номер телефона"
 
 #: .\accounts\templates\accounts\user_list.html:103
 #: .\handbooks\templates\handbooks\client_list.html:143
 #: .\handbooks\templates\handbooks\list.html:114
 #: .\objects\templates\objects\real_estate_list.html:139
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: .\accounts\templates\accounts\user_list.html:110
 #: .\handbooks\templates\handbooks\client_list.html:148
@@ -229,7 +229,7 @@ msgstr ""
 #: .\templates\delete_form.html:25
 #: .\venv\Lib\site-packages\django\forms\formsets.py:499
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: .\accounts\templates\accounts\user_list.html:122
 #: .\handbooks\templates\handbooks\client_list.html:156
@@ -239,20 +239,20 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:158
 #: .\objects\templates\objects\selection_history_list.html:14
 msgid "History"
-msgstr ""
+msgstr "История"
 
 #: .\accounts\templates\accounts\user_list.html:135
 #: .\objects\templates\objects\contract_list.html:146
 #: .\objects\templates\objects\real_estate_list.html:171
 msgid "Not found"
-msgstr ""
+msgstr "Не найдено"
 
 #: .\accounts\templates\accounts\user_list.html:141
 #: .\handbooks\templates\handbooks\client_list.html:167
 #: .\handbooks\templates\handbooks\list.html:137
 #: .\objects\templates\objects\real_estate_list.html:178
 msgid "Create"
-msgstr ""
+msgstr "Добавить"
 
 #: .\accounts\templates\accounts\user_list.html:151
 #: .\handbooks\templates\handbooks\client_list.html:175
@@ -261,7 +261,7 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:187
 #: .\objects\templates\objects\report_list.html:176
 msgid "Previous"
-msgstr ""
+msgstr "Предыдущий"
 
 #: .\accounts\templates\accounts\user_list.html:161
 #: .\handbooks\templates\handbooks\client_list.html:181
@@ -270,97 +270,97 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:193
 #: .\objects\templates\objects\report_list.html:182
 msgid "Next"
-msgstr ""
+msgstr "Следующий"
 
 #: .\handbooks\choices.py:6
 msgid "Village"
-msgstr ""
+msgstr "Деревня"
 
 #: .\handbooks\choices.py:7
 msgid "Urban-type village"
-msgstr ""
+msgstr "Поселок городского типа"
 
 #: .\handbooks\choices.py:8
 msgid "City"
-msgstr ""
+msgstr "Город"
 
 #: .\handbooks\choices.py:12 .\handbooks\forms.py:31 .\handbooks\forms.py:52
 #: .\handbooks\forms.py:74 .\objects\templates\objects\details.html:63
 msgid "District"
-msgstr ""
+msgstr "Район"
 
 #: .\handbooks\choices.py:13
 msgid "Regional"
-msgstr ""
+msgstr "Областной"
 
 #: .\handbooks\choices.py:18
 msgid "Seaside+Center"
-msgstr ""
+msgstr "Море+Центр"
 
 #: .\handbooks\choices.py:19
 msgid "Kyiv+Malinovsky"
-msgstr ""
+msgstr "Киев+Малиновский"
 
 #: .\handbooks\choices.py:20
 msgid "Suvorov"
-msgstr ""
+msgstr "Суворов"
 
 #: .\handbooks\choices.py:25
 msgid "Recommendations"
-msgstr ""
+msgstr "Рекомендации"
 
 #: .\handbooks\choices.py:26
 msgid "Seller"
-msgstr ""
+msgstr "Продавец"
 
 #: .\handbooks\choices.py:27
 msgid "Internet"
-msgstr ""
+msgstr "Интернет"
 
 #: .\handbooks\choices.py:28
 msgid "Visitor"
-msgstr ""
+msgstr "Посетитель"
 
 #: .\handbooks\choices.py:29
 msgid "Banner"
-msgstr ""
+msgstr "Баннер"
 
 #: .\handbooks\choices.py:30
 msgid "Posting"
-msgstr ""
+msgstr "Публикации"
 
 #: .\handbooks\choices.py:34 .\handbooks\forms.py:171 .\objects\models.py:66
 #: .\objects\templates\objects\details.html:255
 msgid "Realtor"
-msgstr ""
+msgstr "Риелтор"
 
 #: .\handbooks\choices.py:35 .\objects\templates\objects\details.html:267
 msgid "Realtor 5x5"
-msgstr ""
+msgstr "Риелтор 5 на 5"
 
 #: .\handbooks\choices.py:39
 msgid "In search"
-msgstr ""
+msgstr "В поиске"
 
 #: .\handbooks\choices.py:40
 #: .\handbooks\templates\handbooks\client_list.html:81
 msgid "With a show"
-msgstr ""
+msgstr "С показом"
 
 #: .\handbooks\choices.py:41
 #: .\handbooks\templates\handbooks\client_list.html:87
 msgid "Decided"
-msgstr ""
+msgstr "Определившийся"
 
 #: .\handbooks\choices.py:42
 #: .\handbooks\templates\handbooks\client_list.html:93
 msgid "Deferred demand"
-msgstr ""
+msgstr "Отложенный спрос"
 
 #: .\handbooks\forms.py:20 .\handbooks\forms.py:36
 #: .\objects\templates\objects\details.html:59
 msgid "Region"
-msgstr ""
+msgstr "Область"
 
 #: .\handbooks\forms.py:47 .\handbooks\forms.py:79 .\handbooks\forms.py:186
 #: .\handbooks\forms.py:306 .\objects\forms.py:155 .\objects\forms.py:157
@@ -369,39 +369,39 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:120
 #: .\objects\templates\objects\report_list.html:140
 msgid "Locality"
-msgstr ""
+msgstr "Город"
 
 #: .\handbooks\forms.py:57
 msgid "City type"
-msgstr ""
+msgstr "Тип города"
 
 #: .\handbooks\forms.py:62
 msgid "Center type"
-msgstr ""
+msgstr "Тип центра"
 
 #: .\handbooks\forms.py:83
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: .\handbooks\forms.py:89
 msgid "Group on site"
-msgstr ""
+msgstr "Группа на сайт"
 
 #: .\handbooks\forms.py:93
 msgid "Hot deals limit"
-msgstr ""
+msgstr "Лимит горячих предложений"
 
 #: .\handbooks\forms.py:98
 msgid "prefix_to_site"
-msgstr ""
+msgstr "Префикс на сайт"
 
 #: .\handbooks\forms.py:102
 msgid "Is subdistrict"
-msgstr ""
+msgstr "Подрайон"
 
 #: .\handbooks\forms.py:108
 msgid "New building district"
-msgstr ""
+msgstr "Район новостроя"
 
 #: .\handbooks\forms.py:119 .\handbooks\forms.py:198 .\handbooks\forms.py:317
 #: .\objects\forms.py:160 .\objects\forms.py:162 .\objects\models.py:59
@@ -410,127 +410,127 @@ msgstr ""
 #: .\objects\templates\objects\real_estate_list.html:121
 #: .\objects\templates\objects\report_list.html:141
 msgid "Street"
-msgstr ""
+msgstr "Улица"
 
 #: .\handbooks\forms.py:124 .\handbooks\forms.py:192 .\handbooks\forms.py:311
 #: .\objects\templates\objects\details.html:71
 msgid "Locality district"
-msgstr ""
+msgstr "Район города"
 
 #: .\handbooks\forms.py:147 .\handbooks\forms.py:384
 #: .\handbooks\templates\handbooks\client_list.html:111
 msgid "Phone number"
-msgstr ""
+msgstr "Номер телефона"
 
 #: .\handbooks\forms.py:151
 msgid "Messenger"
-msgstr ""
+msgstr "Мессенджер"
 
 #: .\handbooks\forms.py:156
 msgid "Income source"
-msgstr ""
+msgstr "Источник дохода"
 
 #: .\handbooks\forms.py:161 .\handbooks\forms.py:369
 #: .\handbooks\templates\handbooks\client_list.html:110
 #: .\objects\templates\objects\details.html:171
 msgid "Real estate type"
-msgstr ""
+msgstr "Тип недвижимости"
 
 #: .\handbooks\forms.py:166
 msgid "Realtor type"
-msgstr ""
+msgstr "Тип риелтора"
 
 #: .\handbooks\forms.py:176
 #: .\handbooks\templates\handbooks\client_list.html:112 .\objects\models.py:164
 #: .\objects\templates\objects\details.html:167
 #: .\objects\templates\objects\report_list.html:145
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: .\handbooks\forms.py:180 .\handbooks\forms.py:300
 msgid "Rooms number"
-msgstr ""
+msgstr "Номер комнаты"
 
 #: .\handbooks\forms.py:203 .\handbooks\forms.py:322 .\objects\choices.py:9
 #: .\objects\models.py:61 .\objects\templates\objects\details.html:79
 #: .\objects\templates\objects\real_estate_create_form.html:44
 #: .\objects\templates\objects\selection_history_list.html:36
 msgid "House"
-msgstr ""
+msgstr "Дом"
 
 #: .\handbooks\forms.py:208 .\handbooks\forms.py:327
 msgid "Min floor"
-msgstr ""
+msgstr "Минимальный этаж"
 
 #: .\handbooks\forms.py:213 .\handbooks\forms.py:332
 msgid "Max floor"
-msgstr ""
+msgstr "Максимальный этаж"
 
 #: .\handbooks\forms.py:218 .\handbooks\forms.py:337
 msgid "Not first"
-msgstr ""
+msgstr "Не первый"
 
 #: .\handbooks\forms.py:223 .\handbooks\forms.py:342
 msgid "Not last"
-msgstr ""
+msgstr "Не последний"
 
 #: .\handbooks\forms.py:228 .\handbooks\forms.py:347
 msgid "Price from"
-msgstr ""
+msgstr "Цена от"
 
 #: .\handbooks\forms.py:233 .\handbooks\forms.py:352
 msgid "Price to"
-msgstr ""
+msgstr "Цена до"
 
 #: .\handbooks\forms.py:238 .\handbooks\forms.py:357
 msgid "Square meter max price"
-msgstr ""
+msgstr "Максимальная цена за кв. м."
 
 #: .\handbooks\forms.py:245 .\handbooks\forms.py:364 .\objects\models.py:83
 #: .\objects\templates\objects\details.html:147
 msgid "Condition"
-msgstr ""
+msgstr "Состояние"
 
 #: .\handbooks\forms.py:256
 msgid "Handbook"
-msgstr ""
+msgstr "Справочник"
 
 #: .\handbooks\forms.py:268 .\handbooks\forms.py:284
 msgid "Filial agency"
-msgstr ""
+msgstr "Агенство"
 
 #: .\handbooks\forms.py:279 .\objects\templates\objects\contract_list.html:69
 #: .\objects\templates\objects\real_estate_list.html:69
 #: .\objects\templates\objects\report_list.html:69
 msgid "Report"
-msgstr ""
+msgstr "Отчет"
 
 #: .\handbooks\forms.py:295
 msgid "Key word"
-msgstr ""
+msgstr "Ключевое слово"
 
 #: .\handbooks\forms.py:390
 msgid "Phone number must contain 9 to 15 digits without spaces."
-msgstr ""
+msgstr "Номер телефона должен содержать от 9 до 15 символов без пробелов"
 
 #: .\handbooks\templates\handbooks\client_list.html:54
 #: .\objects\templates\objects\contract_list.html:61
 #: .\objects\templates\objects\real_estate_list.html:61
 #: .\objects\templates\objects\report_list.html:61
 msgid "Real estate"
-msgstr ""
+msgstr "Недвижимость"
 
 #: .\handbooks\templates\handbooks\client_list.html:63
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: .\handbooks\templates\handbooks\client_list.html:69
 msgid "New"
-msgstr ""
+msgstr "Новый"
 
 #: .\handbooks\templates\handbooks\client_list.html:75
 msgid "In selection"
-msgstr ""
+msgstr "В выборке"
 
 #: .\handbooks\templates\handbooks\client_list.html:132
 #: .\handbooks\templates\handbooks\list.html:107
@@ -538,325 +538,325 @@ msgstr ""
 #: .\objects\templates\objects\selection_list.html:6
 #: .\objects\templates\objects\selection_list.html:77
 msgid "Selection"
-msgstr ""
+msgstr "В выборке"
 
 #: .\handbooks\templates\handbooks\client_list.html:137
 #: .\objects\templates\objects\selection_history_list.html:4
 #: .\objects\templates\objects\selection_history_list.html:9
 msgid "Selection history"
-msgstr ""
+msgstr "История выборки"
 
 #: .\handbooks\templates\handbooks\history_list.html:9
 msgid "History of changes"
-msgstr ""
+msgstr "История изменений"
 
 #: .\handbooks\templates\handbooks\history_list.html:22
 #: .\objects\templates\objects\selection_history_list.html:23
 msgid "date"
-msgstr ""
+msgstr "Дата"
 
 #: .\handbooks\templates\handbooks\history_list.html:23
 #: .\objects\templates\objects\selection_history_list.html:24
 #: .\utils\const.py:39
 msgid "user"
-msgstr ""
+msgstr "Пользователь"
 
 #: .\handbooks\templates\handbooks\history_list.html:24
 msgid "field"
-msgstr ""
+msgstr "Поле"
 
 #: .\handbooks\templates\handbooks\history_list.html:25
 msgid "old"
-msgstr ""
+msgstr "Старое"
 
 #: .\handbooks\templates\handbooks\history_list.html:26
 msgid "new"
-msgstr ""
+msgstr "Новое"
 
 #: .\images\templates\images\list.html:4 .\images\templates\images\list.html:9
 #: .\images\templates\images\list.html:13
 #: .\objects\templates\objects\details.html:4
 msgid "Images"
-msgstr ""
+msgstr "Изображение"
 
 #: .\objects\choices.py:7 .\objects\models.py:205
 #: .\objects\templates\objects\details.html:83
 #: .\objects\templates\objects\real_estate_create_form.html:38
 #: .\objects\templates\objects\selection_history_list.html:33
 msgid "Apartment"
-msgstr ""
+msgstr "Квартира"
 
 #: .\objects\choices.py:8 .\objects\templates\objects\contract_list.html:94
 #: .\objects\templates\objects\real_estate_create_form.html:41
 #: .\objects\templates\objects\selection_history_list.html:39
 msgid "Commerce"
-msgstr ""
+msgstr "Комерция"
 
 #: .\objects\choices.py:14
 msgid "On sale"
-msgstr ""
+msgstr "На продажу"
 
 #: .\objects\choices.py:15
 msgid "Deposit"
-msgstr ""
+msgstr "Депозит"
 
 #: .\objects\choices.py:16
 msgid "Withdrawn"
-msgstr ""
+msgstr "Снято с продажи"
 
 #: .\objects\choices.py:17
 msgid "Sold"
-msgstr ""
+msgstr "Продано"
 
 #: .\objects\choices.py:18
 msgid "Completely withdrawn"
-msgstr ""
+msgstr "Полностью снят"
 
 #: .\objects\choices.py:23
 msgid "Adjacent"
-msgstr ""
+msgstr "Смеженый"
 
 #: .\objects\choices.py:24
 msgid "Separate"
-msgstr ""
+msgstr "Отдельный"
 
 #: .\objects\choices.py:25
 msgid "Studio kitchen"
-msgstr ""
+msgstr "Кухня студия"
 
 #: .\objects\choices.py:26
 msgid "Room"
-msgstr ""
+msgstr "Комната"
 
 #: .\objects\forms.py:165 .\objects\forms.py:166
 msgid "Min price"
-msgstr ""
+msgstr "Минимаьная цена"
 
 #: .\objects\forms.py:170 .\objects\forms.py:171
 msgid "Max price"
-msgstr ""
+msgstr "Максимальная цена"
 
 #: .\objects\forms.py:183 .\objects\models.py:33
 #: .\objects\templates\objects\details.html:111
 msgid "Exclusive"
-msgstr ""
+msgstr "Ексклюзив"
 
 #: .\objects\forms.py:197
 msgid "You did not specify a locality"
-msgstr ""
+msgstr "Вы не указали город"
 
 #: .\objects\forms.py:200
 msgid "You did not specify a street"
-msgstr ""
+msgstr "Вы не указали улицу"
 
 #: .\objects\forms.py:203
 msgid "You did not specify a house"
-msgstr ""
+msgstr "Вы не указали дом"
 
 #: .\objects\forms.py:210
 msgid "You did not specify an apartment"
-msgstr ""
+msgstr "Вы не указали квартиру"
 
 #: .\objects\forms.py:217
 msgid "You did not specify a premises"
-msgstr ""
+msgstr "Вы не указали помещение"
 
 #: .\objects\forms.py:224
 msgid "You did not specify a housing"
-msgstr ""
+msgstr "Вы не указали корпус"
 
 #: .\objects\models.py:25 .\objects\templates\objects\report_list.html:143
 msgid "Creation date"
-msgstr ""
+msgstr "Дата создания"
 
 #: .\objects\models.py:26 .\objects\templates\objects\details.html:91
 msgid "Deposit date"
-msgstr ""
+msgstr "Дата депозита"
 
 #: .\objects\models.py:88 .\objects\templates\objects\details.html:163
 msgid "Material"
-msgstr ""
+msgstr "Материал"
 
 #: .\objects\models.py:93 .\objects\templates\objects\details.html:219
 msgid "Agency"
-msgstr ""
+msgstr "Агенство"
 
 #: .\objects\models.py:98
 msgid "House type"
-msgstr ""
+msgstr "Тип дома"
 
 #: .\objects\models.py:103
 msgid "Layout"
-msgstr ""
+msgstr "Макет"
 
 #: .\objects\models.py:108
 msgid "Stair"
-msgstr ""
+msgstr "Лестница"
 
 #: .\objects\models.py:126 .\objects\templates\objects\details.html:203
 #: .\objects\templates\objects\report_list.html:146
 msgid "Owner"
-msgstr ""
+msgstr "Владелец"
 
 #: .\objects\models.py:147
 msgid "Parking"
-msgstr ""
+msgstr "Паркинг"
 
 #: .\objects\models.py:148
 msgid "Generator"
-msgstr ""
+msgstr "Генератор"
 
 #: .\objects\models.py:149
 msgid "EHome"
-msgstr ""
+msgstr "Е-дом"
 
 #: .\objects\models.py:152 .\objects\templates\objects\details.html:179
 #: .\objects\templates\objects\report_list.html:144
 msgid "Price"
-msgstr ""
+msgstr "Цена"
 
 #: .\objects\models.py:155 .\objects\templates\objects\details.html:175
 msgid "Square"
-msgstr ""
+msgstr "Площадь"
 
 #: .\objects\models.py:156
 msgid "Kitchen square"
-msgstr ""
+msgstr "Площадь кухня"
 
 #: .\objects\models.py:157
 msgid "Height"
-msgstr ""
+msgstr "Высота"
 
 #: .\objects\models.py:159 .\objects\templates\objects\report_list.html:142
 msgid "Floor"
-msgstr ""
+msgstr "Этаж"
 
 #: .\objects\models.py:160
 msgid "Number of storeys"
-msgstr ""
+msgstr "Число этажей"
 
 #: .\objects\models.py:168
 msgid "Rubric"
-msgstr ""
+msgstr "Рубрика"
 
 #: .\objects\models.py:171 .\objects\templates\objects\details.html:239
 msgid "Document"
-msgstr ""
+msgstr "Документ"
 
 #: .\objects\models.py:177 .\objects\templates\objects\details.html:227
 msgid "Sale terms"
-msgstr ""
+msgstr "Условия продажи"
 
 #: .\objects\models.py:178 .\objects\templates\objects\details.html:277
 msgid "Realtor notes"
-msgstr ""
+msgstr "Заметки риелтора"
 
 #: .\objects\models.py:179 .\objects\templates\objects\details.html:286
 msgid "Comment"
-msgstr ""
+msgstr "Коментарий"
 
 #: .\objects\models.py:206
 msgid "Living square"
-msgstr ""
+msgstr "Жилая площадь"
 
 #: .\objects\models.py:207 .\objects\models.py:263
 msgid "Balcony"
-msgstr ""
+msgstr "Балкон"
 
 #: .\objects\models.py:208 .\objects\models.py:264
 msgid "Number of balconies"
-msgstr ""
+msgstr "Число балконов"
 
 #: .\objects\models.py:212 .\objects\models.py:274
 msgid "Complex"
-msgstr ""
+msgstr "Комплекс"
 
 #: .\objects\models.py:261
 msgid "Premises"
-msgstr ""
+msgstr "Помещение"
 
 #: .\objects\models.py:262 .\objects\models.py:288
 msgid "Useful square"
-msgstr ""
+msgstr "Полезная площадь"
 
 #: .\objects\models.py:265
 msgid "Ground floor"
-msgstr ""
+msgstr "Первый этаж"
 
 #: .\objects\models.py:266 .\objects\models.py:293
 msgid "Facade"
-msgstr ""
+msgstr "Фасад"
 
 #: .\objects\models.py:267 .\objects\models.py:294
 msgid "Own parking"
-msgstr ""
+msgstr "Свой паркинг"
 
 #: .\objects\models.py:268
 msgid "Own courtyard"
-msgstr ""
+msgstr "Свой двор"
 
 #: .\objects\models.py:269
 msgid "Separate building"
-msgstr ""
+msgstr "Отдельное здание"
 
 #: .\objects\models.py:287
 msgid "Housing"
-msgstr ""
+msgstr "Комплекс"
 
 #: .\objects\models.py:289
 msgid "Land's square"
-msgstr ""
+msgstr "Площадь земельного участка"
 
 #: .\objects\models.py:290
 msgid "Number of rooms"
-msgstr ""
+msgstr "Число комнат"
 
 #: .\objects\models.py:291
 msgid "Communications"
-msgstr ""
+msgstr "Комуникация"
 
 #: .\objects\models.py:292
 msgid "Terrace"
-msgstr ""
+msgstr "Терраса"
 
 #: .\objects\models.py:303 .\objects\templates\objects\contract_list.html:53
 #: .\objects\templates\objects\details.html:207
 #: .\objects\templates\objects\real_estate_list.html:53
 #: .\objects\templates\objects\report_list.html:53
 msgid "Client"
-msgstr ""
+msgstr "Клиент"
 
 #: .\objects\models.py:307
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: .\objects\models.py:312
 msgid "User"
-msgstr ""
+msgstr "Пользователь"
 
 #: .\objects\templates\objects\_apartment_form.html:62
 #: .\objects\templates\objects\_commerce_form.html:62
 #: .\objects\templates\objects\_house_form.html:62
 msgid "Fill address"
-msgstr ""
+msgstr "Заполнить адресс"
 
 #: .\objects\templates\objects\_apartment_form.html:66
 #: .\objects\templates\objects\_commerce_form.html:66
 #: .\objects\templates\objects\_house_form.html:66
 msgid "Verify"
-msgstr ""
+msgstr "Проверить"
 
 #: .\objects\templates\objects\_apartment_form.html:139
 #: .\objects\templates\objects\_commerce_form.html:139
 #: .\objects\templates\objects\_house_form.html:156
 msgid "Add Photo"
-msgstr ""
+msgstr "Добавить фото"
 
 #: .\objects\templates\objects\_apartment_form.html:234
 #: .\objects\templates\objects\_commerce_form.html:251
 #: .\objects\templates\objects\_house_form.html:253
 msgid "Edit owner"
-msgstr ""
+msgstr "Редактировать владельца"
 
 #: .\objects\templates\objects\catalog.html:5
 #: .\objects\templates\objects\catalog.html:10
@@ -864,393 +864,393 @@ msgstr ""
 #: .\objects\templates\objects\details.html:13 .\templates\main.html:60
 #: .\templates\main.html:63
 msgid "Catalog"
-msgstr ""
+msgstr "Каталог"
 
 #: .\objects\templates\objects\catalog.html:47
 #: .\objects\templates\objects\showing_act.html:28
 msgid "Sq. M."
-msgstr ""
+msgstr "Кв. М."
 
 #: .\objects\templates\objects\catalog.html:54
 #: .\objects\templates\objects\selection_list.html:70
 msgid "See details"
-msgstr ""
+msgstr "Просмотреть детали"
 
 #: .\objects\templates\objects\contract_list.html:77
 #: .\objects\templates\objects\real_estate_list.html:77
 #: .\objects\templates\objects\report_list.html:77
 msgid "Contract"
-msgstr ""
+msgstr "Контракт"
 
 #: .\objects\templates\objects\contract_list.html:88
 #: .\objects\templates\objects\real_estate_list.html:87
 msgid "Apartments"
-msgstr ""
+msgstr "Квартиры"
 
 #: .\objects\templates\objects\contract_list.html:100
 #: .\objects\templates\objects\real_estate_list.html:103
 msgid "Houses"
-msgstr ""
+msgstr "Дома"
 
 #: .\objects\templates\objects\contract_list.html:106
 msgid "Lands"
-msgstr ""
+msgstr "Земельные участки"
 
 #: .\objects\templates\objects\contract_list.html:112
 msgid "Rooms"
-msgstr ""
+msgstr "Комнаты"
 
 #: .\objects\templates\objects\details.html:10
 #: .\objects\templates\objects\details.html:14
 #: .\objects\templates\objects\details.html:55
 msgid "Details"
-msgstr ""
+msgstr "Детали"
 
 #: .\objects\templates\objects\details.html:48
 msgid "Characteristics"
-msgstr ""
+msgstr "Характеристики"
 
 #: .\objects\templates\objects\details.html:87
 msgid "Date before temporarily removed"
-msgstr ""
+msgstr "Дата до временного удаления"
 
 #: .\objects\templates\objects\details.html:95
 msgid "Purchase date"
-msgstr ""
+msgstr "Дата покупки"
 
 #: .\objects\templates\objects\details.html:99
 msgid "Sale date"
-msgstr ""
+msgstr "Дата продажи"
 
 #: .\objects\templates\objects\details.html:103
 msgid "Date of next call"
-msgstr ""
+msgstr "Дата следующего прозвона"
 
 #: .\objects\templates\objects\details.html:107
 msgid "Inspection form"
-msgstr ""
+msgstr "Инспекционная форма"
 
 #: .\objects\templates\objects\details.html:115
 msgid "Exclusive date"
-msgstr ""
+msgstr "Дата ексклюзива"
 
 #: .\objects\templates\objects\details.html:119
 msgid "Inspection flag"
-msgstr ""
+msgstr "Инпекционный флаг"
 
 #: .\objects\templates\objects\details.html:123
 msgid "Paid exclusive flag"
-msgstr ""
+msgstr "Платный ексклюзивный флаг"
 
 #: .\objects\templates\objects\details.html:127
 msgid "Terrace flag"
-msgstr ""
+msgstr "Флаг террасы"
 
 #: .\objects\templates\objects\details.html:131
 msgid "Sea flag"
-msgstr ""
+msgstr "Флаг моря"
 
 #: .\objects\templates\objects\details.html:135
 msgid "vip"
-msgstr ""
+msgstr "ВИП"
 
 #: .\objects\templates\objects\details.html:139
 msgid "Withdrawal reason"
-msgstr ""
+msgstr "Причина снятия"
 
 #: .\objects\templates\objects\details.html:143
 msgid "Independent"
-msgstr ""
+msgstr "Независимый"
 
 #: .\objects\templates\objects\details.html:151
 msgid "Special"
-msgstr ""
+msgstr "Специальный"
 
 #: .\objects\templates\objects\details.html:155
 msgid "Urgently"
-msgstr ""
+msgstr "Срочный"
 
 #: .\objects\templates\objects\details.html:159
 msgid "Trade"
-msgstr ""
+msgstr "Торг"
 
 #: .\objects\templates\objects\details.html:183
 msgid "Site price"
-msgstr ""
+msgstr "Цена на сайте"
 
 #: .\objects\templates\objects\details.html:187
 msgid "Square meter price"
-msgstr ""
+msgstr "Цена за кв. м."
 
 #: .\objects\templates\objects\details.html:191
 msgid "For trainee"
-msgstr ""
+msgstr "Для стажера"
 
 #: .\objects\templates\objects\details.html:195
 msgid "Reference point"
-msgstr ""
+msgstr "Ориентир"
 
 #: .\objects\templates\objects\details.html:199
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: .\objects\templates\objects\details.html:211
 msgid "Owners number"
-msgstr ""
+msgstr "Число владельцев"
 
 #: .\objects\templates\objects\details.html:215
 msgid "Separation"
-msgstr ""
+msgstr "Разделение"
 
 #: .\objects\templates\objects\details.html:223
 msgid "Agency sales"
-msgstr ""
+msgstr "Агентские продажи"
 
 #: .\objects\templates\objects\details.html:231
 msgid "Filename of exclusive agreement"
-msgstr ""
+msgstr "Имя файла эксклюзивного соглашения"
 
 #: .\objects\templates\objects\details.html:235
 msgid "Inspection file name"
-msgstr ""
+msgstr "Имя файла проверки"
 
 #: .\objects\templates\objects\details.html:243
 msgid "Filename forbid sale"
-msgstr ""
+msgstr "Имя файла запрещает продажу"
 
 #: .\objects\templates\objects\details.html:247
 msgid "New building name"
-msgstr ""
+msgstr "Имя новостроя"
 
 #: .\objects\templates\objects\details.html:251
 msgid "New building type"
-msgstr ""
+msgstr "Тип новостроя"
 
 #: .\objects\templates\objects\details.html:259
 msgid "Site realtor 1"
-msgstr ""
+msgstr "Риелтор на сайт 1"
 
 #: .\objects\templates\objects\details.html:263
 msgid "Site realtor 2"
-msgstr ""
+msgstr "Риелтор на сайт 2"
 
 #: .\objects\templates\objects\details.html:298
 msgid "Realtors"
-msgstr ""
+msgstr "Риелторы"
 
 #: .\objects\templates\objects\real_estate_create_form.html:35
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: .\objects\templates\objects\real_estate_list.html:95
 msgid "Commerces"
-msgstr ""
+msgstr "Комерции"
 
 #: .\objects\templates\objects\report_list.html:88
 msgid "New apartments"
-msgstr ""
+msgstr "Новые квартиры"
 
 #: .\objects\templates\objects\report_list.html:94
 msgid "New commerces"
-msgstr ""
+msgstr "Новые комерции"
 
 #: .\objects\templates\objects\report_list.html:100
 msgid "New houses"
-msgstr ""
+msgstr "Новые дома"
 
 #: .\objects\templates\objects\report_list.html:106
 msgid "New lands"
-msgstr ""
+msgstr "Новые земельные участки"
 
 #: .\objects\templates\objects\report_list.html:112
 msgid "New rooms"
-msgstr ""
+msgstr "Новые комнаты"
 
 #: .\objects\templates\objects\report_list.html:118
 msgid "All apartments"
-msgstr ""
+msgstr "Все квартиры"
 
 #: .\objects\templates\objects\report_list.html:124
 msgid "My apartments"
-msgstr ""
+msgstr "Мои квартиры"
 
 #: .\objects\templates\objects\selection_history_list.html:25
 msgid "selection"
-msgstr ""
+msgstr "выборка"
 
 #: .\objects\templates\objects\selection_list.html:11
 msgid "Selection list for"
-msgstr ""
+msgstr "Виборка для"
 
 #: .\objects\templates\objects\selection_list.html:15
 msgid "Selection list"
-msgstr ""
+msgstr "Список выборки"
 
 #: .\objects\templates\objects\selection_list.html:78
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: .\objects\templates\objects\showing_act.html:5
 #: .\objects\templates\objects\showing_act.html:10
 #: .\objects\templates\objects\showing_act.html:13
 msgid "Showing act"
-msgstr ""
+msgstr "Акт показа"
 
 #: .\objects\templates\objects\showing_act.html:35
 msgid "See Details"
-msgstr ""
+msgstr "Увидеть детали"
 
 #: .\objects\views.py:76 .\objects\views.py:91
 msgid "Invalid real estate type"
-msgstr ""
+msgstr "Неверный тип недвижимости"
 
 #: .\objects\views.py:112
 msgid "Doesn't exist"
-msgstr ""
+msgstr "Не существует"
 
 #: .\objects\views.py:116
 msgid "Exists (id"
-msgstr ""
+msgstr "Существует (id"
 
 #: .\templates\base.html:56
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: .\templates\base.html:57
 msgid "English"
-msgstr ""
+msgstr "Английский"
 
 #: .\templates\base.html:58
 msgid "Russian"
-msgstr ""
+msgstr "Русский"
 
 #: .\templates\base.html:59
 msgid "Ukrainian"
-msgstr ""
+msgstr "Украинский"
 
 #: .\templates\base.html:82
 msgid "Logout"
-msgstr ""
+msgstr "Выход"
 
 #: .\templates\delete_form.html:5
 msgid "Delete form"
-msgstr ""
+msgstr "Форма удаления"
 
 #: .\templates\delete_form.html:10 .\templates\delete_form.html:13
 msgid "Deletion"
-msgstr ""
+msgstr "Удаление"
 
 #: .\templates\delete_form.html:20
 msgid "Want delete?"
-msgstr ""
+msgstr "Хотите удалить?"
 
 #: .\templates\main.html:24 .\templates\main.html:27
 msgid "Rent"
-msgstr ""
+msgstr "Аренда"
 
 #: .\templates\main.html:36 .\templates\main.html:39
 msgid "Sale"
-msgstr ""
+msgstr "Продажа"
 
 #: .\utils\const.py:12 .\utils\const.py:25
 msgid "region"
-msgstr ""
+msgstr "область"
 
 #: .\utils\const.py:12 .\utils\const.py:25
 msgid "district"
-msgstr ""
+msgstr "район"
 
 #: .\utils\const.py:13 .\utils\const.py:26
 msgid "locality"
-msgstr ""
+msgstr "город"
 
 #: .\utils\const.py:14 .\utils\const.py:27
 msgid "localitydistrict"
-msgstr ""
+msgstr "район города"
 
 #: .\utils\const.py:15 .\utils\const.py:28
 msgid "street"
-msgstr ""
+msgstr "улица"
 
 #: .\utils\const.py:15 .\utils\const.py:37
 msgid "client"
-msgstr ""
+msgstr "клиент"
 
 #: .\utils\const.py:16 .\utils\const.py:29
 msgid "withdrawalreason"
-msgstr ""
+msgstr "причина снятия"
 
 #: .\utils\const.py:17 .\utils\const.py:30
 msgid "condition"
-msgstr ""
+msgstr "состояние"
 
 #: .\utils\const.py:17 .\utils\const.py:30
 msgid "material"
-msgstr ""
+msgstr "материал"
 
 #: .\utils\const.py:18 .\utils\const.py:31
 msgid "separation"
-msgstr ""
+msgstr "разделение"
 
 #: .\utils\const.py:18 .\utils\const.py:31
 msgid "agency"
-msgstr ""
+msgstr "агентство"
 
 #: .\utils\const.py:19 .\utils\const.py:32
 msgid "agencysales"
-msgstr ""
+msgstr "агенство продажи"
 
 #: .\utils\const.py:20 .\utils\const.py:33
 msgid "newbuildingname"
-msgstr ""
+msgstr "название нового здания"
 
 #: .\utils\const.py:21 .\utils\const.py:34
 msgid "stair"
-msgstr ""
+msgstr "лестница"
 
 #: .\utils\const.py:21 .\utils\const.py:34
 msgid "heating"
-msgstr ""
+msgstr "обогрев"
 
 #: .\utils\const.py:21 .\utils\const.py:34
 msgid "layout"
-msgstr ""
+msgstr "макет"
 
 #: .\utils\const.py:22 .\utils\const.py:35
 msgid "housetype"
-msgstr ""
+msgstr "тип дома"
 
 #: .\utils\const.py:22 .\utils\const.py:35
 msgid "filialagency"
-msgstr ""
+msgstr "агенство"
 
 #: .\utils\const.py:23 .\utils\const.py:36
 msgid "filialreport"
-msgstr ""
+msgstr "отчет филиала"
 
 #: .\utils\const.py:24
 msgid "apartment"
-msgstr ""
+msgstr "квартира"
 
 #: .\utils\const.py:24 .\utils\const.py:38
 msgid "report"
-msgstr ""
+msgstr "отчет"
 
 #: .\utils\const.py:24 .\utils\const.py:36
 msgid "complex"
-msgstr ""
+msgstr "комплекс"
 
 #: .\utils\const.py:37
 msgid "realestate"
-msgstr ""
+msgstr "недвижимость"
 
 #: .\utils\const.py:38
 msgid "contract"
-msgstr ""
+msgstr "контракт"
 
 #: .\utils\const.py:39
 msgid "group"
-msgstr ""
+msgstr "группа"
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
 msgid "Messages"
