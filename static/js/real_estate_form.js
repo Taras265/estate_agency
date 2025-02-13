@@ -96,8 +96,8 @@ function verifyRealEstateAddress(realEstateType) {
     const streetId = streetSelect.value;
     const house = houseInput.value;
 
-    let url = 
-        dataset.mainUrl + 
+    let url =
+        dataset.mainUrl +
         `objects/verify-address?type=${realEstateType}&locality=${localityId}&street=${streetId}&house=${house}`
 
     switch (realEstateType) {
@@ -153,7 +153,7 @@ function setOwnerEditFormUrl(ownerId) {
     1) ownerId - number
     */
     if (ownerId !== "") {
-        btnEditOwner.href = dataset.mainUrl + `handbooks/base/update/client/${ownerId}/`;
+        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/update/client/${ownerId}/`;
         btnEditOwner.style.pointerEvents = "auto";
     } else {
         btnEditOwner.href = "";

@@ -13,6 +13,7 @@ class RealEstateCreateContextMixin(ContextMixin):
     з формою створення обʼєкту нерухомості.
     """
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],
@@ -37,6 +38,7 @@ class RealEstateUpdateContextMixin(ContextMixin):
     з формою редагування обʼєкту нерухомості.
     """
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],

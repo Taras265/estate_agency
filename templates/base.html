@@ -69,17 +69,17 @@
     <header>
         <div class="container">
             <div class="navbar">
-                <a href="/{{lang}}/" title="Perfect Property" class="header-logo d-block">
+                <a href="{% url 'main' lang=lang %}" title="Perfect Property" class="header-logo d-block">
                     <img src="{% static '/images/logo.jpg' %}" alt="logo" title="Perfect Property" height="80">
                 </a>
                 <div class="nav-item">
                     <nav class="d-none d-lg-block">
                         <ul>
-                            <li><a href="/{{lang}}/" class="active">{% translate 'Main' %}</a></li>
-                            <li><a href="/{{lang}}/handbooks/base/">{% translate 'Base' %}</a></li>
-                            <li><a href="/{{lang}}/accounts/profile/">{% translate 'Profile' %}</a></li>
-                            <li><a href="/{{lang}}/accounts/login/">{% translate 'Login' %}</a></li>
-                            <li><a href="/{{lang}}/accounts/logout/">{% translate 'Logout' %}</a></li>
+                            <li><a href="{% url 'main' lang=lang %}" class="active">{% translate 'Main' %}</a></li>
+                            <li><a href="{% url 'handbooks:handbook_redirect' lang=lang %}">{% translate 'Base' %}</a></li>
+                            <li><a href="{% url 'accounts:profile' lang=lang %}">{% translate 'Profile' %}</a></li>
+                            <li><a href="{% url 'accounts:login' lang=lang %}">{% translate 'Login' %}</a></li>
+                            <li><a href="{% url 'accounts:logout' lang=lang %}">{% translate 'Logout' %}</a></li>
                         </ul>
                     </nav>
                     <div

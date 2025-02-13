@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_GET
-from django.utils.translation import activate
+from django.utils.translation import activate, gettext_lazy as _
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
     View, ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
@@ -67,12 +67,13 @@ def verify_real_estate_address(request, lang):
     - house: str
     - apartment/premises/housing: str (в залежності від типу обʼєкта)
     """
+    activate(lang)
     try:
         real_estate_type = int(request.GET.get("type"))
     except ValueError:
         return JsonResponse({
             "success": False, 
-            "errors": {"type": "Invalid real estate type."},
+            "errors": {"type": _("Invalid real estate type")},
         })
 
     form = None
@@ -87,7 +88,7 @@ def verify_real_estate_address(request, lang):
     if not form:
         return JsonResponse({
             "success": False, 
-            "errors": {"type": "Invalid real estate type."},
+            "errors": {"type": _("Invalid real estate type")},
         })
 
     if not form.is_valid():
@@ -108,11 +109,11 @@ def verify_real_estate_address(request, lang):
     if not real_estate:
         return JsonResponse({
             "success": True,
-            "message": f"{RealEstateType.labels[real_estate_type-1]} doesn't exist.",
+            "message": _("Doesn't exist"),
         })
     return JsonResponse({
         "success": True,
-        "message": f"{RealEstateType.labels[real_estate_type-1]} exists (id {real_estate.id}).",
+        "message": _("Exists (id") + str({real_estate.id}) + ")",
     })
 
 
@@ -551,6 +552,7 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
         return q1.intersection(q2)
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
         context = super().get_context_data()
         context.update({
             "can_view_client": has_any_perm_from_list(
@@ -677,6 +679,7 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
         return user_can_create_apartment(self.request.user)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.APARTMENT
         return context

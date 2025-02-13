@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-05 11:03+0200\n"
+"POT-Creation-Date: 2025-02-10 14:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,830 +18,1237 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\accounts\forms.py:10 .\accounts\forms.py:11
-#: .\accounts\templates\accounts\profile.html:39
+#: .\accounts\forms.py:10 .\accounts\forms.py:40 .\accounts\forms.py:62
+#: .\accounts\models.py:48 .\accounts\templates\accounts\profile.html:50
+#: .\accounts\templates\accounts\user_list.html:74 .\handbooks\forms.py:135
+#: .\handbooks\templates\handbooks\client_list.html:108
 #: .\objects\templates\objects\details.html:316
 #: .\objects\templates\objects\details.html:336
 #: .\objects\templates\objects\details.html:357
 #: .\objects\templates\objects\details.html:378
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
-#: .\accounts\forms.py:12 .\accounts\forms.py:13
+#: .\accounts\forms.py:11 .\accounts\forms.py:66
 msgid "Password"
-msgstr "Password"
+msgstr ""
+
+#: .\accounts\forms.py:19
+msgid "There is no user with this email"
+msgstr ""
 
 #: .\accounts\forms.py:21
-msgid "There is no user with this email"
-msgstr "There is no user with this email"
-
-#: .\accounts\forms.py:23
 msgid "The password is not valid"
-msgstr "The password is not valid"
+msgstr ""
 
-#: .\accounts\forms.py:26
+#: .\accounts\forms.py:24
 msgid "The user is inactive"
-msgstr "The user is inactive"
+msgstr ""
 
-#: .\accounts\forms.py:31 .\accounts\forms.py:32 .\images\forms.py:10
-#: .\images\forms.py:11
-msgid "image"
-msgstr "Image"
+#: .\accounts\forms.py:29 .\accounts\models.py:75 .\images\forms.py:15
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
+msgid "Image"
+msgstr ""
 
-#: .\accounts\templates\accounts\login.html:4
-#: .\accounts\templates\accounts\login.html:9
-#: .\accounts\templates\accounts\login.html:12 .\templates\base.html:81
-msgid "Login"
-msgstr "Login"
+#: .\accounts\forms.py:41
+msgid "email"
+msgstr ""
 
-#: .\accounts\templates\accounts\login.html:11
-#: .\accounts\templates\accounts\profile.html:11
-#: .\handbooks\templates\handbooks\history_list.html:11
-#: .\handbooks\templates\handbooks\list.html:12
-#: .\images\templates\images\list.html:11
-#: .\objects\templates\objects\catalog.html:12
-#: .\objects\templates\objects\details.html:12
-#: .\objects\templates\objects\selection_list.html:12
-#: .\objects\templates\objects\showing_act.html:12 .\templates\base.html:78
-#: .\templates\delete_form.html:12 .\templates\form.html:11
-#: .\templates\main.html:4
-msgid "Main"
-msgstr "Main"
+#: .\accounts\forms.py:44 .\accounts\forms.py:70 .\accounts\models.py:52
+#: .\accounts\templates\accounts\user_list.html:75 .\handbooks\forms.py:139
+#: .\handbooks\templates\handbooks\client_list.html:109
+msgid "First name"
+msgstr ""
 
-#: .\accounts\templates\accounts\login.html:23 .\templates\form.html:29
-msgid "Submit"
-msgstr "Submit"
+#: .\accounts\forms.py:48 .\accounts\forms.py:74 .\accounts\models.py:57
+#: .\accounts\templates\accounts\user_list.html:76 .\handbooks\forms.py:143
+msgid "Last name"
+msgstr ""
 
-#: .\accounts\templates\accounts\profile.html:4
-#: .\accounts\templates\accounts\profile.html:9
-#: .\accounts\templates\accounts\profile.html:12 .\templates\base.html:80
-msgid "Profile"
-msgstr "Profile"
-
-#: .\accounts\templates\accounts\profile.html:37
+#: .\accounts\forms.py:87 .\accounts\templates\accounts\profile.html:41
 #: .\objects\templates\objects\details.html:314
 #: .\objects\templates\objects\details.html:334
 #: .\objects\templates\objects\details.html:355
 #: .\objects\templates\objects\details.html:376
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
-#: .\accounts\templates\accounts\profile.html:38
+#: .\accounts\templates\accounts\login.html:4
+#: .\accounts\templates\accounts\login.html:9
+#: .\accounts\templates\accounts\login.html:12
+#: .\accounts\templates\accounts\login.html:18 .\templates\base.html:81
+msgid "Login"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:11
+#: .\accounts\templates\accounts\profile.html:11
+#: .\accounts\templates\accounts\user_form.html:22
+#: .\accounts\templates\accounts\user_list.html:11
+#: .\handbooks\templates\handbooks\client_form.html:26
+#: .\handbooks\templates\handbooks\client_list.html:12
+#: .\handbooks\templates\handbooks\history_list.html:11
+#: .\handbooks\templates\handbooks\list.html:12
+#: .\images\templates\images\list.html:11
+#: .\objects\templates\objects\catalog.html:12
+#: .\objects\templates\objects\contract_list.html:13
+#: .\objects\templates\objects\details.html:12
+#: .\objects\templates\objects\real_estate_create_form.html:26
+#: .\objects\templates\objects\real_estate_list.html:13
+#: .\objects\templates\objects\real_estate_update_form.html:26
+#: .\objects\templates\objects\report_list.html:13
+#: .\objects\templates\objects\selection_history_list.html:11
+#: .\objects\templates\objects\selection_list.html:13
+#: .\objects\templates\objects\showing_act.html:12 .\templates\base.html:78
+#: .\templates\delete_form.html:12 .\templates\form.html:11
+#: .\templates\main.html:4
+msgid "Main"
+msgstr ""
+
+#: .\accounts\templates\accounts\login.html:23
+#: .\accounts\templates\accounts\user_form.html:62
+#: .\handbooks\templates\handbooks\client_form.html:182
+#: .\objects\templates\objects\real_estate_create_form.html:53
+#: .\objects\templates\objects\real_estate_update_form.html:37
+#: .\templates\form.html:29
+msgid "Submit"
+msgstr ""
+
+#: .\accounts\templates\accounts\profile.html:4
+#: .\accounts\templates\accounts\profile.html:9
+#: .\accounts\templates\accounts\profile.html:12 .\templates\base.html:80
+msgid "Profile"
+msgstr ""
+
+#: .\accounts\templates\accounts\profile.html:43
 #: .\objects\templates\objects\details.html:315
 #: .\objects\templates\objects\details.html:335
 #: .\objects\templates\objects\details.html:356
 #: .\objects\templates\objects\details.html:377
 msgid "Phone"
-msgstr "Phone"
+msgstr ""
 
-#: .\accounts\templates\accounts\profile.html:46
+#: .\accounts\templates\accounts\profile.html:57
 msgid "New avatar"
-msgstr "New avatar"
+msgstr ""
 
-#: .\handbooks\forms.py:10 .\handbooks\forms.py:11 .\handbooks\forms.py:21
-#: .\handbooks\forms.py:23 .\objects\forms.py:48 .\objects\forms.py:50
-#: .\objects\templates\objects\details.html:59
-#: .\objects\templates\objects\selection_list.html:51 .\utils\const.py:10
-#: .\utils\const.py:23
-msgid "region"
-msgstr "Region"
+#: .\accounts\templates\accounts\user_form.html:5
+#: .\accounts\templates\accounts\user_form.html:20
+#: .\accounts\templates\accounts\user_form.html:23
+#: .\handbooks\templates\handbooks\client_form.html:5
+#: .\handbooks\templates\handbooks\client_form.html:24
+#: .\handbooks\templates\handbooks\client_form.html:27
+#: .\objects\templates\objects\real_estate_create_form.html:5
+#: .\objects\templates\objects\real_estate_create_form.html:24
+#: .\objects\templates\objects\real_estate_create_form.html:27
+#: .\objects\templates\objects\real_estate_update_form.html:5
+#: .\objects\templates\objects\real_estate_update_form.html:24
+#: .\objects\templates\objects\real_estate_update_form.html:27
+#: .\templates\form.html:4 .\templates\form.html:9 .\templates\form.html:12
+msgid "Form"
+msgstr ""
 
-#: .\handbooks\forms.py:19 .\handbooks\forms.py:20 .\handbooks\forms.py:33
-#: .\handbooks\forms.py:35 .\handbooks\forms.py:50 .\handbooks\forms.py:51
-#: .\objects\forms.py:51 .\objects\forms.py:53
-#: .\objects\templates\objects\details.html:63
-#: .\objects\templates\objects\selection_list.html:52 .\utils\const.py:10
-#: .\utils\const.py:23
-msgid "district"
-msgstr "District"
+#: .\accounts\templates\accounts\user_form.html:59
+msgid "Add phone number"
+msgstr ""
 
-#: .\handbooks\forms.py:31 .\handbooks\forms.py:32 .\handbooks\forms.py:52
-#: .\handbooks\forms.py:54 .\handbooks\forms.py:124 .\handbooks\forms.py:126
-#: .\handbooks\forms.py:218 .\handbooks\forms.py:220 .\objects\forms.py:54
-#: .\objects\forms.py:56 .\objects\forms.py:319 .\objects\forms.py:321
-#: .\objects\templates\objects\details.html:67
-#: .\objects\templates\objects\selection_list.html:53 .\utils\const.py:11
-#: .\utils\const.py:24
-msgid "locality"
-msgstr "Locality"
+#: .\accounts\templates\accounts\user_list.html:4
+#: .\handbooks\templates\handbooks\client_list.html:5
+#: .\handbooks\templates\handbooks\list.html:5
+#: .\objects\templates\objects\contract_list.html:6
+#: .\objects\templates\objects\real_estate_list.html:6
+#: .\objects\templates\objects\report_list.html:6 .\templates\main.html:48
+#: .\templates\main.html:51
+msgid "Handbooks"
+msgstr ""
 
-#: .\handbooks\forms.py:36 .\handbooks\forms.py:38
-msgid "city_type"
-msgstr "City type"
-
-#: .\handbooks\forms.py:40 .\handbooks\forms.py:42
-msgid "center_type"
-msgstr "Center type"
-
-#: .\handbooks\forms.py:55 .\handbooks\forms.py:57
-msgid "description"
-msgstr "Description"
-
-#: .\handbooks\forms.py:59 .\handbooks\forms.py:61
-msgid "group_on_site"
-msgstr "Group on site"
-
-#: .\handbooks\forms.py:62 .\handbooks\forms.py:64
-msgid "hot_deals_limit"
-msgstr "Hot deals limit"
-
-#: .\handbooks\forms.py:66 .\handbooks\forms.py:68
-msgid "prefix_to_site"
-msgstr "Prefix to site"
-
-#: .\handbooks\forms.py:69 .\handbooks\forms.py:71
-msgid "is_subdistrict"
-msgstr "Is subdistrict"
-
-#: .\handbooks\forms.py:75 .\handbooks\forms.py:77
-msgid "new_building_district"
-msgstr "New building district"
-
-#: .\handbooks\forms.py:85 .\handbooks\forms.py:86 .\handbooks\forms.py:132
-#: .\handbooks\forms.py:134 .\handbooks\forms.py:226 .\handbooks\forms.py:228
-#: .\objects\forms.py:61 .\objects\forms.py:63 .\objects\forms.py:322
-#: .\objects\forms.py:324 .\objects\templates\objects\details.html:75
-#: .\objects\templates\objects\selection_list.html:55 .\utils\const.py:13
-#: .\utils\const.py:26
-msgid "street"
-msgstr "Street"
-
-#: .\handbooks\forms.py:88 .\handbooks\forms.py:90 .\handbooks\forms.py:128
-#: .\handbooks\forms.py:130 .\handbooks\forms.py:222 .\handbooks\forms.py:224
-#: .\objects\forms.py:58 .\objects\forms.py:60
-#: .\objects\templates\objects\details.html:71
-#: .\objects\templates\objects\selection_list.html:54
-msgid "locality_district"
-msgstr "Locality district"
-
-#: .\handbooks\forms.py:98 .\handbooks\forms.py:99
-msgid "email"
-msgstr "email"
-
-#: .\handbooks\forms.py:100 .\handbooks\forms.py:101
-msgid "first_name"
-msgstr "First name"
-
-#: .\handbooks\forms.py:102 .\handbooks\forms.py:103
-msgid "last_name"
-msgstr "Last name"
-
-#: .\handbooks\forms.py:104 .\handbooks\forms.py:105
-msgid "phone"
-msgstr "Phone"
-
-#: .\handbooks\forms.py:108 .\handbooks\forms.py:110 .\objects\forms.py:132
-#: .\objects\forms.py:134 .\objects\templates\objects\details.html:255
-msgid "realtor"
-msgstr "Realtor"
-
-#: .\handbooks\forms.py:116 .\handbooks\forms.py:118 .\objects\forms.py:111
-#: .\objects\forms.py:112 .\objects\templates\objects\details.html:167
-msgid "status"
-msgstr "Status"
-
-#: .\handbooks\forms.py:120 .\handbooks\forms.py:122 .\handbooks\forms.py:214
-#: .\handbooks\forms.py:216 .\objects\forms.py:223 .\objects\forms.py:225
-msgid "rooms_number"
-msgstr "Rooms number"
-
-#: .\handbooks\forms.py:135 .\handbooks\forms.py:137 .\handbooks\forms.py:229
-#: .\handbooks\forms.py:231 .\objects\forms.py:64 .\objects\forms.py:65
-#: .\objects\templates\objects\details.html:79
-msgid "house"
-msgstr "House"
-
-#: .\handbooks\forms.py:138 .\handbooks\forms.py:140 .\handbooks\forms.py:232
-#: .\handbooks\forms.py:234
-msgid "floor_min"
-msgstr "Min floor"
-
-#: .\handbooks\forms.py:141 .\handbooks\forms.py:143 .\handbooks\forms.py:235
-#: .\handbooks\forms.py:237
-msgid "floor_max"
-msgstr "Max floor"
-
-#: .\handbooks\forms.py:144 .\handbooks\forms.py:146 .\handbooks\forms.py:238
-#: .\handbooks\forms.py:240
-msgid "not_first"
-msgstr "Not first"
-
-#: .\handbooks\forms.py:148 .\handbooks\forms.py:150 .\handbooks\forms.py:242
-#: .\handbooks\forms.py:244
-msgid "not_last"
-msgstr "Not last"
-
-#: .\handbooks\forms.py:152 .\handbooks\forms.py:154 .\handbooks\forms.py:246
-#: .\handbooks\forms.py:248
-msgid "storeys_num_min"
-msgstr "Storeys minimal number"
-
-#: .\handbooks\forms.py:155 .\handbooks\forms.py:157 .\handbooks\forms.py:249
-#: .\handbooks\forms.py:251
-msgid "storeys_num_max"
-msgstr "Storeys maximal number"
-
-#: .\handbooks\forms.py:158 .\handbooks\forms.py:160 .\handbooks\forms.py:252
-#: .\handbooks\forms.py:254 .\objects\forms.py:325 .\objects\forms.py:327
-msgid "price_min"
-msgstr "Minimal price"
-
-#: .\handbooks\forms.py:161 .\handbooks\forms.py:163 .\handbooks\forms.py:255
-#: .\handbooks\forms.py:257 .\objects\forms.py:329 .\objects\forms.py:331
-msgid "price_max"
-msgstr "Maximal price"
-
-#: .\handbooks\forms.py:164 .\handbooks\forms.py:166 .\handbooks\forms.py:258
-#: .\handbooks\forms.py:261
-msgid "square_meter_price_max"
-msgstr "Maximal square meter price"
-
-#: .\handbooks\forms.py:170 .\handbooks\forms.py:172 .\handbooks\forms.py:265
-#: .\handbooks\forms.py:267 .\objects\forms.py:95 .\objects\forms.py:97
-#: .\objects\templates\objects\details.html:147 .\utils\const.py:15
-#: .\utils\const.py:28
-msgid "condition"
-msgstr "Condition"
-
-#: .\handbooks\forms.py:180 .\handbooks\forms.py:181
-msgid "handbook"
-msgstr "Handbook"
-
-#: .\handbooks\forms.py:190 .\handbooks\forms.py:192 .\handbooks\forms.py:204
-#: .\handbooks\forms.py:206
-msgid "filial_agency"
-msgstr "Filial agency"
-
-#: .\handbooks\forms.py:200 .\handbooks\forms.py:201 .\utils\const.py:22
-#: .\utils\const.py:36
-msgid "report"
-msgstr "Report"
-
-#: .\handbooks\forms.py:271 .\handbooks\forms.py:273 .\objects\forms.py:336
-#: .\objects\forms.py:338 .\objects\templates\objects\selection_list.html:50
-msgid "id"
-msgstr "id"
-
-#: .\handbooks\templates\handbooks\history_list.html:4
-#: .\handbooks\templates\handbooks\history_list.html:13
-#: .\handbooks\templates\handbooks\list.html:126
-msgid "History"
-msgstr "History"
-
-#: .\handbooks\templates\handbooks\history_list.html:9
-msgid "History of changes"
-msgstr "History of changes"
-
+#: .\accounts\templates\accounts\user_list.html:9
+#: .\accounts\templates\accounts\user_list.html:12
+#: .\handbooks\templates\handbooks\client_list.html:10
+#: .\handbooks\templates\handbooks\client_list.html:13
 #: .\handbooks\templates\handbooks\history_list.html:12
 #: .\handbooks\templates\handbooks\list.html:10
 #: .\handbooks\templates\handbooks\list.html:13
 #: .\images\templates\images\list.html:12
-#: .\objects\templates\objects\selection_list.html:13 .\templates\base.html:79
+#: .\objects\templates\objects\contract_list.html:11
+#: .\objects\templates\objects\contract_list.html:14
+#: .\objects\templates\objects\real_estate_list.html:11
+#: .\objects\templates\objects\real_estate_list.html:14
+#: .\objects\templates\objects\report_list.html:11
+#: .\objects\templates\objects\report_list.html:14
+#: .\objects\templates\objects\selection_history_list.html:12
+#: .\objects\templates\objects\selection_list.html:14 .\templates\base.html:79
 msgid "Base"
-msgstr "Base"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:34
+#: .\handbooks\templates\handbooks\client_list.html:35
+#: .\handbooks\templates\handbooks\list.html:35
+#: .\objects\templates\objects\catalog.html:29
+#: .\objects\templates\objects\contract_list.html:36
+#: .\objects\templates\objects\real_estate_list.html:36
+#: .\objects\templates\objects\report_list.html:36
+#: .\objects\templates\objects\selection_list.html:37
+msgid "Search"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:50 .\templates\main.html:12
+#: .\templates\main.html:15
+msgid "Users"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:57
+msgid "Groups"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:73 .\handbooks\forms.py:376
+#: .\handbooks\templates\handbooks\client_list.html:107 .\objects\forms.py:178
+#: .\objects\templates\objects\contract_list.html:127
+#: .\objects\templates\objects\real_estate_list.html:119
+#: .\objects\templates\objects\report_list.html:139
+msgid "Id"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:77
+msgid "Phone numbers"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:103
+#: .\handbooks\templates\handbooks\client_list.html:143
+#: .\handbooks\templates\handbooks\list.html:114
+#: .\objects\templates\objects\real_estate_list.html:139
+msgid "Update"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:110
+#: .\handbooks\templates\handbooks\client_list.html:148
+#: .\handbooks\templates\handbooks\list.html:118
+#: .\images\templates\images\list.html:31
+#: .\objects\templates\objects\real_estate_list.html:146
+#: .\templates\delete_form.html:25
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:122
+#: .\handbooks\templates\handbooks\client_list.html:156
+#: .\handbooks\templates\handbooks\history_list.html:4
+#: .\handbooks\templates\handbooks\history_list.html:13
+#: .\handbooks\templates\handbooks\list.html:125
+#: .\objects\templates\objects\real_estate_list.html:158
+#: .\objects\templates\objects\selection_history_list.html:14
+msgid "History"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:135
+#: .\objects\templates\objects\contract_list.html:146
+#: .\objects\templates\objects\real_estate_list.html:171
+msgid "Not found"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:141
+#: .\handbooks\templates\handbooks\client_list.html:167
+#: .\handbooks\templates\handbooks\list.html:137
+#: .\objects\templates\objects\real_estate_list.html:178
+msgid "Create"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:151
+#: .\handbooks\templates\handbooks\client_list.html:175
+#: .\handbooks\templates\handbooks\list.html:145
+#: .\objects\templates\objects\contract_list.html:154
+#: .\objects\templates\objects\real_estate_list.html:187
+#: .\objects\templates\objects\report_list.html:176
+msgid "Previous"
+msgstr ""
+
+#: .\accounts\templates\accounts\user_list.html:161
+#: .\handbooks\templates\handbooks\client_list.html:181
+#: .\handbooks\templates\handbooks\list.html:151
+#: .\objects\templates\objects\contract_list.html:160
+#: .\objects\templates\objects\real_estate_list.html:193
+#: .\objects\templates\objects\report_list.html:182
+msgid "Next"
+msgstr ""
+
+#: .\handbooks\choices.py:6
+msgid "Village"
+msgstr ""
+
+#: .\handbooks\choices.py:7
+msgid "Urban-type village"
+msgstr ""
+
+#: .\handbooks\choices.py:8
+msgid "City"
+msgstr ""
+
+#: .\handbooks\choices.py:12 .\handbooks\forms.py:31 .\handbooks\forms.py:52
+#: .\handbooks\forms.py:74 .\objects\templates\objects\details.html:63
+msgid "District"
+msgstr ""
+
+#: .\handbooks\choices.py:13
+msgid "Regional"
+msgstr ""
+
+#: .\handbooks\choices.py:18
+msgid "Seaside+Center"
+msgstr ""
+
+#: .\handbooks\choices.py:19
+msgid "Kyiv+Malinovsky"
+msgstr ""
+
+#: .\handbooks\choices.py:20
+msgid "Suvorov"
+msgstr ""
+
+#: .\handbooks\choices.py:25
+msgid "Recommendations"
+msgstr ""
+
+#: .\handbooks\choices.py:26
+msgid "Seller"
+msgstr ""
+
+#: .\handbooks\choices.py:27
+msgid "Internet"
+msgstr ""
+
+#: .\handbooks\choices.py:28
+msgid "Visitor"
+msgstr ""
+
+#: .\handbooks\choices.py:29
+msgid "Banner"
+msgstr ""
+
+#: .\handbooks\choices.py:30
+msgid "Posting"
+msgstr ""
+
+#: .\handbooks\choices.py:34 .\handbooks\forms.py:171 .\objects\models.py:66
+#: .\objects\templates\objects\details.html:255
+msgid "Realtor"
+msgstr ""
+
+#: .\handbooks\choices.py:35 .\objects\templates\objects\details.html:267
+msgid "Realtor 5x5"
+msgstr ""
+
+#: .\handbooks\choices.py:39
+msgid "In search"
+msgstr ""
+
+#: .\handbooks\choices.py:40
+#: .\handbooks\templates\handbooks\client_list.html:81
+msgid "With a show"
+msgstr ""
+
+#: .\handbooks\choices.py:41
+#: .\handbooks\templates\handbooks\client_list.html:87
+msgid "Decided"
+msgstr ""
+
+#: .\handbooks\choices.py:42
+#: .\handbooks\templates\handbooks\client_list.html:93
+msgid "Deferred demand"
+msgstr ""
+
+#: .\handbooks\forms.py:20 .\handbooks\forms.py:36
+#: .\objects\templates\objects\details.html:59
+msgid "Region"
+msgstr ""
+
+#: .\handbooks\forms.py:47 .\handbooks\forms.py:79 .\handbooks\forms.py:186
+#: .\handbooks\forms.py:306 .\objects\forms.py:155 .\objects\forms.py:157
+#: .\objects\models.py:50 .\objects\templates\objects\contract_list.html:128
+#: .\objects\templates\objects\details.html:67
+#: .\objects\templates\objects\real_estate_list.html:120
+#: .\objects\templates\objects\report_list.html:140
+msgid "Locality"
+msgstr ""
+
+#: .\handbooks\forms.py:57
+msgid "City type"
+msgstr ""
+
+#: .\handbooks\forms.py:62
+msgid "Center type"
+msgstr ""
+
+#: .\handbooks\forms.py:83
+msgid "Description"
+msgstr ""
+
+#: .\handbooks\forms.py:89
+msgid "Group on site"
+msgstr ""
+
+#: .\handbooks\forms.py:93
+msgid "Hot deals limit"
+msgstr ""
+
+#: .\handbooks\forms.py:98
+msgid "prefix_to_site"
+msgstr ""
+
+#: .\handbooks\forms.py:102
+msgid "Is subdistrict"
+msgstr ""
+
+#: .\handbooks\forms.py:108
+msgid "New building district"
+msgstr ""
+
+#: .\handbooks\forms.py:119 .\handbooks\forms.py:198 .\handbooks\forms.py:317
+#: .\objects\forms.py:160 .\objects\forms.py:162 .\objects\models.py:59
+#: .\objects\templates\objects\contract_list.html:129
+#: .\objects\templates\objects\details.html:75
+#: .\objects\templates\objects\real_estate_list.html:121
+#: .\objects\templates\objects\report_list.html:141
+msgid "Street"
+msgstr ""
+
+#: .\handbooks\forms.py:124 .\handbooks\forms.py:192 .\handbooks\forms.py:311
+#: .\objects\templates\objects\details.html:71
+msgid "Locality district"
+msgstr ""
+
+#: .\handbooks\forms.py:147 .\handbooks\forms.py:384
+#: .\handbooks\templates\handbooks\client_list.html:111
+msgid "Phone number"
+msgstr ""
+
+#: .\handbooks\forms.py:151
+msgid "Messenger"
+msgstr ""
+
+#: .\handbooks\forms.py:156
+msgid "Income source"
+msgstr ""
+
+#: .\handbooks\forms.py:161 .\handbooks\forms.py:369
+#: .\handbooks\templates\handbooks\client_list.html:110
+#: .\objects\templates\objects\details.html:171
+msgid "Real estate type"
+msgstr ""
+
+#: .\handbooks\forms.py:166
+msgid "Realtor type"
+msgstr ""
+
+#: .\handbooks\forms.py:176
+#: .\handbooks\templates\handbooks\client_list.html:112 .\objects\models.py:164
+#: .\objects\templates\objects\details.html:167
+#: .\objects\templates\objects\report_list.html:145
+msgid "Status"
+msgstr ""
+
+#: .\handbooks\forms.py:180 .\handbooks\forms.py:300
+msgid "Rooms number"
+msgstr ""
+
+#: .\handbooks\forms.py:203 .\handbooks\forms.py:322 .\objects\choices.py:9
+#: .\objects\models.py:61 .\objects\templates\objects\details.html:79
+#: .\objects\templates\objects\real_estate_create_form.html:44
+#: .\objects\templates\objects\selection_history_list.html:36
+msgid "House"
+msgstr ""
+
+#: .\handbooks\forms.py:208 .\handbooks\forms.py:327
+msgid "Min floor"
+msgstr ""
+
+#: .\handbooks\forms.py:213 .\handbooks\forms.py:332
+msgid "Max floor"
+msgstr ""
+
+#: .\handbooks\forms.py:218 .\handbooks\forms.py:337
+msgid "Not first"
+msgstr ""
+
+#: .\handbooks\forms.py:223 .\handbooks\forms.py:342
+msgid "Not last"
+msgstr ""
+
+#: .\handbooks\forms.py:228 .\handbooks\forms.py:347
+msgid "Price from"
+msgstr ""
+
+#: .\handbooks\forms.py:233 .\handbooks\forms.py:352
+msgid "Price to"
+msgstr ""
+
+#: .\handbooks\forms.py:238 .\handbooks\forms.py:357
+msgid "Square meter max price"
+msgstr ""
+
+#: .\handbooks\forms.py:245 .\handbooks\forms.py:364 .\objects\models.py:83
+#: .\objects\templates\objects\details.html:147
+msgid "Condition"
+msgstr ""
+
+#: .\handbooks\forms.py:256
+msgid "Handbook"
+msgstr ""
+
+#: .\handbooks\forms.py:268 .\handbooks\forms.py:284
+msgid "Filial agency"
+msgstr ""
+
+#: .\handbooks\forms.py:279 .\objects\templates\objects\contract_list.html:69
+#: .\objects\templates\objects\real_estate_list.html:69
+#: .\objects\templates\objects\report_list.html:69
+msgid "Report"
+msgstr ""
+
+#: .\handbooks\forms.py:295
+msgid "Key word"
+msgstr ""
+
+#: .\handbooks\forms.py:390
+msgid "Phone number must contain 9 to 15 digits without spaces."
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:54
+#: .\objects\templates\objects\contract_list.html:61
+#: .\objects\templates\objects\real_estate_list.html:61
+#: .\objects\templates\objects\report_list.html:61
+msgid "Real estate"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:63
+msgid "All"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:69
+msgid "New"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:75
+msgid "In selection"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:132
+#: .\handbooks\templates\handbooks\list.html:107
+#: .\objects\templates\objects\selection_history_list.html:13
+#: .\objects\templates\objects\selection_list.html:6
+#: .\objects\templates\objects\selection_list.html:77
+msgid "Selection"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\client_list.html:137
+#: .\objects\templates\objects\selection_history_list.html:4
+#: .\objects\templates\objects\selection_history_list.html:9
+msgid "Selection history"
+msgstr ""
+
+#: .\handbooks\templates\handbooks\history_list.html:9
+msgid "History of changes"
+msgstr ""
 
 #: .\handbooks\templates\handbooks\history_list.html:22
+#: .\objects\templates\objects\selection_history_list.html:23
 msgid "date"
-msgstr "Date"
+msgstr ""
 
 #: .\handbooks\templates\handbooks\history_list.html:23
+#: .\objects\templates\objects\selection_history_list.html:24
+#: .\utils\const.py:39
 msgid "user"
-msgstr "User"
+msgstr ""
 
 #: .\handbooks\templates\handbooks\history_list.html:24
 msgid "field"
-msgstr "Field"
+msgstr ""
 
 #: .\handbooks\templates\handbooks\history_list.html:25
 msgid "old"
-msgstr "Old"
+msgstr ""
 
 #: .\handbooks\templates\handbooks\history_list.html:26
 msgid "new"
-msgstr "New"
-
-#: .\handbooks\templates\handbooks\list.html:5 .\templates\main.html:36
-#: .\templates\main.html:39
-msgid "Handbooks"
-msgstr "Handbooks"
-
-#: .\handbooks\templates\handbooks\list.html:35
-#: .\objects\templates\objects\catalog.html:29
-#: .\objects\templates\objects\selection_list.html:36
-msgid "Search"
-msgstr "Search"
-
-#: .\handbooks\templates\handbooks\list.html:107
-#: .\objects\templates\objects\selection_list.html:5
-#: .\objects\templates\objects\selection_list.html:70
-msgid "Selection"
-msgstr "Selection"
-
-#: .\handbooks\templates\handbooks\list.html:114
-msgid "Update"
-msgstr "Update"
-
-#: .\handbooks\templates\handbooks\list.html:118
-#: .\images\templates\images\list.html:31 .\templates\delete_form.html:25
-#: .\venv\Lib\site-packages\django\forms\formsets.py:499
-msgid "Delete"
-msgstr "Delete"
-
-#: .\handbooks\templates\handbooks\list.html:134
-msgid "Add image"
-msgstr "Add image"
-
-#: .\handbooks\templates\handbooks\list.html:141
-msgid "Show images"
-msgstr "Show images"
-
-#: .\handbooks\templates\handbooks\list.html:156
-#: .\handbooks\templates\handbooks\list.html:159
-msgid "Create"
-msgstr "Create"
+msgstr ""
 
 #: .\images\templates\images\list.html:4 .\images\templates\images\list.html:9
 #: .\images\templates\images\list.html:13
 #: .\objects\templates\objects\details.html:4
 msgid "Images"
-msgstr "Images"
-
-#: .\objects\forms.py:11
-msgid "creation_date"
-msgstr "Creation date"
-
-#: .\objects\forms.py:14 .\objects\templates\objects\details.html:87
-msgid "date_before_temporarily_removed"
-msgstr "Date before temporarily removed"
-
-#: .\objects\forms.py:18 .\objects\templates\objects\details.html:91
-msgid "deposit_date"
-msgstr "Deposit date"
-
-#: .\objects\forms.py:22 .\objects\templates\objects\details.html:95
-msgid "purchase_date"
-msgstr "Purchase date"
-
-#: .\objects\forms.py:25 .\objects\templates\objects\details.html:99
-msgid "sale_date"
-msgstr "Sale date"
-
-#: .\objects\forms.py:29 .\objects\templates\objects\details.html:103
-msgid "date_of_next_call"
-msgstr "Date of next call"
-
-#: .\objects\forms.py:34
-msgid "inspection_form (2020-03-06, 12:32:38)"
-msgstr "Inspection form"
-
-#: .\objects\forms.py:38 .\objects\forms.py:340
-#: .\objects\templates\objects\details.html:111
-msgid "exclusive"
-msgstr "Exclusive"
-
-#: .\objects\forms.py:40
-msgid "exclusive_to"
-msgstr "Exclusive to"
-
-#: .\objects\forms.py:44
-msgid "exclusive_from"
-msgstr "Exclusive from"
-
-#: .\objects\forms.py:67 .\objects\forms.py:68
-#: .\objects\templates\objects\details.html:83 .\utils\const.py:22
-#: .\utils\const.py:35
-msgid "apartment"
-msgstr "Apartment"
-
-#: .\objects\forms.py:71
-msgid "on_site"
-msgstr "On site"
-
-#: .\objects\forms.py:73 .\objects\templates\objects\details.html:119
-msgid "inspection_flag"
-msgstr "Inspection flag"
-
-#: .\objects\forms.py:76 .\objects\templates\objects\details.html:123
-msgid "paid_exclusive_flag"
-msgstr "Paid exclusive flag"
-
-#: .\objects\forms.py:79 .\objects\templates\objects\details.html:127
-msgid "terrace_flag"
-msgstr "Terrace flag"
-
-#: .\objects\forms.py:81 .\objects\templates\objects\details.html:131
-msgid "sea_flag"
-msgstr "Sea flag"
-
-#: .\objects\forms.py:83 .\objects\templates\objects\details.html:135
-msgid "vip"
-msgstr "vip"
-
-#: .\objects\forms.py:87 .\objects\forms.py:89
-#: .\objects\templates\objects\details.html:139
-msgid "withdrawal_reason"
-msgstr "Withdrawal reason"
-
-#: .\objects\forms.py:91 .\objects\templates\objects\details.html:143
-msgid "independent"
-msgstr "Independent"
-
-#: .\objects\forms.py:98 .\objects\templates\objects\details.html:151
-msgid "special"
-msgstr "Special"
-
-#: .\objects\forms.py:100 .\objects\templates\objects\details.html:155
-msgid "urgently"
-msgstr "Urgently"
-
-#: .\objects\forms.py:102 .\objects\templates\objects\details.html:159
-msgid "trade"
-msgstr "Trade"
-
-#: .\objects\forms.py:106 .\objects\forms.py:108
-#: .\objects\templates\objects\details.html:163 .\utils\const.py:15
-#: .\utils\const.py:28
-msgid "material"
-msgstr "Material"
-
-#: .\objects\forms.py:117 .\objects\forms.py:118
-msgid "object_type"
-msgstr "Object type"
-
-#: .\objects\forms.py:121 .\objects\forms.py:122 .\objects\forms.py:309
-#: .\objects\forms.py:310 .\objects\templates\objects\details.html:175
-msgid "square"
-msgstr "Square"
-
-#: .\objects\forms.py:123 .\objects\forms.py:124
-#: .\objects\templates\objects\details.html:179
-msgid "price"
-msgstr "Price"
-
-#: .\objects\forms.py:125 .\objects\forms.py:127
-#: .\objects\templates\objects\details.html:183
-msgid "site_price"
-msgstr "Site price"
-
-#: .\objects\forms.py:128 .\objects\forms.py:130
-#: .\objects\templates\objects\details.html:187
-msgid "square_meter_price"
-msgstr "Square meter price"
-
-#: .\objects\forms.py:136 .\objects\forms.py:138
-#: .\objects\templates\objects\details.html:259
-msgid "Site realtor (1)"
 msgstr ""
 
-#: .\objects\forms.py:140 .\objects\forms.py:142
-#: .\objects\templates\objects\details.html:263
-msgid "site_realtor2"
-msgstr "Site realtor (2)"
+#: .\objects\choices.py:7 .\objects\models.py:205
+#: .\objects\templates\objects\details.html:83
+#: .\objects\templates\objects\real_estate_create_form.html:38
+#: .\objects\templates\objects\selection_history_list.html:33
+msgid "Apartment"
+msgstr ""
 
-#: .\objects\forms.py:144 .\objects\forms.py:146
-#: .\objects\templates\objects\details.html:267
-msgid "realtor_5_5"
-msgstr "Realtor 5 to 5"
+#: .\objects\choices.py:8 .\objects\templates\objects\contract_list.html:94
+#: .\objects\templates\objects\real_estate_create_form.html:41
+#: .\objects\templates\objects\selection_history_list.html:39
+msgid "Commerce"
+msgstr ""
 
-#: .\objects\forms.py:149 .\objects\templates\objects\details.html:191
-msgid "for_trainee"
-msgstr "For trainee"
+#: .\objects\choices.py:14
+msgid "On sale"
+msgstr ""
 
-#: .\objects\forms.py:151 .\objects\forms.py:153
-msgid "realtor_notes"
-msgstr "Realtor notes"
+#: .\objects\choices.py:15
+msgid "Deposit"
+msgstr ""
 
-#: .\objects\forms.py:155 .\objects\forms.py:157
-#: .\objects\templates\objects\details.html:195
-msgid "reference_point"
-msgstr "Reference point"
+#: .\objects\choices.py:16
+msgid "Withdrawn"
+msgstr ""
 
-#: .\objects\forms.py:160 .\objects\forms.py:162
-#: .\objects\templates\objects\details.html:199
-msgid "author"
-msgstr "Author"
+#: .\objects\choices.py:17
+msgid "Sold"
+msgstr ""
 
-#: .\objects\forms.py:163 .\objects\forms.py:165
-#: .\objects\templates\objects\details.html:203
-msgid "owner"
-msgstr "Owner"
+#: .\objects\choices.py:18
+msgid "Completely withdrawn"
+msgstr ""
 
-#: .\objects\forms.py:166 .\objects\forms.py:168
-#: .\objects\templates\objects\details.html:207 .\utils\const.py:13
-#: .\utils\const.py:35
-msgid "client"
-msgstr "Client"
+#: .\objects\choices.py:23
+msgid "Adjacent"
+msgstr ""
 
-#: .\objects\forms.py:171 .\objects\forms.py:173
-#: .\objects\templates\objects\details.html:211
-msgid "owners_number"
-msgstr "Owners number"
+#: .\objects\choices.py:24
+msgid "Separate"
+msgstr ""
 
-#: .\objects\forms.py:174 .\objects\forms.py:175
-msgid "comment"
-msgstr "Comment"
+#: .\objects\choices.py:25
+msgid "Studio kitchen"
+msgstr ""
 
-#: .\objects\forms.py:178 .\objects\forms.py:180
-#: .\objects\templates\objects\details.html:215 .\utils\const.py:16
-#: .\utils\const.py:29
-msgid "separation"
-msgstr "Separation"
+#: .\objects\choices.py:26
+msgid "Room"
+msgstr ""
 
-#: .\objects\forms.py:182 .\objects\forms.py:184
-#: .\objects\templates\objects\details.html:219 .\utils\const.py:16
-#: .\utils\const.py:29
-msgid "agency"
-msgstr "Agency"
+#: .\objects\forms.py:165 .\objects\forms.py:166
+msgid "Min price"
+msgstr ""
 
-#: .\objects\forms.py:186 .\objects\forms.py:188
-#: .\objects\templates\objects\details.html:223
-msgid "agency_sales"
-msgstr "Agency sales"
+#: .\objects\forms.py:170 .\objects\forms.py:171
+msgid "Max price"
+msgstr ""
 
-#: .\objects\forms.py:190 .\objects\forms.py:191
-#: .\objects\templates\objects\details.html:227
-msgid "sale_terms"
-msgstr "Sale terms"
+#: .\objects\forms.py:183 .\objects\models.py:33
+#: .\objects\templates\objects\details.html:111
+msgid "Exclusive"
+msgstr ""
 
-#: .\objects\forms.py:193 .\objects\forms.py:196
-#: .\objects\templates\objects\details.html:231
-msgid "filename_of_exclusive_agreement"
-msgstr "Filename of exclusive agreement"
+#: .\objects\forms.py:197
+msgid "You did not specify a locality"
+msgstr ""
 
-#: .\objects\forms.py:198 .\objects\forms.py:200
-#: .\objects\templates\objects\details.html:235
-msgid "inspection_file_name"
-msgstr "Inspection file name"
+#: .\objects\forms.py:200
+msgid "You did not specify a street"
+msgstr ""
 
-#: .\objects\forms.py:202 .\objects\forms.py:203
-#: .\objects\templates\objects\details.html:239
-msgid "document"
-msgstr "Document"
+#: .\objects\forms.py:203
+msgid "You did not specify a house"
+msgstr ""
 
-#: .\objects\forms.py:205 .\objects\forms.py:207
-#: .\objects\templates\objects\details.html:243
-msgid "filename_forbid_sale"
-msgstr "Filename forbid sale"
+#: .\objects\forms.py:210
+msgid "You did not specify an apartment"
+msgstr ""
 
-#: .\objects\forms.py:211 .\objects\forms.py:213
-#: .\objects\templates\objects\details.html:247
-msgid "new_building_name"
-msgstr "New building name"
+#: .\objects\forms.py:217
+msgid "You did not specify a premises"
+msgstr ""
 
-#: .\objects\forms.py:215
-msgid "new_building"
-msgstr "New building"
+#: .\objects\forms.py:224
+msgid "You did not specify a housing"
+msgstr ""
 
-#: .\objects\forms.py:218 .\objects\forms.py:220
-#: .\objects\templates\objects\details.html:251
-msgid "new_building_type"
-msgstr "New building type"
+#: .\objects\models.py:25 .\objects\templates\objects\report_list.html:143
+msgid "Creation date"
+msgstr ""
 
-#: .\objects\forms.py:227 .\objects\forms.py:229
-msgid "room_types"
-msgstr "Room types"
+#: .\objects\models.py:26 .\objects\templates\objects\details.html:91
+msgid "Deposit date"
+msgstr ""
 
-#: .\objects\forms.py:230 .\objects\forms.py:231
-msgid "height"
-msgstr "Height"
+#: .\objects\models.py:88 .\objects\templates\objects\details.html:163
+msgid "Material"
+msgstr ""
 
-#: .\objects\forms.py:232 .\objects\forms.py:234
-msgid "kitchen_square"
-msgstr "Kitchen square"
+#: .\objects\models.py:93 .\objects\templates\objects\details.html:219
+msgid "Agency"
+msgstr ""
 
-#: .\objects\forms.py:235 .\objects\forms.py:237
-msgid "living_square"
-msgstr "Living square"
+#: .\objects\models.py:98
+msgid "House type"
+msgstr ""
 
-#: .\objects\forms.py:238
-msgid "gas"
-msgstr "Gas"
+#: .\objects\models.py:103
+msgid "Layout"
+msgstr ""
 
-#: .\objects\forms.py:240
-msgid "courtyard"
-msgstr "Courtyard"
+#: .\objects\models.py:108
+msgid "Stair"
+msgstr ""
 
-#: .\objects\forms.py:242 .\objects\forms.py:244
-msgid "balcony_number"
-msgstr "Balcony number"
+#: .\objects\models.py:126 .\objects\templates\objects\details.html:203
+#: .\objects\templates\objects\report_list.html:146
+msgid "Owner"
+msgstr ""
 
-#: .\objects\forms.py:246 .\objects\forms.py:248
-msgid "registered_number"
-msgstr "Registered number"
+#: .\objects\models.py:147
+msgid "Parking"
+msgstr ""
 
-#: .\objects\forms.py:250 .\objects\forms.py:253
-msgid "child_registered_number"
-msgstr "Child registered number"
+#: .\objects\models.py:148
+msgid "Generator"
+msgstr ""
 
-#: .\objects\forms.py:255 .\objects\forms.py:257
-msgid "loggias_number"
-msgstr "Loggias number"
+#: .\objects\models.py:149
+msgid "EHome"
+msgstr ""
 
-#: .\objects\forms.py:259 .\objects\forms.py:261
-msgid "bay_windows_number"
-msgstr "Bay windows number"
+#: .\objects\models.py:152 .\objects\templates\objects\details.html:179
+#: .\objects\templates\objects\report_list.html:144
+msgid "Price"
+msgstr ""
 
-#: .\objects\forms.py:263
-msgid "commune"
-msgstr "Commune"
+#: .\objects\models.py:155 .\objects\templates\objects\details.html:175
+msgid "Square"
+msgstr ""
 
-#: .\objects\forms.py:265 .\objects\forms.py:266
-msgid "frame"
-msgstr "Frame"
+#: .\objects\models.py:156
+msgid "Kitchen square"
+msgstr ""
 
-#: .\objects\forms.py:268 .\objects\forms.py:270 .\utils\const.py:19
-#: .\utils\const.py:32
-msgid "stair"
-msgstr "Stair"
+#: .\objects\models.py:157
+msgid "Height"
+msgstr ""
 
-#: .\objects\forms.py:271
-msgid "balcony"
-msgstr "Balcony"
+#: .\objects\models.py:159 .\objects\templates\objects\report_list.html:142
+msgid "Floor"
+msgstr ""
 
-#: .\objects\forms.py:274 .\objects\forms.py:276 .\utils\const.py:19
-#: .\utils\const.py:32
-msgid "heating"
-msgstr "Heating"
+#: .\objects\models.py:160
+msgid "Number of storeys"
+msgstr ""
 
-#: .\objects\forms.py:277
-msgid "office"
-msgstr "Office"
+#: .\objects\models.py:168
+msgid "Rubric"
+msgstr ""
 
-#: .\objects\forms.py:279
-msgid "penthouse"
-msgstr "Penthouse"
+#: .\objects\models.py:171 .\objects\templates\objects\details.html:239
+msgid "Document"
+msgstr ""
 
-#: .\objects\forms.py:282 .\objects\forms.py:284
-msgid "redevelopment"
-msgstr "Redevelopment"
+#: .\objects\models.py:177 .\objects\templates\objects\details.html:227
+msgid "Sale terms"
+msgstr ""
 
-#: .\objects\forms.py:286 .\objects\forms.py:288 .\utils\const.py:19
-#: .\utils\const.py:32
-msgid "layout"
-msgstr "Layout"
+#: .\objects\models.py:178 .\objects\templates\objects\details.html:277
+msgid "Realtor notes"
+msgstr ""
 
-#: .\objects\forms.py:289 .\objects\forms.py:291
-msgid "construction_number"
-msgstr "Construction number"
+#: .\objects\models.py:179 .\objects\templates\objects\details.html:286
+msgid "Comment"
+msgstr ""
 
-#: .\objects\forms.py:293 .\objects\forms.py:295
-msgid "house_type"
-msgstr "House type"
+#: .\objects\models.py:206
+msgid "Living square"
+msgstr ""
 
-#: .\objects\forms.py:296
-msgid "two_level_apartment"
-msgstr "Two level apartment"
+#: .\objects\models.py:207 .\objects\models.py:263
+msgid "Balcony"
+msgstr ""
 
-#: .\objects\forms.py:299 .\objects\forms.py:300
-msgid "loggia"
-msgstr "Loggia"
+#: .\objects\models.py:208 .\objects\models.py:264
+msgid "Number of balconies"
+msgstr ""
 
-#: .\objects\forms.py:302
-msgid "attic"
-msgstr "Attic"
+#: .\objects\models.py:212 .\objects\models.py:274
+msgid "Complex"
+msgstr ""
 
-#: .\objects\forms.py:304
-msgid "electric_stove"
-msgstr "Electric stove"
+#: .\objects\models.py:261
+msgid "Premises"
+msgstr ""
 
-#: .\objects\forms.py:307 .\objects\forms.py:308
-msgid "floor"
-msgstr "Floor"
+#: .\objects\models.py:262 .\objects\models.py:288
+msgid "Useful square"
+msgstr ""
+
+#: .\objects\models.py:265
+msgid "Ground floor"
+msgstr ""
+
+#: .\objects\models.py:266 .\objects\models.py:293
+msgid "Facade"
+msgstr ""
+
+#: .\objects\models.py:267 .\objects\models.py:294
+msgid "Own parking"
+msgstr ""
+
+#: .\objects\models.py:268
+msgid "Own courtyard"
+msgstr ""
+
+#: .\objects\models.py:269
+msgid "Separate building"
+msgstr ""
+
+#: .\objects\models.py:287
+msgid "Housing"
+msgstr ""
+
+#: .\objects\models.py:289
+msgid "Land's square"
+msgstr ""
+
+#: .\objects\models.py:290
+msgid "Number of rooms"
+msgstr ""
+
+#: .\objects\models.py:291
+msgid "Communications"
+msgstr ""
+
+#: .\objects\models.py:292
+msgid "Terrace"
+msgstr ""
+
+#: .\objects\models.py:303 .\objects\templates\objects\contract_list.html:53
+#: .\objects\templates\objects\details.html:207
+#: .\objects\templates\objects\real_estate_list.html:53
+#: .\objects\templates\objects\report_list.html:53
+msgid "Client"
+msgstr ""
+
+#: .\objects\models.py:307
+msgid "Date"
+msgstr ""
+
+#: .\objects\models.py:312
+msgid "User"
+msgstr ""
+
+#: .\objects\templates\objects\_apartment_form.html:62
+#: .\objects\templates\objects\_commerce_form.html:62
+#: .\objects\templates\objects\_house_form.html:62
+msgid "Fill address"
+msgstr ""
+
+#: .\objects\templates\objects\_apartment_form.html:66
+#: .\objects\templates\objects\_commerce_form.html:66
+#: .\objects\templates\objects\_house_form.html:66
+msgid "Verify"
+msgstr ""
+
+#: .\objects\templates\objects\_apartment_form.html:139
+#: .\objects\templates\objects\_commerce_form.html:139
+#: .\objects\templates\objects\_house_form.html:156
+msgid "Add Photo"
+msgstr ""
+
+#: .\objects\templates\objects\_apartment_form.html:234
+#: .\objects\templates\objects\_commerce_form.html:251
+#: .\objects\templates\objects\_house_form.html:253
+msgid "Edit owner"
+msgstr ""
 
 #: .\objects\templates\objects\catalog.html:5
 #: .\objects\templates\objects\catalog.html:10
 #: .\objects\templates\objects\catalog.html:13
-#: .\objects\templates\objects\details.html:13 .\templates\main.html:48
-#: .\templates\main.html:51
+#: .\objects\templates\objects\details.html:13 .\templates\main.html:60
+#: .\templates\main.html:63
 msgid "Catalog"
-msgstr "Catalog"
+msgstr ""
+
+#: .\objects\templates\objects\catalog.html:47
+#: .\objects\templates\objects\showing_act.html:28
+msgid "Sq. M."
+msgstr ""
+
+#: .\objects\templates\objects\catalog.html:54
+#: .\objects\templates\objects\selection_list.html:70
+msgid "See details"
+msgstr ""
+
+#: .\objects\templates\objects\contract_list.html:77
+#: .\objects\templates\objects\real_estate_list.html:77
+#: .\objects\templates\objects\report_list.html:77
+msgid "Contract"
+msgstr ""
+
+#: .\objects\templates\objects\contract_list.html:88
+#: .\objects\templates\objects\real_estate_list.html:87
+msgid "Apartments"
+msgstr ""
+
+#: .\objects\templates\objects\contract_list.html:100
+#: .\objects\templates\objects\real_estate_list.html:103
+msgid "Houses"
+msgstr ""
+
+#: .\objects\templates\objects\contract_list.html:106
+msgid "Lands"
+msgstr ""
+
+#: .\objects\templates\objects\contract_list.html:112
+msgid "Rooms"
+msgstr ""
 
 #: .\objects\templates\objects\details.html:10
 #: .\objects\templates\objects\details.html:14
+#: .\objects\templates\objects\details.html:55
 msgid "Details"
-msgstr "Details"
+msgstr ""
 
 #: .\objects\templates\objects\details.html:48
 msgid "Characteristics"
-msgstr "Characteristics"
+msgstr ""
 
-#: .\objects\templates\objects\details.html:55
-msgid "details"
-msgstr "Details"
+#: .\objects\templates\objects\details.html:87
+msgid "Date before temporarily removed"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:95
+msgid "Purchase date"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:99
+msgid "Sale date"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:103
+msgid "Date of next call"
+msgstr ""
 
 #: .\objects\templates\objects\details.html:107
-msgid "inspection_form"
-msgstr "Inspection form"
+msgid "Inspection form"
+msgstr ""
 
 #: .\objects\templates\objects\details.html:115
-msgid "exclusive_date"
-msgstr "Exclusive date"
+msgid "Exclusive date"
+msgstr ""
 
-#: .\objects\templates\objects\details.html:171
-msgid "objectect_type"
-msgstr "Objectect type"
+#: .\objects\templates\objects\details.html:119
+msgid "Inspection flag"
+msgstr ""
 
-#: .\objects\templates\objects\details.html:277
-msgid "Realtor notes"
-msgstr "Realtor notes"
+#: .\objects\templates\objects\details.html:123
+msgid "Paid exclusive flag"
+msgstr ""
 
-#: .\objects\templates\objects\details.html:286
-msgid "Comment"
-msgstr "Comment"
+#: .\objects\templates\objects\details.html:127
+msgid "Terrace flag"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:131
+msgid "Sea flag"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:135
+msgid "vip"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:139
+msgid "Withdrawal reason"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:143
+msgid "Independent"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:151
+msgid "Special"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:155
+msgid "Urgently"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:159
+msgid "Trade"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:183
+msgid "Site price"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:187
+msgid "Square meter price"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:191
+msgid "For trainee"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:195
+msgid "Reference point"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:199
+msgid "Author"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:211
+msgid "Owners number"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:215
+msgid "Separation"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:223
+msgid "Agency sales"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:231
+msgid "Filename of exclusive agreement"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:235
+msgid "Inspection file name"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:243
+msgid "Filename forbid sale"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:247
+msgid "New building name"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:251
+msgid "New building type"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:259
+msgid "Site realtor 1"
+msgstr ""
+
+#: .\objects\templates\objects\details.html:263
+msgid "Site realtor 2"
+msgstr ""
 
 #: .\objects\templates\objects\details.html:298
 msgid "Realtors"
-msgstr "Realtors"
+msgstr ""
 
-#: .\objects\templates\objects\selection_list.html:10
+#: .\objects\templates\objects\real_estate_create_form.html:35
+msgid "Add"
+msgstr ""
+
+#: .\objects\templates\objects\real_estate_list.html:95
+msgid "Commerces"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:88
+msgid "New apartments"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:94
+msgid "New commerces"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:100
+msgid "New houses"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:106
+msgid "New lands"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:112
+msgid "New rooms"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:118
+msgid "All apartments"
+msgstr ""
+
+#: .\objects\templates\objects\report_list.html:124
+msgid "My apartments"
+msgstr ""
+
+#: .\objects\templates\objects\selection_history_list.html:25
+msgid "selection"
+msgstr ""
+
+#: .\objects\templates\objects\selection_list.html:11
 msgid "Selection list for"
-msgstr "Selection list for"
+msgstr ""
 
-#: .\objects\templates\objects\selection_list.html:14
+#: .\objects\templates\objects\selection_list.html:15
 msgid "Selection list"
-msgstr "Selection list"
+msgstr ""
+
+#: .\objects\templates\objects\selection_list.html:78
+msgid "PDF"
+msgstr ""
 
 #: .\objects\templates\objects\showing_act.html:5
 #: .\objects\templates\objects\showing_act.html:10
 #: .\objects\templates\objects\showing_act.html:13
 msgid "Showing act"
-msgstr "Showing act"
+msgstr ""
+
+#: .\objects\templates\objects\showing_act.html:35
+msgid "See Details"
+msgstr ""
+
+#: .\objects\views.py:76 .\objects\views.py:91
+msgid "Invalid real estate type"
+msgstr ""
+
+#: .\objects\views.py:112
+msgid "Doesn't exist"
+msgstr ""
+
+#: .\objects\views.py:116
+msgid "Exists (id"
+msgstr ""
 
 #: .\templates\base.html:56
 msgid "Language"
-msgstr "Language"
+msgstr ""
 
 #: .\templates\base.html:57
 msgid "English"
-msgstr "English"
+msgstr ""
 
 #: .\templates\base.html:58
 msgid "Russian"
-msgstr "Russian"
+msgstr ""
 
 #: .\templates\base.html:59
 msgid "Ukrainian"
-msgstr "Ukrainian"
+msgstr ""
 
 #: .\templates\base.html:82
 msgid "Logout"
-msgstr "Logout"
+msgstr ""
 
 #: .\templates\delete_form.html:5
 msgid "Delete form"
-msgstr "Delete form"
+msgstr ""
 
 #: .\templates\delete_form.html:10 .\templates\delete_form.html:13
 msgid "Deletion"
-msgstr "Deletion"
+msgstr ""
 
 #: .\templates\delete_form.html:20
 msgid "Want delete?"
-msgstr "Want delete?"
-
-#: .\templates\form.html:4 .\templates\form.html:9 .\templates\form.html:12
-msgid "Form"
-msgstr "Form"
-
-#: .\templates\main.html:12 .\templates\main.html:15
-msgid "Rent"
-msgstr "Rent"
+msgstr ""
 
 #: .\templates\main.html:24 .\templates\main.html:27
+msgid "Rent"
+msgstr ""
+
+#: .\templates\main.html:36 .\templates\main.html:39
 msgid "Sale"
-msgstr "Sale"
+msgstr ""
 
 #: .\utils\const.py:12 .\utils\const.py:25
-msgid "localitydistrict"
-msgstr "Locality district"
+msgid "region"
+msgstr ""
+
+#: .\utils\const.py:12 .\utils\const.py:25
+msgid "district"
+msgstr ""
+
+#: .\utils\const.py:13 .\utils\const.py:26
+msgid "locality"
+msgstr ""
 
 #: .\utils\const.py:14 .\utils\const.py:27
+msgid "localitydistrict"
+msgstr ""
+
+#: .\utils\const.py:15 .\utils\const.py:28
+msgid "street"
+msgstr ""
+
+#: .\utils\const.py:15 .\utils\const.py:37
+msgid "client"
+msgstr ""
+
+#: .\utils\const.py:16 .\utils\const.py:29
 msgid "withdrawalreason"
-msgstr "Withdrawal reason"
+msgstr ""
 
 #: .\utils\const.py:17 .\utils\const.py:30
-msgid "agencysales"
-msgstr "Agency sales"
+msgid "condition"
+msgstr ""
+
+#: .\utils\const.py:17 .\utils\const.py:30
+msgid "material"
+msgstr ""
 
 #: .\utils\const.py:18 .\utils\const.py:31
+msgid "separation"
+msgstr ""
+
+#: .\utils\const.py:18 .\utils\const.py:31
+msgid "agency"
+msgstr ""
+
+#: .\utils\const.py:19 .\utils\const.py:32
+msgid "agencysales"
+msgstr ""
+
+#: .\utils\const.py:20 .\utils\const.py:33
 msgid "newbuildingname"
-msgstr "New building name"
-
-#: .\utils\const.py:20 .\utils\const.py:33
-msgid "housetype"
-msgstr "House type"
-
-#: .\utils\const.py:20 .\utils\const.py:33
-msgid "filialagency"
-msgstr "Filial agency"
+msgstr ""
 
 #: .\utils\const.py:21 .\utils\const.py:34
-msgid "filialreport"
-msgstr "Filial report"
+msgid "stair"
+msgstr ""
 
-#: .\utils\const.py:36
+#: .\utils\const.py:21 .\utils\const.py:34
+msgid "heating"
+msgstr ""
+
+#: .\utils\const.py:21 .\utils\const.py:34
+msgid "layout"
+msgstr ""
+
+#: .\utils\const.py:22 .\utils\const.py:35
+msgid "housetype"
+msgstr ""
+
+#: .\utils\const.py:22 .\utils\const.py:35
+msgid "filialagency"
+msgstr ""
+
+#: .\utils\const.py:23 .\utils\const.py:36
+msgid "filialreport"
+msgstr ""
+
+#: .\utils\const.py:24
+msgid "apartment"
+msgstr ""
+
+#: .\utils\const.py:24 .\utils\const.py:38
+msgid "report"
+msgstr ""
+
+#: .\utils\const.py:24 .\utils\const.py:36
+msgid "complex"
+msgstr ""
+
+#: .\utils\const.py:37
+msgid "realestate"
+msgstr ""
+
+#: .\utils\const.py:38
 msgid "contract"
-msgstr "Contract"
+msgstr ""
+
+#: .\utils\const.py:39
+msgid "group"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
 msgid "Messages"
@@ -1254,10 +1661,6 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
 msgid "File"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
-msgid "Image"
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\db\models\fields\json.py:26

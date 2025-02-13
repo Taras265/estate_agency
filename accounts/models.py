@@ -2,6 +2,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
 from estate_agency.models import BaseModel
@@ -44,9 +45,17 @@ class UserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None
 
-    email = models.EmailField(unique=True)
-    first_name = models.CharField(blank=True, null=True, max_length=150)
-    last_name = models.CharField(blank=True, null=True, max_length=150)
+    email = models.EmailField(unique=True, verbose_name=_("Email"))
+    first_name = models.CharField(
+        blank=True, null=True,
+        max_length=150,
+        verbose_name=_("First name")
+    )
+    last_name = models.CharField(
+        blank=True, null=True,
+        max_length=150,
+        verbose_name=_("Last name")
+    )
     filials = models.ManyToManyField(
         "handbooks.FilialAgency",
         related_name="users",
@@ -60,7 +69,11 @@ class CustomUser(AbstractUser):
     date_joined = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="avatar/", default="avatar/avatar.png")
+    image = models.ImageField(
+        upload_to="avatar/",
+        default="avatar/avatar.png",
+        verbose_name=_("Image")
+    )
 
     on_delete = models.BooleanField(default=False)
 

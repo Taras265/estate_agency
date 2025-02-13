@@ -19,6 +19,7 @@ from utils.views import CustomListView, CustomCreateView, CustomUpdateView, Cust
 
 
 def login_view(request, lang):
+    activate(lang)
     form = LoginForm(request.POST or None)
     _next = request.GET.get("next")
     if form.is_valid():

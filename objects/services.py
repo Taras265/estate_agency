@@ -278,7 +278,8 @@ def selection_add_selected(object_type: int, selection: Selection, selected, *ar
         selection.selected_apartments.add(selected)
     elif object_type == RealEstateType.COMMERCE:
         selection.selected_commerces.add(selected)
-    selection.selected_houses.add(selected)
+    else:
+        selection.selected_houses.add(selected)
 
 
 def selection_create(*args, **kwargs) -> Selection:

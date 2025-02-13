@@ -44,14 +44,14 @@
             <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }}</a></h2>
             <p><span><i class='bx bx-map'></i></span>{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</p>
             <ul class="property_spec">
-                <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
+                <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} {% translate 'Sq. M.' %}</li>
             </ul>
         </div>
         <div class="property_price">
             <div class="price_div">
                 <p>₴{{ object.object.site_price }}</p>
             </div>
-            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">See Details</a>
+            <a class="custombtn" href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
         </div>
     </div>
     {% endfor %}

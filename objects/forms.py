@@ -51,9 +51,6 @@ class ApartmentForm(BaseRealEstateForm):
             "storeys_number", "parking", "generator", "creation_date",
             "realtor_notes", "sale_terms", "owner", "comment",
         )
-        labels = {
-            "room_types": "Rubric",
-        }
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
@@ -95,9 +92,6 @@ class CommerceForm(BaseRealEstateForm):
             "own_courtyard",
             "realtor_notes", "sale_terms", "owner", "comment",
         )
-        labels = {
-            "room_types": "Rubric",
-        }
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
@@ -135,10 +129,6 @@ class HouseForm(BaseRealEstateForm):
             "facade", "own_parking",
             "realtor_notes", "sale_terms", "owner", "comment",
         )
-        labels = {
-            "room_types": "Rubric",
-            "square": "House square",
-        }
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
@@ -161,30 +151,36 @@ class HouseForm(BaseRealEstateForm):
 
 
 class SearchForm(forms.Form):
-    locality = forms.CharField(label=_("locality"), required=False,
-                               widget=forms.TextInput(attrs={"class": "customtxt",
-                                                             "placeholder": _("locality")}))
-    street = forms.CharField(label=_("street"), required=False,
-                             widget=forms.TextInput(attrs={"class": "customtxt",
-                                                           "placeholder": _("street")}))
-    price_min = forms.IntegerField(label=_("price_min"),
-                                   widget=forms.NumberInput(attrs={"class": "customtxt",
-                                                                   "placeholder": _("price_min")}),
-                                   required=False)
-    price_max = forms.IntegerField(label=_("price_max"),
-                                   widget=forms.NumberInput(attrs={"class": "customtxt",
-                                                                   "placeholder": _("price_max")}),
-                                   required=False)
+    locality = forms.CharField(
+        label=_("Locality"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "customtxt", "placeholder": _("Locality")})
+    )
+    street = forms.CharField(
+        label=_("Street"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "customtxt", "placeholder": _("Street")})
+    )
+    price_min = forms.IntegerField(
+        label=_("Min price"),
+        widget=forms.NumberInput(attrs={"class": "customtxt", "placeholder": _("Min price")}),
+        required=False
+    )
+    price_max = forms.IntegerField(
+        label=_("Max price"),
+        widget=forms.NumberInput(attrs={"class": "customtxt", "placeholder": _("Max price")}),
+        required=False
+    )
 
 
 class HandbooksSearchForm(forms.Form):
     id = forms.IntegerField(
-        label=_("id"),
+        label=_("Id"),
         widget=forms.NumberInput(attrs={"class": "customtxt",}),
         required=False
     )
     exclusive = forms.BooleanField(
-        label=_("exclusive"),
+        label=_("Exclusive"),
         widget=forms.CheckboxInput(),
         required=False,
         initial=False
@@ -198,32 +194,32 @@ class BaseVerifyAddressForm(forms.Form):
     для всіх типів обʼєктів поля.
     """
     locality = forms.IntegerField(
-        error_messages={"required": "You did not specify a locality."}
+        error_messages={"required": _("You did not specify a locality")}
     )
     street = forms.IntegerField(
-        error_messages={"required": "You did not specify a street."}
+        error_messages={"required": _("You did not specify a street")}
     )
     house = forms.CharField(
-        error_messages={"required": "You did not specify a house."}
+        error_messages={"required": _("You did not specify a house")}
     )
 
 
 class ApartmentVerifyAddressForm(BaseVerifyAddressForm):
     """Форма для перевірки чи існує квартира за вказаною адресою."""
     apartment = forms.CharField(
-        error_messages={"required": "You did not specify an apartment."}
+        error_messages={"required": _("You did not specify an apartment")}
     )
 
 
 class CommerceVerifyAddressForm(BaseVerifyAddressForm):
     """Форма для перевірки чи існує комерція за вказаною адресою."""
     premises = forms.CharField(
-        error_messages={"required": "You did not specify a premises."}
+        error_messages={"required": _("You did not specify a premises")}
     )
 
 
 class HouseVerifyAddressForm(BaseVerifyAddressForm):
     """Форма для перевірки чи існує будинок за вказаною адресою."""
     housing = forms.CharField(
-        error_messages={"required": "You did not specify a housing."}
+        error_messages={"required": _("You did not specify a housing")}
     )
