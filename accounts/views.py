@@ -37,18 +37,15 @@ def logout_view(request, lang):
     return redirect(f"/{lang}/accounts/login/", {"lang": lang})
 
 
-class ProfileView(StandardContextDataMixin, GetQuerysetMixin, CustomLoginRequiredMixin, UpdateView):
-    queryset = user_all_visible()
+class ProfileView(CustomLoginRequiredMixin, PermissionRequiredMixin, StandardContextDataMixin, UpdateView):
     context_object_name = "user"
     template_name = "accounts/profile.html"
     form_class = AvatarForm
-    success_url = reverse_lazy("accounts:profile")
     success_message = "Success"
-
     permission_required = "accounts.profile"
 
     def get_success_url(self):
-        return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs["lang"], })
+        return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs["lang"]})
 
     def get_object(self, queryset=None):
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
