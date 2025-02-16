@@ -37,12 +37,11 @@ def logout_view(request, lang):
     return redirect(f"/{lang}/accounts/login/", {"lang": lang})
 
 
-class ProfileView(CustomLoginRequiredMixin, PermissionRequiredMixin, StandardContextDataMixin, UpdateView):
+class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView):
     context_object_name = "user"
     template_name = "accounts/profile.html"
     form_class = AvatarForm
     success_message = "Success"
-    permission_required = "accounts.profile"
 
     def get_success_url(self):
         return reverse_lazy("accounts:profile", kwargs={"lang": self.kwargs["lang"]})

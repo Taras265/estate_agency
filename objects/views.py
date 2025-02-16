@@ -33,8 +33,9 @@ from .services import (
     user_can_update_apartment_list, user_can_update_commerce_list,
     user_can_update_house_list, user_can_view_apartment_list_history,
     user_can_view_commerce_list_history, user_can_view_house_list_history,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible,
-    selection_create, selection_filter, selection_all, selection_add_selected
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user,
+    estate_objects_filter_visible, selection_create, selection_filter, selection_all,
+    selection_add_selected
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType
