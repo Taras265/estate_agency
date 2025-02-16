@@ -56,13 +56,16 @@ class ProfileView(StandardContextDataMixin, GetQuerysetMixin, CustomLoginRequire
 
 def users_list_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
+    kwargs = {"lang": lang}
+    print(user.get_all_permissions())
 
     if user:
-        if user.has_perm("accounts.view_customuser"):
-            return redirect(f"/{lang}/accounts/accounts/user/", {"lang": lang})
-        elif user.has_perm("auth.view_group"):
-            return redirect(f"/{lang}/accounts/accounts/group/", {"lang": lang})
-    return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
+        if user.has_perm(f"accounts.view_customuser"):
+            return redirect(reverse_lazy("accounts:user_list", kwargs=kwargs))
+        if user.has_perm(f"accounts.view_group"):
+            return redirect(reverse_lazy("accounts:group_list", kwargs=kwargs))
+        return render(request, "403.html", kwargs)
+    return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
 class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
