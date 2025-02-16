@@ -13,7 +13,8 @@ from handbooks.services import region_all_visible, region_filter, \
     filialagency_all_visible, filialreport_all_visible, district_filter, locality_filter, \
     localitydistrict_filter, street_filter, handbook_all_visible, client_filter_visible, handbook_filter_visible, \
     client_all_visible
-from utils.const import BASE_CHOICES, SALE_CHOICES
+from objects.services import user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_real_estate_list, \
+    user_can_view_report
 from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
@@ -26,34 +27,30 @@ def handbook_redirect(request, lang):
     # Функція, яка перебрасує користувача на довідник,
     # з яким він моєе взаємодіяти
     user = CustomUser.objects.filter(email=request.user).first()
+    kwargs = {"lang": lang}
 
     if user:
         for choice in BASE_CHOICES:
-            cleaned_choice = "".join(choice[1].split("_"))
-            if (user.has_perm(f"handbooks.view_{cleaned_choice}")
-                    or user.has_perm(f"handbooks.view_own_{cleaned_choice}")):
-                return redirect(f"/{lang}/handbooks/base/{choice[1]}/", {"lang": lang})
-            if (user.has_perm(f"objects.view_{cleaned_choice}")
-                    or user.has_perm(f"objects.view_own_{cleaned_choice}")):
-                return redirect(f"/{lang}/objects/base/{choice[1]}/", {"lang": lang})
-        return render(request, "403.html", {"lang": lang})
+            if user.has_perm(f"handbooks.view_{choice[1]}"):
+                return redirect(reverse_lazy(f"handbooks:{choice[1]}_list", kwargs=kwargs))
+        return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
 def sale_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
-
+    kwargs = {"lang": lang}
     if user:
-        for choice in SALE_CHOICES:
-            cleaned_choice = "".join(choice[1].split("_"))
-            if (user.has_perm(f"handbooks.view_{cleaned_choice}")
-                    or user.has_perm(f"handbooks.view_own_{cleaned_choice}")):
-                return redirect(f"/{lang}/handbooks/sale/{choice[1]}/", {"lang": lang})
-            if (user.has_perm(f"objects.view_{cleaned_choice}")
-                    or user.has_perm(f"objects.view_own_{cleaned_choice}")):
-                return redirect(f"/{lang}/objects/sale/{choice[1]}/", {"lang": lang})
-        return render(request, "403.html", {"lang": lang})
-    return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
+        if user.has_perm(f"handbooks.view_client"):
+            return redirect(reverse_lazy("handbooks:client_list", kwargs=kwargs))
+        elif user_can_view_real_estate_list(user):
+            return redirect(reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs))
+        elif user_can_view_report(user):
+            return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
+        elif user.has_perm("objects.view_contract"):
+            return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
+        return render(request, "403.html", kwargs)
+    return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
 class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):

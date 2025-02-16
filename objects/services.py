@@ -36,6 +36,12 @@ def user_can_view_real_estate_list(user: CustomUser) -> bool:
     )
 
 
+def user_can_view_report(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_report", "objects.view_own_report"
+    )
+
+
 def user_can_create_apartment(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.add_apartment", "objects.add_own_apartment"
