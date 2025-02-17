@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% translate 'Images' %}{% endblock %}
+{% block title %}{% translate 'Catalog' %}{% endblock %}
 
 {% block content %}
 <!-- Page Heading Banner -->
@@ -9,8 +9,8 @@
   <div class="banner_caption">
     <h1>{% translate 'Details' %}</h1>
     <ul>
-      <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-      <li><a href="/{{ lang }}/objects/catalog/">{% translate 'Catalog' %}</a></li>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'objects:catalog' lang=lang %}">{% translate 'Catalog' %}</a></li>
       <li> / {% translate 'Details' %}</li>
     </ul>
   </div>
@@ -26,8 +26,8 @@
                 <div class="img">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            {% for image in images %}
-                            <div class="carousel-item {% if image == images.0 %}active{% endif %}">
+                            {% for image in object.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                 <img src="{{ image.image.url }}" class="d-block w-100 h-50" alt="...">
                             </div>
                             {% endfor %}
@@ -52,24 +52,8 @@
                             <table class="table table-striped">
                                 <tbody>
                                 <tr>
-                                    <th>{% translate 'Details' %}</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Region' %}</th>
-                                    <td>{{ object.region }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'District' %}</th>
-                                    <td>{{ object.district }}</td>
-                                </tr>
-                                <tr>
                                     <th>{% translate 'Locality' %}</th>
                                     <td>{{ object.locality }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Locality district' %}</th>
-                                    <td>{{ object.locality_district }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Street' %}</th>
@@ -79,193 +63,155 @@
                                     <th>{% translate 'House' %}</th>
                                     <td>{{ object.house }}</td>
                                 </tr>
-                                <tr>
-                                    <th>{% translate 'Apartment' %}</th>
-                                    <td>{{ object.apartment }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Date before temporarily removed' %}</th>
-                                    <td>{{ object.date_before_temporarily_removed }}</td>
-                                </tr>
+                                {% if object.apartment %}
+                                    <tr>
+                                        <th>{% translate 'Apartment' %}</th>
+                                        <td>{{ object.apartment }}</td>
+                                    </tr>
+                                {% elif object.premises %}
+                                    <tr>
+                                        <th>{% translate 'Premises' %}</th>
+                                        <td>{{ object.premises }}</td>
+                                    </tr>
+                                {% elif object.housing %}
+                                    <tr>
+                                        <th>{% translate 'Housing' %}</th>
+                                        <td>{{ object.housing }}</td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <th>{% translate 'Deposit date' %}</th>
-                                    <td>{{ object.deposit_date }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Purchase date' %}</th>
-                                    <td>{{ object.purchase_date }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Sale date' %}</th>
-                                    <td>{{ object.sale_date }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Date of next call' %}</th>
-                                    <td>{{ object.date_of_next_call }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Inspection form' %}</th>
-                                    <td>{{ object.inspection_form }}</td>
+                                    <td>{{ object.deposit_date|default:"" }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Exclusive' %}</th>
-                                    <td>{{ object.exclusive }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Exclusive date' %}</th>
-                                    <td>{{ object.exclusive_to }} - {{ object.exclusive_from }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Inspection flag' %}</th>
-                                    <td>{{ object.inspection_flag }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Paid exclusive flag' %}</th>
-                                    <td>{{ object.paid_exclusive_flag }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Terrace flag' %}</th>
-                                    <td>{{ object.terrace_flag }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Sea flag' %}</th>
-                                    <td>{{ object.sea_flag }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'vip' %}</th>
-                                    <td>{{ object.vip }}</td>
+                                    <td>{{ object.exclusive|yesno:_("Yes,No") }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Withdrawal reason' %}</th>
                                     <td>{{ object.withdrawal_reason }}</td>
                                 </tr>
                                 <tr>
-                                    <th>{% translate 'Independent' %}</th>
-                                    <td>{{ object.independent }}</td>
-                                </tr>
-                                <tr>
                                     <th>{% translate 'Condition' %}</th>
                                     <td>{{ object.condition }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Special' %}</th>
-                                    <td>{{ object.special }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Urgently' %}</th>
-                                    <td>{{ object.urgently }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Trade' %}</th>
-                                    <td>{{ object.trade }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Material' %}</th>
                                     <td>{{ object.material }}</td>
                                 </tr>
+                                {% if object.complex %}
+                                    <tr>
+                                        <th>{% translate 'Complex' %}</th>
+                                        <td>{{ object.complex }}</td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <th>{% translate 'Status' %}</th>
-                                    <td>{{ object.status }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Real estate type' %}</th>
-                                    <td>{{ object.objectect_type }}</td>
+                                    <td>{{ object.get_status_display }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Square' %}</th>
                                     <td>{{ object.square }}</td>
                                 </tr>
+                                {% if object.living_square %}
+                                    <tr>
+                                        <th>{% translate 'Living square' %}</th>
+                                        <td>{{ object.living_square }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.useful_square %}
+                                    <tr>
+                                        <th>{% translate 'Useful square' %}</th>
+                                        <td>{{ object.useful_square }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.land_square %}
+                                    <tr>
+                                        <th>{% translate 'Land square' %}</th>
+                                        <td>{{ object.land_square }}</td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <th>{% translate 'Price' %}</th>
                                     <td>{{ object.price }}</td>
                                 </tr>
                                 <tr>
-                                    <th>{% translate 'Site price' %}</th>
-                                    <td>{{ object.site_price }}</td>
+                                    <th>{% translate 'EHome' %}</th>
+                                    <td>{{ object.e_home|yesno:_("Yes,No") }}</td>
                                 </tr>
-                                <tr>
-                                    <th>{% translate 'Square meter price' %}</th>
-                                    <td>{{ object.square_meter_price }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'For trainee' %}</th>
-                                    <td>{{ object.for_trainee }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Reference point' %}</th>
-                                    <td>{{ object.reference_point }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Author' %}</th>
-                                    <td>{{ object.author }}</td>
-                                </tr>
+                                {% if object.balcony != None %}
+                                    <tr>
+                                        <th>{% translate 'Balcony' %}</th>
+                                        <td>{{ object.balcony|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.terrace != None %}
+                                    <tr>
+                                        <th>{% translate 'Terrace' %}</th>
+                                        <td>{{ object.terrace|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.ground_floor != None %}
+                                    <tr>
+                                        <th>{% translate 'Ground floor' %}</th>
+                                        <td>{{ object.ground_floor|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.facade != None %}
+                                    <tr>
+                                        <th>{% translate 'Facade' %}</th>
+                                        <td>{{ object.facade|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.own_parking != None %}
+                                    <tr>
+                                        <th>{% translate 'Own parking' %}</th>
+                                        <td>{{ object.own_parking|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.own_courtyard != None %}
+                                    <tr>
+                                        <th>{% translate 'Own courtyard' %}</th>
+                                        <td>{{ object.own_courtyard|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.separate_building != None %}
+                                    <tr>
+                                        <th>{% translate 'Separate building' %}</th>
+                                        <td>{{ object.separate_building|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.rooms_number %}
+                                    <tr>
+                                        <th>{% translate 'Number of rooms' %}</th>
+                                        <td>{{ object.rooms_number }}</td>
+                                    </tr>
+                                {% endif %}
+                                {% if object.communications != None %}
+                                    <tr>
+                                        <th>{% translate 'Communications' %}</th>
+                                        <td>{{ object.communications|yesno:_("Yes,No") }}</td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <th>{% translate 'Owner' %}</th>
                                     <td>{{ object.owner }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Client' %}</th>
-                                    <td>{{ object.client }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Owners number' %}</th>
-                                    <td>{{ object.owners_number }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Separation' %}</th>
-                                    <td>{{ object.separation }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Agency' %}</th>
                                     <td>{{ object.agency }}</td>
                                 </tr>
                                 <tr>
-                                    <th>{% translate 'Agency sales' %}</th>
-                                    <td>{{ object.agency_sales }}</td>
-                                </tr>
-                                <tr>
                                     <th>{% translate 'Sale terms' %}</th>
                                     <td>{{ object.sale_terms }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Filename of exclusive agreement' %}</th>
-                                    <td>{{ object.filename_of_exclusive_agreement }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Inspection file name' %}</th>
-                                    <td>{{ object.inspection_file_name }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% translate 'Document' %}</th>
                                     <td>{{ object.document }}</td>
                                 </tr>
                                 <tr>
-                                    <th>{% translate 'Filename forbid sale' %}</th>
-                                    <td>{{ object.filename_forbid_sale }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'New building name' %}</th>
-                                    <td>{{ object.new_building_name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'New building type' %}</th>
-                                    <td>{{ object.new_building_type }}</td>
-                                </tr>
-                                <tr>
                                     <th>{% translate 'Realtor' %}</th>
                                     <td>{{ object.realtor }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Site realtor 1' %}</th>
-                                    <td>{{ object.site_realtor1 }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Site realtor 2' %}</th>
-                                    <td>{{ object.site_realtor2 }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Realtor 5x5' %}</th>
-                                    <td>{{ object.realtor_5_5 }}</td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -114,7 +114,7 @@ def verify_real_estate_address(request, lang):
         })
     return JsonResponse({
         "success": True,
-        "message": _("Exists (id") + str({real_estate.id}) + ")",
+        "message": _("Exists (id {id})").format(id=real_estate.id),
     })
 
 
@@ -212,10 +212,10 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             queryset = queryset.filter(price__gte=form.cleaned_data.get('price_from'))
         if form.cleaned_data.get('price_to') is not None:
             queryset = queryset.filter(price__lte=form.cleaned_data.get('price_to'))
-        if form.cleaned_data.get('square_meter_price_max') is not None:
-            queryset = queryset.filter(
-                square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
-            )
+        # if form.cleaned_data.get('square_meter_price_max') is not None:
+        #     queryset = queryset.filter(
+        #         square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
+        #     )
         if form.cleaned_data.get('condition'):
             queryset = queryset.filter(condition__in=form.cleaned_data.get('condition'))
 
@@ -250,7 +250,6 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         objects = []
         for obj in context['objects']:
-            # images = ApartmentImage.objects.filter(apartment=obj)
             image = obj.images.first()
             objects.append(
                 {'image': image, 'object': obj}
@@ -358,13 +357,9 @@ class ShowingActView(TemplateView):
                 object_type=object_type,
                 id__in=selected_ids
         ):
-            # objects.append({
-            #     'object': obj,
-            #     'image': ApartmentImage.objects.filter(apartment=obj.id).filter(on_delete=False).first()
-            # })
             objects.append({
                 'object': obj,
-                'image': obj.images.filter(on_delete=False).first(),
+                'image': obj.images.first(),
             })
         context['objects'] = objects
 
@@ -979,26 +974,42 @@ class CatalogListView(ListView):
         for obj in context['objects']:
             objects.append({
                 'object': obj,
-                'image': obj.images.filter(on_delete=False).first()
+                'image': obj.images.first()
             })
         context['objects'] = objects
         return context
 
 
 class ApartmentDetailView(DetailView):
-    queryset = Apartment.objects.filter(on_delete=False)
-    context_object_name = 'object'
-    template_name = 'objects/details.html'
+    queryset = estate_objects_filter_visible(RealEstateType.APARTMENT)
+    template_name = "objects/details.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs['lang'])
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
 
-        context['lang'] = self.kwargs['lang']
 
-        # context['images'] = ApartmentImage.objects.filter(apartment=context['object'].id, on_delete=False)
-        apartment = Apartment.objects.get(id=context['object'].id)
-        context['images'] = apartment.images.filter(on_delete=False)
+class CommerceDetailView(DetailView):
+    queryset = estate_objects_filter_visible(RealEstateType.COMMERCE)
+    template_name = "objects/details.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+
+class HouseDetailView(DetailView):
+    queryset = estate_objects_filter_visible(RealEstateType.HOUSE)
+    template_name = "objects/details.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         return context
 
 

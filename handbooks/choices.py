@@ -9,7 +9,7 @@ class CityType(models.IntegerChoices):
 
 
 class CenterType(models.IntegerChoices):
-    DISTRICT = 1, _("District")
+    DISTRICT = 1, _("Districtional")
     REGIONAL = 2, _("Regional")
     NONE = 3, ""
 

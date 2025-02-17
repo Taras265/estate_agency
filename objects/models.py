@@ -1,9 +1,7 @@
 import datetime
 
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
