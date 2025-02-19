@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<КоммерческаяИнформация ВерсияСхемы="2.03" ДатаФормирования="2025-02-16">
+	<DistrictList>
+		<District>
+			<ID>3</ID>
+			<Name>Дніпровська обл.</Name>
+		</District>
+		<District>
+			<ID>2</ID>
+			<Name>Миколаївська обл.</Name>
+		</District>
+		<District>
+			<ID>1</ID>
+			<Name>Одеська обл.</Name>
+		</District>
+	</DistrictList>
+</КоммерческаяИнформация>

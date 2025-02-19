@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<КоммерческаяИнформация ВерсияСхемы="2.03" ДатаФормирования="2025-02-16">
+	<BranchList>
+		<Branch>
+			<ID>18</ID>
+			<Name>Call-Центр</Name>
+			<TownRegionId>2</TownRegionId>
+			<DateOpen>01.01.0001 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>2</ID>
+			<Name>Базарная</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>(068) 75-88-050</Phone>
+			<eMail>post@evropa.od.ua</eMail>
+			<Address>ул. Базарная, 3-Б </Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>07.06.2010 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>1</ID>
+			<Name>Др.агентство</Name>
+			<TownRegionId>1</TownRegionId>
+			<DateOpen>01.01.0001 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>15</ID>
+			<Name>Коммерческая</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>(068) 606-84-71</Phone>
+			<eMail>commercial@evropa.od.ua</eMail>
+			<Address>Фонтанская дорога 69/2</Address>
+			<BranchType>Коммерческая</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>01.01.0001 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>4</ID>
+			<Name>Королева 58</Name>
+			<TownRegionId>3</TownRegionId>
+			<Phone>063-430-70-77, 068-900-52-37</Phone>
+			<eMail>koroleva@evropa.od.ua</eMail>
+			<Address>ул. Королева, 58</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Киевский+Малиновский</NewBuildArea>
+			<DateOpen>14.05.2016 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>16</ID>
+			<Name>Новострой</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>098 137 15 07</Phone>
+			<Address>Базарная, 3б</Address>
+			<BranchType>Отдел новостроя</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>01.01.0001 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>5</ID>
+			<Name>Сегедская</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>(068) 188-36-01</Phone>
+			<eMail>segedskaya@evropa.od.ua</eMail>
+			<Address>ул. Сегедская, 8</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>20.07.2010 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>6</ID>
+			<Name>Суворовский</Name>
+			<TownRegionId>12</TownRegionId>
+			<Phone>(068) 474-72-85</Phone>
+			<eMail>vysotskogo@evropa.od.ua</eMail>
+			<Address>пр-т. Добровольского, 139а</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Суворовский</NewBuildArea>
+			<DateOpen>17.11.2010 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>11</ID>
+			<Name>Тираспольская</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>097-401-89-83</Phone>
+			<eMail>tiraspolskaya@evropa.od.ua</eMail>
+			<Address>ул. Тираспольская,31</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>18.03.2013 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>9</ID>
+			<Name>Филатова, 48</Name>
+			<TownRegionId>3</TownRegionId>
+			<Phone>067-746-47-40</Phone>
+			<eMail>filatova@evropa.od.ua</eMail>
+			<Address>ул. Ак. Филатова, 48</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Киевский+Малиновский</NewBuildArea>
+			<DateOpen>01.06.2012 0:00:00</DateOpen>
+		</Branch>
+		<Branch>
+			<ID>3</ID>
+			<Name>Шевченко</Name>
+			<TownRegionId>2</TownRegionId>
+			<Phone>067-121-59-59</Phone>
+			<eMail>shevchenko@evropa.od.ua</eMail>
+			<Address>проспект Шевченко, 15/4</Address>
+			<BranchType>Филиал АН</BranchType>
+			<NewBuildArea>Приморский+Центр</NewBuildArea>
+			<DateOpen>14.08.2010 0:00:00</DateOpen>
+		</Branch>
+	</BranchList>
+</КоммерческаяИнформация>

@@ -119,6 +119,11 @@ class StreetForm(forms.ModelForm):
         label=_("Street"),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
+    locality = forms.ModelChoiceField(
+        queryset=Locality.objects.filter(on_delete=False),
+        label=_("Locality"),
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
     locality_district = forms.ModelChoiceField(
         queryset=LocalityDistrict.objects.filter(on_delete=False),
         label=_("Locality district"),
@@ -268,10 +273,66 @@ class FilialForm(forms.ModelForm):
         label=_("Filial agency"),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
+    locality_district = forms.ModelChoiceField(
+        queryset=LocalityDistrict.objects.filter(on_delete=False),
+        label=_("Locality district"),
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
+    phone = forms.CharField(
+        label=_("Filial agency"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    email = forms.EmailField(
+        label=_("Email"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    address = forms.CharField(
+        label=_("Address"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    type = forms.CharField(
+        label=_("Type"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    new_build_area = forms.CharField(
+        label=_("New build area"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    open_date_date = forms.DateField(
+        widget=forms.SelectDateWidget(
+            empty_label=("Год", "Месяц", "День"),
+            years=range(1900, 2100)
+        ),
+    )
+    open_date_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={"class": "form-control"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.open_date:
+            self.fields['open_date_date'].initial = self.instance.open_date.date()
+            self.fields['open_date_time'].initial = self.instance.open_date.time()
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        date = self.cleaned_data.get('open_date_date')
+        time = self.cleaned_data.get('open_date_time')
+        if date and time:
+            from datetime import datetime
+            instance.open_date = datetime.combine(date, time)
+        if commit:
+            instance.save()
+        return instance
 
     class Meta:
         model = FilialAgency
-        exclude = ("on_delete",)
+        exclude = ("open_date", "on_delete",)
 
 
 class FilialReportForm(forms.ModelForm):
