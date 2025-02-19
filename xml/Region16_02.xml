@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<КоммерческаяИнформация ВерсияСхемы="2.03" ДатаФормирования="2025-02-16">
+	<RegionList>
+		<Region>
+			<ID>9</ID>
+			<Name>Ананьївський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>22</ID>
+			<Name>Арцизький р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>7</ID>
+			<Name>Балтський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>28</ID>
+			<Name>Березанський р-н</Name>
+			<DistrictId>2</DistrictId>
+		</Region>
+		<Region>
+			<ID>3</ID>
+			<Name>Березівський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>15</ID>
+			<Name>Білгород-Дністровський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>18</ID>
+			<Name>Біляївський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>29</ID>
+			<Name>Болградський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>10</ID>
+			<Name>Великомихайлівський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>36</ID>
+			<Name>Веселиновський</Name>
+			<DistrictId>2</DistrictId>
+		</Region>
+		<Region>
+			<ID>35</ID>
+			<Name>Дніпродзержинськ</Name>
+			<DistrictId>3</DistrictId>
+		</Region>
+		<Region>
+			<ID>34</ID>
+			<Name>Зарубіжна</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>17</ID>
+			<Name>Іванівський р-н </Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>12</ID>
+			<Name>Ізмаїльський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>11</ID>
+			<Name>Кілійский р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>21</ID>
+			<Name>Кодимський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>1</ID>
+			<Name>Котовський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>14</ID>
+			<Name>Красноокнянський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>16</ID>
+			<Name>Лиманьский р-н (Комінтернівський)</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>2</ID>
+			<Name>Любашовський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>13</ID>
+			<Name>Миколаївський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>20</ID>
+			<Name>Овідіопольський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>23</ID>
+			<Name>Одеський</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>32</ID>
+			<Name>Очаків</Name>
+			<DistrictId>2</DistrictId>
+		</Region>
+		<Region>
+			<ID>31</ID>
+			<Name>Первомайськ</Name>
+			<DistrictId>2</DistrictId>
+		</Region>
+		<Region>
+			<ID>24</ID>
+			<Name>Ренійський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>19</ID>
+			<Name>Роздільнянський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>8</ID>
+			<Name>Савранський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>6</ID>
+			<Name>Саратський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>26</ID>
+			<Name>Тарутінський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>25</ID>
+			<Name>Татарбунарський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>4</ID>
+			<Name>Фрунзенський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+		<Region>
+			<ID>5</ID>
+			<Name>Ширяєвський р-н</Name>
+			<DistrictId>1</DistrictId>
+		</Region>
+	</RegionList>
+</КоммерческаяИнформация>

@@ -42,7 +42,8 @@ class Locality(BaseModel):
         choices=CityType.choices,
         null=True, blank=True
     )
-    center_type = models.PositiveSmallIntegerField(choices=CenterType.choices)
+    center_type = models.PositiveSmallIntegerField(choices=CenterType.choices,
+        null=True, blank=True)
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -60,9 +61,9 @@ class LocalityDistrict(BaseModel):
     )
     description = models.TextField(null=True, blank=True)
     group_on_site = models.CharField(max_length=100, null=True, blank=True)
-    hot_deals_limit = models.DecimalField(max_digits=4, decimal_places=2)
+    hot_deals_limit = models.DecimalField(default=0, max_digits=7, decimal_places=2)
     prefix_to_site = models.CharField(max_length=5)
-    is_subdistrict = models.BooleanField
+    is_subdistrict = models.BooleanField()
     new_building_district = models.PositiveSmallIntegerField(
         choices=NewBuildingDistrictType.choices
     )
@@ -80,6 +81,11 @@ class Street(BaseModel):
         LocalityDistrict,
         on_delete=models.CASCADE,
         related_name="locality_district_related_name"
+    )
+    locality = models.ForeignKey(
+        Locality,
+        on_delete=models.CASCADE,
+        related_name="locality_related_name_street"
     )
 
     class Meta:
@@ -174,6 +180,17 @@ class Handbook(BaseModel):
 
 class FilialAgency(BaseModel):
     filial_agency = models.CharField(max_length=100)
+    locality_district = models.ForeignKey(
+        LocalityDistrict,
+        on_delete=models.CASCADE,
+        related_name="locality_district_agency_related_name"
+    )
+    phone = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    address = models.CharField(max_length=300, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    new_build_area = models.CharField(max_length=100, null=True, blank=True)
+    open_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         default_permissions = ("add", "change", "view")
