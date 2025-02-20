@@ -70,7 +70,6 @@ def users_list_redirect(request, lang):
 
 class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 5
-    form = IdSearchForm
     permission_required = "accounts.view_user"
     template_name = "accounts/user_list.html"
     context_object_name = "user_list"
@@ -78,13 +77,6 @@ class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         queryset = user_all_visible().prefetch_related("phone_numbers")
 
-        form = self.form(self.request.GET)
-        if not form.is_valid():
-            return []
-
-        for field in form.cleaned_data.keys():
-            if form.cleaned_data.get(field):
-                queryset = user_filter(queryset, **{field: form.cleaned_data.get(field)})
         return queryset
     
     def get_context_data(self, **kwargs):
@@ -92,7 +84,6 @@ class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],
-            "form": self.form(self.request.GET),
             "can_view_customgroup": user_can_view_custom_group(self.request.user),
             "can_create": user_can_create_user(self.request.user),
             "can_update": user_can_update_user(self.request.user),

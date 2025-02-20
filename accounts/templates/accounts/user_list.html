@@ -13,32 +13,6 @@
         </ul>
     </div>
 </div>
-<div class="container">
-    <div class="property_search">
-        <div class="row justify-content-center text-center">
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
-                <form method="get" class="search-form">
-                    <div class="row g-4">
-                        {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <br>
-                            <button type="submit" class="custombtn">{% translate 'Search' %}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
@@ -71,9 +45,9 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">{% translate 'Id' %}</th>
-                                        <th scope="col">{% translate 'Email' %}</th>
-                                        <th scope="col">{% translate 'First name' %}</th>
                                         <th scope="col">{% translate 'Last name' %}</th>
+                                        <th scope="col">{% translate 'First name' %}</th>
+                                        <th scope="col">{% translate 'Email' %}</th>
                                         <th scope="col">{% translate 'Phone numbers' %}</th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
@@ -85,9 +59,9 @@
                                         <tr>
                                             <td></td>
                                             <td>{{ user.id }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.first_name }}</td>
                                             <td>{{ user.last_name }}</td>
+                                            <td>{{ user.first_name }}</td>
+                                            <td>{{ user.email }}</td>
                                             <td>
                                                 {% for phone_number in user.phone_numbers.all %}
                                                     {{ phone_number.number }}{% if not forloop.last %}, {% endif %}

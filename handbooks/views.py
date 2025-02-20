@@ -15,7 +15,7 @@ from handbooks.services import region_all_visible, region_filter, \
     client_all_visible
 from objects.services import user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_real_estate_list, \
     user_can_view_report
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin
+from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin, SearchByIdMixin
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
 
@@ -53,7 +53,7 @@ def sale_redirect(request, lang):
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
-class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = region_all_visible()
     main_service = {"objects_filter": region_filter, }
     choices = BASE_CHOICES
@@ -63,7 +63,7 @@ class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomLi
     handbook_type = "region"
 
 
-class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = district_all_visible()
     main_service = {"objects_filter": district_filter, }
     choices = BASE_CHOICES
@@ -73,7 +73,7 @@ class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custom
     handbook_type = "district"
 
 
-class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = locality_all_visible()
     main_service = {"objects_filter": locality_filter, }
     choices = BASE_CHOICES
@@ -97,7 +97,7 @@ class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custom
         return context
 
 
-class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = localitydistrict_all_visible()
     main_service = {"objects_filter": localitydistrict_filter, }
     choices = BASE_CHOICES
@@ -120,7 +120,7 @@ class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin
         return context
 
 
-class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = street_all_visible()
     main_service = {"objects_filter": street_filter, }
     choices = BASE_CHOICES
@@ -130,7 +130,7 @@ class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomLi
     handbook_type = "street"
 
 
-class WithdrawalReasonListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class WithdrawalReasonListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=1)
     permission_required = "handbooks.view_withdrawalreason"
 
@@ -139,7 +139,7 @@ class WithdrawalReasonListView(CustomLoginRequiredMixin, PermissionRequiredMixin
     handbook_type = "withdrawalreason"
 
 
-class ConditionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class ConditionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=2)
     permission_required = "handbooks.view_condition"
 
@@ -147,7 +147,7 @@ class ConditionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custo
     handbook_type = "condition"
 
 
-class MaterialListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class MaterialListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=3)
     permission_required = "handbooks.view_material"
 
@@ -155,7 +155,7 @@ class MaterialListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custom
     handbook_type = "material"
 
 
-class SeparationListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class SeparationListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=4)
     permission_required = "handbooks.view_separation"
 
@@ -163,7 +163,7 @@ class SeparationListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Cust
     handbook_type = "separation"
 
 
-class AgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class AgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=5)
     permission_required = "handbooks.view_agency"
 
@@ -171,7 +171,7 @@ class AgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHa
     handbook_type = "agency"
 
 
-class AgencySalesListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class AgencySalesListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=6)
     permission_required = "handbooks.view_agencysales"
 
@@ -179,7 +179,7 @@ class AgencySalesListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Cus
     handbook_type = "agencysales"
 
 
-class NewBuildingNameListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class NewBuildingNameListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=7)
     permission_required = "handbooks.view_newbuildingname"
 
@@ -187,7 +187,7 @@ class NewBuildingNameListView(CustomLoginRequiredMixin, PermissionRequiredMixin,
     handbook_type = "newbuildingname"
 
 
-class StairListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class StairListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=8)
     permission_required = "handbooks.view_stair"
 
@@ -195,7 +195,7 @@ class StairListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHan
     handbook_type = "stair"
 
 
-class HeatingListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class HeatingListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=9)
     permission_required = "handbooks.view_heating"
 
@@ -203,7 +203,7 @@ class HeatingListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomH
     handbook_type = "heating"
 
 
-class LayoutListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class LayoutListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=10)
     permission_required = "handbooks.view_layout"
 
@@ -211,7 +211,7 @@ class LayoutListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHa
     handbook_type = "layout"
 
 
-class HouseTypeListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class HouseTypeListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=11)
     permission_required = "handbooks.view_housetype"
 
@@ -219,7 +219,7 @@ class HouseTypeListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Custo
     handbook_type = "housetype"
 
 
-class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomHandbookListView):
+class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomHandbookListView):
     queryset = handbook_filter_visible(type=12)
     permission_required = "handbooks.view_complex"
 
@@ -227,7 +227,7 @@ class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomH
     handbook_type = "complex"
 
 
-class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = filialagency_all_visible()
     main_service = {"objects_filter": filialagency_all_visible, }
     choices = BASE_CHOICES
@@ -237,7 +237,7 @@ class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Cu
     handbook_type = "filialagency"
 
 
-class FilialReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class FilialReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = filialreport_all_visible()
     main_service = {"objects_filter": filialreport_all_visible, }
     choices = BASE_CHOICES
@@ -914,37 +914,37 @@ class FilialReportDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, 
     handbook_type = "filialreport"
 
 
-class AllClientsListView(ClientListMixin, ByUserMixin, CustomListView):
+class AllClientsListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_all_visible()
     filter = "all"
     perm = "view"
 
 
-class NewClientListView(ClientListMixin, ByUserMixin, CustomListView):
+class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(date_of_add__gte=timezone.now()-relativedelta(months=1))
     filter = "new"
     perm = "view"
 
 
-class InSelectionClientListView(ClientListMixin, ByUserMixin, CustomListView):
+class InSelectionClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=1)
     filter = "in_selection"
     perm = "view"
 
 
-class WithShowClientListView(ClientListMixin, ByUserMixin, CustomListView):
+class WithShowClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=2)
     filter = "with_show"
     perm = "view"
 
 
-class DecidedClientListView(ClientListMixin, ByUserMixin, CustomListView):
+class DecidedClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=3)
     filter = "decided"
     perm = "view"
 
 
-class DeferredDemandClientListView(ClientListMixin, ByUserMixin, CustomListView):
+class DeferredDemandClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"
