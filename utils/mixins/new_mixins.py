@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.translation import activate
 
 from accounts.services import user_get
+from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES, LIST_BY_USER
@@ -18,6 +19,32 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
     def get_login_url(self):
         lang = self.kwargs["lang"]
         return reverse("accounts:login", kwargs={"lang": lang})
+
+
+class SearchByIdMixin:
+    form = IdSearchForm
+    main_service = None
+
+    def get_queryset(self):
+        form = self.form(self.request.GET)
+        queryset = super().get_queryset()
+        # далі перевіряємо формочку і змінюємо в залежності від неї кверісет
+        if form.is_valid():
+            for field in form.cleaned_data.keys():
+                if form.cleaned_data.get(field):
+                    queryset = self.main_service["objects_filter"](
+                        queryset,
+                        **{field: form.cleaned_data.get(field)}
+                    )
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        # підгружаємо частину готової дати і додаємо що потрібно
+        context = super().get_context_data(**kwargs)
+
+        context.update({"form": self.form(self.request.GET)})
+
+        return context
 
 
 # змінити на UserPassesTestMixin (потім, не зараз)
