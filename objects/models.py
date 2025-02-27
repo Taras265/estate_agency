@@ -80,7 +80,7 @@ class BaseRealEstate(models.Model):
     condition = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="condition_%(app_label)s_%(class)ss",
-        verbose_name=_("Condition")
+        verbose_name=_("Condition"), null=True, blank=True
     )
     material = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
