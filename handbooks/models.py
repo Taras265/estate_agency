@@ -226,7 +226,9 @@ class Client(BaseModel):
     realtor = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
-        related_name="realtor_client_related_name"
+        related_name="realtor_client_related_name",
+        null=True,
+        blank=True
     )
     rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
     locality = models.ManyToManyField(
