@@ -1,0 +1,1062 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<КоммерческаяИнформация ВерсияСхемы="2.03" ДатаФормирования="2025-02-22">
+	<Catalog>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A71287</ID>
+			<deposit_date>08.03.2015 14:22:10</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>419</street>
+			<house>23</house>
+			<condition>жилое состояние</condition>
+			<agency>0</agency>
+			<house_type>старый фонд</house_type>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>68000</price>
+			<square>87</square>
+			<storeys_number>3</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<sale_terms>Больше трех лет</sale_terms>
+			<comment> 02.09.22. Сказали, что ничего не продают??? 17.08.23вне зоны 22.04.24- № не действит. 04.10.24- номер недействит.</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>3</floor>
+			<height>2.6</height>
+			<layout>2-х сторонняя</layout>
+			<stair>наружная лестница</stair>
+			<kitchen_square>7</kitchen_square>
+			<apartment>33</apartment>
+			<living_square>53</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A71288</ID>
+			<deposit_date>08.03.2015 15:22:15</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>419</street>
+			<house>23</house>
+			<condition>жилое состояние</condition>
+			<agency>0</agency>
+			<house_type>старый фонд</house_type>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>40000</price>
+			<square>36</square>
+			<storeys_number>3</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<sale_terms>Больше трех лет  .0504731742 др. тел. </sale_terms>
+			<comment>23,08,21цена 40000у.е.  02.09.22. В продаже б/и17.08.23вне зоны  22.04.24- номер не действит. 04.10.24- он в ЗСУ, ничего не знает</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>3</floor>
+			<height>2.6</height>
+			<layout>неправильная планировка</layout>
+			<kitchen_square>14</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>14</apartment>
+			<living_square>20</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A164430</ID>
+			<deposit_date>11.11.2020 12:12:51</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>773</street>
+			<house>1/3</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<house_type>новострой (строящийся)</house_type>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>60000</price>
+			<square>75</square>
+			<storeys_number>15</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>16,01,23, В продаже Цена 70 тыс. без паркинга 13.10.23- без изм. 19.05.24- без изм.  28.11.24- в продаже</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>13</floor>
+			<height>2.8</height>
+			<layout>1-но сторонняя</layout>
+			<kitchen_square>24</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>5</apartment>
+			<living_square>38</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A164436</ID>
+			<deposit_date>11.11.2020 12:50:54</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1820</street>
+			<house>33Б</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<house_type>новые дома</house_type>
+			<material>монолитно-кирпичный</material>
+			<owner>1</owner>
+			<price>145000</price>
+			<square>109</square>
+			<storeys_number>16</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<sale_terms>ТОРГ УМІСНИЙ </sale_terms>
+			<comment>16,01,23, В продаже б/и Торг будет 19.05.24- без изм. 22.08 цена б/и  02.10.24- без изм.</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>9</floor>
+			<height>3</height>
+			<layout>2-х сторонняя</layout>
+			<kitchen_square>19</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>45</apartment>
+			<living_square>46.4</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A164474</ID>
+			<deposit_date>12.11.2020 1:14:05</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>254</street>
+			<house>27А 4</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<house_type>новострой (строящийся)</house_type>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>55000</price>
+			<square>67.7</square>
+			<storeys_number>24</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор инвестирования;</document>
+			<sale_terms>Возможен обмен на жилую 2-3-4 комн квартиру.(55000 на руки+переуступка за счет Покупателя). </sale_terms>
+			<comment>  16,01,23, В продаже б/и 13.10.23-снята на неопред.время  19.05.24- снята на неопр.вр.  13.11.24- огранич.возм.пр.зв.</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>8</floor>
+			<height>2.75</height>
+			<layout>2-х сторонняя</layout>
+			<kitchen_square>13</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>60</apartment>
+			<living_square>33.9</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A164599</ID>
+			<deposit_date>14.11.2020 17:44:55</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>873</street>
+			<house>12</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<house_type>новые дома</house_type>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>139000</price>
+			<square>92</square>
+			<storeys_number>16</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<sale_terms>постоянно в аренде ОДНА спальня и студия</sale_terms>
+			<comment> 16,01,23, В прод. б/и 13.10.23- в аренде,можно предложить только реальным клиентам 19.05.24- без изм.  13.11.24- без изм.</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>6</floor>
+			<height>2.8</height>
+			<layout>2-х сторонняя</layout>
+			<kitchen_square>18</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>601</apartment>
+			<living_square>60</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A164556</ID>
+			<deposit_date>13.11.2020 11:46:54</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1523</street>
+			<house>3</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<house_type>новострой (строящийся)</house_type>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>62000</price>
+			<square>66</square>
+			<storeys_number>10</storeys_number>
+			<status>В продаже</status>
+			<document> Договор инвестирования;</document>
+			<sale_terms>Переуступка входит в стоимость</sale_terms>
+			<comment>18,12,20цена 61000 18,06,21б/и 26,11,21цена 63000  16,01,23, В продаже б/и 13.10.23- в продаже 19.05.24- без изм. 13.11.24- в продаже</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>9</floor>
+			<height>2.8</height>
+			<layout>1-но сторонняя</layout>
+			<kitchen_square>12</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>9/6</apartment>
+			<living_square>38</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A97493</ID>
+			<deposit_date>28.11.2016 14:26:33</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1729</street>
+			<house>90</house>
+			<condition>жилое состояние</condition>
+			<agency>0</agency>
+			<house_type>старый фонд</house_type>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>16500</price>
+			<square>14.1</square>
+			<storeys_number>1</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор дарения;</document>
+			<sale_terms>Показы квартирант Леонид 0968407390. Связь с хоз. ч-з Шакалову.Торг до16 тыс.</sale_terms>
+			<comment>24.04.24  15.10.24</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>2.6</height>
+			<layout>неправильная планировка</layout>
+			<kitchen_square>1.5</kitchen_square>
+			<room_types>1 комната </room_types>
+			<apartment>12</apartment>
+			<living_square>10.7</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A97608</ID>
+			<deposit_date>30.11.2016 13:21:41</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>64</locality>
+			<street>1864</street>
+			<house>4</house>
+			<condition>&lt;Объект не найден&gt; (9:a6320015175459a411de1727cee0abd3)</condition>
+			<agency>0</agency>
+			<house_type>&lt;Объект не найден&gt; (8:a6320015175459a411de172778aca7b5)</house_type>
+			<material>панель</material>
+			<owner>1</owner>
+			<price>50000</price>
+			<square>57</square>
+			<storeys_number>5</storeys_number>
+			<status>В продаже</status>
+			<document> Договор дарения;</document>
+			<comment>11.01.18</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>5</floor>
+			<height>22.5</height>
+			<layout>смежно-раздельная</layout>
+			<stair>бетонная лестница</stair>
+			<kitchen_square>7</kitchen_square>
+			<apartment>20</apartment>
+			<living_square>40</living_square>
+			<balcony>true</balcony>
+			<balcony_number>1</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>квартира</object_type>
+			<ID>A97614</ID>
+			<deposit_date>30.11.2016 13:52:16</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>167</street>
+			<house>8Б</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<house_type>новые дома</house_type>
+			<material>монолитно-кирпичный</material>
+			<owner>1</owner>
+			<price>125000</price>
+			<square>86</square>
+			<storeys_number>17</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>12.09.22. Снята. Позвонить через неделю  26,08,23, Снята еще 24.04.24- еще снята  08.10.24- еще снята</comment>
+			<creation_date>0</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>5</floor>
+			<height>3</height>
+			<layout>правильная</layout>
+			<kitchen_square>20</kitchen_square>
+			<room_types>Раздельные</room_types>
+			<apartment>18</apartment>
+			<living_square>30</living_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7282</ID>
+			<deposit_date>21.03.2015 18:26:57</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>14</locality>
+			<street>177</street>
+			<house>68</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>460000</price>
+			<square>600</square>
+			<storeys_number>3</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>19.03.24- в продаже 2 дома, 420м- 190 тыс., 560м- 270 тыс. Можно продать вместе или отдельно. Запросить фото  13.09.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>10</land_square>
+			<rooms_number>0</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7283</ID>
+			<deposit_date>21.03.2015 18:30:29</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>14</locality>
+			<street>177</street>
+			<house>68А</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>460000</price>
+			<square>420</square>
+			<storeys_number>3</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>4.11.22. В прод. б/и 19.03.24- в продаже 2 дома, 420м- 190 тыс., 560м- 270 тыс. Можно продать вместе или отдельно.  13.09.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>10</land_square>
+			<rooms_number>0</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7311</ID>
+			<deposit_date>01.04.2015 15:03:44</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>35</locality>
+			<street>1762</street>
+			<house>32</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<house_type>Зимнее</house_type>
+			<owner>1</owner>
+			<price>400000</price>
+			<square>240</square>
+			<storeys_number>3</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор дарения; Гос.акт;</document>
+			<sale_terms>хочет 1 этажный дом небольшой с ровным подходом в Одессе от ж\д вокзала до Таирова</sale_terms>
+			<comment> 10,05,21цену подняли хотят 400000( цену не знают )29.07.21б/и     4.11.22. Откл. все тел.  26,04,23, не отвеч.  01,08,23, откл. все тел.21.03.24- оба номера отключ.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>3</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>8</land_square>
+			<rooms_number>6</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7317</ID>
+			<deposit_date>06.04.2015 13:04:42</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>730</street>
+			<house>12А</house>
+			<condition>&lt;Объект не найден&gt; (9:a6320015175459a411de1727cee0abd4)</condition>
+			<agency>0</agency>
+			<material>блочно-кирпичный</material>
+			<owner>1</owner>
+			<price>50000</price>
+			<square>115</square>
+			<storeys_number>2</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>1</height>
+			<kitchen_square>1</kitchen_square>
+			<living_square>1</living_square>
+			<land_square>1</land_square>
+			<rooms_number>1</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>true</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7336</ID>
+			<deposit_date>10.04.2015 15:06:03</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>249</street>
+			<house>5Б 32</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<house_type>Зимнее</house_type>
+			<material>красный кирпич</material>
+			<owner>1</owner>
+			<price>210000</price>
+			<square>185</square>
+			<storeys_number>2</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>10.11.2018 недозвон 28.03.19 не видно номера телефона   29.08.19 не видно номера тел.</comment>
+			<creation_date>2008</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>3.5</height>
+			<kitchen_square>20</kitchen_square>
+			<living_square>97</living_square>
+			<land_square>2.3</land_square>
+			<rooms_number>4</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H7378</ID>
+			<deposit_date>07.05.2015 12:42:42</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1270</street>
+			<house>6</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>340000</price>
+			<square>250</square>
+			<storeys_number>2</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<comment>0679216339 Майя. 05.11.2018 недозвон 28.03.19 сняли с продажи на пол года 21.03.24- без изм., в продаже будет с 6 апреля  13.09.24- не в сети</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>3</height>
+			<kitchen_square>20</kitchen_square>
+			<living_square>80</living_square>
+			<land_square>2</land_square>
+			<rooms_number>3</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>true</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H12935</ID>
+			<deposit_date>14.05.2021 13:52:25</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>49</locality>
+			<street>935</street>
+			<house>39/4</house>
+			<condition>от строителей</condition>
+			<agency>0</agency>
+			<house_type>Зимнее</house_type>
+			<owner>1</owner>
+			<price>99000</price>
+			<square>226</square>
+			<storeys_number>2</storeys_number>
+			<status>В продаже</status>
+			<document> Гос.акт; Свид. на ввод дома в эксплуатацию;</document>
+			<sale_terms>офис-менеджер - Анна - тел: (048)796-19-81</sale_terms>
+			<comment>21,01,22цена157853   12,05,23, Не помнит есть или нет 04.04.24- не отвеч.  27.09.24- в продаже</comment>
+			<creation_date>2021</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>3</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>5</land_square>
+			<rooms_number>0</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>true</own_parking>
+			<communication>true</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H12965</ID>
+			<deposit_date>27.05.2021 20:10:43</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>72</locality>
+			<street>3050</street>
+			<house>1</house>
+			<condition>чистый участок</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>840000</price>
+			<square>0</square>
+			<storeys_number>0</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<comment>26.07.21б/и 31,1,22не отв  12,05,23, В продаже б/и 04.04.24- нет связи  19.09.24- вызов не проходит</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>560</land_square>
+			<rooms_number>0</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H13007</ID>
+			<deposit_date>17.06.2021 12:57:13</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>3704</street>
+			<house>1</house>
+			<condition>ремонт</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>72000</price>
+			<square>100</square>
+			<storeys_number>2</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<comment>На землю документов нет   26.07.21цена 72000 НА дом есть документы 24,12,21сняли до весны</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<living_square>0</living_square>
+			<land_square>10</land_square>
+			<rooms_number>0</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<communication>false</communication>
+		</Object>
+		<Object>
+			<object_type>дом</object_type>
+			<ID>H13080</ID>
+			<deposit_date>06.08.2021 13:53:53</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1884</street>
+			<house>3</house>
+			<condition>под ремонт</condition>
+			<agency>0</agency>
+			<house_type>Отдельное здание</house_type>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>205000</price>
+			<square>605</square>
+			<storeys_number>4</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (приватизация); Гос.акт;</document>
+			<sale_terms>док-там 2001 года, ГосАкт + кадастровый номер.</sale_terms>
+			<creation_date>2002</creation_date>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>3</height>
+			<kitchen_square>20</kitchen_square>
+			<living_square>290</living_square>
+			<land_square>6</land_square>
+			<rooms_number>7</rooms_number>
+			<terrace>false</terrace>
+			<facade>false</facade>
+			<own_parking>true</own_parking>
+			<communication>true</communication>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O4058</ID>
+			<deposit_date>16.04.2015 20:09:40</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>911</street>
+			<house>6</house>
+			<condition>Ремонт</condition>
+			<agency>0</agency>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>4500000</price>
+			<square>3000</square>
+			<storeys_number>5</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<comment>08.07.2019 б/и 26.02.20без изм.  5.07.21 не бер тр  27.09.22. Не отвечает  29.10.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>0</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>true</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O4073</ID>
+			<deposit_date>08.05.2015 12:12:56</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1536</street>
+			<house>7</house>
+			<condition>Ремонт</condition>
+			<agency>0</agency>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>60000</price>
+			<square>92</square>
+			<storeys_number>3</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<sale_terms>Торг под клиента.</sale_terms>
+			<realtor_notes>нет фото</realtor_notes>
+			<comment> 27.09.22. В продаже б/и  07,06,23, В продаже Цена 60 тыс.  29.10.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>6</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>true</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>true</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O4125</ID>
+			<deposit_date>10.07.2015 14:07:27</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1650</street>
+			<house>17</house>
+			<condition>Ремонт</condition>
+			<agency>0</agency>
+			<material>ракушняк</material>
+			<owner>1</owner>
+			<price>70000</price>
+			<square>45</square>
+			<storeys_number>4</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (приватизация);</document>
+			<sale_terms>Хоз.риэлтор, продает свою кв-ру, на комиссию не претендует. Док.больше 3х лет. </sale_terms>
+			<comment>27.09.22. В продаже Цена 67 тыс.  07,06,23, В продаже Цена 70 тыс.  29.10.24- не отвеч.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>3</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>true</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O4171</ID>
+			<deposit_date>23.09.2015 13:31:51</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1560</street>
+			<house>19</house>
+			<condition>Офисный ремонт</condition>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>40000</price>
+			<square>38</square>
+			<storeys_number>1</storeys_number>
+			<status>Временно снята</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<sale_terms>без измен.</sale_terms>
+			<comment>07,12,2017 - прозвон ; 18.10.2018 б/и , 05.02.2019 б/и, 16.04.2019 б/и, 12.07.2019 не ответили на звонок26.02.20без изм.4,06,21не ответил   13.07.21сняли до сент.21г</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>0</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O7394</ID>
+			<deposit_date>24.12.2022 12:46:03</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1560</street>
+			<house>23/25</house>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>54000</price>
+			<square>240.3</square>
+			<storeys_number>10</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<sale_terms>2000 у. наши в цене</sale_terms>
+			<comment>04.11.24- автоотв.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>0</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>8</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>true</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O3507</ID>
+			<deposit_date>28.02.2014 16:42:47</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1531</street>
+			<house>20 1</house>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>180000</price>
+			<square>295</square>
+			<storeys_number>11</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<realtor_notes>нет фото</realtor_notes>
+			<comment>07.08.2019 б/и, есть арендаторы 22,02,21б/и  5.07.21 без изм  14.09.22. Не отвечает  25.10.22. Не отвеч.   07,06,23, В продаже Цена 180 тыс.  29.10.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>0</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>0</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>true</ground_floor>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O3818</ID>
+			<deposit_date>10.10.2014 15:34:54</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>513</street>
+			<house>17/19</house>
+			<condition>Ремонт</condition>
+			<agency>0</agency>
+			<material>монолитно-каркасный</material>
+			<owner>1</owner>
+			<price>28000</price>
+			<square>17</square>
+			<storeys_number>10</storeys_number>
+			<status>В продаже</status>
+			<document> Свид. на право собственности (кооп.дом);</document>
+			<comment> 27.09.22.  В продаже. Продает два объекта 28 тыс. и 33 тыс.  07,06,23, В продаже б/и  29.10.24- в продаже</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>0</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>0</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>true</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O1295</ID>
+			<deposit_date>13.07.2010 0:00:00</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>606</street>
+			<house>130 А</house>
+			<agency>0</agency>
+			<house_type>многоэтажный дом</house_type>
+			<material>красный кирпич</material>
+			<owner>1</owner>
+			<price>70000</price>
+			<square>66</square>
+			<storeys_number>11</storeys_number>
+			<status>Временно снята</status>
+			<document> Свид. на право собственности (инвестирование);</document>
+			<comment>оценить объект 
+</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>0</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>2</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O2561</ID>
+			<deposit_date>15.05.2012 13:30:44</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>190</street>
+			<house>22А 6</house>
+			<condition>Эксклюзивный ремонт</condition>
+			<agency>0</agency>
+			<material>силикатный кирпич</material>
+			<owner>1</owner>
+			<price>70000</price>
+			<square>85</square>
+			<storeys_number>16</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>7</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>false</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+		<Object>
+			<object_type>комерция</object_type>
+			<ID>O2595</ID>
+			<deposit_date>21.06.2012 15:23:18</deposit_date>
+			<realtor>1</realtor>
+			<exclusive>false</exclusive>
+			<locality>33</locality>
+			<street>1061</street>
+			<house>183</house>
+			<agency>0</agency>
+			<owner>1</owner>
+			<price>1200000</price>
+			<square>2000</square>
+			<storeys_number>1</storeys_number>
+			<status>В продаже</status>
+			<document> Договор купли-продажи(нотариальный);</document>
+			<comment>14.09.22. В продаже б/и   07,06,23, откл. тел.  29.10.24- без изм.</comment>
+			<parking>false</parking>
+			<e_home>false</e_home>
+			<generator>false</generator>
+			<floor>1</floor>
+			<height>0</height>
+			<kitchen_square>0</kitchen_square>
+			<premises>0</premises>
+			<useful_square>0</useful_square>
+			<balcony>false</balcony>
+			<balcony_number>0</balcony_number>
+			<ground_floor>false</ground_floor>
+			<facade>true</facade>
+			<own_parking>false</own_parking>
+			<own_courtyard>false</own_courtyard>
+			<separate_building>false</separate_building>
+			<office>false</office>
+			<complex>777</complex>
+		</Object>
+	</Catalog>
+</КоммерческаяИнформация>

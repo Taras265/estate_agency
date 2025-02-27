@@ -22,7 +22,7 @@ class BaseRealEstate(models.Model):
         abstract = True
         default_permissions = ("add", "change", "view")
     
-    creation_date = models.DateField(verbose_name=_("Creation date")) # дата побудови
+    creation_date = models.DateField(verbose_name=_("Creation date"), null=True, blank=True) # дата побудови
     deposit_date = models.DateField(null=True, blank=True, verbose_name=_("Deposit date")) # дата постановки
     # date_before_temporarily_removed = models.DateField(null=True, blank=True)
     # purchase_date = models.DateField(null=True, blank=True)
@@ -85,7 +85,7 @@ class BaseRealEstate(models.Model):
     material = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="material_%(app_label)s_%(class)ss",
-        verbose_name=_("Material")
+        verbose_name=_("Material"), null=True, blank=True
     )
     agency = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
@@ -95,17 +95,17 @@ class BaseRealEstate(models.Model):
     house_type = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="house_type_%(app_label)s_%(class)ss",
-        verbose_name=_("House type")
+        verbose_name=_("House type"), null=True, blank=True
     )
     layout = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="layout_%(app_label)s_%(class)ss",
-        verbose_name=_("Layout")
+        verbose_name=_("Layout"), null=True, blank=True
     )
     stair = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="stair_%(app_label)s_%(class)ss",
-        verbose_name=_("Stair")
+        verbose_name=_("Stair"), null=True, blank=True
     )
     # withdrawal_reason = models.ForeignKey(
     #     Handbook, on_delete=models.CASCADE, null=True, blank=True,
@@ -165,7 +165,8 @@ class BaseRealEstate(models.Model):
     )
     room_types = models.PositiveSmallIntegerField(
         choices=RoomType.choices,
-        verbose_name=_("Rubric")
+        verbose_name=_("Rubric"),
+        default=RoomType.NONE
     )
 
     document = models.CharField(max_length=150, blank=True, verbose_name=_("Document"))
@@ -174,9 +175,9 @@ class BaseRealEstate(models.Model):
     # filename_forbid_sale = models.CharField(max_length=150, null=True, blank=True)
     # reference_point = models.CharField(max_length=150, null=True, blank=True)
 
-    sale_terms = models.CharField(max_length=150, blank=True, verbose_name=_("Sale terms"))
-    realtor_notes = models.TextField(blank=True, verbose_name=_("Realtor notes"))
-    comment = models.TextField(verbose_name=_("Comment"))
+    sale_terms = models.CharField(max_length=150, null=True, blank=True, verbose_name=_("Sale terms"))
+    realtor_notes = models.TextField(null=True, blank=True, verbose_name=_("Realtor notes"))
+    comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
 
     images = GenericRelation(
         RealEstateImage,
@@ -259,7 +260,7 @@ class Commerce(BaseRealEstate):
         )
 
     premises = models.CharField(max_length=50, verbose_name=_("Premises")) # приміщення
-    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square")) # корисна площа
+    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square"), null=True, blank=True) # корисна площа
     balcony = models.BooleanField(default=False, verbose_name=_("Balcony"))
     balcony_number = models.PositiveSmallIntegerField(default=0, verbose_name=_("Number of balconies"))
     ground_floor = models.BooleanField(default=False, verbose_name=_("Ground floor")) # цоколь
@@ -284,10 +285,10 @@ class House(BaseRealEstate):
             ("view_own_historicalhouse", "Can view own historical house"),
         )
 
-    housing = models.CharField(max_length=50, verbose_name=_("Housing")) # корпус
-    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square")) # корисна площа
-    land_square = models.PositiveIntegerField(verbose_name=_("Land's square")) # площа ділянки
-    rooms_number = models.PositiveSmallIntegerField(verbose_name=_("Number of rooms"))
+    housing = models.CharField(max_length=50, verbose_name=_("Housing"), null=True, blank=True) # корпус
+    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square"), null=True, blank=True) # корисна площа
+    land_square = models.PositiveIntegerField(verbose_name=_("Land's square"), null=True, blank=True) # площа ділянки
+    rooms_number = models.PositiveSmallIntegerField(verbose_name=_("Number of rooms"), null=True, blank=True)
     communications = models.BooleanField(default=False, verbose_name=_("Communications"))
     terrace = models.BooleanField(default=False, verbose_name=_("Terrace"))
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))

@@ -24,3 +24,4 @@ class RoomType(models.IntegerChoices):
     SEPARATE = 2, _("Separate") # Раздельные
     STUDIO_KITCHEN = 3, _("Studio kitchen") # Кухня-студия
     ROOM = 4, _("Room") # Комната
+    NONE = 5, ""
