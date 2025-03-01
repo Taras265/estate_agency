@@ -4,17 +4,19 @@ from objects.views import (
     ApartmentCreateView, CommerceCreateView, HouseCreateView,
     ApartmentUpdateView, CommerceUpdateView, HouseUpdateView,
     ApartmentDeleteView, CommerceDeleteView, HouseDeleteView,
-    CatalogListView, ApartmentDetailView, ObjectHistoryDetailView,
-    PdfView, ReportListView, HistoryReportListView,
-    SelectionListView, ShowingActView, ContractListView,
-    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, SelectionHistoryView,
+    CatalogListView, ApartmentDetailView, CommerceDetailView, HouseDetailView,
+    ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView,
+    SelectionListView, ShowingActView, ContractListView, SelectionHistoryView,
+    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect,
 )
 
 urlpatterns = [
     path("verify-address/", verify_real_estate_address, name="verify_real_estate_address"),
     path("fill-address/", fill_real_estate_address, name="fill_real_estate_address"),
     path("catalog/", CatalogListView.as_view(), name="catalog"),
-    path("catalog/<int:pk>/", ApartmentDetailView.as_view(), name="apartment_detail"),
+    path("catalog/apartments/<int:pk>/", ApartmentDetailView.as_view(), name="apartment_detail"),
+    path("catalog/commerces/<int:pk>/", CommerceDetailView.as_view(), name="commerce_detail"),
+    path("catalog/houses/<int:pk>/", HouseDetailView.as_view(), name="house_detail"),
 
     path("sale/real-estate/", RealEstateListRedirect.as_view(), name="real_estate_list_redirect"),
     path("sale/apartments/", ApartmentListView.as_view(), name="apartment_list"),

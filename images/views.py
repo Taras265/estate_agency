@@ -37,7 +37,7 @@ class ApartmentImageListView(CustomLoginRequiredMixin, PermissionRequiredMixin, 
                 else:
                     new_queryset = queryset.filter(**{field: user})
             queryset = new_queryset
-        # return ApartmentImage.objects.filter(on_delete=False, apartment=queryset.first())
+        # return ApartmentImage.objects.filter(apartment=queryset.first())
         return queryset.first().images
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -88,7 +88,7 @@ class ApartmentImageCreateView(FormMixin, CreateView):
 
 
 class ApartmentImageDeleteView(DeleteMixin, DeleteView):
-    queryset = RealEstateImage.objects.filter(on_delete=False)
+    queryset = RealEstateImage.objects.all()
     form_class = ApartmentImageForm
     success_url = reverse_lazy("images:apartment_images_list")
 
