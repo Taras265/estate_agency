@@ -57,7 +57,6 @@ class ProfileView(StandardContextDataMixin, GetQuerysetMixin, CustomLoginRequire
 def users_list_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
-    print(user.get_all_permissions())
 
     if user:
         if user.has_perm(f"accounts.view_customuser"):

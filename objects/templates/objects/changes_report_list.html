@@ -48,7 +48,7 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 {% if can_view_client %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
+                        <a class="nav-link"
                            href="{% url 'handbooks:client_list' lang=lang %}">
                             {% translate "Client" %}
                         </a>
@@ -56,7 +56,7 @@
                 {% endif %}
                 {% if can_view_real_estate %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_list' or url_name == 'commerce_list' or url_name == 'house_list' %}active{% endif %}"
+                        <a class="nav-link"
                            href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
                             {% translate "Real estate" %}
                         </a>
@@ -64,7 +64,7 @@
                 {% endif %}
                 {% if can_view_report %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
+                        <a class="nav-link active"
                            href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
                             {% translate "Report" %}
                         </a>
@@ -72,7 +72,7 @@
                 {% endif %}
                 {% if can_view_contract %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
+                        <a class="nav-link"
                            href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
                             {% translate "Contract" %}
                         </a>
@@ -83,49 +83,49 @@
         {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new_apartments' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
                         {% translate "New apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new_commerce' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='new_commerce' %}">
                         {% translate "New commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new_houses' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='new_houses' %}">
                         {% translate "New houses" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new_lands' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='new_lands' %}">
                         {% translate "New lands" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'new_rooms' %}active{% endif %}"
+                    <a class="nav-link "
                        href="{% url 'objects:report_list' lang=lang filter='new_rooms' %}">
                         {% translate "New rooms" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'all_apartments' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='all_apartments' %}">
                         {% translate "All apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'my_apartments' %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:report_list' lang=lang filter='my_apartments' %}">
                         {% translate "My apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == '' %}active{% endif %}"
+                    <a class="nav-link active"
                        href="{% url 'objects:changes_report_list' lang=lang %}">
                         {% translate "Changes report" %}
                     </a>
@@ -143,27 +143,25 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">{% translate 'Id' %}</th>
-                                        <th scope="col">{% translate 'Locality' %}</th>
-                                        <th scope="col">{% translate 'Street' %}</th>
-                                        <th scope="col">{% translate 'Floor' %}</th>
-                                        <th scope="col">{% translate 'Creation date' %}</th>
-                                        <th scope="col">{% translate 'Price' %}</th>
-                                        <th scope="col">{% translate 'Status' %}</th>
-                                        <th scope="col">{% translate 'Owner' %}</th>
+                                        <th scope="col">{% translate 'Object type' %}</th>
+                                        <th scope="col">{% translate 'Date' %}</th>
+                                        <th scope="col">{% translate 'User' %}</th>
+                                        <th scope="col">{% translate 'Field' %}</th>
+                                        <th scope="col">{% translate 'Old value' %}</th>
+                                        <th scope="col">{% translate 'New value' %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for object in object_list %}
+                                {% for object in object_values %}
                                     <tr>
                                         <td></td>
                                         <td>{{object.id}}</td>
-                                        <td>{{object.locality}}</td>
-                                        <td>{{object.street}}</td>
-                                        <td>{{object.floor}}</td>
-                                        <td>{{object.creation_date}}</td>
-                                        <td>{{object.price}}</td>
-                                        <td>{{object.get_status_display}}</td>
-                                        <td>{{object.owner}}</td>
+                                        <td>{{object.model}}</td>
+                                        <td>{{object.date}}</td>
+                                        <td>{{object.user}}</td>
+                                        <td>{{object.field}}</td>
+                                        <td>{{object.old_value}}</td>
+                                        <td>{{object.new_value}}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

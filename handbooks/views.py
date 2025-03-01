@@ -41,7 +41,7 @@ def sale_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
     if user:
-        if user.has_perm(f"handbooks.view_client"):
+        if user.has_perm(f"handbooks.view_client") or user.has_perm(f"handbooks.view_own_client"):
             return redirect(reverse_lazy("handbooks:client_list", kwargs=kwargs))
         elif user_can_view_real_estate_list(user):
             return redirect(reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs))
