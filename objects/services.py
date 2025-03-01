@@ -36,6 +36,12 @@ def user_can_view_real_estate_list(user: CustomUser) -> bool:
     )
 
 
+def user_can_view_report(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_report", "objects.view_own_report"
+    )
+
+
 def user_can_create_apartment(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.add_apartment", "objects.add_own_apartment"
@@ -292,3 +298,15 @@ def selection_all(*args, **kwargs) -> QuerySet[Selection]:
 
 def selection_filter(*args, **kwargs) -> QuerySet[Selection]:
     return Selection.objects.filter(*args, **kwargs)
+
+
+def get_all_apartment_history(*args, **kwargs):
+    return objects_all(Apartment.history, *args, **kwargs)
+
+
+def get_all_commerce_history(*args, **kwargs):
+    return objects_all(Commerce.history, *args, **kwargs)
+
+
+def get_all_houses_history(*args, **kwargs):
+    return objects_all(House.history, *args, **kwargs)

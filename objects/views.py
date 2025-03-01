@@ -1,3 +1,4 @@
+from itertools import chain
 from urllib.parse import urlencode
 
 from django.shortcuts import redirect
@@ -17,6 +18,7 @@ import io
 
 from accounts.models import CustomUser
 from accounts.services import user_get
+from estate_agency.services import objects_all
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from handbooks.services import client_get
@@ -33,9 +35,9 @@ from .services import (
     user_can_update_apartment_list, user_can_update_commerce_list,
     user_can_update_house_list, user_can_view_apartment_list_history,
     user_can_view_commerce_list_history, user_can_view_house_list_history,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user,
-    estate_objects_filter_visible, selection_create, selection_filter, selection_all,
-    selection_add_selected
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible,
+    selection_create, selection_filter, selection_all, selection_add_selected, get_all_apartment_history,
+    get_all_commerce_history, get_all_houses_history
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType
@@ -295,8 +297,11 @@ def showing_act_redirect(request, lang):
         selection_add_selected(object_type, selection, obj)
     selection.save()
 
+    params = request.GET.copy()
+    params['objects'] = selected_ids
+
     url = reverse_lazy("objects:showing_act", kwargs={"lang": "en"})
-    return redirect(f"{url}?{urlencode(request.GET)}")
+    return redirect(f"{url}?{urlencode(params, doseq=True)}")
 
 
 def pdf_redirect(request, lang):
@@ -319,8 +324,11 @@ def pdf_redirect(request, lang):
         selection_add_selected(object_type, selection, obj)
     selection.save()
 
+    params = request.GET.copy()
+    params['objects'] = selected_ids
+
     url = reverse_lazy("objects:generate_pdf", kwargs={"lang": "en"})
-    return redirect(f"{url}?{urlencode(request.GET)}")
+    return redirect(f"{url}?{urlencode(params, doseq=True)}")
 
 
 class PdfView(CustomLoginRequiredMixin, View):
@@ -596,10 +604,10 @@ class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMix
 
 class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment.history.all().model
-    template_name = "objects/report_list.html"
+    template_name = "objects/changes_report_list.html"
     handbook_type = 'report'
     filters = ['new_apartments', 'new_commerce', 'new_houses',
-               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
+               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments', 'changes']
     queryset_filters = {'changes': Apartment.history.all(), }
     custom = True
 
@@ -633,6 +641,13 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
         (районами, квартирами ітд). Бажано колись спростити, коли буде час.
         """
+        apartments = get_all_apartment_history(order_by="history_date")
+        commerces = get_all_commerce_history(order_by="history_date")
+        houses = get_all_houses_history(order_by="history_date")
+        context['object_list'] = sorted(chain(apartments, commerces, houses),
+                                        key=lambda x: x.history_date,
+                                        reverse=True)
+
         if context['object_list']:  # Якщо нам взагалі є з чим працювати
             context['object_values'] = []
             context['object_columns'] = ['id', 'date', 'user', 'field',
@@ -641,18 +656,20 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
                 if record.prev_record:
                     prev_record = record.prev_record
                     for field in record._meta.fields:
-                        field_name = field.name
-                        old_value = getattr(prev_record, field_name)
-                        new_value = getattr(record, field_name)
-                        if old_value != new_value:
-                            context['object_values'].append({
-                                'id': record.id,
-                                'date': record.history_date,
-                                'user': record.history_user,
-                                'field': field.verbose_name,
-                                'old_value': old_value,
-                                'new_value': new_value
-                            })
+                        if field.name.find("history") == -1:
+                            field_name = field.name
+                            old_value = getattr(prev_record, field_name)
+                            new_value = getattr(record, field_name)
+                            if old_value != new_value:
+                                context['object_values'].append({
+                                    'id': record.id,
+                                    'date': record.history_date,
+                                    'user': record.history_user,
+                                    'field': field.verbose_name,
+                                    'old_value': old_value,
+                                    'new_value': new_value,
+                                    'model': record._meta.model_name[10::],
+                                })
         else:
             context['object_columns'] = None
         return context

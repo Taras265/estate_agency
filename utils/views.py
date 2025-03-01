@@ -21,8 +21,6 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
     template_name = "handbooks/list.html"
     context_object_name = "objects"
 
-    form = IdSearchForm
-
     model = None
     choices = None
     main_service = None
@@ -33,19 +31,6 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
     filters = None
     filter = None
 
-    def get_queryset(self):
-        form = self.form(self.request.GET)
-        queryset = super().get_queryset()
-        # далі перевіряємо формочку і змінюємо в залежності від неї кверісет
-        if form.is_valid():
-            for field in form.cleaned_data.keys():
-                if form.cleaned_data.get(field):
-                    queryset = self.main_service["objects_filter"](
-                        queryset,
-                        **{field: form.cleaned_data.get(field)}
-                    )
-        return queryset
-
     def get_context_data(self, *, object_list=None, **kwargs):
         user = user_get(email=self.request.user)
 
@@ -53,7 +38,6 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         context.update({
-            "form": self.form(self.request.GET),
             "choice": self.handbook_type,
             "choices": get_user_choices(user, self.choices),
             "can_create": user.has_perm(f"{self.app}.add_{self.handbook_type}"),

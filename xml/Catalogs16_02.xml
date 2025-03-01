@@ -1,0 +1,2951 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<КоммерческаяИнформация ВерсияСхемы="2.03" ДатаФормирования="2025-02-16">
+	<CatalogList>
+		<withdrawal_reason>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>8</ID>
+				<Name>Адрес не существует</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>14</ID>
+				<Name>Арест на квартиру</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>12</ID>
+				<Name>Афера</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>19</ID>
+				<Name>Владелец не существует</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>11</ID>
+				<Name>выставлена вновь с хоз телефоном</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>15</ID>
+				<Name>Делаю ремонт</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>5</ID>
+				<Name>Дубль объекта</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>9</ID>
+				<Name>Изменен статус обьекта</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>2</ID>
+				<Name>Изменились сем. обстоятельства</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>4</ID>
+				<Name>Не известно</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>1</ID>
+				<Name>Не согласен с текущей ценой</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>10</ID>
+				<Name>неверный адрес</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>7</ID>
+				<Name>Неверный номер телефона</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>13</ID>
+				<Name>непорядочный частный маклер</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>16</ID>
+				<Name>продан целиком</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>18</ID>
+				<Name>Распоряжение руководства</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>6</ID>
+				<Name>Риэлтор агентства</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>17</ID>
+				<Name>Свыше 30 км от Одессы</Name>
+			</Element>
+			<Element>
+				<CatalogId>1</CatalogId>
+				<ID>3</ID>
+				<Name>Сдаю в аренду</Name>
+			</Element>
+		</withdrawal_reason>
+		<conditions>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>8</ID>
+				<Name>жилое состояние</Name>
+				<Description>Квартиры</Description>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>6</ID>
+				<Name>от строителей</Name>
+				<Description>Квартиры</Description>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>1</ID>
+				<Name>под ремонт</Name>
+				<Description>Квартиры</Description>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>16</ID>
+				<Name>под чистовую отделку</Name>
+				<Description>Квартиры</Description>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>7</ID>
+				<Name>ремонт</Name>
+				<Description>Квартиры</Description>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>14</ID>
+				<Name>участок со старым строением</Name>
+			</Element>
+			<Element>
+				<CatalogId>2</CatalogId>
+				<ID>15</ID>
+				<Name>чистый участок</Name>
+			</Element>
+		</conditions>
+		<material>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>9</ID>
+				<Name>блочно-кирпичный</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>7</ID>
+				<Name>блочный</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>19</ID>
+				<Name>газобетон</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>8</ID>
+				<Name>керамзитобетон</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>2</ID>
+				<Name>красный кирпич</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>21</ID>
+				<Name>металлическая конструкция</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>16</ID>
+				<Name>монолитно-каркасный</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>17</ID>
+				<Name>монолитно-кирпичный</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>18</ID>
+				<Name>монолитный</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>6</ID>
+				<Name>панель</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>15</ID>
+				<Name>ракушняк</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>14</ID>
+				<Name>силикатный кирпич</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>20</ID>
+				<Name>сруб</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>13</ID>
+				<Name>ютонг - газобетон</Name>
+			</Element>
+			<Element>
+				<CatalogId>3</CatalogId>
+				<ID>10</ID>
+				<Name>ютонг - пенобетон</Name>
+			</Element>
+		</material>
+		<separation>
+			<Element>
+				<CatalogId>4</CatalogId>
+				<ID>1</ID>
+				<Name>Смежные</Name>
+			</Element>
+			<Element>
+				<CatalogId>4</CatalogId>
+				<ID>2</ID>
+				<Name>Раздельные</Name>
+			</Element>
+			<Element>
+				<CatalogId>4</CatalogId>
+				<ID>3</ID>
+				<Name>студия</Name>
+			</Element>
+			<Element>
+				<CatalogId>4</CatalogId>
+				<ID>4</ID>
+				<Name>1 комната </Name>
+			</Element>
+		</separation>
+		<agency>
+			<Element>
+				<CatalogId>5</CatalogId>
+				<ID>1</ID>
+				<Name>Свое агентство</Name>
+			</Element>
+			<Element>
+				<CatalogId>5</CatalogId>
+				<ID>2</ID>
+				<Name>Другое агентство</Name>
+			</Element>
+		</agency>
+		<agency_sales>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>8</ID>
+				<Name>Авалон</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>38</ID>
+				<Name>Аккорд+</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>9</ID>
+				<Name>Александр N</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>36</ID>
+				<Name>Альфа</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>37</ID>
+				<Name>Альянс</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>2</ID>
+				<Name>Аренда</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>10</ID>
+				<Name>Атланта</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>35</ID>
+				<Name>Банк</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>30</ID>
+				<Name>Бельэтаж</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>14</ID>
+				<Name>Диалог</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>3</ID>
+				<Name>Другое</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>1</ID>
+				<Name>Европа</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>15</ID>
+				<Name>Капитал</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>39</ID>
+				<Name>Одесса</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>33</ID>
+				<Name>Партнер -Эстейт</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>12</ID>
+				<Name>Президент</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>17</ID>
+				<Name>Премьер</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>31</ID>
+				<Name>Руником</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>4</ID>
+				<Name>Самостоятельно</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>21</ID>
+				<Name>СК Будова</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>24</ID>
+				<Name>СК"Инкор-Девелоп"</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>40</ID>
+				<Name>Слон</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>22</ID>
+				<Name>Через частного маклера</Name>
+			</Element>
+			<Element>
+				<CatalogId>6</CatalogId>
+				<ID>34</ID>
+				<Name>Юго-Запад</Name>
+			</Element>
+		</agency_sales>
+		<new_building_name>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>272</ID>
+				<Name>"Клубний" на Доковій 15</Name>
+				<Description>Одеса, вул.Докова, 15(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>116</ID>
+				<Name>1 Перлина</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5а корпус 1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>173</ID>
+				<Name>10 Перлина</Name>
+				<Description>Одеса, вул.Марсельська, 35А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>171</ID>
+				<Name>11 Перлина</Name>
+				<Description>Одеса, вул.Малиновського Маршала, 18-а, сек1 рем, сек2 без рем.(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>178</ID>
+				<Name>12 Перлина</Name>
+				<Description>Одеса, вул.Малиновського Маршала, 18-б, сек1без рем, сек 2 с рем(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>185</ID>
+				<Name>14 Перлина</Name>
+				<Description>Одеса, вул.Малиновського Маршала, 18-в весь дом с ремонтом.(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>183</ID>
+				<Name>15 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>191</ID>
+				<Name>16 Перлина</Name>
+				<Description>Одеса, вул.Асташкіна, 29</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>190</ID>
+				<Name>17 Перлина</Name>
+				<Description>Одеса, вул.Асташкіна, 29</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>224</ID>
+				<Name>18 Перлина</Name>
+				<Description>Одеса, вул.Велика Арнаутська, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>200</ID>
+				<Name>19 Перлина</Name>
+				<Description>Одеса, вул.Французьський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>117</ID>
+				<Name>2 Перлина</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5а корпус 2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>209</ID>
+				<Name>20 Перлина</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 3А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>210</ID>
+				<Name>21 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>213</ID>
+				<Name>22 Перлина</Name>
+				<Description>Одеса, вул.Болгарська, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>214</ID>
+				<Name>23 Перлина</Name>
+				<Description>Одеса, вул.Фонтанська дорога, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>215</ID>
+				<Name>24 Перлина</Name>
+				<Description>Одеса, вул.Італійський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>216</ID>
+				<Name>25 Перлина</Name>
+				<Description>Одеса, вул.Італійський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>217</ID>
+				<Name>26 Перлина</Name>
+				<Description>Одеса, вул.Генуезька, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>237</ID>
+				<Name>27 Перлина</Name>
+				<Description>Одеса, вул.Літературна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>238</ID>
+				<Name>28 Перлина</Name>
+				<Description>Одеса, вул.Фонтанська дорога, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>225</ID>
+				<Name>29 Перлина</Name>
+				<Description>Одеса, вул.Жемчужина 29 (Жемчужная ул.), </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>118</ID>
+				<Name>3 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, 3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>302</ID>
+				<Name>30 Перлина</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 3(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>240</ID>
+				<Name>31 Перлина</Name>
+				<Description>Одеса, вул.Фонтанська дорога, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>304</ID>
+				<Name>32 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, 32Ж(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>234</ID>
+				<Name>34 Перлина</Name>
+				<Description>Одеса, вул.Водопровідна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>230</ID>
+				<Name>35 Перлина</Name>
+				<Description>Одеса, вул.Жемчужина 35 (Литературная ул.), </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>307</ID>
+				<Name>36 Перлина</Name>
+				<Description>Одеса, вул.Генуезька, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>308</ID>
+				<Name>37 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>129</ID>
+				<Name>4 Перлина</Name>
+				<Description>Одеса, вул.Марсельська, 35(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>235</ID>
+				<Name>40 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>236</ID>
+				<Name>41 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>250</ID>
+				<Name>42 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>313</ID>
+				<Name>43 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, 43Ж(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>314</ID>
+				<Name>44 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, 44Ж(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>347</ID>
+				<Name>45 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, 45Ж(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>332</ID>
+				<Name>46 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>241</ID>
+				<Name>47 Перлина</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 3Б(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>371</ID>
+				<Name>48 Перлина</Name>
+				<Description>Одеса, вул.Каманіна, 48Ж(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>421</ID>
+				<Name>49 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>130</ID>
+				<Name>5 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>408</ID>
+				<Name>50 Перлина</Name>
+				<Description>Одеса, вул.Італійський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>420</ID>
+				<Name>51 Перлина</Name>
+				<Description>Одеса, вул.Генуезька, 51(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>463</ID>
+				<Name>53 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, 53(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>455</ID>
+				<Name>54 Перлина </Name>
+				<Description>Одеса, вул.Сахарова Академіка, 54(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>452</ID>
+				<Name>56 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>492</ID>
+				<Name>57 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>456</ID>
+				<Name>58 Перлина</Name>
+				<Description>Одеса, вул.Перлинна, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>464</ID>
+				<Name>59 Перлина</Name>
+				<Description>Одеса, вул.Сахарова Академіка, (Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>159</ID>
+				<Name>5-й элемент</Name>
+				<Description>Одеса, вул.Черняховського (Артура Савельєва), 4-6</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>144</ID>
+				<Name>6 Перлина</Name>
+				<Description>Одеса, вул.Гагарінське плато, 6</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>465</ID>
+				<Name>60 Перлина</Name>
+				<Description>Одеса, вул.Краснова, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>478</ID>
+				<Name>61 Перлина </Name>
+				<Description>Одеса, вул.Краснова, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>477</ID>
+				<Name>63 Перлина</Name>
+				<Description>Одеса, вул.Краснова, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>485</ID>
+				<Name>65 Перлина</Name>
+				<Description>Одеса, вул.Краснова, 65(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>484</ID>
+				<Name>66 Перлина</Name>
+				<Description>Одеса, вул.Краснова, 66(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>486</ID>
+				<Name>67 Перлина</Name>
+				<Description>Одеса, вул.Краснова, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>487</ID>
+				<Name>68 Перлина</Name>
+				<Description>Одеса, вул.Краснова, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>157</ID>
+				<Name>7 Перлина</Name>
+				<Description>Одеса, вул.Французьський бульвар, 60/3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>158</ID>
+				<Name>8 Перлина</Name>
+				<Description>Одеса, вул.Французьський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>172</ID>
+				<Name>9 Перлина</Name>
+				<Description>Одеса, вул.Французьський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>473</ID>
+				<Name>ARCHotel</Name>
+				<Description>Одеса, вул.Аркадійська Алея, 1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>267</ID>
+				<Name>ARTVILLE - 7 км</Name>
+				<Description>Одеса, вул.Спрейса ул. (Артвіль), (Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>430</ID>
+				<Name>Bazalel</Name>
+				<Description>Одеса, вул.Ковальська (Кузнечная), 55а(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>295</ID>
+				<Name>CHELSEA</Name>
+				<Description>Одеса, вул.Травневий провулок, 4(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>493</ID>
+				<Name>City House Resort</Name>
+				<Description>Одеса, вул.Пересипська 7а, (Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>247</ID>
+				<Name>Club Marine</Name>
+				<Description>Одеса, вул.Дача Ковалевського, 121(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>434</ID>
+				<Name>Costa Fontana</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 77а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>469</ID>
+				<Name>Doma Trabotti</Name>
+				<Description>Одеса, вул.Французьський бульвар, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>244</ID>
+				<Name>Greenwood</Name>
+				<Description>Одеса, вул.Французьський бульвар, 85(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>446</ID>
+				<Name>ITown</Name>
+				<Description>Одеса, вул.Приморська, 47(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>328</ID>
+				<Name>KANDINSKY</Name>
+				<Description>Одеса, вул.Французьський бульвар, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>496</ID>
+				<Name>Otrada Sky</Name>
+				<Description>Одеса, вул.Віце-Адмірала Азарова, 8(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>391</ID>
+				<Name>Sea View</Name>
+				<Description>Одеса, вул.Гагарінське плато, 4(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>472</ID>
+				<Name>Unity Tower</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>500</ID>
+				<Name>Авиньйон</Name>
+				<Description>Одеса, вул.Дача Ковалевського, 91(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>504</ID>
+				<Name>Аврора</Name>
+				<Description>Одеса, вул.Героїв Крут (Тєрєшковой), 27а(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>394</ID>
+				<Name>Австрійський</Name>
+				<Description>Одеса, вул.Тиха, 3(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>199</ID>
+				<Name>Авторський район</Name>
+				<Description>Одеса, вул.Гоголя, 23(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>77</ID>
+				<Name>Академічний</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 77,83/1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>108</ID>
+				<Name>Академмістечко</Name>
+				<Description>Одеса, вул.Говорова Маршала, 10</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>60</ID>
+				<Name>Акапулько</Name>
+				<Description>Одеса, вул.Педагогічна, 21</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>152</ID>
+				<Name>Акапулько-2</Name>
+				<Description>Одеса, вул.Педагогічна, 21 корпус 1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>345</ID>
+				<Name>Аквамарин</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 118А(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>257</ID>
+				<Name>Акварель</Name>
+				<Description>Одеса, вул.Вільямса Академіка, 93/1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>387</ID>
+				<Name>Акварель 2</Name>
+				<Description>Одеса, вул.Вильямса Ак. (Акварель), 1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>458</ID>
+				<Name>Акварель 3</Name>
+				<Description>Одеса, вул.Пішонівська , 20/1(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>457</ID>
+				<Name>Акварель 4</Name>
+				<Description>Одеса, вул.Профспілкова , 9а(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>498</ID>
+				<Name>Акварель 7</Name>
+				<Description>Одеса, вул.Слобідська , 56(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>491</ID>
+				<Name>Акварель 8</Name>
+				<Description>Одеса, вул.Вильямса Академіка (Акварель 8), 93/4(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>264</ID>
+				<Name>Акрополь</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 25(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>474</ID>
+				<Name>Алексеевский</Name>
+				<Description>Одеса, вул.Товарний провулок, 1(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>189</ID>
+				<Name>Альтаир</Name>
+				<Description>Одеса, вул.Люстдорфська дорога , 55(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>222</ID>
+				<Name>Альтаир 2</Name>
+				<Description>Одеса, вул.Люстдорфська дорога , 90(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>389</ID>
+				<Name>Альтаир 3</Name>
+				<Description>Одеса, вул.Жаботинського, 54А(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>81</ID>
+				<Name>Английский дом Зелёный Мыс</Name>
+				<Description>Одеса, вул.Софіївська, 3,9,9А,15(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>275</ID>
+				<Name>Андриевский</Name>
+				<Description>Одеса, вул.Андрієвського, 10/12(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>34</ID>
+				<Name>Антарктика</Name>
+				<Description>Одеса, вул.Літературна, 12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>416</ID>
+				<Name>Апарт-комплекс Литературный</Name>
+				<Description>Одеса, вул.Літературна, 10(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>207</ID>
+				<Name>Апельсин</Name>
+				<Description>Одеса, вул.Середньофонтанська , 35(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>476</ID>
+				<Name>Аполлон</Name>
+				<Description>Одеса, вул.Карантинна, 22(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>50</ID>
+				<Name>Арк Палас</Name>
+				<Description>Одеса, вул.Генуезька, 1 А Б В</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>204</ID>
+				<Name>Аркада де люкс</Name>
+				<Description>Одеса, вул.Відрадна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>53</ID>
+				<Name>Аркадийский дворец</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5/3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>30</ID>
+				<Name>Аркадия Хиллс</Name>
+				<Description>Одеса, вул.Аркадієвський провулок, 9/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>39</ID>
+				<Name>Армейский</Name>
+				<Description>Одеса, вул.Говорова Маршала, 8б</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>40</ID>
+				<Name>Асоль</Name>
+				<Description>Одеса, вул.Говорова Маршала, 8</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>451</ID>
+				<Name>Атмосфера</Name>
+				<Description>Одеса, вул.Курортний провулок, 2(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>318</ID>
+				<Name>Балковский</Name>
+				<Description>Одеса, вул.Балківська, 137г(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>128</ID>
+				<Name>Бастма</Name>
+				<Description>Одеса, вул.Вільямса Академіка, 59 Е Ж И</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>271</ID>
+				<Name>Башня Чкалов</Name>
+				<Description>Одеса, вул.Велика Арнаутська, 23/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>86</ID>
+				<Name>Белая акация</Name>
+				<Description>Одеса, вул.Мукачевський провулок, 4в</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>32</ID>
+				<Name>Белый парус</Name>
+				<Description>Одеса, вул.Літературна, 1а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>206</ID>
+				<Name>Бельэтаж</Name>
+				<Description>Одеса, вул.Леонтовича (Белінського), 16(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>279</ID>
+				<Name>Бехтерева</Name>
+				<Description>Одеса, вул.Бєхтєрєва, 23(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>483</ID>
+				<Name>Бисквитный</Name>
+				<Description>Одеса, вул.Середньофонтанський провулок, 3(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>411</ID>
+				<Name>Боровского</Name>
+				<Description>Одеса, вул.Боровського, 37(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>35</ID>
+				<Name>Бочки</Name>
+				<Description>Одеса, вул.Шевченка проспект, 4б</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>98</ID>
+				<Name>Бреуса 61/9</Name>
+				<Description>Одеса, вул.Бреуса Якова, 61/9</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>488</ID>
+				<Name>Бульвар Акаций</Name>
+				<Description>Одеса, вул.Бугаївська, 44(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>69</ID>
+				<Name>Буревестник</Name>
+				<Description>Одеса, вул.Шота Руставелі, 2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>482</ID>
+				<Name>Вентмилья</Name>
+				<Description>Одеса, вул.В'ячеслава Чорновола (Нова), 14(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>414</ID>
+				<Name>Вермонт</Name>
+				<Description>Одеса, вул.Південна, 118(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>218</ID>
+				<Name>Вернисаж</Name>
+				<Description>Одеса, вул.Костанді, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>481</ID>
+				<Name>Винздор</Name>
+				<Description>Одеса, вул.Заславского ул. (Литвака), 9(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>454</ID>
+				<Name>Віа Рома</Name>
+				<Description>Одеса, вул.Інглезі (25 Чапаївської дивізії), 2(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>168</ID>
+				<Name>Военный спуск 12</Name>
+				<Description>Одеса, вул.Військовий спуск , 12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>232</ID>
+				<Name>Волна</Name>
+				<Description>Одеса, вул.Миколаївська дорога , 1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>352</ID>
+				<Name>Восход</Name>
+				<Description>Одеса, вул.Глушко Академіка проспект, 22а(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>13</ID>
+				<Name>Вэлмакс</Name>
+				<Description>Одеса, вул.Успенська, 2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>52</ID>
+				<Name>Гагарин Плаза I</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>298</ID>
+				<Name>Гагаринский "Стикон"</Name>
+				<Description>Одеса, вул.Гагарінське плато, 5/1Б(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>74</ID>
+				<Name>Гармония</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 71(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>4</ID>
+				<Name>Гермес</Name>
+				<Description>Одеса, вул.Грецька, 5</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>2</ID>
+				<Name>Гефест Дом №1</Name>
+				<Description>Одеса, вул.Грецька, 1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>507</ID>
+				<Name>Гимназист</Name>
+				<Description>Одеса, вул.Гімназична, 1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>85</ID>
+				<Name>Говорова (ЧГС)</Name>
+				<Description>Одеса, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>388</ID>
+				<Name>Гольфстрим</Name>
+				<Description>Одеса, вул.Генуезька, 24Д(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>253</ID>
+				<Name>Горизонт</Name>
+				<Description>Одеса, вул.Костанді, 104(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>239</ID>
+				<Name>Гранд Парк</Name>
+				<Description>Одеса, вул.Героїв оборони Одесм (Героїв Сталінграда), 24(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>41</ID>
+				<Name>Гранд парк на Говорова</Name>
+				<Description>Одеса, вул.Говорова Маршала, 18а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>284</ID>
+				<Name>Граф </Name>
+				<Description>Одеса, вул.Віце-Адмірала Азарова, 6-8(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>6</ID>
+				<Name>Гринс</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 48(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>90</ID>
+				<Name>Гулливер</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 24(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>282</ID>
+				<Name>Два Академика</Name>
+				<Description>Одеса, вул.Вільямса Академіка, 43(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>422</ID>
+				<Name>Дерби (DERBY Style House)</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 6(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>228</ID>
+				<Name>Дмитриевский</Name>
+				<Description>Одеса, вул.Жаботинського, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>471</ID>
+				<Name>Дом на Мещанской</Name>
+				<Description>Одеса, вул.Заславского ул. (Литвака), 36(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>294</ID>
+				<Name>Дом на Осипова</Name>
+				<Description>Одеса, вул.Вадима Корженка (Осипова), 40(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>208</ID>
+				<Name>Дома Каркашадзе</Name>
+				<Description>Одеса, вул.Французьський бульвар, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>111</ID>
+				<Name>Дюшес</Name>
+				<Description>Одеса, вул.Грушевського Михайла, 39/2 корпус 1, 2, 3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>66</ID>
+				<Name>Европейский</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 44,44А,44Б(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>497</ID>
+				<Name>Елада</Name>
+				<Description>Одеса, вул.Генуезька, 1/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>382</ID>
+				<Name>Елегія Парк</Name>
+				<Description>Одеса, вул.Курортний провулок, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>70</ID>
+				<Name>Еталон</Name>
+				<Description>Одеса, вул.Малиновського Маршала, 16(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>62</ID>
+				<Name>Жива планета</Name>
+				<Description>Одеса, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>508</ID>
+				<Name>ЖК 20 Жемчужина</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 3А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>265</ID>
+				<Name>ЖК"Милос"</Name>
+				<Description>Одеса, вул.Полуничний, 20-24(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>283</ID>
+				<Name>ЖК"Монолит"</Name>
+				<Description>Одеса, вул.Старицького , 20(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>15</ID>
+				<Name>Замок цветов</Name>
+				<Description>, вул.Жуковського, 9</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>106</ID>
+				<Name>Звезда Эллады</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>38</ID>
+				<Name>Звездный городок</Name>
+				<Description>, вул.Армійська, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>134</ID>
+				<Name>Звездный городок 2</Name>
+				<Description>, вул.Говорова Маршала, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>73</ID>
+				<Name>Зеленые крыши</Name>
+				<Description>Одеса, вул.Семена Палія (Дніпропетровська дорога), 83,83/1,83/2,83/3(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>229</ID>
+				<Name>Зеленый гай</Name>
+				<Description>, вул.&lt;Объект не найден&gt; (5:89400022b0e1d87e11e6314f0745c1e7), </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>82</ID>
+				<Name>Зеленый мыс - Палаис Роял</Name>
+				<Description>Одеса, вул.Руанський провулок, 1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>407</ID>
+				<Name>Зодиак</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 55-А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>196</ID>
+				<Name>Золотая Эра</Name>
+				<Description>Одеса, вул.Миколаївська дорога , 3(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>78</ID>
+				<Name>Золотые дубки</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 26(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>101</ID>
+				<Name>Идеал</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 63/1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>406</ID>
+				<Name>Идеал-2</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 63(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>71</ID>
+				<Name>Изумрудный город</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 36(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>17</ID>
+				<Name>Испанский</Name>
+				<Description>, вул.Іспаньский провулок, 1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>139</ID>
+				<Name>Исток</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 16/8(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>520</ID>
+				<Name>Ітака</Name>
+				<Description>Одеса, вул.Чубаївська , 1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>58</ID>
+				<Name>Каменный цветок</Name>
+				<Description>, вул.Посмітного (Балтиморська), 22</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>1</ID>
+				<Name>Капитан</Name>
+				<Description>, вул.Базарна, 5/1, 5/2, 5/3, 5/4</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>107</ID>
+				<Name>Каркашадзе дома</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>97</ID>
+				<Name>Каскад</Name>
+				<Description>, вул.Левітана, 62</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>489</ID>
+				<Name>Кекс</Name>
+				<Description>Одеса, вул.&lt;Объект не найден&gt; (5:98666cf04974193111e70d79f4d6a1b5), (Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>351</ID>
+				<Name>Клаб Марин 2</Name>
+				<Description>Одеса, вул.Довга, 1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>105</ID>
+				<Name>Кленовая (СК "Стикон")</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>49</ID>
+				<Name>Климовский дом</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>83</ID>
+				<Name>Клубный дом</Name>
+				<Description>, вул.Французьський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>276</ID>
+				<Name>Клубный Дом</Name>
+				<Description>Одеса, вул.Бєхтєрєва, 23(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>205</ID>
+				<Name>Комфорт</Name>
+				<Description>, вул.Карла Либкнехта (Дубиніна Володі), </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>355</ID>
+				<Name>Континент</Name>
+				<Description>Одеса, вул., (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>54</ID>
+				<Name>Корона Новой Аркадии</Name>
+				<Description>, вул.Генуезька, 36</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>251</ID>
+				<Name>Корфу</Name>
+				<Description>Одеса, вул.Кордонний провулок, 2/2(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>57</ID>
+				<Name>Кошкин дом</Name>
+				<Description>, вул.Посмітного (Балтиморська), 9</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>499</ID>
+				<Name>Красивый дом</Name>
+				<Description>Одеса, вул.Толбухіна (Георгія Липського), 131(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>61</ID>
+				<Name>Красная Шапочка</Name>
+				<Description>, вул.Посмітного (Балтиморська), 27</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>26</ID>
+				<Name>Крит</Name>
+				<Description>, вул.Французьський бульвар, 13а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>103</ID>
+				<Name>Кукуруза</Name>
+				<Description>, вул.Шевченка проспект, 12/2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>417</ID>
+				<Name>Купидон</Name>
+				<Description>Одеса, вул.Семена Палія (Дніпропетровська дорога), 119; 121(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>297</ID>
+				<Name>Курортный</Name>
+				<Description>Одеса, вул.Генуезька, 1/3(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>36</ID>
+				<Name>Курочка Ряба</Name>
+				<Description>, вул.Шевченка проспект, 12/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>79</ID>
+				<Name>Лагидный</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>223</ID>
+				<Name>Лазурное побережье</Name>
+				<Description>, вул.Гаршина, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>242</ID>
+				<Name>Лазурный</Name>
+				<Description>, вул.Червона, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>22</ID>
+				<Name>Ланжерон</Name>
+				<Description>, вул.Інбер Віри (Купальний провулок), 5</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>176</ID>
+				<Name>Левитана</Name>
+				<Description>, вул.Левітана, 118</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>76</ID>
+				<Name>Лескай</Name>
+				<Description>Одеса, вул.Лесі Украінки, 1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>194</ID>
+				<Name>Ливадия</Name>
+				<Description>, вул.Французьський бульвар, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>203</ID>
+				<Name>Лимнос</Name>
+				<Description>Одеса, вул.Педагогічна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>299</ID>
+				<Name>Лимнос от ЧР</Name>
+				<Description>Одеса, вул.Педагогічна, 23(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>479</ID>
+				<Name>Лотос</Name>
+				<Description>Одеса, вул.Новаторів, 1а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>48</ID>
+				<Name>Лузановский Парк</Name>
+				<Description>Одеса, вул.Штильова , 21/1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>120</ID>
+				<Name>Люксембург</Name>
+				<Description>, вул.Середня , 24</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>95</ID>
+				<Name>Малая Арнаутская, 105/1</Name>
+				<Description>, вул.Мала Арнаутська, 105/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>346</ID>
+				<Name>Малинки (фамильный дом )</Name>
+				<Description>Одеса, вул.Кедровий провулок, 21(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>148</ID>
+				<Name>Малиновский</Name>
+				<Description>, вул.Бреуса Якова, 63/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>413</ID>
+				<Name>Малый Марсель</Name>
+				<Description>Одеса, вул.Марсельська, 72(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>412</ID>
+				<Name>Малый Марсель - 2</Name>
+				<Description>Одеса, вул.Рожевий провулок, 8(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>243</ID>
+				<Name>Мандарин</Name>
+				<Description>Одеса, вул.Канатна, 122(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>322</ID>
+				<Name>Манхеттен</Name>
+				<Description>Одеса, вул.Філатова Академіка, 2(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>466</ID>
+				<Name>Маринист</Name>
+				<Description>Одеса, вул.Маячний провулок, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>25</ID>
+				<Name>Марсель</Name>
+				<Description>, вул.Французьський бульвар, 12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>248</ID>
+				<Name>Маршал Сити</Name>
+				<Description>Одеса, вул.Будівельників, 1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>21</ID>
+				<Name>Маскарад</Name>
+				<Description>, вул.Лермонтовський провулок, 13</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>153</ID>
+				<Name>Мелодия</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 44/6(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>20</ID>
+				<Name>Мерседес</Name>
+				<Description>, вул.Лідерсовський бульвар, 5</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>221</ID>
+				<Name>Миконос</Name>
+				<Description>Одеса, вул.Ванний провулок, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>449</ID>
+				<Name>Милос</Name>
+				<Description>Одеса, вул.Полуничний, 24(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>254</ID>
+				<Name>Михайловский городок</Name>
+				<Description>Одеса, вул.Михайлівська, 8(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>64</ID>
+				<Name>Місто Мрій</Name>
+				<Description>Одеса, вул.Давида Ойстраха (Затонського), 28(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>494</ID>
+				<Name>Модерн</Name>
+				<Description>Одеса, вул.Івана Франка, 40(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>100</ID>
+				<Name>Молодежный (Вильямса)</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>67</ID>
+				<Name>Молодежный городок</Name>
+				<Description>Одеса, вул.Висоцького, 13,15,17,21,23А,25(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>325</ID>
+				<Name>Монблан</Name>
+				<Description>Одеса, вул.Компасний провулок, 1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>450</ID>
+				<Name>Море</Name>
+				<Description>Одеса, вул.Львівська, 15(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>448</ID>
+				<Name>Морская резиденция</Name>
+				<Description>Одеса, вул.Академічна (Піонерська, Варламова), 30(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>433</ID>
+				<Name>Морская Симфония</Name>
+				<Description>Одеса, вул.Мореходний провулок, 2а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>432</ID>
+				<Name>Морской</Name>
+				<Description>Одеса, вул.Каманіна, (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>415</ID>
+				<Name>Набережный Квартал</Name>
+				<Description>Одеса, вул.Софіївська, 2(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>212</ID>
+				<Name>Нагорный</Name>
+				<Description>, вул.Дюківська, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>10</ID>
+				<Name>Наполеон и Жозефина</Name>
+				<Description>, вул.Успенська, 39-1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>425</ID>
+				<Name>Наследие Дерибаса</Name>
+				<Description>Одеса, вул.Військовий спуск , (Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>121</ID>
+				<Name>Нова Європа</Name>
+				<Description>Одеса, вул.Шкільна, 43(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>55</ID>
+				<Name>Новая Аркадия</Name>
+				<Description>, вул.ТІниста, 9-12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>135</ID>
+				<Name>Новий Привоз</Name>
+				<Description>Одеса, вул.Пантелеймонівська, 112</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>68</ID>
+				<Name>Новые Черемушки</Name>
+				<Description>Одеса, вул.Малиновського Маршала, (Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>291</ID>
+				<Name>Новый берег</Name>
+				<Description>Одеса, вул.Новоберегова, 12а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>143</ID>
+				<Name>Новый Квартал</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 75(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>249</ID>
+				<Name>Новый Люстдорф</Name>
+				<Description>Одеса, вул., (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>122</ID>
+				<Name>Новый Маяк</Name>
+				<Description>Одеса, вул.Семена Палія (Дніпропетровська дорога), 21(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>403</ID>
+				<Name>Одеська Чайка на Плієва</Name>
+				<Description>Одеса, вул.Плієва Генерала (Бродська), 1(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>180</ID>
+				<Name>Одеський</Name>
+				<Description>Одеса, вул.Шота Руставелі, 2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>381</ID>
+				<Name>Одеський двір</Name>
+				<Description>Одеса, вул., (Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>327</ID>
+				<Name>Одеські Традиції</Name>
+				<Description>Одеса, вул.Воробйова Академіка (Віталія Нестеренка), (Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>436</ID>
+				<Name>Одеські Традиції на Глушко</Name>
+				<Description>Одеса, вул.Глушко Академіка проспект, (Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>42</ID>
+				<Name>Одісей</Name>
+				<Description>Одеса, вул.Говорова Маршала, 10б</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>220</ID>
+				<Name>Одісей (Люстдорфская дор.)</Name>
+				<Description>Одеса, вул.Люстдорфська дорога , 55</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>65</ID>
+				<Name>Одісей (Сахарова)</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 34(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>156</ID>
+				<Name>Озерки</Name>
+				<Description>, вул.Геннадия Кудряшова (Крупська), 2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>506</ID>
+				<Name>ОЗОН</Name>
+				<Description>Одеса, вул.Віце-Адмірала Азарова, 28/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>174</ID>
+				<Name>Олександрівський</Name>
+				<Description>Одеса, вул.Преображенська, 112</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>462</ID>
+				<Name>Олимпиец</Name>
+				<Description>Одеса, вул.Шевченка проспект, 30(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>461</ID>
+				<Name>Олимпийский</Name>
+				<Description>Одеса, вул.Шевченка проспект, 31/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>110</ID>
+				<Name>Ольвия</Name>
+				<Description>, вул.Віце-адмірала Жукова провулок, 17/19</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>252</ID>
+				<Name>Омега</Name>
+				<Description>Одеса, вул.Толбухіна (Георгія Липського), 135(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>289</ID>
+				<Name>Орион</Name>
+				<Description>Одеса, вул.Літературна, 12(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>5</ID>
+				<Name>Орфей</Name>
+				<Description>Одеса, вул.Театральний провулок (Чайковского провулок), 9</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>447</ID>
+				<Name>Оскар</Name>
+				<Description>Одеса, вул.Гагаріна проспект (Лесі Українки), 9(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>75</ID>
+				<Name>Острова</Name>
+				<Description>Одеса, вул.Марсельська, 33/1,33/2(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>51</ID>
+				<Name>Пальмира</Name>
+				<Description>, вул.Генуезька, 5</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>146</ID>
+				<Name>Пантелеймоновская 88</Name>
+				<Description>, вул.Пантелеймонівська, 88</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>177</ID>
+				<Name>Париж</Name>
+				<Description>, вул.Удільний провулок, 6</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>270</ID>
+				<Name>Парк Совиньон</Name>
+				<Description>Одеса, вул., 3(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>343</ID>
+				<Name>Парк Фонтанов</Name>
+				<Description>Одеса, вул.Чехова (Рів'єра), 2(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>246</ID>
+				<Name>Парковый</Name>
+				<Description>Одеса, вул.Іспаньский провулок, 2(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>14</ID>
+				<Name>Патриций</Name>
+				<Description>, вул.Маразліївська, 64</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>418</ID>
+				<Name>Пентагон</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 57(А,Б,В)(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>419</ID>
+				<Name>Пентагон-2</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 61(А,Б,В)(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>480</ID>
+				<Name>Первый Французский</Name>
+				<Description>Одеса, вул.Французьський бульвар, 3(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>137</ID>
+				<Name>Перекресток</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 33/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>319</ID>
+				<Name>Перекресток</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 33/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>435</ID>
+				<Name>П'єр</Name>
+				<Description>Одеса, вул.Успенський провулок, 11(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>43</ID>
+				<Name>Пионер</Name>
+				<Description>, вул.Академічна (Піонерська, Варламова), 20б</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>155</ID>
+				<Name>Платановая 82</Name>
+				<Description>, вул.Платанова, 82</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>369</ID>
+				<Name>Платинум</Name>
+				<Description>Одеса, вул.Ванний провулок, 5Г(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>211</ID>
+				<Name>Победа</Name>
+				<Description>Одеса, вул.Зоопаркова, 8в(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>495</ID>
+				<Name>Победа 2</Name>
+				<Description>Одеса, вул.Зоопаркова, 8/1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>45</ID>
+				<Name>Подкова</Name>
+				<Description>, вул.Фонтанська дорога, 49/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>18</ID>
+				<Name>Покровский</Name>
+				<Description>, вул.Жуковського, 30</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>395</ID>
+				<Name>Посейдон</Name>
+				<Description>Одеса, вул.Дача Ковалевського, 5(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>467</ID>
+				<Name>Поющий Фонтан</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 30/32(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>19</ID>
+				<Name>Преображенский</Name>
+				<Description>, вул.Преображенська, 35</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>255</ID>
+				<Name>Приморские Сады</Name>
+				<Description>Одеса, вул.Марсельська, 33(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>431</ID>
+				<Name>Пространство на 12й ст Б. Фонтана</Name>
+				<Description>Одеса, вул.Фонтанська дорога, 71а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>444</ID>
+				<Name>Пространство на 9й Фонтана</Name>
+				<Description>Одеса, вул.Авдєєва-Чорноморського (Одеської громади), 7(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>428</ID>
+				<Name>Пространство на Гераневой</Name>
+				<Description>Одеса, вул.Геранієва , 8(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>442</ID>
+				<Name>Пространство на Дачной</Name>
+				<Description>Одеса, вул.Дачна, 28(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>426</ID>
+				<Name>Пространство на Донского</Name>
+				<Description>Одеса, вул.Дмитра Донського, 59(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>475</ID>
+				<Name>Пространство на Инглези</Name>
+				<Description>Одеса, вул.Про на Инглези (25 Чап. Дивизии) ул., 13(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>460</ID>
+				<Name>Пространство на Литературной</Name>
+				<Description>Одеса, вул.Про на Литературной (Фонтанская дор.), 20(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>441</ID>
+				<Name>Пространство на Маячном</Name>
+				<Description>Одеса, вул.Маячний провулок, 11(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>439</ID>
+				<Name>Пространство на Морском</Name>
+				<Description>Одеса, вул.Каманіна, 20(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>427</ID>
+				<Name>Пространство на Неделина</Name>
+				<Description>Одеса, вул.Недєліна (Анатолія Бачинського), 82а(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>443</ID>
+				<Name>Пространство на Педагогической</Name>
+				<Description>Одеса, вул.Педагогічна, 20б(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>438</ID>
+				<Name>Пространство на Радостной</Name>
+				<Description>Одеса, вул.Радісна , 29(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>429</ID>
+				<Name>Пространство на Раскидайловской</Name>
+				<Description>Одеса, вул.Розкидайлівська , 67Б(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>440</ID>
+				<Name>Пространство на Тульской</Name>
+				<Description>Одеса, вул.Тульська (Академіка Вернадського), 110(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>149</ID>
+				<Name>Прохоровский</Name>
+				<Description>, вул.Прохоровська , 39/41</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>519</ID>
+				<Name>Прохоровський квартал</Name>
+				<Description>Одеса, вул.Прохоровська , 40(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>63</ID>
+				<Name>Радужный</Name>
+				<Description>Одеса, вул.Небесної сотні (Жукова Маршала), </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>72</ID>
+				<Name>Расчёска</Name>
+				<Description>Одеса, вул.Заболотного Академіка, 58(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>80</ID>
+				<Name>Рахат-Лукум</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 37(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>16</ID>
+				<Name>Ренессанс</Name>
+				<Description>, вул.Онілової провулок, 18</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>245</ID>
+				<Name>Ривьера Сити</Name>
+				<Description>Одеса, вул.Чехова (Рів'єра), 1(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>468</ID>
+				<Name>Ріал Парк</Name>
+				<Description>Одеса, вул.Овідіопольська дорога, (Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>147</ID>
+				<Name>Родной</Name>
+				<Description>, вул.Книжний провулок, 19/21</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>266</ID>
+				<Name>Родос</Name>
+				<Description>Одеса, вул.Генуезька, 1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>459</ID>
+				<Name>Розенталь</Name>
+				<Description>Одеса, вул.Будівельна (Розенталь), Строителей 48/50(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>150</ID>
+				<Name>Розовый Фламинго</Name>
+				<Description>Одеса, вул.Марсельська, 42(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>188</ID>
+				<Name>Романовский</Name>
+				<Description>, вул.Проценка , 50</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>33</ID>
+				<Name>Руслан и Людмила</Name>
+				<Description>, вул.Літературна, 12а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>93</ID>
+				<Name>Сабанский</Name>
+				<Description>, вул.Сабанський провулок , 3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>288</ID>
+				<Name>Сады Семирамиды (Фамильный дом)</Name>
+				<Description>Одеса, вул.Тополевий провулок, 1(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>517</ID>
+				<Name>Сальве (SALVE)</Name>
+				<Description>Одеса, вул.Велика Арнаутська, 115(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>162</ID>
+				<Name>Сан Сити</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 45А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>192</ID>
+				<Name>Санторини</Name>
+				<Description>, вул.Ванний провулок, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>501</ID>
+				<Name>Сапфир</Name>
+				<Description>Одеса, вул.Рєпіна , (Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>109</ID>
+				<Name>Светлый ("Исток")</Name>
+				<Description>, вул.Фонтанська дорога, 16/8</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>179</ID>
+				<Name>Северное Сияние</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 50(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>160</ID>
+				<Name>Седьмое небо</Name>
+				<Description>Одеса, вул.Торгова, (Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>7</ID>
+				<Name>Семь Самураев</Name>
+				<Description>, вул.Балківська, 22а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>29</ID>
+				<Name>Сигурт Холл</Name>
+				<Description>, вул.Французьський бульвар, 54/23</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>23</ID>
+				<Name>Синяя птица</Name>
+				<Description>, вул.Обсерваторний провулок , 2/4, 2/6</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>315</ID>
+				<Name>Сити Парк</Name>
+				<Description>Одеса, вул.Пестеля (Саймона Літмана), 6/3(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>470</ID>
+				<Name>Сити Хаус</Name>
+				<Description>Одеса, вул.Кравцова Павла провулок (Заливний), 2(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>390</ID>
+				<Name>Скай Сити</Name>
+				<Description>Одеса, вул.Варненська, 27А/2(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>151</ID>
+				<Name>Скайлайн</Name>
+				<Description>, вул.Китобійна, 89</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>163</ID>
+				<Name>Смарт</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 7А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>195</ID>
+				<Name>Солнечный</Name>
+				<Description>, вул.Сонячна, </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>233</ID>
+				<Name>Солярис</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 62(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>193</ID>
+				<Name>Среднефонтанский</Name>
+				<Description>, вул.Середньофонтанська , </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>278</ID>
+				<Name>Средняя 49</Name>
+				<Description>Одеса, вул.Середня , 49(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>113</ID>
+				<Name>Старицкого 20</Name>
+				<Description>, вул.Старицького , </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>31</ID>
+				<Name>Стожары</Name>
+				<Description>, вул.Авдєєва-Чорноморського (Одеської громади), 2б</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>124</ID>
+				<Name>Стрекоза</Name>
+				<Description>, вул.Люстдорфська дорога , 140/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>89</ID>
+				<Name>Суворовский</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 54(а.б.в.г.д)(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>186</ID>
+				<Name>Суворовский - 2</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 56 , 56А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>263</ID>
+				<Name>Таировские Сады</Name>
+				<Description>Одеса, вул.Вильямса ул. (Таїровські Сади) 1ПК, 93/1(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>59</ID>
+				<Name>Тенистый</Name>
+				<Description>, вул.Педагогічна, 3</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>226</ID>
+				<Name>Теплый дом</Name>
+				<Description>Одеса, вул.28 бригади (Паустовського), 22 , 22А(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>114</ID>
+				<Name>Тирас</Name>
+				<Description>Одеса, вул.Корольова Академіка, 5/4(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>56</ID>
+				<Name>Титаник</Name>
+				<Description>, вул.ТІниста, 15</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>198</ID>
+				<Name>Топольки</Name>
+				<Description>Одеса, вул.Семена Палія (Дніпропетровська дорога), 103, 105, 107(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>197</ID>
+				<Name>Три тополя</Name>
+				<Description>Одеса, вул.Семена Палія (Дніпропетровська дорога), 129, 131, 133(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>259</ID>
+				<Name>Тульская </Name>
+				<Description>Одеса, вул.Тульська (Академіка Вернадського), 73(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>136</ID>
+				<Name>Турецкий дом</Name>
+				<Description>, вул.Фонтанська дорога, 55а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>11</ID>
+				<Name>Усадьба Разумовского</Name>
+				<Description>, вул.Розумовська , 10/12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>123</ID>
+				<Name>Успех</Name>
+				<Description>, вул.Небесної сотні (Жукова Маршала), 3а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>8</ID>
+				<Name>Уютный</Name>
+				<Description>, вул.Грушевського Михайла, 39/1, 39/2</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>133</ID>
+				<Name>Уютный дворик</Name>
+				<Description>, вул.Братів Черепанових, 12</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>28</ID>
+				<Name>Фаворит</Name>
+				<Description>, вул.Артилерійська, 4</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>260</ID>
+				<Name>Фамильный дом</Name>
+				<Description>Одеса, вул.Сурикова 2й провулок (Бандурний провулок), 2-а , 1 секция(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>46</ID>
+				<Name>Фонтан</Name>
+				<Description>, вул.Макаренка, 2а</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>126</ID>
+				<Name>Фонтанка-Сити</Name>
+				<Description>Одеса, вул.Центральна, 3/1,3/2,3/3(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>102</ID>
+				<Name>Форрест</Name>
+				<Description>Одеса, вул.Незалежності, 4(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>99</ID>
+				<Name>Французский (СК "Стикон")</Name>
+				<Description>, вул.Французьський бульвар, 22-30</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>94</ID>
+				<Name>Цветок</Name>
+				<Description>, вул.Інглезі (25 Чапаївської дивізії), 6/1</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>324</ID>
+				<Name>Чайка</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 5(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>392</ID>
+				<Name>Чайная (Еврейская 3)</Name>
+				<Description>Одеса, вул.Єврейська, 3(Центральний р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>127</ID>
+				<Name>Червоный хутор</Name>
+				<Description>, вул., </Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>290</ID>
+				<Name>Четыре сезона</Name>
+				<Description>Одеса, вул.Гагаріна проспект (Лесі Українки), 19(Приморський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>27</ID>
+				<Name>Чудо город</Name>
+				<Description>, вул.Середньофонтанська , 19а, 19б, 19в</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>145</ID>
+				<Name>Шампанский</Name>
+				<Description>, вул.Шампанський провулок, 9</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>91</ID>
+				<Name>Шах-Намэ</Name>
+				<Description>, вул.Військовий спуск , 5</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>287</ID>
+				<Name>Щорса (Светослава Рихтера )2-а</Name>
+				<Description>Одеса, вул.Святослава Ріхтера (Щорса), 27.12 2017 дом сдан в эксплутацию.(Хаджибейський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>323</ID>
+				<Name>Эко Солярис</Name>
+				<Description>Одеса, вул.Сахарова Академіка, 7(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>453</ID>
+				<Name>Юпітер</Name>
+				<Description>Одеса, вул.Вільямса Академіка, 43(Київський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>87</ID>
+				<Name>Ядова, 28 (СК"Бастион")</Name>
+				<Description>Одеса, вул.Сергія Ядова, 28</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>231</ID>
+				<Name>Якоря</Name>
+				<Description>Одеса, вул.Бочарова Генерала (Бувалкіна), 58(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>125</ID>
+				<Name>Янтарний</Name>
+				<Description>Одеса, вул.Шкільна, 35,37(Пересипський р-н)</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>24</ID>
+				<Name>Ясна поляна</Name>
+				<Description>Одеса, вул.Відрадна, 13</Description>
+			</Element>
+			<Element>
+				<CatalogId>7</CatalogId>
+				<ID>258</ID>
+				<Name>Ясна Поляна 2</Name>
+				<Description>Одеса, вул.Відрадна, 15(Приморський р-н)</Description>
+			</Element>
+		</new_building_name>
+		<stair>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000006</ID>
+				<Name>бетонная лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000001</ID>
+				<Name>внутренняя лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000005</ID>
+				<Name>деревянная лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000003</ID>
+				<Name>металлическая лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000004</ID>
+				<Name>мраморная лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000002</ID>
+				<Name>наружная лестница</Name>
+			</Element>
+			<Element>
+				<CatalogId>8</CatalogId>
+				<ID>000000007</ID>
+				<Name>чугунная лестница</Name>
+			</Element>
+		</stair>
+		<heating>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>4</ID>
+				<Name>АОГВ</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>3</ID>
+				<Name>двухконтурный котел</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>7</ID>
+				<Name>крышная газовая котельная</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>1</ID>
+				<Name>нет</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>8</ID>
+				<Name>отдельно стоящая газовая котельная</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>5</ID>
+				<Name>Печное</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>10</ID>
+				<Name>Твердотопливный котел</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>2</ID>
+				<Name>ТЭЦ</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>9</ID>
+				<Name>электрический отопительный котел</Name>
+			</Element>
+			<Element>
+				<CatalogId>9</CatalogId>
+				<ID>6</ID>
+				<Name>электроотопление</Name>
+			</Element>
+		</heating>
+		<layout>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>30</ID>
+				<Name>1-но сторонняя</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>25</ID>
+				<Name>2-х сторонняя</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>14</ID>
+				<Name>2х уровневая</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>31</ID>
+				<Name>3-х сторонняя</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>27</ID>
+				<Name>3х уровневая</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>2</ID>
+				<Name>болгарка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>23</ID>
+				<Name>гостинка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>29</ID>
+				<Name>квартира-студия</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>26</ID>
+				<Name>крымка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>12</ID>
+				<Name>малосемейка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>17</ID>
+				<Name>мини-чешка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>3</ID>
+				<Name>московка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>21</ID>
+				<Name>неправильная планировка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>15</ID>
+				<Name>пентхаус</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>6</ID>
+				<Name>полураспашонка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>13</ID>
+				<Name>правильная</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>7</ID>
+				<Name>распашонка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>16</ID>
+				<Name>свободная</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>32</ID>
+				<Name>смарт-квартира</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>20</ID>
+				<Name>смежка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>28</ID>
+				<Name>смежно-раздельная</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>24</ID>
+				<Name>сотовая - 12 эт.</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>10</ID>
+				<Name>сотовая - 16 эт.</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>11</ID>
+				<Name>спецпроект</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>22</ID>
+				<Name>сталинка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>1</ID>
+				<Name>трамвай</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>19</ID>
+				<Name>трамвай большой </Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>18</ID>
+				<Name>трамвай деленный</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>8</ID>
+				<Name>харьковка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>5</ID>
+				<Name>хрущевка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>4</ID>
+				<Name>чешка</Name>
+			</Element>
+			<Element>
+				<CatalogId>10</CatalogId>
+				<ID>9</ID>
+				<Name>югославский проект</Name>
+			</Element>
+		</layout>
+		<house_type>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>25</ID>
+				<Name>квартира(дом) на земле</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>27</ID>
+				<Name>новострой (строящийся)</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>6</ID>
+				<Name>новые дома</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>24</ID>
+				<Name>отдельное строение</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>21</ID>
+				<Name>сотовая</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>3</ID>
+				<Name>сталинка</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>30</ID>
+				<Name>стандартное жилье (2-5 эт.)</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>8</ID>
+				<Name>стандартное жилье (6-16 эт.)</Name>
+			</Element>
+			<Element>
+				<CatalogId>11</CatalogId>
+				<ID>20</ID>
+				<Name>старый фонд</Name>
+			</Element>
+		</house_type>
+	</CatalogList>
+</КоммерческаяИнформация>

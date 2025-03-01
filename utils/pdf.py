@@ -153,7 +153,7 @@ def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
 
                 f'{document_data_ua[data_index]}: {apartment.floor}/{apartment.storeys_number}. ' +
                 f'{document_data_ua[data_index + 1]}: {apartment.square}. ' +
-                f'{document_data_ua[data_index + 2]}: {apartment.house_type.handbook}.', # fifth-1
+                f'', # fifth-1
 
                 str(apartment.price), # sixth-1
                 apartment.comment, # eighth

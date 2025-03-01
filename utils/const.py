@@ -127,6 +127,9 @@ OBJECT_FIELDS = {
     'filialreport': [
         'id', 'report', 'filial_agency__filial_agency', 'user__email',
     ],
+    'filialagency': [
+        'id', 'filial_agency',
+    ],
     'report': [
         'id', "locality__locality", "street__street", 'floor',
         'creation_date', 'price', 'status', 'owner__email'
