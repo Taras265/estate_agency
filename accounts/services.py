@@ -4,6 +4,7 @@ from django.db.models import QuerySet
 
 from accounts.models import CustomUser, CustomGroup
 from estate_agency.services import object_get, objects_all_visible, objects_filter
+from objects.services import user_can_view_real_estate_list
 from utils.const import TABLE_TO_APP
 
 
@@ -11,7 +12,9 @@ def get_user_choices(user: CustomUser, choices: List[Tuple[str, str]]) -> List[T
     available_choices = []
     for choice in choices:
         app: str = TABLE_TO_APP.get(choice[1])
-        if ((user.has_perm(f'{app}.view_{choice[1]}')
+        if choice[1] == 'realestate' and user_can_view_real_estate_list(user):
+            available_choices.append(choice)
+        elif ((user.has_perm(f'{app}.view_{choice[1]}')
              or user.has_perm(f'{app}.view_own_{choice[1]}'))):
             available_choices.append(choice)
     return available_choices

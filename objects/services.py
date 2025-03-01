@@ -298,3 +298,15 @@ def selection_all(*args, **kwargs) -> QuerySet[Selection]:
 
 def selection_filter(*args, **kwargs) -> QuerySet[Selection]:
     return Selection.objects.filter(*args, **kwargs)
+
+
+def get_all_apartment_history(*args, **kwargs):
+    return objects_all(Apartment.history, *args, **kwargs)
+
+
+def get_all_commerce_history(*args, **kwargs):
+    return objects_all(Commerce.history, *args, **kwargs)
+
+
+def get_all_houses_history(*args, **kwargs):
+    return objects_all(House.history, *args, **kwargs)
