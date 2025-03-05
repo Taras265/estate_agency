@@ -19,16 +19,6 @@
     }
 </style>
 
-<div class="container-fluid page_heading_banner">
-    <div class="banner_caption">
-        <h1>{% translate 'Form' %}</h1>
-        <ul>
-            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-            <li>{% translate 'Form' %}</li>
-        </ul>
-    </div>
-</div>
-<br>
 <div>
     <form enctype="multipart/form-data" action="{{ action }}" method="post">
         {% csrf_token %}

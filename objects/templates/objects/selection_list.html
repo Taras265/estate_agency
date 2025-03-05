@@ -6,17 +6,7 @@
 {% block title %}{% translate 'Selection' %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid page_heading_banner">
-    <div class="banner_caption">
-        <h1>{% translate 'Selection list for' %} {{ client.first_name }} {{ client.last_name }}</h1>
-        <ul>
-            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-            <li><a href="/{{ lang }}/handbooks/base/">{% translate 'Base' %}</a></li>
-            <li>/ {% translate 'Selection list' %}</li>
-        </ul>
-    </div>
-</div>
-<br>
+
 <div class="container">
     <div class="property_search">
         <div class="row justify-content-center text-center">

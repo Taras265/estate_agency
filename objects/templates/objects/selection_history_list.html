@@ -4,18 +4,7 @@
 {% block title %}{% translate 'Selection history' %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid page_heading_banner">
-    <div class="banner_caption">
-        <h1>{% translate 'Selection history' %}</h1>
-        <ul>
-            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-            <li>{% translate 'Base' %} / </li>
-            <li>{% translate 'Selection' %} / </li>
-            <li>{% translate 'History' %}</li>
-        </ul>
-    </div>
-</div>
-<br>
+
 {% if selections %}
 <table class="table table-striped">
 <tbody>
