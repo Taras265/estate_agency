@@ -4,11 +4,34 @@
 {% block title %}{% translate 'Profile' %}{% endblock %}
 
 {% block content %}
-    <!-- Page Heading Banner End -->
-
-    <!-- Agent Details Section -->
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Office' %}</h1>
+  </div>
+</div>
 <div class="container agents_details_section">
-    <!-- Agent Title -->
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active"
+                   href="{% url 'accounts:profile' lang=lang %}">
+                    {% translate "Profile" %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'handbooks:office_client_list' lang=lang %}">
+                    {% translate "My clients" %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'objects:office_apartment_list' lang=lang %}">
+                    {% translate "My objects" %}
+                </a>
+            </li>
+        </ul>
+        <!-- Agent Title -->
     <div class="agents_details">
         <div>
             <img class="img-fluid" src="{{ user.image.url }}" alt="user">
@@ -31,7 +54,7 @@
             <ul class="basic_detail">
                 <li>{% translate 'Name' %} : <span>{{ user.first_name }} {{ user.last_name }}</span></li>
                 <li>
-                    {% translate 'Phone' %} : 
+                    {% translate 'Phone' %} :
                     {% for phone_number in user.phone_numbers.all %}
                         <span>{{ phone_number.number }}{% if not forloop.last %}, {% endif %}</span>
                     {% empty %}
@@ -49,5 +72,7 @@
             </div>
         </form>
     </div>
+    </div>
+
 </div>
 {% endblock %}

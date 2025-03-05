@@ -29,7 +29,8 @@ from handbooks.views import (handbook_redirect,
                              MaterialHistoryView, SeparationHistoryView, AgencyHistoryView, AgencySalesHistoryView,
                              NewBuildingNameHistoryView, StairHistoryView, HeatingHistoryView, LayoutHistoryView,
                              HouseTypeHistoryView, ComplexHistoryView, FilialAgencyHistoryView, FilialReportHistoryView,
-                             ClientHistoryView)
+                             ClientHistoryView, MyAllClientsListView, MyNewClientListView, MyInSelectionClientListView,
+                             MyWithShowClientListView, MyDecidedClientListView, MyDeferredDemandClientListView)
 
 urlpatterns = [
     path("sale/", sale_redirect, name="sale_redirect"),
@@ -42,6 +43,15 @@ urlpatterns = [
     path("sale/client/decided/", DecidedClientListView.as_view(), name="decided_client_list"),
     path("sale/client/deferred_demand/", DeferredDemandClientListView.as_view(),
          name="deferred_demand_client_list"),
+
+    path("office/client/", MyAllClientsListView.as_view(), name="office_client_list"),
+    path("office/client/all/", MyAllClientsListView.as_view(), name="office_all_clients_list"),
+    path("office/client/new/", MyNewClientListView.as_view(), name="office_new_client_list"),
+    path("office/client/in_selection/", MyInSelectionClientListView.as_view(), name="office_in_selection_client_list"),
+    path("office/client/with_show/", MyWithShowClientListView.as_view(), name="office_with_show_client_list"),
+    path("office/client/decided/", MyDecidedClientListView.as_view(), name="office_decided_client_list"),
+    path("office/client/deferred_demand/", MyDeferredDemandClientListView.as_view(),
+         name="office_deferred_demand_client_list"),
 
     path("sale/create/client/", ClientCreateView.as_view(), name="client_create"),
     path("sale/update/client/<int:pk>/", ClientUpdateView.as_view(), name="client_update"),

@@ -7,7 +7,7 @@ from accounts.views import login_view, logout_view, ProfileView, users_list_redi
 urlpatterns = [
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
-    path("profile/", ProfileView.as_view(), name="profile"),
+    path("office/profile/", ProfileView.as_view(), name="profile"),
 
     path("accounts/users_list_redirect/", users_list_redirect, name="users_list_redirect"),
     path("accounts/user/", UserListView.as_view(), name="user_list"),

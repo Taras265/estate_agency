@@ -15,7 +15,8 @@ from handbooks.services import region_all_visible, region_filter, \
     client_all_visible
 from objects.services import user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_real_estate_list, \
     user_can_view_report
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin, SearchByIdMixin
+from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin, SearchByIdMixin, \
+    UserClientListMixin
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
 
@@ -945,6 +946,42 @@ class DecidedClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, Custo
 
 
 class DeferredDemandClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=4)
+    filter = "deferred_demand"
+    perm = "view"
+
+
+class MyAllClientsListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_all_visible()
+    filter = "all"
+    perm = "view"
+
+
+class MyNewClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(date_of_add__gte=timezone.now()-relativedelta(months=1))
+    filter = "new"
+    perm = "view"
+
+
+class MyInSelectionClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=1)
+    filter = "in_selection"
+    perm = "view"
+
+
+class MyWithShowClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=2)
+    filter = "with_show"
+    perm = "view"
+
+
+class MyDecidedClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=3)
+    filter = "decided"
+    perm = "view"
+
+
+class MyDeferredDemandClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"

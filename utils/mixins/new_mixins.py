@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.translation import activate
 
@@ -92,6 +93,8 @@ class ClientListMixin:
 
     filters = ["all", "new", "in_selection", "with_show", "decided", "deferred_demand"]
 
+    queryset: QuerySet[Client]
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
 
@@ -104,6 +107,17 @@ class ClientListMixin:
             obj["object_type"] = client.get_object_type_display()
 
         return context
+
+
+class UserClientListMixin(ClientListMixin):
+    """
+    Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
+    який користувач дивиться (бачити тільки своїх клієнтів у БУДЬ ЯКОМУ випадку)
+    """
+    template_name = "handbooks/office_client_list.html"
+
+    def get_queryset(self):
+        return client_filter(self.queryset, realtor=user_get(email=self.request.user))
 
 
 class GetQuerysetMixin:

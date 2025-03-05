@@ -213,6 +213,33 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
     return queryset.filter(realtor=user_id)
 
 
+def apartment_filter_by_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
+    """Повертає список квартир, які є у користувача."""
+    queryset = Apartment.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(realtor=user_id)
+
+
+def commerce_filter_by_user(user_id: int, **kwargs) -> QuerySet[Commerce]:
+    """Повертає список комерцій, які є у користувача'."""
+    queryset = Commerce.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(realtor=user_id)
+
+
+def house_filter_by_user(user_id: int, **kwargs) -> QuerySet[House]:
+    """Повертає список будинків, які є у користувача."""
+    queryset = House.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(realtor=user_id)
+
+
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
     """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
     return any(user.has_perm(perm) for perm in args)

@@ -37,7 +37,7 @@ from .services import (
     user_can_view_commerce_list_history, user_can_view_house_list_history,
     apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible,
     selection_create, selection_filter, selection_all, selection_add_selected, get_all_apartment_history,
-    get_all_commerce_history, get_all_houses_history
+    get_all_commerce_history, get_all_houses_history, apartment_filter_by_user
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType
@@ -519,6 +519,131 @@ class HouseListView(CustomLoginRequiredMixin,
             "can_view_apartment": user_can_view_apartment_list(self.request.user),
             "can_view_commerce": user_can_view_commerce_list(self.request.user),
             "can_view_house": True,
+            "can_create": user_can_create_house(self.request.user),
+            "can_update": user_can_update_house_list(
+                self.request.user, context["object_list"]
+            ),
+            "can_view_history": user_can_view_house_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_house",
+            "update_url_name": "objects:update_house",
+            "delete_url_name": "objects:delete_house",
+        })
+        return context
+
+
+class MyApartmentListView(CustomLoginRequiredMixin,
+                        StandardContextDataMixin,
+                        ListView):
+    """Список квартир."""
+    template_name = "objects/office_real_estate_list.html"
+    model = Apartment
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {field: value
+                       for field, value in form.cleaned_data.items()
+                       if value != None}
+
+        return apartment_filter_by_user(self.request.user.id, **filters)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "form": self.form_class(self.request.GET),
+            "can_create": user_can_create_apartment(self.request.user),
+            "can_update": user_can_update_apartment_list(
+                self.request.user, context["object_list"],
+            ),
+            "can_view_history": user_can_view_apartment_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_apartment",
+            "update_url_name": "objects:update_apartment",
+            "delete_url_name": "objects:delete_apartment",
+        })
+        return context
+
+
+class MyCommerceListView(CustomLoginRequiredMixin,
+                        StandardContextDataMixin,
+                        ListView):
+    """Список комерцій."""
+    template_name = "objects/office_real_estate_list.html"
+    model = Commerce
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return user_can_view_commerce_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {field: value
+                       for field, value in form.cleaned_data.items()
+                       if value != None}
+
+        return commerce_filter_for_user(self.request.user.id, **filters)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "form": self.form_class(self.request.GET),
+            "can_create": user_can_create_commerce(self.request.user),
+            "can_update": user_can_update_commerce_list(
+                self.request.user, context["object_list"]
+            ),
+            "can_view_history": user_can_view_commerce_list_history(
+                self.request.user, context["object_list"]
+            ),
+            "create_url_name": "objects:create_commerce",
+            "update_url_name": "objects:update_commerce",
+            "delete_url_name": "objects:delete_commerce",
+        })
+        return context
+
+
+class MyHouseListView(CustomLoginRequiredMixin,
+                        StandardContextDataMixin,
+                        ListView):
+    """Список будинків."""
+    template_name = "objects/office_real_estate_list.html"
+    model = House
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return user_can_view_house_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {field: value
+                       for field, value in form.cleaned_data.items()
+                       if value != None}
+
+        return house_filter_for_user(self.request.user.id, **filters)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
             "can_create": user_can_create_house(self.request.user),
             "can_update": user_can_update_house_list(
                 self.request.user, context["object_list"]
