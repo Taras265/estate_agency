@@ -14,12 +14,6 @@
 <div class="container agents_details_section">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'accounts:profile' lang=lang %}">
-                    {% translate "Profile" %}
-                </a>
-            </li>
             {% if my_clients %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"

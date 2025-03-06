@@ -37,6 +37,18 @@ def logout_view(request, lang):
     return redirect(f"/{lang}/accounts/login/", {"lang": lang})
 
 
+def office_redirect(request, lang):
+    user = CustomUser.objects.filter(email=request.user).first()
+    kwargs = {"lang": lang}
+    if user:
+        if user.has_perm(f"handbooks.view_own_office_client"):
+            return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
+        elif user.has_perm(f"objects.view_own_office_objects"):
+            return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
+        return render(request, "403.html", kwargs)
+    return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+
+
 class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView):
     context_object_name = "user"
     template_name = "accounts/profile.html"
@@ -52,10 +64,6 @@ class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user = user_get(email=self.request.user)
-        context.update({
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
-        })
 
         return context
 

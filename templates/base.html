@@ -78,9 +78,6 @@
                             <li>
                                 <a href="{% url 'main' lang=lang %}" class="active">{% translate 'Main' %}</a>
                             </li>
-                            <li>
-                                <a href="{% url 'handbooks:handbook_redirect' lang=lang %}">{% translate 'Base' %}</a>
-                            </li>
                             {% if not request.user.is_authenticated %}
                                 <li>
                                     <a href="{% url 'accounts:login' lang=lang %}">{% translate 'Login' %}</a>
@@ -88,6 +85,9 @@
                             {% else %}
                                 <li>
                                     <a href="{% url 'accounts:profile' lang=lang %}">{% translate 'Profile' %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'accounts:office' lang=lang %}">{% translate 'Office' %}</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'accounts:logout' lang=lang %}">{% translate 'Logout' %}</a>

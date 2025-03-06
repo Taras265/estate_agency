@@ -6,36 +6,18 @@
 {% block content %}
 <div class="container-fluid page_heading_banner">
   <div class="banner_caption">
-    <h1>{% translate 'Office' %}</h1>
+    <h1>{% translate 'Profile' %}</h1>
+    <ul>
+      <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+      <li>{% translate 'Profile' %}</li>
+    </ul>
   </div>
 </div>
+    <!-- Page Heading Banner End -->
+
+    <!-- Agent Details Section -->
 <div class="container agents_details_section">
-    <div class="property_search propertylist_search_section">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active"
-                   href="{% url 'accounts:profile' lang=lang %}">
-                    {% translate "Profile" %}
-                </a>
-            </li>
-            {% if my_clients %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'handbooks:office_client_list' lang=lang %}">
-                    {% translate "My clients" %}
-                </a>
-            </li>
-            {% endif %}
-            {% if my_objects %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_apartment_list' lang=lang %}">
-                    {% translate "My objects" %}
-                </a>
-            </li>
-            {% endif %}
-        </ul>
-        <!-- Agent Title -->
+    <!-- Agent Title -->
     <div class="agents_details">
         <div>
             <img class="img-fluid" src="{{ user.image.url }}" alt="user">
@@ -76,7 +58,5 @@
             </div>
         </form>
     </div>
-    </div>
-
 </div>
 {% endblock %}
