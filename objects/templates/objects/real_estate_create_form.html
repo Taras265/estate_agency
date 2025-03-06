@@ -18,7 +18,17 @@
         text-align: left;
     }
 </style>
-
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Real estate create form' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'objects:real_estate_list_redirect' lang=lang %}">{% translate 'Real estate' %}</a></li>
+      <li>/ {% translate 'Create form' %}</li>
+    </ul>
+  </div>
+</div>
+<br>
 <div>
     <div class="d-inline-block mb-5">
         <div class="d-flex align-items-center gap-2 mb-2">

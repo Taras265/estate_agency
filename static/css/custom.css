@@ -758,16 +758,16 @@ header .navbar .nav-item ul.icon li a:hover {
 .property_search {
   z-index: 1;
   padding: 15px;
-  margin-top: -50px;
+  margin-top: 10px;
   position: relative;
   border-radius: 5px;
-  margin-bottom: 90px;
+  margin-bottom: 10px;
   background-color: #FFF;
   box-shadow: 0px 0px 15px 0px rgba(13, 58, 131, 0.1);
 }
 @media only screen and (min-width: 280px) and (max-width:480px) {
   .property_search {
-    margin-top: -30px;
+    margin-top: 10px;
   }
 }
 .property_search .nav-tabs {
@@ -805,7 +805,7 @@ header .navbar .nav-item ul.icon li a:hover {
   }
 }
 .property_search.propertylist_search_section {
-  margin: 90px auto 30px !important;
+  margin: 20px auto 20px !important;
 }
 
 .featured_property_section {
@@ -1630,7 +1630,7 @@ footer .bottom_stripe ul li:last-child a {
 }
 
 .page_heading_banner {
-  height: 300px;
+  height: 100px;
   position: relative;
   padding: 0 !important;
   background-position: center;
@@ -1639,7 +1639,7 @@ footer .bottom_stripe ul li:last-child a {
 .page_heading_banner .banner_caption {
   left: 0;
   right: 0;
-  top: 45%;
+  top: 30%;
   width: 1140px;
   display: flex;
   margin: 0 auto;
@@ -2393,7 +2393,7 @@ footer .bottom_stripe ul li:last-child a {
 }
 
 .contact_info_section {
-  margin-top: 90px;
+  margin-top: 10px;
   margin-bottom: -30px;
 }
 @media only screen and (min-width: 280px) and (max-width:480px), only screen and (min-width: 767px) and (max-width:980px) {
@@ -2585,7 +2585,7 @@ footer .bottom_stripe ul li:last-child a {
 }
 
 .agents_details_section {
-  margin: 90px 0;
+  margin: 20px 0;
 }
 .agents_details_section .agents_details {
   gap: 1rem;

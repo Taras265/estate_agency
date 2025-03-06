@@ -14,7 +14,17 @@
         text-align: left;
     }
 </style>
-
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'User form' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'accounts:user_list' lang=lang %}">{% translate 'Users' %}</a></li>
+      <li>/ </li>
+      <li>{% translate 'User form' %}</li>
+    </ul>
+  </div>
+</div>
 <div>
     <form enctype="multipart/form-data" action="{{ action }}" method="post">{% csrf_token %}
         {% for field in form %}

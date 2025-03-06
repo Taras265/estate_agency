@@ -18,7 +18,17 @@
         text-align: left;
     }
 </style>
-
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Real estate update form' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'objects:real_estate_list_redirect' lang=lang %}">{% translate 'Real estate' %}</a></li>
+      <li>/ {% translate 'Update form' %}</li>
+    </ul>
+  </div>
+</div>
+<br>
 <div>
     <form enctype="multipart/form-data" action="{{ action }}" method="post">
         {% csrf_token %}

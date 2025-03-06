@@ -5,7 +5,15 @@
 
 {% block content %}
 <!-- Page Heading Banner -->
-
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Object details' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li>{% translate 'Details' %}</li>
+    </ul>
+  </div>
+</div>
 <!-- Page Heading Banner End -->
 <div class="container blogs_details_section">
     <!-- Properties Details -->

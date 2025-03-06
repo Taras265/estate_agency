@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load handbooks %}
 
 {% block title %}{% translate 'History' %}{% endblock %}
 
 {% block content %}
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Clients' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url list_url lang=lang %}">{% translate handbook %}</a></li>
+      <li>/ </li>
+      <li>{% translate 'History' %}</li>
+    </ul>
+  </div>
+</div>
 {% if history %}
 <table class="table table-striped">
 <tbody>

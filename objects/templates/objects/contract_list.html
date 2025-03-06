@@ -6,7 +6,16 @@
 {% block title %}{% translate "Handbooks" %}{% endblock %}
 
 {% block content %}
-
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Report of changes' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li>/ {% translate 'Report of changes' %}</li>
+    </ul>
+  </div>
+</div>
 <div class="container">
     <div class="property_search">
         <div class="row justify-content-center text-center">

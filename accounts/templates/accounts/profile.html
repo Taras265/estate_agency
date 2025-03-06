@@ -8,7 +8,7 @@
   <div class="banner_caption">
     <h1>{% translate 'Profile' %}</h1>
     <ul>
-      <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
       <li>{% translate 'Profile' %}</li>
     </ul>
   </div>
