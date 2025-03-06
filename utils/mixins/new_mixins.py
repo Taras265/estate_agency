@@ -95,6 +95,8 @@ class ClientListMixin:
 
     queryset: QuerySet[Client]
 
+    own = True
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
 
@@ -115,9 +117,20 @@ class UserClientListMixin(ClientListMixin):
     який користувач дивиться (бачити тільки своїх клієнтів у БУДЬ ЯКОМУ випадку)
     """
     template_name = "handbooks/office_client_list.html"
+    permission_required = "handbooks.view_own_office_client"
 
     def get_queryset(self):
         return client_filter(self.queryset, realtor=user_get(email=self.request.user))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = user_get(email=self.request.user)
+        context.update({
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
+        })
+
+        return context
 
 
 class GetQuerysetMixin:

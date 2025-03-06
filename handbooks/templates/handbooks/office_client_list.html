@@ -24,12 +24,14 @@
                     {% translate "My clients" %}
                 </a>
             </li>
+            {% if my_objects %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
                    href="{% url 'objects:office_apartment_list' lang=lang %}">
                     {% translate "My objects" %}
                 </a>
             </li>
+            {% endif %}
         </ul>
     </div>
 </div>

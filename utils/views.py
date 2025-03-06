@@ -31,6 +31,8 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
     filters = None
     filter = None
 
+    own = False
+
     def get_context_data(self, *, object_list=None, **kwargs):
         user = user_get(email=self.request.user)
 
@@ -55,7 +57,8 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
                     user,
                     context["page_obj"].object_list,
                     self.app,
-                    self.handbook_type
+                    self.handbook_type,
+                    self.own
                 )
             })
 

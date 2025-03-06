@@ -264,7 +264,8 @@ class Client(BaseModel):
             ("add_own_client", "Can add own client"),
             ("change_own_client", "Can change own client"),
             ("view_own_client", "Can view own client"),
-            ("view_own_historicalclient", "Can view own historical client"),
+
+            ("view_own_office_client", "Can view in office own clients"),
         )
 
     def __str__(self):

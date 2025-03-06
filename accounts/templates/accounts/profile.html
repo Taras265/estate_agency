@@ -18,18 +18,22 @@
                     {% translate "Profile" %}
                 </a>
             </li>
+            {% if my_clients %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
                    href="{% url 'handbooks:office_client_list' lang=lang %}">
                     {% translate "My clients" %}
                 </a>
             </li>
+            {% endif %}
+            {% if my_objects %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
                    href="{% url 'objects:office_apartment_list' lang=lang %}">
                     {% translate "My objects" %}
                 </a>
             </li>
+            {% endif %}
         </ul>
         <!-- Agent Title -->
     <div class="agents_details">

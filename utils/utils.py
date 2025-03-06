@@ -30,7 +30,7 @@ def check_own_perm_by_field(obj, field, user, perm):
     return False
 
 
-def model_to_dict(user, queryset, app, handbook_type):
+def model_to_dict(user, queryset, app, handbook_type, own=False):
     object_fields: list[str] | None = OBJECT_FIELDS.get(handbook_type)
 
     if object_fields:
@@ -38,9 +38,11 @@ def model_to_dict(user, queryset, app, handbook_type):
     else:
         queryset = queryset.values()
     for instance in queryset:
+        change_perm = user.has_perm(f"{app}.change_{handbook_type}")
         instance.update({
             "user_permissions": {
-                "can_update": user.has_perm(f"{app}.change_{handbook_type}")
+                "can_update": change_perm or user.has_perm(f"{app}.change_own_{handbook_type}")
+                                    if own else change_perm
             }
         })
     return queryset

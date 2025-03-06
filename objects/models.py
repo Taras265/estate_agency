@@ -195,7 +195,8 @@ class Apartment(BaseRealEstate):
             ("add_own_apartment", "Can add own apartment"),
             ("change_own_apartment", "Can change own apartment"),
             ("view_own_apartment", "Can view own apartment"),
-            ("view_own_historicalapartment", "Can view own historical apartment"),
+
+            ("view_own_office_objects", "Can view in office own objects"),
 
             ("view_report", "Can view reports"),
             ("view_contract", "Can view contracts"),
@@ -254,7 +255,6 @@ class Commerce(BaseRealEstate):
             ("add_own_commerce", "Can add own commerce"),
             ("change_own_commerce", "Can change own commerce"),
             ("view_own_commerce", "Can view own commerce"),
-            ("view_own_historicalcommerce", "Can view own historical commerce"),
         )
 
     premises = models.CharField(max_length=50, verbose_name=_("Premises")) # приміщення
@@ -280,7 +280,6 @@ class House(BaseRealEstate):
             ("add_own_house", "Can add own house"),
             ("change_own_house", "Can change own house"),
             ("view_own_house", "Can view own house"),
-            ("view_own_historicalhouse", "Can view own historical house"),
         )
 
     housing = models.CharField(max_length=50, verbose_name=_("Housing"), null=True, blank=True) # корпус

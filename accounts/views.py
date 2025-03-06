@@ -10,7 +10,7 @@ from accounts.models import CustomUser
 from accounts.services import (
     user_all_visible, user_filter, group_filter, group_all_visible,
     user_can_create_user, user_can_update_user, user_can_view_custom_group,
-    user_can_view_user_history
+    user_can_view_user_history, user_get
 )
 from handbooks.forms import PhoneNumberFormSet, IdSearchForm
 from utils.const import USER_CHOICES
@@ -48,6 +48,16 @@ class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView
 
     def get_object(self, queryset=None):
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = user_get(email=self.request.user)
+        context.update({
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
+        })
+
+        return context
 
 
 def users_list_redirect(request, lang):

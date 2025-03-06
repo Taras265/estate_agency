@@ -535,12 +535,14 @@ class HouseListView(CustomLoginRequiredMixin,
 
 class MyApartmentListView(CustomLoginRequiredMixin,
                         StandardContextDataMixin,
+                        PermissionRequiredMixin,
                         ListView):
     """Список квартир."""
     template_name = "objects/office_real_estate_list.html"
     model = Apartment
     paginate_by = 5
     form_class = HandbooksSearchForm
+    permission_required = "objects.view_own_office_objects"
 
     def get_queryset(self):
         filters = {}
@@ -556,6 +558,7 @@ class MyApartmentListView(CustomLoginRequiredMixin,
         return apartment_filter_by_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        user = user_get(email=self.request.user)
         context = super().get_context_data(**kwargs)
         context.update({
             "form": self.form_class(self.request.GET),
@@ -569,18 +572,22 @@ class MyApartmentListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
             "delete_url_name": "objects:delete_apartment",
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 
 
 class MyCommerceListView(CustomLoginRequiredMixin,
                         StandardContextDataMixin,
+                        PermissionRequiredMixin,
                         ListView):
     """Список комерцій."""
     template_name = "objects/office_real_estate_list.html"
     model = Commerce
     paginate_by = 5
     form_class = HandbooksSearchForm
+    permission_required = "objects.view_own_office_objects"
 
     def test_func(self):
         return user_can_view_commerce_list(self.request.user)
@@ -600,6 +607,7 @@ class MyCommerceListView(CustomLoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = user_get(email=self.request.user)
         context.update({
             "form": self.form_class(self.request.GET),
             "can_create": user_can_create_commerce(self.request.user),
@@ -612,18 +620,22 @@ class MyCommerceListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
             "delete_url_name": "objects:delete_commerce",
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 
 
 class MyHouseListView(CustomLoginRequiredMixin,
                         StandardContextDataMixin,
+                        PermissionRequiredMixin,
                         ListView):
     """Список будинків."""
     template_name = "objects/office_real_estate_list.html"
     model = House
     paginate_by = 5
     form_class = HandbooksSearchForm
+    permission_required = "objects.view_own_office_objects"
 
     def test_func(self):
         return user_can_view_house_list(self.request.user)
@@ -642,6 +654,7 @@ class MyHouseListView(CustomLoginRequiredMixin,
         return house_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        user = user_get(email=self.request.user)
         context = super().get_context_data(**kwargs)
         context.update({
             "can_create": user_can_create_house(self.request.user),
@@ -654,6 +667,8 @@ class MyHouseListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
             "delete_url_name": "objects:delete_house",
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 

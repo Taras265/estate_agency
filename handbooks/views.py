@@ -951,37 +951,37 @@ class DeferredDemandClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin
     perm = "view"
 
 
-class MyAllClientsListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyAllClientsListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_all_visible()
     filter = "all"
     perm = "view"
 
 
-class MyNewClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyNewClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(date_of_add__gte=timezone.now()-relativedelta(months=1))
     filter = "new"
     perm = "view"
 
 
-class MyInSelectionClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyInSelectionClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=1)
     filter = "in_selection"
     perm = "view"
 
 
-class MyWithShowClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyWithShowClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=2)
     filter = "with_show"
     perm = "view"
 
 
-class MyDecidedClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyDecidedClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=3)
     filter = "decided"
     perm = "view"
 
 
-class MyDeferredDemandClientListView(UserClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class MyDeferredDemandClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"

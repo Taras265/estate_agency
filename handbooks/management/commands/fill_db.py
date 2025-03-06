@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import uuid
 from datetime import datetime
 
+from django.contrib.auth.models import Permission
 from django.core.management.base import BaseCommand
 from django.db import connection
 from django.utils.timezone import make_aware, get_current_timezone
@@ -46,6 +47,14 @@ class Command(BaseCommand):
     help = "Парсит XML и загружает данные в базу"
 
     def handle(self, *args, **kwargs):
+        Permission.objects.filter(codename__icontains="history").delete()
+        Permission.objects.filter(codename__icontains="historical").delete()
+        Permission.objects.filter(codename__icontains="session").delete()
+        Permission.objects.filter(codename__icontains="log").delete()
+        Permission.objects.filter(codename__icontains="permission").delete()
+        Permission.objects.filter(codename__icontains="contenttype").delete()
+        Permission.objects.filter(codename__icontains="delete").delete()
+
         Client.objects.all().delete()
         client = {
             "date_of_add": datetime.now(),
