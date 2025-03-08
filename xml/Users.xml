@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UserList>
+    <User>
+        <Email>ay70evropa@gmail.com</Email>
+        <Password>1</Password>
+        <FirstName>Зоненберг Альбіна Олександрівна</FirstName>
+        <PhoneNumberList>
+            <PhoneNumber>0507652368</PhoneNumber>
+        </PhoneNumberList>
+        <GroupList>
+            <Group>адмін</Group>
+        </GroupList>
+    </User>
+    <User>
+        <Email>anjutalevchuk@gmail.com</Email>
+        <Password>2</Password>
+        <FirstName>Тодорова Анна Володимирівна</FirstName>
+        <LastName>Тодорова</LastName>
+        <FilialList>
+            <Filial>Базарная</Filial>
+        </FilialList>
+        <PhoneNumberList>
+            <PhoneNumber>0987546898</PhoneNumber>
+        </PhoneNumberList>
+        <GroupList>
+            <Group>адмін</Group>
+            <Group>рієлтор</Group>
+        </GroupList>
+    </User>
+</UserList>

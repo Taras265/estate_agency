@@ -12,7 +12,6 @@
     <Group>
         <Name>рієлтор</Name>
         <PermissionList>
-            <Permission></Permission>
             <Permission>add_client</Permission>
             <Permission>change_client</Permission>
             <Permission>view_client</Permission>
