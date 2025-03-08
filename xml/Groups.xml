@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GroupList>
+    <Group>
+        <Name>адмін</Name>
+    </Group>
+    <Group>
+        <Name>директор</Name>
+    </Group>
+    <Group>
+        <Name>секретар</Name>
+    </Group>
+    <Group>
+        <Name>рієлтор</Name>
+        <PermissionList>
+            <Permission></Permission>
+            <Permission>add_client</Permission>
+            <Permission>change_client</Permission>
+            <Permission>view_client</Permission>
+            <Permission>view_historicalclient</Permission>
+            <Permission>add_own_client</Permission>
+            <Permission>change_own_client</Permission>
+            <Permission>view_own_client</Permission>
+            <Permission>view_own_historicalclient</Permission>
+
+            <Permission>add_apartment</Permission>
+            <Permission>change_apartment</Permission>
+            <Permission>view_apartment</Permission>
+            <Permission>view_historicalapartment</Permission>
+            <Permission>add_own_apartment</Permission>
+            <Permission>change_own_apartment</Permission>
+            <Permission>view_own_apartment</Permission>
+            <Permission>view_own_historicalapartment</Permission>
+
+            <Permission>add_commerce</Permission>
+            <Permission>change_commerce</Permission>
+            <Permission>view_commerce</Permission>
+            <Permission>view_historicalcommerce</Permission>
+            <Permission>add_own_commerce</Permission>
+            <Permission>change_own_commerce</Permission>
+            <Permission>view_own_commerce</Permission>
+            <Permission>view_own_historicalcommerce</Permission>
+
+            <Permission>add_house</Permission>
+            <Permission>change_house</Permission>
+            <Permission>view_house</Permission>
+            <Permission>view_historicalhouse</Permission>
+            <Permission>add_own_house</Permission>
+            <Permission>change_own_house</Permission>
+            <Permission>view_own_house</Permission>
+            <Permission>view_own_historicalhouse</Permission>
+
+            <Permission>add_selection</Permission>
+            <Permission>change_selection</Permission>
+            <Permission>view_selection</Permission>
+            <Permission>delete_selection</Permission>
+
+            <Permission>view_report</Permission>
+            <Permission>view_contract</Permission>
+        </PermissionList>
+    </Group>
+</GroupList>
