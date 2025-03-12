@@ -19,6 +19,7 @@ __pycache__/
 *.pyc
 !media
 media/*
+xml/Users.xml
 
 .DS_Store
 text.txt
