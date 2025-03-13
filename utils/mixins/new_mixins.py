@@ -9,6 +9,7 @@ from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES, LIST_BY_USER
+from utils.utils import get_office_context
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -123,12 +124,8 @@ class UserClientListMixin(ClientListMixin):
         return client_filter(self.queryset, realtor=user_get(email=self.request.user))
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
         user = user_get(email=self.request.user)
-        context.update({
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
-        })
+        context = get_office_context(user, super().get_context_data(**kwargs))
 
         return context
 

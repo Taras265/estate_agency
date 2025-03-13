@@ -24,6 +24,7 @@ from handbooks.models import Client, Street
 from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
 from utils.mixins.new_mixins import StandardContextDataMixin, GetQuerysetMixin
+from utils.utils import get_office_context
 from .models import Apartment, Commerce, House
 from .services import (
     has_any_perm_from_list,
@@ -559,7 +560,7 @@ class MyApartmentListView(CustomLoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         user = user_get(email=self.request.user)
-        context = super().get_context_data(**kwargs)
+        context = get_office_context(user, super().get_context_data(**kwargs))
         context.update({
             "form": self.form_class(self.request.GET),
             "can_create": user_can_create_apartment(self.request.user),
@@ -572,8 +573,6 @@ class MyApartmentListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
             "delete_url_name": "objects:delete_apartment",
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 
@@ -606,8 +605,8 @@ class MyCommerceListView(CustomLoginRequiredMixin,
         return commerce_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         user = user_get(email=self.request.user)
+        context = get_office_context(user, super().get_context_data(**kwargs))
         context.update({
             "form": self.form_class(self.request.GET),
             "can_create": user_can_create_commerce(self.request.user),
@@ -620,8 +619,6 @@ class MyCommerceListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
             "delete_url_name": "objects:delete_commerce",
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 
@@ -655,7 +652,7 @@ class MyHouseListView(CustomLoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         user = user_get(email=self.request.user)
-        context = super().get_context_data(**kwargs)
+        context = get_office_context(user, super().get_context_data(**kwargs))
         context.update({
             "can_create": user_can_create_house(self.request.user),
             "can_update": user_can_update_house_list(
@@ -667,8 +664,6 @@ class MyHouseListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
             "delete_url_name": "objects:delete_house",
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
         })
         return context
 

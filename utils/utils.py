@@ -1,3 +1,6 @@
+from typing import Any
+
+from accounts.models import CustomUser
 from utils.const import TABLE_TO_APP, LIST_BY_USER, OBJECT_FIELDS
 
 
@@ -46,3 +49,11 @@ def model_to_dict(user, queryset, app, handbook_type, own=False):
             }
         })
     return queryset
+
+
+def get_office_context(user: CustomUser, context: dict[str, Any]) -> dict[str, Any]:
+    context.update({
+            "my_clients": user.has_perm("handbooks.view_own_office_client"),
+            "my_objects": user.has_perm("objects.view_own_office_objects"),
+            "users": user.has_perm("accounts.view_office_user"),})
+    return context

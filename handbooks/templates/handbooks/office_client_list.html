@@ -30,6 +30,14 @@
                 </a>
             </li>
             {% endif %}
+            {% if users %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'accounts:office_user_list' lang=lang %}">
+                    {% translate "Users" %}
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
