@@ -22,3 +22,4 @@ media/*
 
 .DS_Store
 text.txt
+/xml/Users.xml
