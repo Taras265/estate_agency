@@ -192,11 +192,13 @@ class Apartment(BaseRealEstate):
     """Квартира"""
     class Meta(BaseRealEstate.Meta):
         permissions = (
-            ("add_own_apartment", "Can add own apartment"),
             ("change_own_apartment", "Can change own apartment"),
             ("view_own_apartment", "Can view own apartment"),
+            ("change_filial_apartment", "Can change filial apartment"),
+            ("view_filial_apartment", "Can view filial apartment"),
 
             ("view_own_office_objects", "Can view in office own objects"),
+            ("view_filial_office_objects", "Can view in office filial objects"),
 
             ("view_report", "Can view reports"),
             ("view_contract", "Can view contracts"),
@@ -252,9 +254,10 @@ class Commerce(BaseRealEstate):
     """Комерційна нерухомість"""
     class Meta(BaseRealEstate.Meta):
         permissions = (
-            ("add_own_commerce", "Can add own commerce"),
             ("change_own_commerce", "Can change own commerce"),
             ("view_own_commerce", "Can view own commerce"),
+            ("change_filial_commerce", "Can change filial commerce"),
+            ("view_filial_commerce", "Can view filial commerce"),
         )
 
     premises = models.CharField(max_length=50, verbose_name=_("Premises")) # приміщення
@@ -277,9 +280,10 @@ class House(BaseRealEstate):
     """Приватний будинок"""
     class Meta(BaseRealEstate.Meta):
         permissions = (
-            ("add_own_house", "Can add own house"),
             ("change_own_house", "Can change own house"),
             ("view_own_house", "Can view own house"),
+            ("change_filial_house", "Can change filial house"),
+            ("view_filial_house", "Can view filial house"),
         )
 
     housing = models.CharField(max_length=50, verbose_name=_("Housing"), null=True, blank=True) # корпус

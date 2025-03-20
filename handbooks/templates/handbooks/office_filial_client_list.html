@@ -16,12 +16,14 @@
 <div class="container agents_details_section">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% if my_clients %}
             <li class="nav-item active" role="presentation">
-                <a class="nav-link active"
+                <a class="nav-link "
                    href="{% url 'handbooks:office_client_list' lang=lang %}">
                     {% translate "My clients" %}
                 </a>
             </li>
+            {% endif %}
 
             {% if my_objects %}
             <li class="nav-item" role="presentation">
@@ -32,14 +34,12 @@
             </li>
             {% endif %}
 
-            {% if filial_clients %}
             <li class="nav-item" role="presentation">
-                <a class="nav-link"
+                <a class="nav-link active"
                    href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
                     {% translate "Filial clients" %}
                 </a>
             </li>
-            {% endif %}
 
             {% if filial_objects %}
             <li class="nav-item" role="presentation">
@@ -93,37 +93,37 @@
         <ul class="nav nav-tabs" id="myTab1" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'all' %}active{% endif %}"
-                   href="{% url 'handbooks:office_all_clients_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_all_clients_list' lang=lang %}">
                     {% translate 'All' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'new' %}active{% endif %}"
-                   href="{% url 'handbooks:office_new_client_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_new_client_list' lang=lang %}">
                     {% translate 'New' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'in_selection' %}active{% endif %}"
-                   href="{% url 'handbooks:office_in_selection_client_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_in_selection_client_list' lang=lang %}">
                     {% translate 'In selection' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'with_show' %}active{% endif %}"
-                   href="{% url 'handbooks:office_with_show_client_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_with_show_client_list' lang=lang %}">
                     {% translate 'With a show' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'decided' %}active{% endif %}"
-                   href="{% url 'handbooks:office_decided_client_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_decided_client_list' lang=lang %}">
                     {% translate 'Decided' %}
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link {% if filter == 'deferred_demand' %}active{% endif %}"
-                   href="{% url 'handbooks:office_deferred_demand_client_list' lang=lang %}">
+                   href="{% url 'handbooks:office_filial_deferred_demand_client_list' lang=lang %}">
                     {% translate 'Deferred demand' %}
                 </a>
             </li>

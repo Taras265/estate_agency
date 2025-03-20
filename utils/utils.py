@@ -1,4 +1,6 @@
-from typing import Any
+from typing import Any, Optional
+
+from django.db.models import QuerySet
 
 from accounts.models import CustomUser
 from utils.const import TABLE_TO_APP, LIST_BY_USER, OBJECT_FIELDS
@@ -37,23 +39,69 @@ def model_to_dict(user, queryset, app, handbook_type, own=False):
     object_fields: list[str] | None = OBJECT_FIELDS.get(handbook_type)
 
     if object_fields:
-        queryset = queryset.values(*object_fields)
+        n_queryset = queryset.values(*object_fields)
     else:
-        queryset = queryset.values()
-    for instance in queryset:
-        change_perm = user.has_perm(f"{app}.change_{handbook_type}")
-        instance.update({
+        n_queryset = queryset.values()
+
+    for i, instance in enumerate(n_queryset):
+        if user.has_perm(f"{app}.change_{handbook_type}"):
+            instance.update({
+                "user_permissions": {
+                    "can_update": True,
+                }
+            })
+        elif own and user.has_perm(f"{app}.change_filial_{handbook_type}"):
+            if isinstance(LIST_BY_USER[handbook_type], str):
+                filials = getattr(queryset[i], LIST_BY_USER[handbook_type]).filials.all()
+                if set(filials).intersection(set(user.filials.all())):
+                    instance.update({
+                        "user_permissions": {
+                            "can_update": True,
+                        }
+                    })
+        elif own and user.has_perm(f"{app}.change_own_{handbook_type}"):
+            if isinstance(LIST_BY_USER[handbook_type], str) and \
+                getattr(queryset[i], LIST_BY_USER[handbook_type]).id == user.id:
+                    instance.update({
+                        "user_permissions": {
+                            "can_update": True,
+                        }
+                    })
+        else:
+            instance.update({
+                "user_permissions": {
+                    "can_update": False,
+                }
+            })
+        """instance.update({
             "user_permissions": {
                 "can_update": change_perm or user.has_perm(f"{app}.change_own_{handbook_type}")
                                     if own else change_perm
             }
-        })
-    return queryset
+        })"""
+    return n_queryset
 
 
 def get_office_context(user: CustomUser, context: dict[str, Any]) -> dict[str, Any]:
     context.update({
             "my_clients": user.has_perm("handbooks.view_own_office_client"),
             "my_objects": user.has_perm("objects.view_own_office_objects"),
+            "filial_clients": user.has_perm("handbooks.view_filial_office_client"),
+            "filial_objects": user.has_perm("objects.view_filial_office_objects"),
             "users": user.has_perm("accounts.view_office_user"),})
     return context
+
+
+def by_user_queryset(queryset: QuerySet, handbook_type: str, filter_by, pref: Optional[str] = None) -> QuerySet:
+    if isinstance(LIST_BY_USER[handbook_type], str):
+        field = f"{LIST_BY_USER[handbook_type]}__{pref}" if pref else LIST_BY_USER[handbook_type]
+        return queryset.filter(**{field: filter_by}).distinct()
+    new_queryset = None
+    for field in LIST_BY_USER[handbook_type]:
+        if pref:
+            field = f"{field}__{pref}"
+        if new_queryset:
+            new_queryset = new_queryset | queryset.filter(**{field: filter_by}).distinct()
+        else:
+            new_queryset = queryset.filter(**{field: filter_by}).distinct()
+    return new_queryset

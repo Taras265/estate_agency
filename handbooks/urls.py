@@ -30,7 +30,10 @@ from handbooks.views import (handbook_redirect,
                              NewBuildingNameHistoryView, StairHistoryView, HeatingHistoryView, LayoutHistoryView,
                              HouseTypeHistoryView, ComplexHistoryView, FilialAgencyHistoryView, FilialReportHistoryView,
                              ClientHistoryView, MyAllClientsListView, MyNewClientListView, MyInSelectionClientListView,
-                             MyWithShowClientListView, MyDecidedClientListView, MyDeferredDemandClientListView)
+                             MyWithShowClientListView, MyDecidedClientListView, MyDeferredDemandClientListView,
+                             FilialAllClientsListView, FilialNewClientListView, FilialInSelectionClientListView,
+                             FilialWithShowClientListView, FilialDecidedClientListView,
+                             FilialDeferredDemandClientListView)
 
 urlpatterns = [
     path("sale/", sale_redirect, name="sale_redirect"),
@@ -52,6 +55,17 @@ urlpatterns = [
     path("office/client/decided/", MyDecidedClientListView.as_view(), name="office_decided_client_list"),
     path("office/client/deferred_demand/", MyDeferredDemandClientListView.as_view(),
          name="office_deferred_demand_client_list"),
+    path("office/filial/client/", FilialAllClientsListView.as_view(), name="office_filial_client_list"),
+    path("office/filial/client/all/", FilialAllClientsListView.as_view(), name="office_filial_all_clients_list"),
+    path("office/filial/client/new/", FilialNewClientListView.as_view(), name="office_filial_new_client_list"),
+    path("office/filial/client/in_selection/", FilialInSelectionClientListView.as_view(),
+         name="office_filial_in_selection_client_list"),
+    path("office/filial/client/with_show/", FilialWithShowClientListView.as_view(),
+         name="office_filial_with_show_client_list"),
+    path("office/filial/client/decided/", FilialDecidedClientListView.as_view(),
+         name="office_filial_decided_client_list"),
+    path("office/filial/client/deferred_demand/", FilialDeferredDemandClientListView.as_view(),
+         name="office_filial_deferred_demand_client_list"),
 
     path("sale/create/client/", ClientCreateView.as_view(), name="client_create"),
     path("sale/update/client/<int:pk>/", ClientUpdateView.as_view(), name="client_update"),

@@ -46,6 +46,10 @@ def office_redirect(request, lang):
             return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
         elif user.has_perm(f"objects.view_own_office_objects"):
             return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
+        if user.has_perm(f"handbooks.view_filial_office_client"):
+            return redirect(reverse_lazy("handbooks:office_filial_client_list", kwargs=kwargs))
+        elif user.has_perm(f"objects.view_filial_office_objects"):
+            return redirect(reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs))
         elif user.has_perm(f"accounts.view_office_user"):
             return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
         return render(request, "403.html", kwargs)

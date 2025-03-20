@@ -67,7 +67,8 @@ def user_can_update_apartment(user: CustomUser, apartment_id: int) -> bool:
         return False
 
     return can_interact_with_object(
-        user, apartment, "objects.change_apartment", "objects.change_own_apartment"
+        user, apartment, "objects.change_apartment", "objects.change_own_apartment",
+        "objects.change_filial_apartment", "realtor", Apartment
     )
 
 
@@ -76,7 +77,8 @@ def user_can_update_apartment_list(
     apartment_list: Iterable[Apartment]
 ) -> dict[int, bool]:
     return can_interact_with_object_list(
-        user, apartment_list, "objects.change_apartment", "objects.change_own_apartment"
+        user, apartment_list, "objects.change_apartment", "objects.change_own_apartment",
+        "objects.change_filial_apartment", "realtor", Apartment
     )
 
 
@@ -87,7 +89,8 @@ def user_can_update_commerce(user: CustomUser, commerce_id: int) -> bool:
         return False
     
     return can_interact_with_object(
-        user, commerce, "objects.change_commerce", "objects.change_own_commerce"
+        user, commerce, "objects.change_commerce", "objects.change_own_commerce",
+        "objects.change_filial_commerce", "realtor", Commerce
     )
 
 
@@ -96,7 +99,8 @@ def user_can_update_commerce_list(
     commerce_list: Iterable[Commerce]
 ) -> dict[int, bool]:
     return can_interact_with_object_list(
-        user, commerce_list, "objects.change_commerce", "objects.change_own_commerce"
+        user, commerce_list, "objects.change_commerce", "objects.change_own_commerce",
+        "objects.change_filial_commerce", "realtor", Commerce
     )
 
 
@@ -107,7 +111,8 @@ def user_can_update_house(user: CustomUser, house_id: int) -> bool:
         return False
     
     return can_interact_with_object(
-        user, house, "objects.change_house", "objects.change_own_house"
+        user, house, "objects.change_house", "objects.change_own_house",
+        "objects.change_filial_house", "realtor", House
     )
 
 
@@ -116,7 +121,9 @@ def user_can_update_house_list(
     house_list: Iterable[House]
 ) -> dict[int, bool]:
     return can_interact_with_object_list(
-        user, house_list, "objects.change_house", "objects.change_own_house"
+        user, house_list, "objects.change_house", "objects.change_own_house",
+        "objects.change_filial_house", "realtor", House
+
     )
 
 
@@ -127,8 +134,10 @@ def user_can_view_apartment_list_history(
     return can_interact_with_object_list(
         user,
         apartment_list,
-        "objects.view_historicalapartment",
-        "objects.view_own_historicalapartment"
+        "objects.view_apartment",
+        "objects.view_own_apartment",
+        "objects.view_filial_apartment",
+        "realtor", Apartment
     )
 
 
@@ -139,8 +148,10 @@ def user_can_view_commerce_list_history(
     return can_interact_with_object_list(
         user,
         commerce_list,
-        "objects.view_historicalcommerce",
-        "objects.view_own_historicalcommerce"
+        "objects.view_commerce",
+        "objects.view_own_commerce",
+        "objects.view_filial_commerce",
+        "realtor", Commerce
     )
 
 
@@ -151,8 +162,10 @@ def user_can_view_house_list_history(
     return can_interact_with_object_list(
         user,
         house_list,
-        "objects.view_historicalhouse",
-        "objects.view_own_historicalhouse"
+        "objects.view_house",
+        "objects.view_own_house",
+        "objects.view_filial_house",
+        "realtor", House
     )
 
 
@@ -161,8 +174,9 @@ def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
     user = get_object_or_404(CustomUser, id=user_id)
     can_view_apartment = user.has_perm("objects.view_apartment")
     can_view_own_apartment = user.has_perm("objects.view_own_apartment")
+    can_view_filial_apartment = user.has_perm("objects.view_filial_apartment")
 
-    if not can_view_apartment and not can_view_own_apartment:
+    if not can_view_apartment and not can_view_own_apartment and not can_view_filial_apartment:
         return Apartment.objects.none()
 
     queryset = Apartment.objects.filter(on_delete=False, **kwargs)\
@@ -171,8 +185,9 @@ def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
     
     if can_view_apartment:
         return queryset
-    
-    return queryset.filter(realtor=user_id)
+    elif can_view_own_apartment:
+        return queryset.filter(realtor=user_id)
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
 
 
 def commerce_filter_for_user(user_id: int, **kwargs) -> QuerySet[Commerce]:
@@ -180,18 +195,21 @@ def commerce_filter_for_user(user_id: int, **kwargs) -> QuerySet[Commerce]:
     user = get_object_or_404(CustomUser, id=user_id)
     can_view_commerce = user.has_perm("objects.view_commerce")
     can_view_own_commerce = user.has_perm("objects.view_own_commerce")
+    can_view_filial_commerce = user.has_perm("objects.view_filial_commerce")
 
-    if not can_view_commerce and not can_view_own_commerce:
+    if not can_view_commerce and not can_view_own_commerce and not can_view_filial_commerce:
         return Commerce.objects.none()
 
     queryset = Commerce.objects.filter(on_delete=False, **kwargs)\
                                 .select_related("locality", "street", "realtor")\
                                 .only("id", "locality__locality", "street__street", "realtor__email")
     
+
     if can_view_commerce:
         return queryset
-    
-    return queryset.filter(realtor=user_id)
+    elif can_view_own_commerce:
+        return queryset.filter(realtor=user_id)
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
 
 
 def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
@@ -199,8 +217,9 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
     user = get_object_or_404(CustomUser, id=user_id)
     can_view_house = user.has_perm("objects.view_house")
     can_view_own_house = user.has_perm("objects.view_own_house")
+    can_view_filial_house = user.has_perm("objects.view_filial_house")
 
-    if not can_view_house and not can_view_own_house:
+    if not can_view_house and not can_view_own_house and not can_view_filial_house:
         return House.objects.none()
 
     queryset = House.objects.filter(on_delete=False, **kwargs)\
@@ -209,8 +228,9 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
     
     if can_view_house:
         return queryset
-    
-    return queryset.filter(realtor=user_id)
+    elif can_view_own_house:
+        return queryset.filter(realtor=user_id)
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
 
 
 def apartment_filter_by_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
@@ -240,6 +260,33 @@ def house_filter_by_user(user_id: int, **kwargs) -> QuerySet[House]:
     return queryset.filter(realtor=user_id)
 
 
+def apartment_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[Apartment]:
+    """Повертає список квартир, які є у користувача."""
+    queryset = Apartment.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def commerce_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[Commerce]:
+    """Повертає список комерцій, які є у користувача'."""
+    queryset = Commerce.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def house_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[House]:
+    """Повертає список будинків, які є у користувача."""
+    queryset = House.objects.filter(on_delete=False, **kwargs) \
+        .select_related("locality", "street", "realtor") \
+        .only("id", "locality__locality", "street__street", "realtor__email")
+
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
     """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
     return any(user.has_perm(perm) for perm in args)
@@ -248,7 +295,7 @@ def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
 def can_interact_with_object(
     user: CustomUser,
     current_object: BaseRealEstate,
-    perm: str, own_perm: str
+    perm: str, own_perm: str, filial_perm: str, user_field: str, model
 ) -> bool:
     """
     Перевіряє, чи має користувач відповідне право для для взаємодії
@@ -262,17 +309,21 @@ def can_interact_with_object(
     """
     if user.has_perm(perm):
         return True
-    
-    if not user.has_perm(own_perm):
-        return False
 
-    return current_object.realtor == user
+    if user.has_perm(filial_perm):
+        filials_obj = model.objects.filter(**{f"{user_field}__filials__in": user.filials.all()}).distinct()
+        return current_object in filials_obj
+
+    if user.has_perm(own_perm):
+        return current_object.realtor == user
+
+    return False
 
 
 def can_interact_with_object_list(
     user: CustomUser,
     object_list: Iterable[BaseRealEstate],
-    perm: str, own_perm: str
+    perm: str, own_perm: str, filial_perm: str, user_field: str, model
 ) -> dict[int, bool]:
     """
     Перевіряє, чи має користувач відповідне право для взаємодії
@@ -285,11 +336,15 @@ def can_interact_with_object_list(
     """
     if user.has_perm(perm):
         return {item.id: True for item in object_list}
-    
-    if not user.has_perm(own_perm):
-        return {item.id: False for item in object_list}
 
-    return {item.id: item.realtor == user for item in object_list}
+    if user.has_perm(filial_perm):
+        filials_obj = model.objects.filter(**{f"{user_field}__filials__in": user.filials.all()}).distinct()
+        return {item.id: item in filials_obj for item in object_list}
+
+    if user.has_perm(own_perm):
+        return {item.id: item.realtor == user for item in object_list}
+
+    return {item.id: False for item in object_list}
 
 
 def estate_objects_filter_visible(object_type: int, *args, **kwargs) -> QuerySet[Apartment | Commerce | House]:

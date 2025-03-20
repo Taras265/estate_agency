@@ -15,7 +15,7 @@ def get_user_choices(user: CustomUser, choices: List[Tuple[str, str]]) -> List[T
         if choice[1] == 'realestate' and user_can_view_real_estate_list(user):
             available_choices.append(choice)
         elif ((user.has_perm(f'{app}.view_{choice[1]}')
-             or user.has_perm(f'{app}.view_own_{choice[1]}'))):
+             or user.has_perm(f'{app}.view_own_{choice[1]}')) or user.has_perm(f'{app}.view_filial_{choice[1]}')):
             available_choices.append(choice)
     return available_choices
 
