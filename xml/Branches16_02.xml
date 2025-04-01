@@ -111,5 +111,11 @@
 			<NewBuildArea>Приморский+Центр</NewBuildArea>
 			<DateOpen>14.08.2010 0:00:00</DateOpen>
 		</Branch>
+		<Branch>
+			<ID>19</ID>
+			<Name>Гагарина</Name>
+			<TownRegionId>1</TownRegionId>
+			<DateOpen>01.01.0001 0:00:00</DateOpen>
+		</Branch>
 	</BranchList>
 </КоммерческаяИнформация>
