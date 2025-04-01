@@ -4,6 +4,8 @@
 {% block title %}{% translate 'Main' %}{% endblock %}
 
 {% block content %}
+<br>
+<br>
 <div class="container-fluid">
     <div class="featured_property_slider owl-carousel owl-theme">
         <div class="item">
@@ -12,7 +14,7 @@
                     <h2>{% translate 'Users' %}</h2>
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'accounts:users_list_redirect' lang=lang %}">
-                            {% translate 'Users' %}
+                            {% translate 'Accounts' %}
                         </a>
                     </div>
                 </div>

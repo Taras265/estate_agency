@@ -1,5 +1,8 @@
+from typing import Optional, List
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.translation import activate
 
@@ -8,6 +11,7 @@ from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES, LIST_BY_USER
+from utils.utils import get_office_context, by_user_queryset
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -49,13 +53,15 @@ class SearchByIdMixin:
 
 # змінити на UserPassesTestMixin (потім, не зараз)
 class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
-    perm = None
+    perms = None
 
     def get_permission_required(self):
         user = user_get(email=self.request.user)
 
         if user.has_perm(f"{self.app}.{self.perm}_{self.handbook_type}"):
             return (f"{self.app}.{self.perm}_{self.handbook_type}", )
+        if user.has_perm(f"{self.app}.{self.perm}_filial_{self.handbook_type}"):
+            return (f"{self.app}.{self.perm}_filial_{self.handbook_type}", )
         return (f"{self.app}.{self.perm}_own_{self.handbook_type}", )
 
     def get_queryset(self):
@@ -64,17 +70,9 @@ class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         perm = self.get_permission_required()[0]
 
         if perm.find("own") != -1:
-            if isinstance(LIST_BY_USER[self.handbook_type], str):
-                queryset = queryset.filter(**{LIST_BY_USER[self.handbook_type]: user})
-            else:
-                new_queryset = None
-                for field in LIST_BY_USER[self.handbook_type]:
-                    if new_queryset:
-                        new_queryset = new_queryset | self.queryset.filter(**{field: user})
-                    else:
-                        new_queryset = queryset.filter(**{field: user})
-                queryset = new_queryset
-
+            queryset = by_user_queryset(queryset, self.handbook_type, user)
+        elif perm.find("filial") != -1:
+            queryset = by_user_queryset(queryset, self.handbook_type, user.filials.all(), "filials__in")
         return queryset
 
 
@@ -92,6 +90,10 @@ class ClientListMixin:
 
     filters = ["all", "new", "in_selection", "with_show", "decided", "deferred_demand"]
 
+    queryset: QuerySet[Client]
+
+    own = True
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
 
@@ -102,6 +104,43 @@ class ClientListMixin:
         for index, obj in enumerate(context["object_values"]):
             client: Client = context["object_list"][index]
             obj["object_type"] = client.get_object_type_display()
+
+        return context
+
+
+class UserClientListMixin(ClientListMixin):
+    """
+    Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
+    який користувач дивиться (бачити тільки своїх клієнтів у БУДЬ ЯКОМУ випадку)
+    """
+    template_name = "handbooks/office_client_list.html"
+    permission_required = "handbooks.view_own_office_client"
+
+    def get_queryset(self):
+        return client_filter(self.queryset, realtor=user_get(email=self.request.user))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user = user_get(email=self.request.user)
+        context = get_office_context(user, super().get_context_data(**kwargs))
+
+        return context
+
+
+class FilialClientListMixin(ClientListMixin):
+    """
+    Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
+    які є філіали має користувач, який дивиться (бачити тільки клієнтів свого філіалу у БУДЬ ЯКОМУ випадку)
+    """
+    template_name = "handbooks/office_filial_client_list.html"
+    permission_required = "handbooks.view_own_office_client"
+
+    def get_queryset(self):
+        return client_filter(self.queryset,
+                             realtor__filials__in=user_get(email=self.request.user).filials.all()).distinct()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user = user_get(email=self.request.user)
+        context = get_office_context(user, super().get_context_data(**kwargs))
 
         return context
 

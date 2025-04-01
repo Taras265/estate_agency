@@ -31,6 +31,8 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
     filters = None
     filter = None
 
+    own = False
+
     def get_context_data(self, *, object_list=None, **kwargs):
         user = user_get(email=self.request.user)
 
@@ -42,7 +44,8 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
             "choices": get_user_choices(user, self.choices),
             "can_create": user.has_perm(f"{self.app}.add_{self.handbook_type}"),
             "filters": self.filters,
-            "filter": self.filter
+            "filter": self.filter,
+            "handbook": self.handbook_type,
         })
 
         if context.get("objects"):
@@ -55,7 +58,8 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
                     user,
                     context["page_obj"].object_list,
                     self.app,
-                    self.handbook_type
+                    self.handbook_type,
+                    self.own
                 )
             })
 
@@ -175,5 +179,7 @@ class HistoryView(StandardContextDataMixin, GetQuerysetMixin, DetailView):
                             "new_value": new_value
                         })
         context["history"] = changes
+        context["handbook"] = self.handbook_type
+        context["list_url"] = f"{TABLE_TO_APP[self.handbook_type]}:{self.handbook_type}_list"
 
         return context

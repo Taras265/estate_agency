@@ -15,7 +15,8 @@ from handbooks.services import region_all_visible, region_filter, \
     client_all_visible
 from objects.services import user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_real_estate_list, \
     user_can_view_report
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin, SearchByIdMixin
+from utils.mixins.new_mixins import CustomLoginRequiredMixin, ClientListMixin, ByUserMixin, SearchByIdMixin, \
+    UserClientListMixin, FilialClientListMixin
 from utils.views import CustomListView, CustomHandbookListView, CustomCreateView, CustomUpdateView, CustomDeleteView, \
     HistoryView
 
@@ -41,7 +42,8 @@ def sale_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
     if user:
-        if user.has_perm(f"handbooks.view_client") or user.has_perm(f"handbooks.view_own_client"):
+        if (user.has_perm(f"handbooks.view_client") or user.has_perm(f"handbooks.view_own_client")
+                or user.has_perm(f"handbooks.view_filial_client")):
             return redirect(reverse_lazy("handbooks:client_list", kwargs=kwargs))
         elif user_can_view_real_estate_list(user):
             return redirect(reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs))
@@ -945,6 +947,78 @@ class DecidedClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, Custo
 
 
 class DeferredDemandClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=4)
+    filter = "deferred_demand"
+    perm = "view"
+
+
+class MyAllClientsListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_all_visible()
+    filter = "all"
+    perm = "view"
+
+
+class MyNewClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(date_of_add__gte=timezone.now()-relativedelta(months=1))
+    filter = "new"
+    perm = "view"
+
+
+class MyInSelectionClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=1)
+    filter = "in_selection"
+    perm = "view"
+
+
+class MyWithShowClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=2)
+    filter = "with_show"
+    perm = "view"
+
+
+class MyDecidedClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=3)
+    filter = "decided"
+    perm = "view"
+
+
+class MyDeferredDemandClientListView(UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=4)
+    filter = "deferred_demand"
+    perm = "view"
+
+
+class FilialAllClientsListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_all_visible()
+    filter = "all"
+    perm = "view"
+
+
+class FilialNewClientListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(date_of_add__gte=timezone.now()-relativedelta(months=1))
+    filter = "new"
+    perm = "view"
+
+
+class FilialInSelectionClientListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=1)
+    filter = "in_selection"
+    perm = "view"
+
+
+class FilialWithShowClientListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=2)
+    filter = "with_show"
+    perm = "view"
+
+
+class FilialDecidedClientListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
+    queryset = client_filter_visible(status=3)
+    filter = "decided"
+    perm = "view"
+
+
+class FilialDeferredDemandClientListView(FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView):
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"

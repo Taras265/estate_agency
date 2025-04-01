@@ -5,16 +5,7 @@
 {% block title %}{% translate 'Showing act' %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid page_heading_banner">
-  <div class="banner_caption">
-    <h1>{% translate 'Showing act' %}</h1>
-    <ul>
-        <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-        <li>{% translate 'Showing act' %}</li>
-    </ul>
-  </div>
-</div>
-<br>
+
 <div class="container featured_property_section properties_list_section">
     {% for object in objects %}
     <div class="featured_div">

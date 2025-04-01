@@ -92,6 +92,10 @@ class CustomUser(AbstractUser):
         verbose_name_plural = "Users"
         default_permissions = ("add", "change", "view")
 
+        permissions = (
+            ("view_office_user", "Can view in office users"),
+        )
+
     def get_full_name(self):
         return self.first_name, self.last_name, self.email
 

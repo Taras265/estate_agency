@@ -18,15 +18,16 @@
         text-align: left;
     }
 </style>
-
 <div class="container-fluid page_heading_banner">
-    <div class="banner_caption">
-        <h1>{% translate 'Form' %}</h1>
-        <ul>
-            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-            <li>{% translate 'Form' %}</li>
-        </ul>
-    </div>
+  <div class="banner_caption">
+    <h1>{% translate 'Client form' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'handbooks:client_list' lang=lang %}">{% translate 'Clients' %}</a></li>
+      <li>/ </li>
+      <li>{% translate 'Client form' %}</li>
+    </ul>
+  </div>
 </div>
 <br>
 <div>

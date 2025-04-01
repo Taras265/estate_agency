@@ -5,17 +5,15 @@
 
 {% block content %}
 <div class="container-fluid page_heading_banner">
-    <div class="banner_caption">
-        <h1>{% translate 'Selection history' %}</h1>
-        <ul>
-            <li><a href="/{{ lang }}/">{% translate 'Main' %}</a></li>
-            <li>{% translate 'Base' %} / </li>
-            <li>{% translate 'Selection' %} / </li>
-            <li>{% translate 'History' %}</li>
-        </ul>
-    </div>
+  <div class="banner_caption">
+    <h1>{% translate 'Selection history' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'handbooks:client_list' lang=lang %}">{% translate 'Clients' %}</a></li>
+      <li>/ {% translate 'Selection history' %}</li>
+    </ul>
+  </div>
 </div>
-<br>
 {% if selections %}
 <table class="table table-striped">
 <tbody>

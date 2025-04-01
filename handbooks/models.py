@@ -261,10 +261,13 @@ class Client(BaseModel):
     class Meta:
         default_permissions = ("add", "change", "view")
         permissions = (
-            ("add_own_client", "Can add own client"),
             ("change_own_client", "Can change own client"),
             ("view_own_client", "Can view own client"),
-            ("view_own_historicalclient", "Can view own historical client"),
+            ("change_filial_client", "Can change filial client"),
+            ("view_filial_client", "Can view filial client"),
+
+            ("view_own_office_client", "Can view in office own clients"),
+            ("view_filial_office_client", "Can view in office filial clients"),
         )
 
     def __str__(self):

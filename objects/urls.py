@@ -7,7 +7,9 @@ from objects.views import (
     CatalogListView, ApartmentDetailView, CommerceDetailView, HouseDetailView,
     ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView,
     SelectionListView, ShowingActView, ContractListView, SelectionHistoryView,
-    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect,
+    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, MyApartmentListView,
+    MyCommerceListView, MyHouseListView, FilialApartmentListView, FilialCommerceListView, FilialHouseListView,
+    ReportOfficeListView, OfficeHistoryReportListView,
 )
 
 urlpatterns = [
@@ -22,6 +24,16 @@ urlpatterns = [
     path("sale/apartments/", ApartmentListView.as_view(), name="apartment_list"),
     path("sale/commerces/", CommerceListView.as_view(), name="commerce_list"),
     path("sale/houses/", HouseListView.as_view(), name="house_list"),
+
+    path("office/apartments/", MyApartmentListView.as_view(), name="office_apartment_list"),
+    path("office/commerces/", MyCommerceListView.as_view(), name="office_commerce_list"),
+    path("office/houses/", MyHouseListView.as_view(), name="office_house_list"),
+    path("office/filial/apartments/", FilialApartmentListView.as_view(), name="office_filial_apartment_list"),
+    path("office/filial/commerces/", FilialCommerceListView.as_view(), name="office_filial_commerce_list"),
+    path("office/filial/houses/", FilialHouseListView.as_view(), name="office_filial_house_list"),
+    path("office/report/changes/", OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
+    path("office/report/", ReportOfficeListView.as_view(), name="office_report_list"),
+    path("office/report/<str:filter>/", ReportOfficeListView.as_view(), name="office_report_list"),
 
     path("sale/report/changes/", HistoryReportListView.as_view(), name="changes_report_list"),
     path("sale/report/", ReportListView.as_view(), name="report_list"),

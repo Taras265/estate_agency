@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate 'Profile' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Office' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li>{% translate 'Office' %}</li>
+    </ul>
+  </div>
+</div>
+<div class="container agents_details_section">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item active" role="presentation">
+                <a class="nav-link active"
+                   href="{% url 'handbooks:office_client_list' lang=lang %}">
+                    {% translate "My clients" %}
+                </a>
+            </li>
+
+            {% if my_objects %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'objects:office_apartment_list' lang=lang %}">
+                    {% translate "My objects" %}
+                </a>
+            </li>
+            {% endif %}
+
+            {% if filial_clients %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
+                    {% translate "Filial clients" %}
+                </a>
+            </li>
+            {% endif %}
+
+            {% if filial_objects %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
+                    {% translate "Filial objects" %}
+                </a>
+            </li>
+            {% endif %}
+
+            {% if report %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'objects:office_report_list' lang=lang %}">
+                    {% translate "Report" %}
+                </a>
+            </li>
+            {% endif %}
+
+            {% if users %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'accounts:office_user_list' lang=lang %}">
+                    {% translate "Users" %}
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<!-- Properties Search -->
+<div class="container">
+    <div class="property_search">
+        <div class="row justify-content-center text-center">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <form method="get" class="search-form">
+                    <div class="row g-4">
+                        {% for field in form %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label class="customlbl" for="id_{{ field.name }}">
+                                {{ field.label }}
+                            </label>
+                            <div class="form-group">
+                                {{ field }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <br>
+                            <button type="submit" class="custombtn">{% translate 'Search' %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'all' %}active{% endif %}"
+                   href="{% url 'handbooks:office_all_clients_list' lang=lang %}">
+                    {% translate 'All' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'new' %}active{% endif %}"
+                   href="{% url 'handbooks:office_new_client_list' lang=lang %}">
+                    {% translate 'New' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'in_selection' %}active{% endif %}"
+                   href="{% url 'handbooks:office_in_selection_client_list' lang=lang %}">
+                    {% translate 'In selection' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'with_show' %}active{% endif %}"
+                   href="{% url 'handbooks:office_with_show_client_list' lang=lang %}">
+                    {% translate 'With a show' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'decided' %}active{% endif %}"
+                   href="{% url 'handbooks:office_decided_client_list' lang=lang %}">
+                    {% translate 'Decided' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if filter == 'deferred_demand' %}active{% endif %}"
+                   href="{% url 'handbooks:office_deferred_demand_client_list' lang=lang %}">
+                    {% translate 'Deferred demand' %}
+                </a>
+            </li>
+        </ul>
+        <div class="row">
+            <div class="responsive-tabs" data-type="horizontal">
+                <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+                    {% if page_obj %}
+                    <div>
+                        <div class="offset-top-66 text-center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">{% translate 'Id' %}</th>
+                                    <th scope="col">{% translate 'Email' %}</th>
+                                    <th scope="col">{% translate 'First name' %}</th>
+                                    <th scope="col">{% translate 'Real estate type' %}</th>
+                                    <th scope="col">{% translate 'Phone number' %}</th>
+                                    <th scope="col">{% translate 'Status' %}</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in object_values %}
+                                <tr>
+                                    <td></td>
+                                    {% for key, data in object.items %}
+                                    {% if key != 'on_delete' and key != 'user_permissions' %}
+                                    <td>{{data}}</td>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection' lang=lang client_id=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Selection' %}</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Selection history' %}</a>
+                                    </td>
+                                    {% if object.user_permissions.can_update %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'handbooks:client_update' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Update' %}</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                           href="{% url 'handbooks:client_delete' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'Delete' %}</a>
+                                    </td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'handbooks:client_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if can_create %}
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                       href="{% url 'handbooks:client_create' lang=lang %}"
+                       type="button" style="max-width: 120px">{% translate 'Create' %}</a>
+                    {% endif %}
+                </div>
+            </div>
+            <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
+                <div class="btn-group" role="group">
+                    {% if page_obj.has_previous %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+                    {% endif %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                    {% if page_obj.has_next %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

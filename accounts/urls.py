@@ -2,15 +2,17 @@ from django.urls import path
 
 from accounts.views import login_view, logout_view, ProfileView, users_list_redirect, UserListView, GroupListView, \
     UserCreateView, UserUpdateView, GroupUpdateView, UserDeleteView, GroupDeleteView, UserHistoryView, GroupHistoryView, \
-    GroupCreateView
+    GroupCreateView, office_redirect, MyUserListView
 
 urlpatterns = [
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("profile/", ProfileView.as_view(), name="profile"),
+    path("office/", office_redirect, name="office"),
 
     path("accounts/users_list_redirect/", users_list_redirect, name="users_list_redirect"),
     path("accounts/user/", UserListView.as_view(), name="user_list"),
+    path("office/user/", MyUserListView.as_view(), name="office_user_list"),
     path("accounts/group/", GroupListView.as_view(), name="group_list"),
 
     path("accounts/create/user/", UserCreateView.as_view(), name="user_create"),

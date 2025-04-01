@@ -48,9 +48,10 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         return queryset
 
     def get_permission_required(self):  # Отримаємо яке нам потрібно право для цієї сторінки
-        user = CustomUser.objects.filter(email=self.request.user).first()
+        if not self.permission_required:
+            user = CustomUser.objects.filter(email=self.request.user).first()
 
-        self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
+            self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
         return super().get_permission_required()
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -180,12 +181,13 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
         return self.queryset
 
     def get_permission_required(self):  # Отримаємо яке нам потрібно право для цієї сторінки
-        user = CustomUser.objects.filter(email=self.request.user).first()
+        if not self.permission_required:
+            user = CustomUser.objects.filter(email=self.request.user).first()
 
-        if user.has_perm(f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'):
-            self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
-        else:
-            self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}'
+            if user.has_perm(f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'):
+                self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}'
+            else:
+                self.permission_required = f'{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}'
         return (self.permission_required, )
 
 
