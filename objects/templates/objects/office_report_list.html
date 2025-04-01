@@ -45,21 +45,21 @@
             </li>
             {% endif %}
 
+            {% if filial_objects %}
             <li class="nav-item" role="presentation">
-                <a class="nav-link active"
+                <a class="nav-link"
                    href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
                     {% translate "Filial objects" %}
                 </a>
             </li>
+            {% endif %}
 
-            {% if report %}
             <li class="nav-item" role="presentation">
-                <a class="nav-link"
+                <a class="nav-link active"
                    href="{% url 'objects:office_report_list' lang=lang %}">
                     {% translate "Report" %}
                 </a>
             </li>
-            {% endif %}
 
             {% if users %}
             <li class="nav-item" role="presentation">
@@ -72,54 +72,57 @@
         </ul>
     </div>
 </div>
-<div class="container">
-    <div class="property_search">
-
-        <div class="row justify-content-center text-center">
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
-                <form method="get" class="search-form">
-                    <div class="row g-4">
-                        {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <br>
-                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
-        {% with url_name=request.resolver_match.url_name %}
+        {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'office_filial_apartment_list' %}active{% endif %}"
-                       href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
-                        {% translate "Apartments" %}
+                    <a class="nav-link {% if current_filter == 'new_apartments' or not current_filter %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='new_apartments' %}">
+                        {% translate "New apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'office_filial_commerce_list' %}active{% endif %}"
-                       href="{% url 'objects:office_filial_commerce_list' lang=lang %}">
-                        {% translate "Commerces" %}
+                    <a class="nav-link {% if current_filter == 'new_commerce' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='new_commerce' %}">
+                        {% translate "New commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'office_filial_house_list' %}active{% endif %}"
-                       href="{% url 'objects:office_filial_house_list' lang=lang %}">
-                        {% translate "Houses" %}
+                    <a class="nav-link {% if current_filter == 'new_houses' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='new_houses' %}">
+                        {% translate "New houses" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if current_filter == 'new_lands' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='new_lands' %}">
+                        {% translate "New lands" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if current_filter == 'new_rooms' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='new_rooms' %}">
+                        {% translate "New rooms" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if current_filter == 'all_apartments' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='all_apartments' %}">
+                        {% translate "All apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if current_filter == 'my_apartments' %}active{% endif %}"
+                       href="{% url 'objects:office_report_list' lang=lang filter='my_apartments' %}">
+                        {% translate "My apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if current_filter == '' %}active{% endif %}"
+                       href="{% url 'objects:office_changes_report_list' lang=lang %}">
+                        {% translate "Changes report" %}
                     </a>
                 </li>
             </ul>
@@ -137,9 +140,11 @@
                                         <th scope="col">{% translate 'Id' %}</th>
                                         <th scope="col">{% translate 'Locality' %}</th>
                                         <th scope="col">{% translate 'Street' %}</th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
+                                        <th scope="col">{% translate 'Floor' %}</th>
+                                        <th scope="col">{% translate 'Creation date' %}</th>
+                                        <th scope="col">{% translate 'Price' %}</th>
+                                        <th scope="col">{% translate 'Status' %}</th>
+                                        <th scope="col">{% translate 'Owner' %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,36 +154,11 @@
                                         <td>{{object.id}}</td>
                                         <td>{{object.locality}}</td>
                                         <td>{{object.street}}</td>
-                                        {% if can_update and can_update|get_dict_value:object.id %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="{% url update_url_name lang=lang pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                        {% translate 'Update' %}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
-                                                   href="{% url delete_url_name lang=lang pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                        {% translate 'Delete' %}
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td></td>
-                                            <td></td>
-                                        {% endif %}
-                                        {% if can_view_history and can_view_history|get_dict_value:object.id %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="/{{ lang }}/{% url_app choice %}/base/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}{{ object.id }}/"
-                                                   type="button" style="max-width: 120px">
-                                                    {% translate 'History' %}
-                                                </a>
-                                            </td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
+                                        <td>{{object.floor}}</td>
+                                        <td>{{object.creation_date}}</td>
+                                        <td>{{object.price}}</td>
+                                        <td>{{object.get_status_display}}</td>
+                                        <td>{{object.owner}}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -186,15 +166,7 @@
                         </div>
                     </div>
                     {% else %}
-                        <div style="text-align:center">{% translate 'Not found' %}</div>
-                    {% endif %}
-                    {% if can_create %}
-                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                           href="{% url create_url_name lang=lang %}"
-                           type="button"
-                           style="max-width: 120px">
-                            {% translate 'Create' %}
-                        </a>
+                        <div style="text-align:center">Not found</div>
                     {% endif %}
                 </div>
             </div>

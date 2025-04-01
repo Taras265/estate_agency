@@ -9,6 +9,7 @@ from objects.views import (
     SelectionListView, ShowingActView, ContractListView, SelectionHistoryView,
     verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, MyApartmentListView,
     MyCommerceListView, MyHouseListView, FilialApartmentListView, FilialCommerceListView, FilialHouseListView,
+    ReportOfficeListView, OfficeHistoryReportListView,
 )
 
 urlpatterns = [
@@ -30,6 +31,9 @@ urlpatterns = [
     path("office/filial/apartments/", FilialApartmentListView.as_view(), name="office_filial_apartment_list"),
     path("office/filial/commerces/", FilialCommerceListView.as_view(), name="office_filial_commerce_list"),
     path("office/filial/houses/", FilialHouseListView.as_view(), name="office_filial_house_list"),
+    path("office/report/changes/", OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
+    path("office/report/", ReportOfficeListView.as_view(), name="office_report_list"),
+    path("office/report/<str:filter>/", ReportOfficeListView.as_view(), name="office_report_list"),
 
     path("sale/report/changes/", HistoryReportListView.as_view(), name="changes_report_list"),
     path("sale/report/", ReportListView.as_view(), name="report_list"),

@@ -842,6 +842,33 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
         return context
 
 
+class ReportOfficeListView(HandbookWithFilterListMixin, ListView):
+    model = Apartment
+    template_name = "objects/office_report_list.html"
+    handbook_type = 'report'
+    filters = ['new_apartments', 'new_commerce', 'new_houses',
+               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments']
+    queryset_filters = {'new_apartments': Apartment.objects.filter(on_delete=False),
+                        'new_commerce': Commerce.objects.filter(on_delete=False),
+                        'new_houses': House.objects.filter(on_delete=False),
+                        'new_lands': Apartment.objects.none(),
+                        'new_rooms': Apartment.objects.none(),
+                        'all_apartments': Apartment.objects.filter(on_delete=False),
+                        'my_apartments': Apartment.objects.filter(on_delete=False)}
+    custom = True
+    form = HandbooksSearchForm
+    choices = SALE_CHOICES
+    permission_required = "objects.view_office_report"
+
+    def get_queryset(self):
+        return HandbookWithFilterListMixin.get_queryset(self)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        user = user_get(email=self.request.user)
+        context = get_office_context(user, super().get_context_data(**kwargs))
+        return context
+
+
 class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
     model = Apartment
     template_name = "objects/contract_list.html"
@@ -891,6 +918,78 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
 
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
+        context['lang'] = self.kwargs['lang']
+
+        context.update({
+            "can_view_client": has_any_perm_from_list(
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+            "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+        })
+
+        context['choice'] = self.handbook_type
+        context.update({'choices': self.choices_by_user(user)})
+
+        """
+        Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
+        Тому ми тут робимо перевірку
+        """
+
+        """
+        Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
+        (районами, квартирами ітд). Бажано колись спростити, коли буде час.
+        """
+        apartments = get_all_apartment_history(order_by="history_date")
+        commerces = get_all_commerce_history(order_by="history_date")
+        houses = get_all_houses_history(order_by="history_date")
+        context['object_list'] = sorted(chain(apartments, commerces, houses),
+                                        key=lambda x: x.history_date,
+                                        reverse=True)
+
+        if context['object_list']:  # Якщо нам взагалі є з чим працювати
+            context['object_values'] = []
+            context['object_columns'] = ['id', 'date', 'user', 'field',
+                                         'old_value', 'new_value']  # Назва стовпців
+            for record in context['object_list']:
+                if record.prev_record:
+                    prev_record = record.prev_record
+                    for field in record._meta.fields:
+                        if field.name.find("history") == -1:
+                            field_name = field.name
+                            old_value = getattr(prev_record, field_name)
+                            new_value = getattr(record, field_name)
+                            if old_value != new_value:
+                                context['object_values'].append({
+                                    'id': record.id,
+                                    'date': record.history_date,
+                                    'user': record.history_user,
+                                    'field': field.verbose_name,
+                                    'old_value': old_value,
+                                    'new_value': new_value,
+                                    'model': record._meta.model_name[10::],
+                                })
+        else:
+            context['object_columns'] = None
+        return context
+
+
+class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
+    model = Apartment.history.all().model
+    template_name = "objects/office_changes_report_list.html"
+    handbook_type = 'report'
+    filters = ['new_apartments', 'new_commerce', 'new_houses',
+               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments', 'changes']
+    queryset_filters = {'changes': Apartment.history.all(), }
+    custom = True
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+
+        user = CustomUser.objects.filter(email=self.request.user).first()
+
+        # підгружаємо частину готової дати і додаємо що потрібно
+        context = get_office_context(user, super().get_context_data(**kwargs))
         context['lang'] = self.kwargs['lang']
 
         context.update({

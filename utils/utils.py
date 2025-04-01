@@ -88,6 +88,7 @@ def get_office_context(user: CustomUser, context: dict[str, Any]) -> dict[str, A
             "my_objects": user.has_perm("objects.view_own_office_objects"),
             "filial_clients": user.has_perm("handbooks.view_filial_office_client"),
             "filial_objects": user.has_perm("objects.view_filial_office_objects"),
+            "report": user.has_perm("objects.view_office_report"),
             "users": user.has_perm("accounts.view_office_user"),})
     return context
 

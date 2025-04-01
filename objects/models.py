@@ -201,6 +201,7 @@ class Apartment(BaseRealEstate):
             ("view_filial_office_objects", "Can view in office filial objects"),
 
             ("view_report", "Can view reports"),
+            ("view_office_report", "Can view reports in office"),
             ("view_contract", "Can view contracts"),
         )
 

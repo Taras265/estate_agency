@@ -50,6 +50,15 @@
             </li>
             {% endif %}
 
+            {% if report %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'objects:office_report_list' lang=lang %}">
+                    {% translate "Report" %}
+                </a>
+            </li>
+            {% endif %}
+
             {% if users %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
