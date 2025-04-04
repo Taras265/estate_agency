@@ -4,22 +4,9 @@
 {% block title %}{% translate 'Main' %}{% endblock %}
 
 {% block content %}
-<br>
-<br>
 <div class="container-fluid">
     <div class="featured_property_slider owl-carousel owl-theme">
-        <div class="item">
-            <div class="featured_div">
-                <div class="featured_content">
-                    <h2>{% translate 'Users' %}</h2>
-                    <div class="explore_btn">
-                        <a class="custombtn" href="{% url 'accounts:users_list_redirect' lang=lang %}">
-                            {% translate 'Accounts' %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="item">
             <div class="featured_div">
                 <div class="featured_content">
@@ -51,6 +38,18 @@
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'handbooks:handbook_redirect' lang=lang %}">
                             {% translate 'Handbooks' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="featured_div">
+                <div class="featured_content">
+                    <h2>{% translate 'Users' %}</h2>
+                    <div class="explore_btn">
+                        <a class="custombtn" href="{% url 'accounts:users_list_redirect' lang=lang %}">
+                            {% translate 'Users' %}
                         </a>
                     </div>
                 </div>

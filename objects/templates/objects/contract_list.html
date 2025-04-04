@@ -84,6 +84,66 @@
         {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
+                        {% translate "New apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='new_commerce' %}">
+                        {% translate "New commerces" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='new_houses' %}">
+                        {% translate "New houses" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='new_lands' %}">
+                        {% translate "New lands" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link "
+                       href="{% url 'objects:report_list' lang=lang filter='new_rooms' %}">
+                        {% translate "New rooms" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='all_apartments' %}">
+                        {% translate "All apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                       href="{% url 'objects:report_list' lang=lang filter='my_apartments' %}">
+                        {% translate "My apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link "
+                       href="{% url 'objects:changes_report_list' lang=lang %}">
+                        {% translate "Changes report" %}
+                    </a>
+                </li>
+                {% if can_view_contract %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active"
+                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
+                            {% translate "Contract" %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endwith %}
+        {% with current_filter=request.resolver_match.kwargs.filter %}
+            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                <li class="nav-item" role="presentation">
                     <a class="nav-link {% if current_filter == 'apartments' %}active{% endif %}"
                        href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
                         {% translate "Apartments" %}

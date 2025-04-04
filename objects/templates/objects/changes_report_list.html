@@ -70,14 +70,6 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if can_view_contract %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
         {% endwith %}
         {% with current_filter=request.resolver_match.kwargs.filter %}
@@ -130,6 +122,14 @@
                         {% translate "Changes report" %}
                     </a>
                 </li>
+                {% if can_view_contract %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link"
+                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
+                            {% translate "Contract" %}
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         {% endwith %}
         <div class="row">

@@ -35,7 +35,7 @@ BASE_CHOICES = [(_('region'), 'region'), (_('district'), 'district'),
            (_('housetype'), 'housetype'), (_('filialagency'), 'filialagency'),
            (_('filialreport'), 'filialreport'), (_('complex'), 'complex')]
 SALE_CHOICES = [(_('client'), 'client'), (_('realestate'), 'realestate'),
-                (_('report'), 'report'), (_('contract'), 'contract')]
+                (_('report'), 'report'),]
 USER_CHOICES = [(_('user'), 'user'), (_('group'), 'group')]
 
 MODEL = {'region': Region, 'district': District,

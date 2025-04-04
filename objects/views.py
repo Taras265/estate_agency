@@ -1369,36 +1369,63 @@ class CatalogListView(ListView):
         return context
 
 
-class ApartmentDetailView(DetailView):
+class ApartmentDetailView(UpdateView):
+    template_name = "objects/real_estate_update_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.APARTMENT)
-    template_name = "objects/details.html"
+    form_class = ApartmentForm
+    model = Apartment
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
+
+        for field in context["form"].fields.values():
+            field.widget.attrs['disabled'] = True
+            field.widget.attrs['readonly'] = True
+
+        context["disabled"] = True
+
         return context
 
 
-class CommerceDetailView(DetailView):
+class CommerceDetailView(UpdateView):
+    template_name = "objects/real_estate_update_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.COMMERCE)
-    template_name = "objects/details.html"
+    form_class = CommerceForm
+    model = Commerce
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
+
+        for field in context["form"].fields.values():
+            field.widget.attrs['disabled'] = True
+            field.widget.attrs['readonly'] = True
+
+        context["disabled"] = True
+
         return context
 
 
-class HouseDetailView(DetailView):
+class HouseDetailView(UpdateView):
+    template_name = "objects/real_estate_update_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.HOUSE)
-    template_name = "objects/details.html"
+    form_class = HouseForm
+    model = House
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
+
+        for field in context["form"].fields.values():
+            field.widget.attrs['disabled'] = True
+            field.widget.attrs['readonly'] = True
+
+        context["disabled"] = True
+
         return context
 
 

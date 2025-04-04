@@ -41,198 +41,248 @@
                     </div>
                 </div>
                 <!-- Gallery Section End -->
-                <div class="properties_content">
-                    <div class="sub_heading">
-                        <h2>{% translate 'Characteristics' %}</h2>
-                    </div>
-                    <div class="offset-top-30">
-                        <div class="table-responsive clearfix">
-                            <table class="table table-striped">
-                                <tbody>
-                                <tr>
-                                    <th>{% translate 'Locality' %}</th>
-                                    <td>{{ object.locality }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Street' %}</th>
-                                    <td>{{ object.street }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'House' %}</th>
-                                    <td>{{ object.house }}</td>
-                                </tr>
-                                {% if object.apartment %}
-                                    <tr>
-                                        <th>{% translate 'Apartment' %}</th>
-                                        <td>{{ object.apartment }}</td>
-                                    </tr>
-                                {% elif object.premises %}
-                                    <tr>
-                                        <th>{% translate 'Premises' %}</th>
-                                        <td>{{ object.premises }}</td>
-                                    </tr>
-                                {% elif object.housing %}
-                                    <tr>
-                                        <th>{% translate 'Housing' %}</th>
-                                        <td>{{ object.housing }}</td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <th>{% translate 'Deposit date' %}</th>
-                                    <td>{{ object.deposit_date|default:"" }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Exclusive' %}</th>
-                                    <td>{{ object.exclusive|yesno:_("Yes,No") }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Withdrawal reason' %}</th>
-                                    <td>{{ object.withdrawal_reason }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Condition' %}</th>
-                                    <td>{{ object.condition }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Material' %}</th>
-                                    <td>{{ object.material }}</td>
-                                </tr>
-                                {% if object.complex %}
-                                    <tr>
-                                        <th>{% translate 'Complex' %}</th>
-                                        <td>{{ object.complex }}</td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <th>{% translate 'Status' %}</th>
-                                    <td>{{ object.get_status_display }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Square' %}</th>
-                                    <td>{{ object.square }}</td>
-                                </tr>
-                                {% if object.living_square %}
-                                    <tr>
-                                        <th>{% translate 'Living square' %}</th>
-                                        <td>{{ object.living_square }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.useful_square %}
-                                    <tr>
-                                        <th>{% translate 'Useful square' %}</th>
-                                        <td>{{ object.useful_square }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.land_square %}
-                                    <tr>
-                                        <th>{% translate 'Land square' %}</th>
-                                        <td>{{ object.land_square }}</td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <th>{% translate 'Price' %}</th>
-                                    <td>{{ object.price }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'EHome' %}</th>
-                                    <td>{{ object.e_home|yesno:_("Yes,No") }}</td>
-                                </tr>
-                                {% if object.balcony != None %}
-                                    <tr>
-                                        <th>{% translate 'Balcony' %}</th>
-                                        <td>{{ object.balcony|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.terrace != None %}
-                                    <tr>
-                                        <th>{% translate 'Terrace' %}</th>
-                                        <td>{{ object.terrace|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.ground_floor != None %}
-                                    <tr>
-                                        <th>{% translate 'Ground floor' %}</th>
-                                        <td>{{ object.ground_floor|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.facade != None %}
-                                    <tr>
-                                        <th>{% translate 'Facade' %}</th>
-                                        <td>{{ object.facade|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.own_parking != None %}
-                                    <tr>
-                                        <th>{% translate 'Own parking' %}</th>
-                                        <td>{{ object.own_parking|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.own_courtyard != None %}
-                                    <tr>
-                                        <th>{% translate 'Own courtyard' %}</th>
-                                        <td>{{ object.own_courtyard|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.separate_building != None %}
-                                    <tr>
-                                        <th>{% translate 'Separate building' %}</th>
-                                        <td>{{ object.separate_building|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.rooms_number %}
-                                    <tr>
-                                        <th>{% translate 'Number of rooms' %}</th>
-                                        <td>{{ object.rooms_number }}</td>
-                                    </tr>
-                                {% endif %}
-                                {% if object.communications != None %}
-                                    <tr>
-                                        <th>{% translate 'Communications' %}</th>
-                                        <td>{{ object.communications|yesno:_("Yes,No") }}</td>
-                                    </tr>
-                                {% endif %}
-                                <tr>
-                                    <th>{% translate 'Owner' %}</th>
-                                    <td>{{ object.owner }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Agency' %}</th>
-                                    <td>{{ object.agency }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Sale terms' %}</th>
-                                    <td>{{ object.sale_terms }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Document' %}</th>
-                                    <td>{{ object.document }}</td>
-                                </tr>
-                                <tr>
-                                    <th>{% translate 'Realtor' %}</th>
-                                    <td>{{ object.realtor }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                <div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.room_types.label_tag }} {{ form.room_types }}
+                            </div>
+                            {{ form.room_types.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.realtor.label_tag }} {{ form.realtor }}
+                            </div>
+                            {{ form.realtor.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.deposit_date.label_tag }} {{ form.deposit_date }}
+                            </div>
+                            {{ form.deposit_date.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.status.label_tag }} {{ form.status }}
+                            </div>
+                            {{ form.status.errors }}
                         </div>
                     </div>
-
-                    {% if object.realtor_notes %}
-                    <div class="sub_heading">
-                        <h2>{% translate 'Realtor notes' %}</h2>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.locality.label_tag }} {{ form.locality }}
+                            </div>
+                            <div id="locality-error" class="text-danger"></div>
+                            {{ form.locality.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.street.label_tag }} {{ form.street }}
+                            </div>
+                            <label id="street-error" class="text-danger"></label>
+                            {{ form.street.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.house.label_tag }} {{ form.house }}
+                            </div>
+                            <label id="house-error" class="text-danger"></label>
+                            {{ form.house.errors }}
+                        </div>
+                    <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.apartment.label_tag }} {{ form.apartment }}
+                            </div>
+                            <label id="apartment-error" class="text-danger"></label>
+                            {{ form.apartment.errors }}
+                        </div>
                     </div>
-                    <ul class="offset-top-30">
-                        {{ object.realtor_notes }}
-                    </ul>
-                    {% endif %}
-
-                    {% if object.comment %}
-                    <div class="sub_heading">
-                        <h2>{% translate 'Comment' %}</h2>
+                    <div class="d-flex gap-3 mb-5">
+                        <div>
+                            <button type="button" id="btn-fill-address" class="btn btn-secondary">{% translate 'Fill address' %}</button>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-3">
+                                <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
+                                <label></label>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="offset-top-30">
-                        {{ object.comment }}
-                    </ul>
-                    {% endif %}
+                    <div class="d-inline-block mb-5">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            {{ form.agency.label_tag }} {{ form.agency }}
+                        </div>
+                        {{ form.agency.errors }}
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.square.label_tag }} {{ form.square }}
+                            </div>
+                            {{ form.square.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.living_square.label_tag }} {{ form.living_square }}
+                            </div>
+                            {{ form.living_square.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.kitchen_square.label_tag }} {{ form.kitchen_square }}
+                            </div>
+                            {{ form.kitchen_square.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.height.label_tag }} {{ form.height }}
+                            </div>
+                            {{ form.height.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.price.label_tag }} {{ form.price }}
+                            </div>
+                            {{ form.price.errors }}
+                        </div>
+                        <div class="col d-flex align-items-center gap-2">
+                            {{ form.exclusive.as_field_group }}
+                        </div>
+                        <div class="col d-flex align-items-center gap-2">
+                            {{ form.e_home.as_field_group }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.document.label_tag }} {{ form.document }}
+                            </div>
+                            {{ form.document.errors }}
+                        </div>
+                    </div>
+                    {{ formset.management_form }}
+                    <div id="photo-formset" class="row mb-10">
+                        {% for f in formset %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card" style="width: 18rem;">
+                                    {% if f.instance.pk %}
+                                    <img src="{{ f.instance.image.url }}" style="height: 18rem; object-fit: cover;" alt="Apartment image">
+                                    {% endif %}
+                                    <div class="photo-form card-body">
+                                        {{ f.as_p }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex align-items-center gap-3 mb-5">
+                        <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.house_type.label_tag }} {{ form.house_type }}
+                            </div>
+                            {{ form.house_type.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.material.label_tag }} {{ form.material }}
+                            </div>
+                            {{ form.material.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.complex.label_tag }} {{ form.complex }}
+                            </div>
+                            {{ form.complex.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.condition.label_tag }} {{ form.condition }}
+                            </div>
+                            {{ form.condition.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.floor.label_tag }} {{ form.floor }}
+                            </div>
+                            {{ form.floor.errors }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.layout.label_tag }} {{ form.layout }}
+                            </div>
+                            {{ form.layout.errors }}
+                        </div>
+                        <div class="col d-flex align-items-center gap-2">
+                            {{ form.balcony.as_field_group }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.stair.label_tag }} {{ form.stair }}
+                            </div>
+                            {{ form.stair.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.storeys_number.label_tag }} {{ form.storeys_number }}
+                            </div>
+                            {{ form.storeys_number.errors }}
+                        </div>
+                        <div class="col d-flex align-items-center gap-2">
+                            {{ form.parking.as_field_group }}
+                        </div>
+                        <div class="col d-flex align-items-center gap-2">
+                            {{ form.generator.as_field_group }}
+                        </div>
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.creation_date.label_tag }} {{ form.creation_date }}
+                            </div>
+                            {{ form.creation_date.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
+                            </div>
+                            {{ form.realtor_notes.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.sale_terms.label_tag }} {{ form.sale_terms }}
+                            </div>
+                            {{ form.sale_terms.errors }}
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.owner.label_tag }} {{ form.owner }}
+                            </div>
+                            {{ form.owner.errors }}
+                        </div>
+                        <div class="col">
+                            <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                {{ form.comment.label_tag }} {{ form.comment }}
+                            </div>
+                            {{ form.comment.errors }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

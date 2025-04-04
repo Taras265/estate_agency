@@ -70,14 +70,6 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if can_view_contract %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                     {% if can_view_apartment %}

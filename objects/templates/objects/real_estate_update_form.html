@@ -33,9 +33,11 @@
     <form enctype="multipart/form-data" action="{{ action }}" method="post">
         {% csrf_token %}
         {% include form.template_name %}
+        {% if not disabled %}
         <div class="text-center">
             <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
         </div>
+        {% endif %}
     </form>
 </div>
 {% endblock %}

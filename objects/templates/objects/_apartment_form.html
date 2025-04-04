@@ -57,6 +57,7 @@
             {{ form.apartment.errors }}
         </div>
     </div>
+    {% if not disabled %}
     <div class="d-flex gap-3 mb-5">
         <div>
             <button type="button" id="btn-fill-address" class="btn btn-secondary">{% translate 'Fill address' %}</button>
@@ -68,6 +69,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <div class="d-inline-block mb-5">
         <div class="d-flex align-items-center gap-2 mb-2">
             {{ form.agency.label_tag }} {{ form.agency }}
@@ -135,9 +137,11 @@
             </div>
         {% endfor %}
     </div>
+    {% if not disabled %}
     <div class="d-flex align-items-center gap-3 mb-5">
         <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
     </div>
+    {% endif %}
     <div class="row mb-5">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -231,7 +235,9 @@
             {{ form.owner.errors }}
         </div>
         <div class="col">
+            {% if not disabled %}
             <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
+            {% endif %}
         </div>
     </div>
     <div class="row mb-5">
