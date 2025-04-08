@@ -300,6 +300,14 @@ class House(BaseRealEstate):
 
 
 class Selection(models.Model):
+    class Meta(BaseRealEstate.Meta):
+        permissions = (
+            ("change_selection", "Can change filial house"),
+            ("add_selection", "Can change filial house"),
+            ("view_selection", "Can view filial house"),
+            ("selection", "Selection"),
+        )
+
     client = models.ForeignKey(
         Client,
         on_delete=models.CASCADE,
