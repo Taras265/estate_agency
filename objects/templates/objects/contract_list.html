@@ -65,17 +65,9 @@
                 {% endif %}
                 {% if can_view_report %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
+                        <a class="nav-link active"
                            href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
                             {% translate "Report" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_contract %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
                         </a>
                     </li>
                 {% endif %}
