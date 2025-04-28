@@ -1,11 +1,11 @@
 from itertools import chain
 from urllib.parse import urlencode
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.utils.translation import activate, gettext_lazy as _
 from django.core.exceptions import PermissionDenied
 from django.views.generic import (
@@ -18,7 +18,6 @@ import io
 
 from accounts.models import CustomUser
 from accounts.services import user_get
-from estate_agency.services import objects_all
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from handbooks.services import client_get
@@ -42,7 +41,7 @@ from .services import (
     commerce_filter_by_filial, house_filter_by_filial
 )
 from .utils import real_estate_form_save
-from .choices import RealEstateType
+from .choices import RealEstateType, RealEstateStatus
 from .mixins import (
     RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin
 )
@@ -147,6 +146,42 @@ def fill_real_estate_address(request, lang):
         "success": True,
         "locality": street.locality_district.locality.pk,
     })
+
+
+@require_POST
+def set_real_estate_status_sold(request, lang, id):
+    """
+    Встановлює статус ПРОДАНИЙ для об'єкта нерухомості.
+    Список необхідних query параметрів:
+    - type: int
+    """
+    try:
+        real_estate_type = int(request.GET.get("type"))
+    except ValueError:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": _("Invalid real estate type")},
+        })
+
+    model = None
+
+    if real_estate_type == RealEstateType.APARTMENT:
+        model = Apartment
+    elif real_estate_type == RealEstateType.COMMERCE:
+        model = Commerce
+    elif real_estate_type == RealEstateType.HOUSE:
+        model = House
+    
+    if not model:
+        return JsonResponse({
+            "success": False, 
+            "errors": {"type": _("Invalid real estate type")},
+        })
+
+    real_estate = get_object_or_404(model.objects.only("status"), id=id)
+    real_estate.status = RealEstateStatus.SOLD
+    real_estate.save()
+    return JsonResponse({"success": True})
 
 
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -439,6 +474,7 @@ class ApartmentListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
             "delete_url_name": "objects:delete_apartment",
+            "real_estate_type": RealEstateType.APARTMENT
         })
         return context
 
@@ -485,6 +521,7 @@ class CommerceListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
             "delete_url_name": "objects:delete_commerce",
+            "real_estate_type": RealEstateType.COMMERCE
         })
         return context
 
@@ -531,6 +568,7 @@ class HouseListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
             "delete_url_name": "objects:delete_house",
+            "real_estate_type": RealEstateType.HOUSE
         })
         return context
 
@@ -574,6 +612,7 @@ class MyApartmentListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
             "delete_url_name": "objects:delete_apartment",
+            "real_estate_type": RealEstateType.APARTMENT
         })
         return context
 
@@ -620,6 +659,7 @@ class MyCommerceListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
             "delete_url_name": "objects:delete_commerce",
+            "real_estate_type": RealEstateType.COMMERCE
         })
         return context
 
@@ -665,6 +705,7 @@ class MyHouseListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
             "delete_url_name": "objects:delete_house",
+            "real_estate_type": RealEstateType.HOUSE
         })
         return context
 
@@ -709,6 +750,7 @@ class FilialApartmentListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_apartment",
             "update_url_name": "objects:update_apartment",
             "delete_url_name": "objects:delete_apartment",
+            "real_estate_type": RealEstateType.APARTMENT
         })
         return context
 
@@ -756,6 +798,7 @@ class FilialCommerceListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_commerce",
             "update_url_name": "objects:update_commerce",
             "delete_url_name": "objects:delete_commerce",
+            "real_estate_type": RealEstateType.COMMERCE
         })
         return context
 
@@ -802,6 +845,7 @@ class FilialHouseListView(CustomLoginRequiredMixin,
             "create_url_name": "objects:create_house",
             "update_url_name": "objects:update_house",
             "delete_url_name": "objects:delete_house",
+            "real_estate_type": RealEstateType.HOUSE
         })
         return context
 
