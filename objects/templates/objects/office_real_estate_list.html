@@ -2,6 +2,7 @@
 {% load handbooks %}
 {% load objects_tags %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% translate "Handbooks" %}{% endblock %}
 
@@ -140,6 +141,7 @@
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -179,6 +181,19 @@
                                         {% else %}
                                             <td></td>
                                         {% endif %}
+                                        {% if object.status == 4 %}
+                                            <td>
+                                                <span>{% translate 'Sold' %}</span>
+                                            </td>
+                                        {% elif can_update %}
+                                            <td>
+                                                <button class="btn btn-outline-danger btn-sm element-fullwidth btn-set-status-sold"
+                                                        type="button" style="max-width: 120px" data-id="{{ object.id }}">
+                                                    {% translate 'Mark as sold' %}
+                                                </button>
+                                                <span class="d-none">{% translate 'Sold' %}</span>
+                                            </td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -215,4 +230,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script defer
+    src="{% static '/js/real_estate_list.js' %}"
+    data-main-url="{% url 'main' lang %}"
+    data-real-estate-type="{{ real_estate_type }}">
+</script>
 {% endblock %}

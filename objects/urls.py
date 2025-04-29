@@ -7,14 +7,17 @@ from objects.views import (
     CatalogListView, ApartmentDetailView, CommerceDetailView, HouseDetailView,
     ObjectHistoryDetailView, PdfView, ReportListView, HistoryReportListView,
     SelectionListView, ShowingActView, ContractListView, SelectionHistoryView,
-    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, MyApartmentListView,
-    MyCommerceListView, MyHouseListView, FilialApartmentListView, FilialCommerceListView, FilialHouseListView,
+    verify_real_estate_address, fill_real_estate_address, showing_act_redirect, pdf_redirect, 
+    set_real_estate_status_sold, MyApartmentListView, MyCommerceListView, MyHouseListView,
+    FilialApartmentListView, FilialCommerceListView, FilialHouseListView,
     ReportOfficeListView, OfficeHistoryReportListView,
 )
 
 urlpatterns = [
     path("verify-address/", verify_real_estate_address, name="verify_real_estate_address"),
     path("fill-address/", fill_real_estate_address, name="fill_real_estate_address"),
+    path("set-status-sold/<int:id>", set_real_estate_status_sold, name="set_status_sold"),
+
     path("catalog/", CatalogListView.as_view(), name="catalog"),
     path("catalog/apartments/<int:pk>/", ApartmentDetailView.as_view(), name="apartment_detail"),
     path("catalog/commerces/<int:pk>/", CommerceDetailView.as_view(), name="commerce_detail"),
