@@ -288,6 +288,10 @@ def showing_act_redirect(request, lang):
                 id__in=selected_ids
         )
 
+    for obj in objects:
+        obj.in_selection = True
+        obj.save()
+
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)
     user = user_get(email=request.user)
@@ -314,6 +318,10 @@ def pdf_redirect(request, lang):
                 object_type=object_type,
                 id__in=selected_ids
         )
+
+    for obj in objects:
+        obj.in_selection = True
+        obj.save()
 
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)

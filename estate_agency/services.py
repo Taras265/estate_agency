@@ -12,20 +12,32 @@ def sort_decorator(func: callable):
     return wrapper
 
 
+def first_decorator(func: callable):
+    def wrapper(objects, first: Optional[bool] = None, *args, **kwargs):
+        if first:
+            return func(objects, *args, **kwargs).first()
+        return func(objects, *args, **kwargs)
+
+    return wrapper
+
+
 def object_get(objects: QuerySet, *args: Any, **kwargs: Any) -> Model | None:
     return objects.filter(**kwargs).first()
 
 
+@first_decorator
 @sort_decorator
 def objects_all(objects: QuerySet, *args: Any, **kwargs: Any) -> QuerySet:
     return objects.all()
 
 
+@first_decorator
 @sort_decorator
 def objects_filter(objects: QuerySet, *args: Any, **kwargs: Any) -> QuerySet:
     return objects.filter(**kwargs)
 
 
+@first_decorator
 @sort_decorator
 def objects_all_visible(objects: QuerySet, *args: Any, **kwargs: Any) -> QuerySet:
     return objects_filter(objects, on_delete=False)

@@ -185,6 +185,12 @@ class HandbooksSearchForm(forms.Form):
         required=False,
         initial=False
     )
+    in_selection = forms.BooleanField(
+        label=_("In selection"),
+        widget=forms.CheckboxInput(),
+        required=False,
+        initial=False
+    )
 
 
 class BaseVerifyAddressForm(forms.Form):

@@ -8,7 +8,7 @@ from django.utils.translation import activate
 from accounts.forms import LoginForm, AvatarForm, UserForm, RegisterForm, GroupForm
 from accounts.models import CustomUser
 from accounts.services import (
-    user_all_visible, user_filter, group_filter, group_all_visible,
+    user_all_visible, user_filter, group_filter, group_all,
     user_can_create_user, user_can_update_user, user_can_view_custom_group,
     user_can_view_user_history, user_get
 )
@@ -96,7 +96,6 @@ class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = user_all_visible().prefetch_related("phone_numbers")
-
         return queryset
     
     def get_context_data(self, **kwargs):
@@ -116,21 +115,29 @@ class MyUserListView(UserListView):
     permission_required = "accounts.view_office_user"
     template_name = "accounts/office_user_list.html"
 
+    def get_queryset(self):
+        group = self.kwargs.get('group_id') or group_all(first=True).id
+        queryset = user_filter(user_all_visible(), groups__id=group).prefetch_related("phone_numbers")
+        return queryset
+
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         user = user_get(email=self.request.user)
         context = get_office_context(user, super().get_context_data(**kwargs))
+
         context.update({
             "lang": self.kwargs["lang"],
             "can_create": user_can_create_user(self.request.user),
             "can_update": user_can_update_user(self.request.user),
             "can_view_history": user_can_view_user_history(self.request.user),
+            "groups": group_all(),
+            "g": self.kwargs.get('group_id') or group_all(first=True).id
         })
         return context
 
 
 class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
-    queryset = group_all_visible()
+    queryset = group_all()
     main_service = {"objects_filter": group_filter, }
     choices = USER_CHOICES
     permission_required = "accounts.view_group"
@@ -203,7 +210,7 @@ class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUp
 
 
 class GroupUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView):
-    queryset = group_all_visible()
+    queryset = group_all()
     form_class = GroupForm
     permission_required = "auth.change_group"
     handbook_type = "group"
@@ -216,7 +223,7 @@ class UserDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDe
 
 
 class GroupDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView):
-    queryset = group_all_visible()
+    queryset = group_all()
     permission_required = "auth.delete_group"
     handbook_type = "group"
 
@@ -227,6 +234,6 @@ class UserHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, History
 
 
 class GroupHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
-    queryset = group_all_visible()
+    queryset = group_all()
     permission_required = "auth.view_group"
     handbook_type = "group"
