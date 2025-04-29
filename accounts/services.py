@@ -3,7 +3,7 @@ from typing import List, Tuple, Any
 from django.db.models import QuerySet
 
 from accounts.models import CustomUser, CustomGroup
-from estate_agency.services import object_get, objects_all_visible, objects_filter
+from estate_agency.services import object_get, objects_all_visible, objects_filter, objects_all
 from objects.services import user_can_view_real_estate_list
 from utils.const import TABLE_TO_APP
 
@@ -32,8 +32,8 @@ def user_filter(objects: QuerySet = CustomUser.objects, *args: Any, **kwargs: An
     return objects_filter(objects, on_delete=False, *args, **kwargs)
 
 
-def group_all_visible(objects: QuerySet = CustomGroup.objects, *args: Any, **kwargs: Any) -> QuerySet:
-    return objects_all_visible(objects, *args, **kwargs)
+def group_all(objects: QuerySet = CustomGroup.objects, *args: Any, **kwargs: Any) -> QuerySet:
+    return objects_all(objects, *args, **kwargs)
 
 
 def group_filter(objects: QuerySet = CustomGroup.objects, *args: Any, **kwargs: Any) -> QuerySet:

@@ -177,6 +177,8 @@ class BaseRealEstate(models.Model):
     realtor_notes = models.TextField(null=True, blank=True, verbose_name=_("Realtor notes"))
     comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
 
+    in_selection = models.BooleanField(default=False, verbose_name=_("In selection"))
+
     images = GenericRelation(
         RealEstateImage,
         related_query_name="%(app_label)s_%(class)s"

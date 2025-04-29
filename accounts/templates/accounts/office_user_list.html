@@ -70,6 +70,21 @@
         </ul>
     </div>
 </div>
+
+<div class="container agents_details_section">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for group in groups %}
+            <li class="nav-item {% if group.id == g %}active{% endif %}" role="presentation">
+                <a class="nav-link {% if group.id == g %}active{% endif %}"
+                   href="{% url 'accounts:office_user_list' lang=lang group_id=group.id %}">
+                    {{ group.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
