@@ -90,7 +90,7 @@ def users_list_redirect(request, lang):
 
 class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = 5
-    permission_required = "accounts.view_user"
+    permission_required = "accounts.view_customuser"
     template_name = "accounts/user_list.html"
     context_object_name = "user_list"
 
@@ -148,7 +148,7 @@ class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomLis
 class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
     template_name = "accounts/user_form.html"
     form_class = RegisterForm
-    permission_required = "accounts.add_user"
+    permission_required = "accounts.add_customuser"
 
     handbook_type = "user"
 
@@ -188,7 +188,7 @@ class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUp
     template_name = "accounts/user_form.html"
     queryset = user_all_visible()
     form_class = UserForm
-    permission_required = "accounts.change_user"
+    permission_required = "accounts.change_customuser"
     handbook_type = "user"
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -218,7 +218,7 @@ class GroupUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomU
 
 class UserDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView):
     queryset = user_all_visible()
-    permission_required = "accounts.delete_user"
+    permission_required = "accounts.delete_customuser"
     handbook_type = "user"
 
 
@@ -229,7 +229,7 @@ class GroupDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomD
 
 class UserHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     queryset = user_all_visible()
-    permission_required = "accounts.view_user"
+    permission_required = "accounts.view_customuser"
     handbook_type = "user"
 
 

@@ -3,16 +3,32 @@ from django.views.generic import TemplateView
 from django.utils.translation import activate
 
 from accounts.models import CustomUser
+from accounts.services import user_get
+from objects.services import user_can_view_real_estate_list, user_can_view_report
+from utils.const import BASE_CHOICES
+from utils.mixins.new_mixins import CustomLoginRequiredMixin
 
 
-class BaseView(TemplateView):
+class BaseView(CustomLoginRequiredMixin, TemplateView):
     template_name = "main.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs['lang'])  # переклад
         context = super().get_context_data(**kwargs)
 
+        user = user_get(email=self.request.user)
+
         context['lang'] = self.kwargs['lang']
+        context.update({
+            'accounts': any(user.has_perm(perm) for perm in [
+                'accounts.view_customuser', 'accounts.view_group'
+            ]),
+            'sale': any(user.has_perm(perm) for perm in [
+                'handbooks.view_client', 'handbooks.view_own_client', 'handbooks.view_filial_client',
+                'objects.view_contract'
+            ]) and any([user_can_view_real_estate_list(user), user_can_view_report(user)]),
+            'handbooks': any(user.has_perm(f'handbooks.view_{perm[1]}') for perm in BASE_CHOICES),
+        })
 
         return context
 

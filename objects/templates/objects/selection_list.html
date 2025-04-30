@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container-fluid page_heading_banner">
   <div class="banner_caption">
-    <h1>{% translate 'Selection' %}</h1>
+    <h1>{% translate 'Selection for' %} {{ client }}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
       <li><a href="{% url 'handbooks:client_list' lang=lang %}">{% translate 'Clients' %}</a></li>

@@ -224,11 +224,14 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 
         obj_type = int(form.cleaned_data.get('object_type'))
         if obj_type == RealEstateType.APARTMENT:
-            queryset = Apartment.objects.filter(on_delete=False)
+            queryset = Apartment.objects.filter(on_delete=False,
+                                            status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT))
         elif obj_type == RealEstateType.COMMERCE:
-            queryset = Commerce.objects.filter(on_delete=False)
+            queryset = Commerce.objects.filter(on_delete=False,
+                                            status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT))
         else:
-            queryset = House.objects.filter(on_delete=False)
+            queryset = House.objects.filter(on_delete=False,
+                                            status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT))
 
         # if form.cleaned_data.get('rooms_number') is not None:
         #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
@@ -1422,7 +1425,7 @@ class CatalogListView(ListView):
 
 
 class ApartmentDetailView(UpdateView):
-    template_name = "objects/real_estate_update_form.html"
+    template_name = "objects/real_estate_details_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.APARTMENT)
     form_class = ApartmentForm
     model = Apartment
@@ -1442,7 +1445,7 @@ class ApartmentDetailView(UpdateView):
 
 
 class CommerceDetailView(UpdateView):
-    template_name = "objects/real_estate_update_form.html"
+    template_name = "objects/real_estate_details_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.COMMERCE)
     form_class = CommerceForm
     model = Commerce
@@ -1462,7 +1465,7 @@ class CommerceDetailView(UpdateView):
 
 
 class HouseDetailView(UpdateView):
-    template_name = "objects/real_estate_update_form.html"
+    template_name = "objects/real_estate_details_form.html"
     queryset = estate_objects_filter_visible(RealEstateType.HOUSE)
     form_class = HouseForm
     model = House

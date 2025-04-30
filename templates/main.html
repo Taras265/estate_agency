@@ -6,19 +6,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="featured_property_slider owl-carousel owl-theme">
-
-        <div class="item">
-            <div class="featured_div">
-                <div class="featured_content">
-                    <h2>{% translate 'Rent' %}</h2>
-                    <div class="explore_btn">
-                        <a class="custombtn" href="{% url 'handbooks:sale_redirect' lang=lang %}">
-                            {% translate 'Rent' %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% if sale %}
         <div class="item">
             <div class="featured_div">
                 <div class="featured_content">
@@ -31,6 +19,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if handbooks %}
         <div class="item">
             <div class="featured_div">
                 <div class="featured_content">
@@ -43,6 +33,8 @@
                 </div>
             </div>
         </div>
+        {%  endif %}
+        {% if accounts %}
         <div class="item">
             <div class="featured_div">
                 <div class="featured_content">
@@ -55,18 +47,7 @@
                 </div>
             </div>
         </div>
-        <div class="item">
-            <div class="featured_div">
-                <div class="featured_content">
-                    <h2>{% translate 'Catalog' %}</h2>
-                    <div class="explore_btn">
-                        <a class="custombtn" href="{% url 'objects:catalog' lang=lang %}">
-                            {% translate 'Catalog' %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

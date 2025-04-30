@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate 'Details' %}{% endblock %}
+
+{% block content %}
+<style>
+    .select-date-widget fieldset {
+        display: flex;
+    }
+
+    .errorlist {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        color: rgb(220, 53, 69);
+        text-align: left;
+    }
+</style>
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate 'Real estate details' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li><a href="{% url 'objects:real_estate_list_redirect' lang=lang %}">{% translate 'Real estate' %}</a></li>
+      <li>/ {% translate 'Details' %}</li>
+    </ul>
+  </div>
+</div>
+<br>
+<div>
+    <form enctype="multipart/form-data" action="{{ action }}" method="post">
+        {% csrf_token %}
+        {% include form.template_name %}
+        {% if not disabled %}
+        <div class="text-center">
+            <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script defer 
+    src="{% static '/js/real_estate_form.js' %}" 
+    data-main-url="{% url 'main' lang %}"
+    data-real-estate-type={{ type }}>
+</script>
+{% endblock %}
