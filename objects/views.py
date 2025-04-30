@@ -888,7 +888,8 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
         context = super().get_context_data()
         context.update({
             "can_view_client": has_any_perm_from_list(
-                self.request.user, "handbooks.view_client", "handbooks.view_own_client"
+                self.request.user, "handbooks.view_client", "handbooks.view_own_client",
+                f'handbooks.view_filial_client'
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),

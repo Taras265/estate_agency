@@ -12,19 +12,19 @@ from accounts.models import CustomUser
 
 def user_can_view_apartment_list(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_apartment", "objects.view_own_apartment"
+        user, "objects.view_apartment", "objects.view_own_apartment", "objects.view_filial_apartment"
     )
 
 
 def user_can_view_commerce_list(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_commerce", "objects.view_own_commerce"
+        user, "objects.view_commerce", "objects.view_own_commerce", "objects.view_filial_commerce"
     )
 
 
 def user_can_view_house_list(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_house", "objects.view_own_house"
+        user, "objects.view_house", "objects.view_own_house", "objects.view_filial_house"
     )
 
 

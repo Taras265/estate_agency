@@ -134,7 +134,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         for choice in self.choices:
             app = TABLE_TO_APP.get(choice[1]) or 'objects'
             if ((user.has_perm(f'{app}.view_{choice[1]}')
-                 or user.has_perm(f'{app}.view_own_{choice[1]}'))):
+                 or user.has_perm(f'{app}.view_own_{choice[1]}') or user.has_perm(f'{app}.view_filial_{choice[1]}'))):
                 choices.append(choice)
         return choices
 
