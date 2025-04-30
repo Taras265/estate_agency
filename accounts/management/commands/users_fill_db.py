@@ -107,6 +107,7 @@ class Command(BaseCommand):
         users = CustomUser.objects.bulk_create(users)
 
         for i, user_data in enumerate(users_data):
+            users[i].save()
             if user_data.filials:
                 filials = FilialAgency.objects.filter(filial_agency__in=user_data.filials)
                 users[i].filials.set(filials)
