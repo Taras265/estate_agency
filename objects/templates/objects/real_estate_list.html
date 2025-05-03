@@ -12,7 +12,7 @@
     <h1>{% translate 'Real estate' %}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li>/ {% translate 'Real estate' %}</li>
+      <li>{% translate 'Real estate' %}</li>
     </ul>
   </div>
 </div>
@@ -51,7 +51,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
                            href="{% url 'handbooks:client_list' lang=lang %}">
-                            {% translate "Client" %}
+                            {% translate "Clients" %}
                         </a>
                     </li>
                 {% endif %}
@@ -67,7 +67,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
                            href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Report" %}
+                            {% translate "Reports" %}
                         </a>
                     </li>
                 {% endif %}

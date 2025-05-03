@@ -8,10 +8,10 @@
 {% block content %}
 <div class="container-fluid page_heading_banner">
   <div class="banner_caption">
-    <h1>{% translate 'Report' %}</h1>
+    <h1>{% translate 'Reports' %}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li>/ {% translate 'Report' %}</li>
+      <li>{% translate 'Reports' %}</li>
     </ul>
   </div>
 </div>
@@ -44,13 +44,13 @@
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
-        {% with url_name=request.resolver_match.url_name %}
+        {% with url_name=request.resolver_match.url_name current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 {% if can_view_client %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
                            href="{% url 'handbooks:client_list' lang=lang %}">
-                            {% translate "Client" %}
+                            {% translate "Clients" %}
                         </a>
                     </li>
                 {% endif %}
@@ -66,13 +66,11 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
                            href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Report" %}
+                            {% translate "Reports" %}
                         </a>
                     </li>
                 {% endif %}
             </ul>
-        {% endwith %}
-        {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link {% if current_filter == 'new_apartments' %}active{% endif %}"
@@ -124,9 +122,9 @@
                 </li>
                 {% if can_view_contract %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'contract_list' %}active{% endif %}"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
+                        <a class="nav-link {% if url_name == 'apartment_contracts' or url_name == 'commerce_contracts' or url_name == 'house_contracts' %}active{% endif %}"
+                        href="{% url 'objects:apartment_contracts' lang=lang %}">
+                            {% translate "Contracts" %}
                         </a>
                     </li>
                 {% endif %}

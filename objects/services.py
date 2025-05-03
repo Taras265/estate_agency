@@ -5,7 +5,7 @@ from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
 from estate_agency.services import objects_filter, object_create, objects_all_visible, objects_all
-from .choices import RealEstateType
+from .choices import RealEstateType, RealEstateStatus
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection
 from accounts.models import CustomUser
 
@@ -285,6 +285,29 @@ def house_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[House]:
         .only("id", "locality__locality", "street__street", "realtor__email")
 
     return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def real_estate_contract_all(type: int):
+    """Повертає список всіх контрактів для об'єктів нерухомості з типом type."""
+    model_class = None
+    if type == RealEstateType.APARTMENT:
+        model_class = Apartment
+    elif type == RealEstateType.COMMERCE:
+        model_class = Commerce
+    elif type == RealEstateType.HOUSE:
+        model_class = House
+    else:
+        raise ValueError(f"Invalid real estate type: {type}")
+
+    return model_class.objects.filter(on_delete=False, status=RealEstateStatus.SOLD)\
+                            .select_related("locality", "street", "realtor")\
+                            .only("locality__locality", "street__street", "realtor__email")
+
+
+def real_estate_contract_by_filials(type: int, filials):
+    """Повертає список контрактів для об'єктів нерухомості з типом type для заданих філіалів"""
+    qs = real_estate_contract_all(type)
+    return qs.filter(realtor__filials__in=filials).distinct()
 
 
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:

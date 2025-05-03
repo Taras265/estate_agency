@@ -26,19 +26,18 @@ from utils.mixins.new_mixins import StandardContextDataMixin, GetQuerysetMixin
 from utils.utils import get_office_context
 from .models import Apartment, Commerce, House
 from .services import (
-    has_any_perm_from_list,
-    user_can_view_apartment_list, user_can_view_commerce_list,
-    user_can_view_house_list, user_can_view_real_estate_list,
-    user_can_create_apartment, user_can_create_commerce,
-    user_can_create_house, user_can_update_apartment,
-    user_can_update_commerce, user_can_update_house,
-    user_can_update_apartment_list, user_can_update_commerce_list,
-    user_can_update_house_list, user_can_view_apartment_list_history,
-    user_can_view_commerce_list_history, user_can_view_house_list_history,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user, estate_objects_filter_visible,
-    selection_create, selection_filter, selection_all, selection_add_selected, get_all_apartment_history,
-    get_all_commerce_history, get_all_houses_history, apartment_filter_by_user, apartment_filter_by_filial,
-    commerce_filter_by_filial, house_filter_by_filial
+    has_any_perm_from_list, user_can_view_real_estate_list,
+    user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_house_list, 
+    user_can_create_apartment, user_can_create_commerce, user_can_create_house,
+    user_can_update_apartment, user_can_update_commerce, user_can_update_house,
+    user_can_update_apartment_list, user_can_update_commerce_list, user_can_update_house_list,
+    user_can_view_apartment_list_history, user_can_view_commerce_list_history,
+    user_can_view_house_list_history, apartment_filter_by_user,
+    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user,
+    selection_create, selection_filter, selection_all, selection_add_selected, 
+    get_all_apartment_history, get_all_commerce_history, get_all_houses_history, 
+    apartment_filter_by_filial, commerce_filter_by_filial, house_filter_by_filial,
+    estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType, RealEstateStatus
@@ -924,35 +923,40 @@ class ReportOfficeListView(HandbookWithFilterListMixin, ListView):
         return context
 
 
-class ContractListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
-    model = Apartment
+class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    Базовий клас для списку контрактів.
+    Для дочірнього класу потрібно вказати 
+    атрибут type (можна через as_view(type=RealEstateStatus.APARTMENT)).
+    """
     template_name = "objects/contract_list.html"
-    handbook_type = 'contract'
-    filters = ['apartments', 'commerce', 'houses',
-               'lands', 'rooms']
-    queryset_filters = {'apartments': Apartment.objects.filter(status__gte=4).filter(on_delete=False),
-                        'commerce': Commerce.objects.filter(status__gte=4).filter(on_delete=False),
-                        'houses': House.objects.filter(status__gte=4).filter(on_delete=False),
-                        'lands': Apartment.objects.none(),
-                        'rooms': Apartment.objects.none()}
-    custom = True
-    form = HandbooksSearchForm
-    choices = SALE_CHOICES
+    context_object_name = "object_list"
+    paginate_by = 5
+    type = None # тип нерухомості
 
-    def get_queryset(self):
-        q1 = HandbookWithFilterListMixin.get_queryset(self)
-        q2 = HandbookOwnPermissionListMixin.get_queryset(self)
-        return q1.intersection(q2)
+    def test_func(self):
+        return has_any_perm_from_list(
+            self.request.user, "objects.view_contract", "objects.view_filial_contract"
+        )
     
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_queryset(self):
+        if self.request.user.has_perm("objects.view_contract"):
+            return real_estate_contract_all(self.type)
+
+        user = user_get(email=self.request.user)
+        return real_estate_contract_by_filials(self.type, user.filials.all())
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
         context = super().get_context_data()
         context.update({
+            "lang": self.kwargs["lang"],
+            "form": HandbooksSearchForm,
             "can_view_client": has_any_perm_from_list(
                 self.request.user, "handbooks.view_client", "handbooks.view_own_client"
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
-            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
         })
         return context
 
