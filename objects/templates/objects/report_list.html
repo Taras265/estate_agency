@@ -48,7 +48,7 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 {% if can_view_client %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
+                        <a class="nav-link"
                            href="{% url 'handbooks:client_list' lang=lang %}">
                             {% translate "Clients" %}
                         </a>
@@ -56,20 +56,18 @@
                 {% endif %}
                 {% if can_view_real_estate %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_list' or url_name == 'commerce_list' or url_name == 'house_list' %}active{% endif %}"
+                        <a class="nav-link"
                            href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
                             {% translate "Real estate" %}
                         </a>
                     </li>
                 {% endif %}
-                {% if can_view_report %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'report_list' %}active{% endif %}"
-                           href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Reports" %}
-                        </a>
-                    </li>
-                {% endif %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active"
+                        href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
+                        {% translate "Reports" %}
+                    </a>
+                </li>
             </ul>
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
