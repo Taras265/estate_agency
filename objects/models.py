@@ -20,7 +20,7 @@ class BaseRealEstate(models.Model):
         abstract = True
         default_permissions = ("add", "change", "view")
     
-    creation_date = models.DateField(verbose_name=_("Creation date"), null=True, blank=True) # дата побудови
+    creation_date = models.DateField(verbose_name=_("Creation date"), default=datetime.date.today) # дата побудови
     deposit_date = models.DateField(null=True, blank=True, verbose_name=_("Deposit date")) # дата постановки
     # date_before_temporarily_removed = models.DateField(null=True, blank=True)
     # purchase_date = models.DateField(null=True, blank=True)

@@ -43,7 +43,7 @@ from .services import (
 from .utils import real_estate_form_save
 from .choices import RealEstateType, RealEstateStatus
 from .mixins import (
-    RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin
+    RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin, DefaultUserInCreateViewMixin
 )
 from .forms import (
     SearchForm, HandbooksSearchForm, ApartmentForm, CommerceForm, HouseForm,
@@ -1106,6 +1106,7 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
 class ApartmentCreateView(CustomLoginRequiredMixin,
                           UserPassesTestMixin,
                           RealEstateCreateContextMixin,
+                          DefaultUserInCreateViewMixin,
                           CreateView):
     """
     Форма створення нової квартири.
@@ -1145,6 +1146,7 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
 class CommerceCreateView(CustomLoginRequiredMixin,
                          UserPassesTestMixin,
                          RealEstateCreateContextMixin,
+                         DefaultUserInCreateViewMixin,
                          CreateView):
     """
     Форма створення нової комерції.
@@ -1183,6 +1185,7 @@ class CommerceCreateView(CustomLoginRequiredMixin,
 class HouseCreateView(CustomLoginRequiredMixin,
                       UserPassesTestMixin,
                       RealEstateCreateContextMixin,
+                      DefaultUserInCreateViewMixin,
                       CreateView):
     """
     Форма створення нового будинку.

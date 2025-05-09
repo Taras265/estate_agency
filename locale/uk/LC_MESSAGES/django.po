@@ -97,7 +97,7 @@ msgstr "Вхід"
 #: .\objects\templates\objects\real_estate_update_form.html:38
 #: .\templates\form.html:29
 msgid "Submit"
-msgstr "Надіслати"
+msgstr "Зберегти"
 
 #: .\accounts\templates\accounts\office_user_list.html:4
 #: .\accounts\templates\accounts\user_list.html:4
@@ -793,7 +793,7 @@ msgstr "У продажу"
 
 #: .\objects\choices.py:15
 msgid "Deposit"
-msgstr "Депозит"
+msgstr "Аванс"
 
 #: .\objects\choices.py:16
 msgid "Withdrawn"

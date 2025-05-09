@@ -30,6 +30,12 @@ class BaseRealEstateForm(forms.ModelForm):
         queryset=Handbook.objects.filter(type=8, on_delete=False),
     )
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['realtor'].initial = user
+
 
 class ApartmentForm(BaseRealEstateForm):
     """Форма для створення або редагування квартири."""
@@ -64,9 +70,9 @@ class ApartmentForm(BaseRealEstateForm):
             "document": forms.TextInput(attrs={"class": "form-control"}),
             "floor": forms.TextInput(attrs={"class": "form-control"}),
             "storeys_number": forms.TextInput(attrs={"class": "form-control"}),
-            "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
+            "realtor_notes": forms.Textarea(attrs={"class": "form-control", 'rows': 3}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
-            "comment": forms.Textarea(attrs={"class": "form-control"}),
+            "comment": forms.Textarea(attrs={"class": "form-control", 'rows': 3}),
         }
 
 

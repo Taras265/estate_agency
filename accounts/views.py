@@ -52,7 +52,7 @@ def office_redirect(request, lang):
             return redirect(reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs))
         elif user.has_perm(f"accounts.view_office_user"):
             return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
-        return render(request, "403.html", kwargs)
+        return redirect(reverse_lazy("accounts:profile", kwargs=kwargs))
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
@@ -69,8 +69,8 @@ class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
         user = user_get(email=self.request.user)
+        context = get_office_context(user, super().get_context_data(**kwargs))
 
         return context
 

@@ -67,6 +67,13 @@
                 </a>
             </li>
             {% endif %}
+
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'accounts:profile' lang=lang %}">
+                    {% translate "Profile" %}
+                </a>
+            </li>
         </ul>
     </div>
 </div>
