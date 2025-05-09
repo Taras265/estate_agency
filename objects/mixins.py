@@ -70,3 +70,10 @@ class SaleListContextMixin(ContextMixin):
             "can_view_contract": self.request.user.has_perm("objects.view_contract"),
         })
         return context
+
+
+class DefaultUserInCreateViewMixin:
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs

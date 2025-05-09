@@ -156,8 +156,8 @@ function setOwnerEditFormUrl(ownerId) {
         btnEditOwner.href = dataset.mainUrl + `handbooks/sale/update/client/${ownerId}/`;
         btnEditOwner.style.pointerEvents = "auto";
     } else {
-        btnEditOwner.href = "";
-        btnEditOwner.style.pointerEvents = "none";
+        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/create/client/`;
+        btnEditOwner.style.pointerEvents = "auto";
     }
 }
 
