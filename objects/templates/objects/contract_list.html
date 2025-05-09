@@ -8,11 +8,10 @@
 {% block content %}
 <div class="container-fluid page_heading_banner">
   <div class="banner_caption">
-    <h1>{% translate 'Report of changes' %}</h1>
+    <h1>{% translate 'Contracts' %}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li>/ {% translate 'Report of changes' %}</li>
+      <li>{% translate 'Contracts' %}</li>
     </ul>
   </div>
 </div>
@@ -45,34 +44,30 @@
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
-        {% with url_name=request.resolver_match.url_name %}
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                {% if can_view_client %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'client_list' %}active{% endif %}"
-                           href="{% url 'handbooks:client_list' lang=lang %}">
-                            {% translate "Client" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_real_estate %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_list' or url_name == 'commerce_list' or url_name == 'house_list' %}active{% endif %}"
-                           href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
-                            {% translate "Real estate" %}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if can_view_report %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active"
-                           href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Report" %}
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endwith %}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% if can_view_client %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:client_list' lang=lang %}">
+                        {% translate "Clients" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if can_view_real_estate %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
+                        {% translate "Real estate" %}
+                    </a>
+                </li>
+            {% endif %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active"
+                    href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
+                    {% translate "Reports" %}
+                </a>
+            </li>
+        </ul>
         {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -123,45 +118,43 @@
                         {% translate "Changes report" %}
                     </a>
                 </li>
-                {% if can_view_contract %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
-                        </a>
-                    </li>
-                {% endif %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active"
+                        href="{% url 'objects:apartment_contracts' lang=lang %}">
+                        {% translate "Contracts" %}
+                    </a>
+                </li>
             </ul>
         {% endwith %}
-        {% with current_filter=request.resolver_match.kwargs.filter %}
+        {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'apartments' %}active{% endif %}"
-                       href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
+                    <a class="nav-link {% if url_name == 'apartment_contracts' %}active{% endif %}"
+                       href="{% url 'objects:apartment_contracts' lang=lang %}">
                         {% translate "Apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'commerce' %}active{% endif %}"
-                       href="{% url 'objects:contract_list' lang=lang filter='commerce' %}">
+                    <a class="nav-link {% if url_name == 'commerce_contracts' %}active{% endif %}"
+                       href="{% url 'objects:commerce_contracts' lang=lang %}">
                         {% translate "Commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'houses' %}active{% endif %}"
-                       href="{% url 'objects:contract_list' lang=lang filter='houses' %}">
+                    <a class="nav-link {% if url_name == 'house_contracts' %}active{% endif %}"
+                       href="{% url 'objects:house_contracts' lang=lang %}">
                         {% translate "Houses" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'lands' %}active{% endif %}"
-                       href="{% url 'objects:contract_list' lang=lang filter='lands' %}">
+                    <a class="nav-link"
+                       href="#">
                         {% translate "Lands" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if current_filter == 'rooms' %}active{% endif %}"
-                       href="{% url 'objects:contract_list' lang=lang filter='rooms' %}">
+                    <a class="nav-link"
+                       href="#">
                         {% translate "Rooms" %}
                     </a>
                 </li>

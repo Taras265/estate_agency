@@ -204,7 +204,9 @@ class Apartment(BaseRealEstate):
 
             ("view_report", "Can view reports"),
             ("view_office_report", "Can view reports in office"),
+
             ("view_contract", "Can view contracts"),
+            ("view_filial_contract", "Can view filial contracts")
         )
 
     apartment = models.CharField(max_length=50, verbose_name=_("Apartment"))

@@ -50,7 +50,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link"
                            href="{% url 'handbooks:client_list' lang=lang %}">
-                            {% translate "Client" %}
+                            {% translate "Clients" %}
                         </a>
                     </li>
                 {% endif %}
@@ -66,7 +66,7 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active"
                            href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
-                            {% translate "Report" %}
+                            {% translate "Reports" %}
                         </a>
                     </li>
                 {% endif %}
@@ -125,8 +125,8 @@
                 {% if can_view_contract %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link"
-                           href="{% url 'objects:contract_list' lang=lang filter='apartments' %}">
-                            {% translate "Contract" %}
+                           href="{% url 'objects:contract_list' lang=lang type='apartments' %}">
+                            {% translate "Contracts" %}
                         </a>
                     </li>
                 {% endif %}
