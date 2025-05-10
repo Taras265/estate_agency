@@ -310,6 +310,12 @@ def real_estate_contract_by_filials(type: int, filials):
     return qs.filter(realtor__filials__in=filials).distinct()
 
 
+def real_estate_contract_by_user(type: int, user):
+    """Повертає список контрактів для об'єктів нерухомості з типом type визначеного користувача"""
+    qs = real_estate_contract_all(type)
+    return qs.filter(realtor=user).distinct()
+
+
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
     """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
     return any(user.has_perm(perm) for perm in args)

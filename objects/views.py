@@ -27,17 +27,18 @@ from utils.utils import get_office_context
 from .models import Apartment, Commerce, House
 from .services import (
     has_any_perm_from_list, user_can_view_real_estate_list,
-    user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_house_list, 
+    user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_house_list,
     user_can_create_apartment, user_can_create_commerce, user_can_create_house,
     user_can_update_apartment, user_can_update_commerce, user_can_update_house,
     user_can_update_apartment_list, user_can_update_commerce_list, user_can_update_house_list,
     user_can_view_apartment_list_history, user_can_view_commerce_list_history,
     user_can_view_house_list_history, apartment_filter_by_user,
     apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user,
-    selection_create, selection_filter, selection_all, selection_add_selected, 
-    get_all_apartment_history, get_all_commerce_history, get_all_houses_history, 
+    selection_create, selection_filter, selection_all, selection_add_selected,
+    get_all_apartment_history, get_all_commerce_history, get_all_houses_history,
     apartment_filter_by_filial, commerce_filter_by_filial, house_filter_by_filial,
-    estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials
+    estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials,
+    real_estate_contract_by_user
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType, RealEstateStatus
@@ -892,7 +893,9 @@ class ReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
-            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                                 or self.request.user.has_perm("objects.view_filial_contract")
+                                 or self.request.user.has_perm("objects.view_own_contract"),
         })
         return context
 
@@ -937,15 +940,17 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
 
     def test_func(self):
         return has_any_perm_from_list(
-            self.request.user, "objects.view_contract", "objects.view_filial_contract"
+            self.request.user, "objects.view_contract", "objects.view_filial_contract", "objects.view_own_contract"
         )
     
     def get_queryset(self):
         if self.request.user.has_perm("objects.view_contract"):
             return real_estate_contract_all(self.type)
-
+        elif self.request.user.has_perm("objects.view_filial_contract"):
+            user = user_get(email=self.request.user)
+            return real_estate_contract_by_filials(self.type, user.filials.all())
         user = user_get(email=self.request.user)
-        return real_estate_contract_by_filials(self.type, user.filials.all())
+        return real_estate_contract_by_user(self.type, user)
     
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
@@ -986,7 +991,9 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
-            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                                 or self.request.user.has_perm("objects.view_filial_contract")
+                                 or self.request.user.has_perm("objects.view_own_contract"),
         })
 
         context['choice'] = self.handbook_type
@@ -1058,7 +1065,9 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
-            "can_view_contract": self.request.user.has_perm("objects.view_contract"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                                 or self.request.user.has_perm("objects.view_filial_contract")
+                                 or self.request.user.has_perm("objects.view_own_contract"),
         })
 
         context['choice'] = self.handbook_type
