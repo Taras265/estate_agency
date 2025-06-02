@@ -23,9 +23,9 @@ def real_estate_form_save(
         prefix="images",
         instance=instance,
     )
+
     if not formset.is_valid():
         return (formset, False)
-
     formset.instance = form.save()
     formset.save()
     return (formset, True)
