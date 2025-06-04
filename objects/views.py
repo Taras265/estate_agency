@@ -1017,7 +1017,7 @@ class BaseReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, List
     def get_queryset(self):
         qs = self.model.objects.filter(on_delete=False)
 
-        if self.request.GET.get("own", False):
+        if self.request.GET.get("own", False) == "true":
             qs.filter(realtor=self.request.user)
 
         if (days_ago := float(self.request.GET.get("created_days_ago", 0))) > 0:
@@ -1030,7 +1030,7 @@ class BaseReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, List
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
-        context["own"] = True if self.request.GET.get("own") else False
+        context["own"] = True if self.request.GET.get("own") == "true" else False
         context["days_ago"] = int(self.request.GET.get("created_days_ago", 0))
         context.update(self.context_func(self.request.user))
         return context
