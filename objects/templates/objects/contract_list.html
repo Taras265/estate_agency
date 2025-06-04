@@ -63,7 +63,7 @@
             {% endif %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
-                    href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
+                    href="{% url 'objects:apartment_reports' lang=lang %}?created_days_ago=30">
                     {% translate "Reports" %}
                 </a>
             </li>
@@ -71,44 +71,44 @@
         {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='new_apartments' %}">
+                    <a class="nav-link {% if url_name == 'apartment_reports' and own is False and days_ago > 0 %}active{% endif %}"
+                       href="{% url 'objects:apartment_reports' lang=lang %}?created_days_ago=30">
                         {% translate "New apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='new_commerce' %}">
+                    <a class="nav-link {% if url_name == 'commerce_reports' and own is False and days_ago > 0 %}active{% endif %}"
+                       href="{% url 'objects:commerce_reports' lang=lang %}?created_days_ago=30">
                         {% translate "New commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='new_houses' %}">
+                    <a class="nav-link {% if url_name == 'house_reports' and own is False and days_ago > 0 %}active{% endif %}"
+                       href="{% url 'objects:house_reports' lang=lang %}?created_days_ago=30">
                         {% translate "New houses" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='new_lands' %}">
+                       href="#">
                         {% translate "New lands" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link "
-                       href="{% url 'objects:report_list' lang=lang filter='new_rooms' %}">
+                    <a class="nav-link"
+                       href="#">
                         {% translate "New rooms" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='all_apartments' %}">
+                    <a class="nav-link {% if url_name == 'apartment_reports' and own is False and days_ago <= 0 %}active{% endif %}"
+                       href="{% url 'objects:apartment_reports' lang=lang %}">
                         {% translate "All apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="{% url 'objects:report_list' lang=lang filter='my_apartments' %}">
+                    <a class="nav-link {% if url_name == 'apartment_reports' and own is True and days_ago <= 0 %}active{% endif %}"
+                       href="{% url 'objects:apartment_reports' lang=lang %}?own=true">
                         {% translate "My apartments" %}
                     </a>
                 </li>

@@ -13,9 +13,10 @@ from .choices import RealEstateStatus, RoomType
 
 class BaseRealEstate(models.Model):
     """
-    Базовий клас, який містить спільні поля для 
+    Базовий клас, який містить спільні поля для
     обʼєктів нерухомості: квартири, комерції та будинку.
     """
+
     class Meta:
         abstract = True
         default_permissions = ("add", "change", "view")
@@ -78,32 +79,47 @@ class BaseRealEstate(models.Model):
     condition = models.ForeignKey(
         Handbook, on_delete=models.CASCADE,
         related_name="condition_%(app_label)s_%(class)ss",
-        verbose_name=_("Condition"), null=True, blank=True
+        verbose_name=_("Condition"),
+        null=True,
+        blank=True,
     )
     material = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="material_%(app_label)s_%(class)ss",
-        verbose_name=_("Material"), null=True, blank=True
+        verbose_name=_("Material"),
+        null=True,
+        blank=True,
     )
     agency = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="agency_%(app_label)s_%(class)ss",
-        verbose_name=_("Agency")
+        verbose_name=_("Agency"),
     )
     house_type = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="house_type_%(app_label)s_%(class)ss",
-        verbose_name=_("House type"), null=True, blank=True
+        verbose_name=_("House type"),
+        null=True,
+        blank=True,
     )
     layout = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="layout_%(app_label)s_%(class)ss",
-        verbose_name=_("Layout"), null=True, blank=True
+        verbose_name=_("Layout"),
+        null=True,
+        blank=True,
     )
     stair = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="stair_%(app_label)s_%(class)ss",
-        verbose_name=_("Stair"), null=True, blank=True
+        verbose_name=_("Stair"),
+        null=True,
+        blank=True,
     )
     # withdrawal_reason = models.ForeignKey(
     #     Handbook, on_delete=models.CASCADE, null=True, blank=True,
@@ -119,9 +135,10 @@ class BaseRealEstate(models.Model):
     # )
 
     owner = models.ForeignKey(
-        Client, on_delete=models.CASCADE,
+        Client,
+        on_delete=models.CASCADE,
         related_name="owner_%(app_label)s_%(class)ss",
-        verbose_name=_("Owner")
+        verbose_name=_("Owner"),
     )
     # author = models.ForeignKey(
     #     CustomUser, on_delete=models.CASCADE, null=True, blank=True,
@@ -156,15 +173,12 @@ class BaseRealEstate(models.Model):
     # owners_number = models.PositiveSmallIntegerField(null=True, blank=True)
     floor = models.PositiveIntegerField(verbose_name=_("Floor"))
     storeys_number = models.PositiveIntegerField(verbose_name=_("Number of storeys"))
-    
+
     status = models.PositiveSmallIntegerField(
-        choices=RealEstateStatus.choices,
-        verbose_name=_("Status")
+        choices=RealEstateStatus.choices, verbose_name=_("Status")
     )
     room_types = models.PositiveSmallIntegerField(
-        choices=RoomType.choices,
-        verbose_name=_("Rubric"),
-        default=RoomType.NONE
+        choices=RoomType.choices, verbose_name=_("Rubric"), default=RoomType.NONE
     )
 
     document = models.CharField(max_length=150, blank=True, verbose_name=_("Document"))
@@ -173,15 +187,18 @@ class BaseRealEstate(models.Model):
     # filename_forbid_sale = models.CharField(max_length=150, null=True, blank=True)
     # reference_point = models.CharField(max_length=150, null=True, blank=True)
 
-    sale_terms = models.CharField(max_length=150, null=True, blank=True, verbose_name=_("Sale terms"))
-    realtor_notes = models.TextField(null=True, blank=True, verbose_name=_("Realtor notes"))
+    sale_terms = models.CharField(
+        max_length=150, null=True, blank=True, verbose_name=_("Sale terms")
+    )
+    realtor_notes = models.TextField(
+        null=True, blank=True, verbose_name=_("Realtor notes")
+    )
     comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
 
     in_selection = models.BooleanField(default=False, verbose_name=_("In selection"))
 
     images = GenericRelation(
-        RealEstateImage,
-        related_query_name="%(app_label)s_%(class)s"
+        RealEstateImage, related_query_name="%(app_label)s_%(class)s"
     )
     history = HistoricalRecords(inherit=True)
 
@@ -192,32 +209,33 @@ class BaseRealEstate(models.Model):
 
 class Apartment(BaseRealEstate):
     """Квартира"""
+
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_apartment", "Can change own apartment"),
             ("view_own_apartment", "Can view own apartment"),
             ("change_filial_apartment", "Can change filial apartment"),
             ("view_filial_apartment", "Can view filial apartment"),
-
             ("view_own_office_objects", "Can view in office own objects"),
             ("view_filial_office_objects", "Can view in office filial objects"),
-
             ("view_report", "Can view reports"),
             ("view_office_report", "Can view reports in office"),
-
             ("view_contract", "Can view contracts"),
             ("view_filial_contract", "Can view filial contracts"),
-            ("view_own_contract", "Can view own contracts")
+            ("view_own_contract", "Can view own contracts"),
         )
 
     apartment = models.CharField(max_length=50, verbose_name=_("Apartment"))
     living_square = models.PositiveIntegerField(verbose_name=_("Living square"))
     balcony = models.BooleanField(default=False, verbose_name=_("Balcony"))
-    balcony_number = models.PositiveSmallIntegerField(default=0, verbose_name=_("Number of balconies"))
+    balcony_number = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_("Number of balconies")
+    )
     complex = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="complex_objects_apartment",
-        verbose_name=_("Complex")
+        verbose_name=_("Complex"),
     )
 
     # two_level_apartment = models.BooleanField(default=False)
@@ -258,6 +276,7 @@ class Apartment(BaseRealEstate):
 
 class Commerce(BaseRealEstate):
     """Комерційна нерухомість"""
+
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_commerce", "Can change own commerce"),
@@ -266,24 +285,37 @@ class Commerce(BaseRealEstate):
             ("view_filial_commerce", "Can view filial commerce"),
         )
 
-    premises = models.CharField(max_length=50, verbose_name=_("Premises")) # приміщення
-    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square"), null=True, blank=True) # корисна площа
+    premises = models.CharField(max_length=50, verbose_name=_("Premises"))  # приміщення
+    useful_square = models.PositiveIntegerField(
+        verbose_name=_("Useful square"), null=True, blank=True
+    )  # корисна площа
     balcony = models.BooleanField(default=False, verbose_name=_("Balcony"))
-    balcony_number = models.PositiveSmallIntegerField(default=0, verbose_name=_("Number of balconies"))
-    ground_floor = models.BooleanField(default=False, verbose_name=_("Ground floor")) # цоколь
+    balcony_number = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_("Number of balconies")
+    )
+    ground_floor = models.BooleanField(
+        default=False, verbose_name=_("Ground floor")
+    )  # цоколь
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))
     own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
-    own_courtyard = models.BooleanField(default=False, verbose_name=_("Own courtyard")) # свій двір
-    separate_building = models.BooleanField(default=False, verbose_name=_("Separate building"))
+    own_courtyard = models.BooleanField(
+        default=False, verbose_name=_("Own courtyard")
+    )  # свій двір
+    separate_building = models.BooleanField(
+        default=False, verbose_name=_("Separate building")
+    )
     # office = models.BooleanField(default=False) # квартира під офіс
     complex = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="complex_objects_commerce",
-        verbose_name=_("Complex")
+        verbose_name=_("Complex"),
     )
+
 
 class House(BaseRealEstate):
     """Приватний будинок"""
+
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_house", "Can change own house"),
@@ -292,11 +324,21 @@ class House(BaseRealEstate):
             ("view_filial_house", "Can view filial house"),
         )
 
-    housing = models.CharField(max_length=50, verbose_name=_("Housing"), null=True, blank=True) # корпус
-    useful_square = models.PositiveIntegerField(verbose_name=_("Useful square"), null=True, blank=True) # корисна площа
-    land_square = models.PositiveIntegerField(verbose_name=_("Land's square"), null=True, blank=True) # площа ділянки
-    rooms_number = models.PositiveSmallIntegerField(verbose_name=_("Number of rooms"), null=True, blank=True)
-    communications = models.BooleanField(default=False, verbose_name=_("Communications"))
+    housing = models.CharField(
+        max_length=50, verbose_name=_("Housing"), null=True, blank=True
+    )  # корпус
+    useful_square = models.PositiveIntegerField(
+        verbose_name=_("Useful square"), null=True, blank=True
+    )  # корисна площа
+    land_square = models.PositiveIntegerField(
+        verbose_name=_("Land's square"), null=True, blank=True
+    )  # площа ділянки
+    rooms_number = models.PositiveSmallIntegerField(
+        verbose_name=_("Number of rooms"), null=True, blank=True
+    )
+    communications = models.BooleanField(
+        default=False, verbose_name=_("Communications")
+    )
     terrace = models.BooleanField(default=False, verbose_name=_("Terrace"))
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))
     own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
@@ -306,36 +348,21 @@ class House(BaseRealEstate):
 
 class Selection(models.Model):
     class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("selection", "Selection"),
-        )
+        permissions = (("selection", "Selection"),)
 
     client = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
-        verbose_name=_("Client")
+        Client, on_delete=models.CASCADE, verbose_name=_("Client")
     )
-    date = models.DateField(
-        default=datetime.date.today,
-        verbose_name=_("Date")
-    )
+    date = models.DateField(default=datetime.date.today, verbose_name=_("Date"))
     user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        verbose_name=_("User")
+        CustomUser, on_delete=models.CASCADE, verbose_name=_("User")
     )
     selected_apartments = models.ManyToManyField(
-        Apartment,
-        blank=True,
-        related_name="related_selected_apartments"
+        Apartment, blank=True, related_name="related_selected_apartments"
     )
     selected_houses = models.ManyToManyField(
-        House,
-        blank=True,
-        related_name="related_selected_houses"
+        House, blank=True, related_name="related_selected_houses"
     )
     selected_commerces = models.ManyToManyField(
-        Commerce,
-        blank=True,
-        related_name="related_selected_commerces"
+        Commerce, blank=True, related_name="related_selected_commerces"
     )

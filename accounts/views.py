@@ -69,8 +69,8 @@ class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = user_get(email=self.request.user)
-        context = get_office_context(user, super().get_context_data(**kwargs))
+        context = super().get_context_data(**kwargs)
+        context.update(get_office_context(self.request.user))
 
         return context
 
@@ -122,8 +122,8 @@ class MyUserListView(UserListView):
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
-        user = user_get(email=self.request.user)
-        context = get_office_context(user, super().get_context_data(**kwargs))
+        context = super().get_context_data(**kwargs)
+        context.update(get_office_context(self.request.user))
 
         context.update({
             "lang": self.kwargs["lang"],
