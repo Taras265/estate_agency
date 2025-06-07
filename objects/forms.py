@@ -16,17 +16,21 @@ class BaseRealEstateForm(forms.ModelForm):
     )
     house_type = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=11, on_delete=False),
+        required=False,
     )
     material = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=3, on_delete=False),
+        required=False,
     )
     condition = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=2, on_delete=False),
+        required=False,
     )
     layout = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=10, on_delete=False),
+        required=False,
     )
-    stair = forms.ModelChoiceField(
+    stair = forms.ModelChoiceField(required=False,
         queryset=Handbook.objects.filter(type=8, on_delete=False),
     )
 
