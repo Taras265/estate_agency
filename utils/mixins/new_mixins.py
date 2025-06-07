@@ -1,5 +1,3 @@
-from typing import Optional, List
-
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import QuerySet
@@ -10,7 +8,7 @@ from accounts.services import user_get
 from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
-from utils.const import SALE_CHOICES, LIST_BY_USER
+from utils.const import SALE_CHOICES
 from utils.utils import get_office_context, by_user_queryset
 
 
@@ -120,8 +118,8 @@ class UserClientListMixin(ClientListMixin):
         return client_filter(self.queryset, realtor=user_get(email=self.request.user))
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = user_get(email=self.request.user)
-        context = get_office_context(user, super().get_context_data(**kwargs))
+        context = super().get_context_data(**kwargs)
+        context.update(get_office_context(self.request.user))
 
         return context
 
@@ -139,8 +137,8 @@ class FilialClientListMixin(ClientListMixin):
                              realtor__filials__in=user_get(email=self.request.user).filials.all()).distinct()
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = user_get(email=self.request.user)
-        context = get_office_context(user, super().get_context_data(**kwargs))
+        context = super().get_context_data(**kwargs)
+        context.update(get_office_context(self.request.user))
 
         return context
 

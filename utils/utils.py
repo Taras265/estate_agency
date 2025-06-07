@@ -82,17 +82,6 @@ def model_to_dict(user, queryset, app, handbook_type, own=False):
     return n_queryset
 
 
-def get_office_context(user: CustomUser, context: dict[str, Any]) -> dict[str, Any]:
-    context.update({
-            "my_clients": user.has_perm("handbooks.view_own_office_client"),
-            "my_objects": user.has_perm("objects.view_own_office_objects"),
-            "filial_clients": user.has_perm("handbooks.view_filial_office_client"),
-            "filial_objects": user.has_perm("objects.view_filial_office_objects"),
-            "report": user.has_perm("objects.view_office_report"),
-            "users": user.has_perm("accounts.view_office_user"),})
-    return context
-
-
 def by_user_queryset(queryset: QuerySet, handbook_type: str, filter_by, pref: Optional[str] = None) -> QuerySet:
     if isinstance(LIST_BY_USER[handbook_type], str):
         field = f"{LIST_BY_USER[handbook_type]}__{pref}" if pref else LIST_BY_USER[handbook_type]
@@ -106,3 +95,18 @@ def by_user_queryset(queryset: QuerySet, handbook_type: str, filter_by, pref: Op
         else:
             new_queryset = queryset.filter(**{field: filter_by}).distinct()
     return new_queryset
+
+
+def get_office_context(user: CustomUser) -> dict[str, Any]:
+    """
+    Повертає контекст для сторінки офісу
+    """
+    context = {
+        "my_clients": user.has_perm("handbooks.view_own_office_client"),
+        "my_objects": user.has_perm("objects.view_own_office_objects"),
+        "filial_clients": user.has_perm("handbooks.view_filial_office_client"),
+        "filial_objects": user.has_perm("objects.view_filial_office_objects"),
+        "report": user.has_perm("objects.view_office_report"),
+        "users": user.has_perm("accounts.view_office_user"),
+    }
+    return context
