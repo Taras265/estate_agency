@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from typing import Optional
+from typing import Optional, List
 
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import QuerySet
@@ -70,7 +70,7 @@ def user_can_update_apartment(user: CustomUser, apartment_id: int) -> bool:
     return can_interact_with_object(
         user, apartment, "objects.change_apartment", "objects.change_own_apartment",
         "objects.change_filial_apartment", "realtor", Apartment,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
     )
 
 def user_can_update_full_apartment(user: CustomUser, apartment_id: int) -> bool:
@@ -92,7 +92,7 @@ def user_can_update_apartment_list(
     return can_interact_with_object_list(
         user, apartment_list, "objects.change_apartment", "objects.change_own_apartment",
         "objects.change_filial_apartment", "realtor", Apartment,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
     )
 
 
@@ -117,7 +117,7 @@ def user_can_update_commerce(user: CustomUser, commerce_id: int) -> bool:
     return can_interact_with_object(
         user, commerce, "objects.change_commerce", "objects.change_own_commerce",
         "objects.change_filial_commerce", "realtor", Commerce,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
     )
 
 
@@ -128,7 +128,7 @@ def user_can_update_commerce_list(
     return can_interact_with_object_list(
         user, commerce_list, "objects.change_commerce", "objects.change_own_commerce",
         "objects.change_filial_commerce", "realtor", Commerce,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
     )
 
 
@@ -141,7 +141,7 @@ def user_can_update_house(user: CustomUser, house_id: int) -> bool:
     return can_interact_with_object(
         user, house, "objects.change_house", "objects.change_own_house",
         "objects.change_filial_house", "realtor", House,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
     )
 
 
@@ -164,7 +164,7 @@ def user_can_update_house_list(
     return can_interact_with_object_list(
         user, house_list, "objects.change_house", "objects.change_own_house",
         "objects.change_filial_house", "realtor", House,
-        partial_edit_perm="objects.change_object_comment"
+        partial_edit_perm=["objects.change_object_comment", "objects.change_object_price"]
 
     )
 
@@ -366,7 +366,7 @@ def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
 def can_interact_with_object(
     user: CustomUser,
     current_object: BaseRealEstate,
-    perm: str, own_perm: str, filial_perm: str, user_field: str, model, partial_edit_perm:Optional[str]=None,
+    perm: str, own_perm: str, filial_perm: str, user_field: str, model, partial_edit_perm:Optional[List[str]]=None,
 ) -> bool:
     """
     Перевіряє, чи має користувач відповідне право для для взаємодії
@@ -381,23 +381,26 @@ def can_interact_with_object(
     if user.has_perm(perm):
         return True
 
+    if partial_edit_perm:
+        for p in partial_edit_perm:
+            if user.has_perm(p):
+                return True
+
+    p = False
     if user.has_perm(filial_perm):
         filials_obj = model.objects.filter(**{f"{user_field}__filials__in": user.filials.all()}).distinct()
-        return current_object in filials_obj
+        p = current_object in filials_obj
 
     if user.has_perm(own_perm):
-        return current_object.realtor == user
+        p = current_object.realtor == user or p
 
-    if partial_edit_perm and user.has_perm(partial_edit_perm):
-        return True
-
-    return False
+    return p
 
 
 def can_interact_with_object_list(
     user: CustomUser,
     object_list: Iterable[BaseRealEstate],
-    perm: str, own_perm: str, filial_perm: str, user_field: str, model, partial_edit_perm:Optional[str]=None
+    perm: str, own_perm: str, filial_perm: str, user_field: str, model, partial_edit_perm:Optional[List[str]]=None
 ) -> dict[int, bool]:
     """
     Перевіряє, чи має користувач відповідне право для взаємодії
@@ -411,17 +414,24 @@ def can_interact_with_object_list(
     if user.has_perm(perm):
         return {item.id: True for item in object_list}
 
+    l = {item.id: False for item in object_list}
     if user.has_perm(filial_perm):
         filials_obj = model.objects.filter(**{f"{user_field}__filials__in": user.filials.all()}).distinct()
-        return {item.id: item in filials_obj for item in object_list}
+        for item in object_list:
+            if not l[item.id]:
+                l[item.id] = item in filials_obj
 
     if user.has_perm(own_perm):
-        return {item.id: item.realtor == user for item in object_list}
+        for item in object_list:
+            if not l[item.id]:
+                l[item.id] = item.realtor == user
 
-    if partial_edit_perm and user.has_perm(partial_edit_perm):
-        return {item.id: True for item in object_list}
+    if partial_edit_perm:
+        for p in partial_edit_perm:
+            if user.has_perm(p):
+                return {item.id: True for item in object_list}
 
-    return {item.id: False for item in object_list}
+    return l
 
 
 def estate_objects_filter_visible(object_type: int, *args, **kwargs) -> QuerySet[Apartment | Commerce | House]:

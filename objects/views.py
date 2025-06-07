@@ -1299,7 +1299,7 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
-    
+
 
 class CommerceUpdateView(CustomLoginRequiredMixin,
                          UserPassesTestMixin,
