@@ -207,7 +207,9 @@ class Apartment(BaseRealEstate):
 
             ("view_contract", "Can view contracts"),
             ("view_filial_contract", "Can view filial contracts"),
-            ("view_own_contract", "Can view own contracts")
+            ("view_own_contract", "Can view own contracts"),
+            ("change_object_comment", "Can change comment field in object"),
+            ("change_object_price", "Can change price field in object"),
         )
 
     apartment = models.CharField(max_length=50, verbose_name=_("Apartment"))

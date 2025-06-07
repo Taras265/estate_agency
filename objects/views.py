@@ -1,6 +1,8 @@
+from decimal import Decimal
 from itertools import chain
 from urllib.parse import urlencode
 
+from django.forms import model_to_dict
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
@@ -38,7 +40,8 @@ from .services import (
     get_all_apartment_history, get_all_commerce_history, get_all_houses_history,
     apartment_filter_by_filial, commerce_filter_by_filial, house_filter_by_filial,
     estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials,
-    real_estate_contract_by_user
+    real_estate_contract_by_user, user_can_update_full_apartment, user_can_update_full_commerce,
+    user_can_update_full_house
 )
 from .utils import real_estate_form_save
 from .choices import RealEstateType, RealEstateStatus
@@ -47,7 +50,7 @@ from .mixins import (
 )
 from .forms import (
     SearchForm, HandbooksSearchForm, ApartmentForm, CommerceForm, HouseForm,
-    ApartmentVerifyAddressForm, CommerceVerifyAddressForm, HouseVerifyAddressForm,
+    ApartmentVerifyAddressForm, CommerceVerifyAddressForm, HouseVerifyAddressForm
 )
 from utils.const import SALE_CHOICES
 from utils.mixins.mixins import (
@@ -1249,6 +1252,21 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.APARTMENT
+
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+            user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_apartment(user, self.kwargs["pk"])):
+            for name, field in context["form"].fields.items():
+                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
+                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+            for form in context["formset"].forms:
+                for name, field in form.fields.items():
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+
         return context
 
     def form_valid(self, form):
@@ -1259,15 +1277,29 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
             self.request.FILES,
             instance=self.get_object(),
         )
-        if not is_saved:
-            return self.form_invalid(form)
 
         return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+             user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_apartment(user, self.kwargs["pk"])):
+            o = self.get_object()
+            post_data = self.request.POST.copy()
+            for field in self.form_class().fields.keys():
+                if not post_data.get(field):
+                    post_data[field] = getattr(o, field)
+            f = self.form_class(post_data, instance=o)
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
 
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
-    
+
 
 class CommerceUpdateView(CustomLoginRequiredMixin,
                          UserPassesTestMixin,
@@ -1284,6 +1316,21 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.COMMERCE
+
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+             user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_commerce(user, self.kwargs["pk"])):
+            for name, field in context["form"].fields.items():
+                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
+                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+            for form in context["formset"].forms:
+                for name, field in form.fields.items():
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+
         return context
 
     def form_valid(self, form):
@@ -1294,8 +1341,27 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
             self.request.FILES,
             instance=self.get_object(),
         )
-        if not is_saved:
-            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+             user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_commerce(user, self.kwargs["pk"])):
+            o = self.get_object()
+            post_data = self.request.POST.copy()
+            for field in self.form_class().fields.keys():
+                if not post_data.get(field):
+                    post_data[field] = getattr(o, field)
+            f = self.form_class(post_data, instance=o)
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
 
         return redirect(self.get_success_url())
 
@@ -1319,6 +1385,21 @@ class HouseUpdateView(CustomLoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.HOUSE
+
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+             user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_house(user, self.kwargs["pk"])):
+            for name, field in context["form"].fields.items():
+                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
+                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+            for form in context["formset"].forms:
+                for name, field in form.fields.items():
+                    field.widget.attrs['disabled'] = True
+                    field.widget.attrs['readonly'] = True
+
         return context
 
     def form_valid(self, form):
@@ -1329,8 +1410,28 @@ class HouseUpdateView(CustomLoginRequiredMixin,
             self.request.FILES,
             instance=self.get_object(),
         )
-        if not is_saved:
-            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        user = self.request.user
+        if ((user.has_perm("objects.change_object_comment") or \
+             user.has_perm("objects.change_object_price")) and
+                not user_can_update_full_house(user, self.kwargs["pk"])):
+            o = self.get_object()
+            post_data = self.request.POST.copy()
+            for field in self.form_class().fields.keys():
+                if not post_data.get(field):
+                    post_data[field] = getattr(o, field)
+            f = self.form_class(post_data, instance=o)
+            for obj in House.objects.all():
+                if obj.room_types >= 5:
+                    obj.room_types = 4
+                    obj.save()
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
 
         return redirect(self.get_success_url())
 
