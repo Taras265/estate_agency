@@ -18,9 +18,11 @@ urlpatterns = [
     path("sale/commerces/", views.CommerceListView.as_view(), name="commerce_list"),
     path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
     path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
-    path("sale/apartments/reports/", views.apartment_report_list, name="apartment_reports"),
-    path("sale/commerces/reports/", views.commerce_report_list, name="commerce_reports"),
-    path("sale/houses/reports/", views.house_report_list, name="house_reports"),
+
+    path("sale/reports", views.reports_redirect, name="reports_redirect"),
+    path("sale/apartments/reports/", views.ApartmentReportListView.as_view(), name="apartment_reports"),
+    path("sale/commerces/reports/", views.CommerceReportListView.as_view(), name="commerce_reports"),
+    path("sale/houses/reports/", views.HouseReportListView.as_view(), name="house_reports"),
     path(
         "sale/apartments/contracts/",
         views.BaseContractListView.as_view(type=RealEstateType.APARTMENT),
@@ -44,21 +46,24 @@ urlpatterns = [
     path("office/filial/commerces/", views.FilialCommerceListView.as_view(), name="office_filial_commerce_list"),
     path("office/filial/houses/", views.FilialHouseListView.as_view(), name="office_filial_house_list"),
     path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
-    # path("office/report/", views.ReportOfficeListView.as_view(), name="office_report_list"),
-    # path("office/report/<str:filter>/", views.ReportOfficeListView.as_view(), name="office_report_list"),
-    path("office/apartments/reports/", views.apartment_office_report_list, name="apartment_office_reports"),
-    path("office/commerces/reports/", views.commerce_office_report_list, name="commerce_office_reports"),
-    path("office/houses/reports/", views.house_office_report_list, name="house_office_reports"),
+    
+    path("office/reports", views.office_reports_redirect, name="office_reports_redirect"),
+    path("office/apartments/reports/", views.ApartmentOfficeReportListView.as_view(), name="apartment_office_reports"),
+    path("office/commerces/reports/", views.CommerceOfficeReportListView.as_view(), name="commerce_office_reports"),
+    path("office/houses/reports/", views.HouseOfficeReportListView.as_view(), name="house_office_reports"),
 
     path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
     path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),
     path("base/create/house/", views.HouseCreateView.as_view(), name="create_house"),
+
     path("base/update/apartment/<int:pk>/", views.ApartmentUpdateView.as_view(), name="update_apartment"),
     path("base/update/commerce/<int:pk>/", views.CommerceUpdateView.as_view(), name="update_commerce"),
     path("base/update/house/<int:pk>/", views.HouseUpdateView.as_view(), name="update_house"),
+
     path("base/delete/apartment/<int:pk>/", views.ApartmentDeleteView.as_view(), name="delete_apartment"),
     path("base/delete/commerce/<int:pk>/", views.CommerceDeleteView.as_view(), name="delete_commerce"),
     path("base/delete/house/<int:pk>/", views.HouseDeleteView.as_view(), name="delete_house"),
+
     path("base/history/<int:pk>/", views.ObjectHistoryDetailView.as_view(), name="history_apartment"),
     path("base/selection/<int:client_id>/", views.SelectionListView.as_view(), name="selection"),
 

@@ -65,7 +65,7 @@
                 {% if can_view_report %}
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active"
-                           href="{% url 'objects:apartment_reports' lang=lang %}?created_days_ago=30">
+                           href="{% url 'objects:apartment_reports' lang=lang %}">
                             {% translate "Reports" %}
                         </a>
                     </li>
@@ -75,20 +75,20 @@
         {% with current_filter=request.resolver_match.kwargs.filter %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:apartment_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link"
+                       href="{% url 'objects:apartment_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
                         {% translate "New apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'commerce_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:commerce_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link"
+                       href="{% url 'objects:commerce_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
                         {% translate "New commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'house_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:house_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link"
+                       href="{% url 'objects:house_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
                         {% translate "New houses" %}
                     </a>
                 </li>
@@ -105,14 +105,14 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_reports' and own is False and days_ago <= 0 %}active{% endif %}"
+                    <a class="nav-link"
                        href="{% url 'objects:apartment_reports' lang=lang %}">
                         {% translate "All apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_reports' and own is True and days_ago <= 0 %}active{% endif %}"
-                       href="{% url 'objects:apartment_reports' lang=lang %}?own=true">
+                    <a class="nav-link"
+                       href="{% url 'objects:apartment_reports' lang=lang %}?realtor_id={{ user.id }}">
                         {% translate "My apartments" %}
                     </a>
                 </li>

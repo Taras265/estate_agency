@@ -1,8 +1,10 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from handbooks.models import Handbook
+from handbooks.models import Handbook, FilialAgency
 from objects.models import Apartment, Commerce, House
+from objects.choices import RealEstateStatus
 
 
 class BaseRealEstateForm(forms.ModelForm):
@@ -239,3 +241,38 @@ class HouseVerifyAddressForm(BaseVerifyAddressForm):
     housing = forms.CharField(
         error_messages={"required": _("You did not specify a housing")}
     )
+
+
+class RealEstateFilteringForm(forms.Form):
+    """Форма для валідації query параметрів для списку нерухомості"""
+    _allowed_statuses = ("on_sale", "deposit", "withdrawn", "sold", "completely_withdrawn")
+
+    realtor_id = forms.IntegerField(min_value=1, required=False)
+    filial = forms.ModelMultipleChoiceField(
+        queryset=FilialAgency.objects.all(),
+        required=False
+    )
+    creation_date_min = forms.DateField(
+        required=False,
+        label=_("Period from"),
+        widget=forms.DateInput(
+            attrs={"type": "date", "class": "form-control"},
+            format="%Y-%m-%d"
+        )
+    )
+    creation_date_max = forms.DateField(
+        required=False,
+        label=_("to"),
+        widget=forms.DateInput(
+            attrs={"type": "date", "class": "form-control"},
+            format="%Y-%m-%d"
+        )
+    )
+    status = forms.MultipleChoiceField(
+        choices=RealEstateStatus,
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+
+    # якщо True, то буде повернуто список нерухомості, доступний користувачу для перегляду
+    only_accessible = forms.BooleanField(required=False)

@@ -49,7 +49,7 @@
             <a class="nav-link {% if i.1 == choice %}active{% endif %}"
                {% if i.1 == "client" %}href='{% url 'handbooks:client_list' lang=lang %}'
                {% elif i.1 == "realestate" %}href='{% url 'objects:real_estate_list_redirect' lang=lang %}'
-               {% elif i.1 == "report" %}href='{% url 'objects:apartment_reports' lang=lang %}'{% endif %}>
+               {% elif i.1 == "report" %}href='{% url 'objects:apartment_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on'{% endif %}>
                {% if i.1 == "realestate" %}{% translate "Real estate" %}{% else %}{% translate i.1 %}{% endif %}
             </a>
         </li>
