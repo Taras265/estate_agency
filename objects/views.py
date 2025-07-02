@@ -93,11 +93,7 @@ from .mixins import (
     SaleListContextMixin,
 )
 from .models import Apartment, BaseRealEstate, Commerce, House
-from .utils import (
-    real_estate_form_save,
-    get_report_list_context,
-
-)
+from .utils import real_estate_form_save
 from utils.utils import get_office_context
 
 

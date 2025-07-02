@@ -72,7 +72,6 @@ class SaleListContextMixin(ContextMixin):
             "can_view_real_estate": user_can_view_real_estate_list(user),
             "can_view_report": user_can_view_report(user),
             "can_view_contract": user.has_perm("objects.view_contract"),
-            "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
         })
         return context
 
