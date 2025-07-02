@@ -32,22 +32,3 @@ def real_estate_form_save(
     formset.instance = form.save()
     formset.save()
     return (formset, True)
-
-
-def get_report_list_context(user: CustomUser) -> dict[str, Any]:
-    """Повертає контекст для списку контрактів об'єктів нерухомості"""
-    context = {
-        "can_view_client": has_any_perm_from_list(
-            user,
-            "handbooks.view_client",
-            "handbooks.view_own_client",
-            "handbooks.view_filial_client",
-        ),
-        "can_view_real_estate": user_can_view_real_estate_list(user),
-        "can_view_contract": (
-            user.has_perm("objects.view_contract")
-            or user.has_perm("objects.view_filial_contract")
-            or user.has_perm("objects.view_own_contract")
-        ),
-    }
-    return context
