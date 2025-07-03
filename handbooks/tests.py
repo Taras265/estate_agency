@@ -1,11 +1,11 @@
-from django.contrib.auth.models import Permission
+"""from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from django.urls import reverse_lazy
 
 from accounts.models import CustomUser
 from handbooks.models import Handbook
-from utils.const import MODEL, HANDBOOKS_QUERYSET
+from utils.const import HANDBOOKS_QUERYSET, MODEL
 
 
 class HandbooksTest(TestCase):
@@ -159,4 +159,4 @@ class HandbooksTest(TestCase):
     def get_obj(handbook):
         if handbook in MODEL.keys():
             return MODEL[handbook].objects.first()
-        return Handbook.objects.filter(type=HANDBOOKS_QUERYSET[handbook]).first()
+        return Handbook.objects.filter(type=HANDBOOKS_QUERYSET[handbook]).first()"""

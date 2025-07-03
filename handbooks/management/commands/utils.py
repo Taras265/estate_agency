@@ -1,5 +1,6 @@
-from datetime import datetime
 import xml.etree.ElementTree as ET
+from datetime import datetime
+
 from handbooks.models import Handbook
 
 
@@ -9,10 +10,10 @@ def handbook_fill(root, handbook_name):
         handbook_type = int(handbook.find("CatalogId").text)
         handbook = handbook.find("Name").text.strip()
 
-        h = Handbook.objects.create(handbook=handbook, type=handbook_type)
+        Handbook.objects.create(handbook=handbook, type=handbook_type)
 
 
-def get_date(obj: ET.Element, field: str, f: str): # f - format
+def get_date(obj: ET.Element, field: str, f: str):  # f - format
     field = obj.find(field).text
     try:
         return datetime.strptime(field, f) if field else None

@@ -4,21 +4,49 @@ from . import views
 from .choices import RealEstateType
 
 urlpatterns = [
-    path("verify-address/", views.verify_real_estate_address, name="verify_real_estate_address"),
-    path("fill-address/", views.fill_real_estate_address, name="fill_real_estate_address"),
-    path("set-status-sold/<int:id>", views.set_real_estate_status_sold, name="set_status_sold"),
-
+    path(
+        "verify-address/",
+        views.verify_real_estate_address,
+        name="verify_real_estate_address",
+    ),
+    path(
+        "fill-address/", views.fill_real_estate_address, name="fill_real_estate_address"
+    ),
+    path(
+        "set-status-sold/<int:id>",
+        views.set_real_estate_status_sold,
+        name="set_status_sold",
+    ),
     path("catalog/", views.CatalogListView.as_view(), name="catalog"),
-    path("catalog/apartments/<int:pk>/", views.ApartmentDetailView.as_view(), name="apartment_detail"),
-    path("catalog/commerces/<int:pk>/", views.CommerceDetailView.as_view(), name="commerce_detail"),
-    path("catalog/houses/<int:pk>/", views.HouseDetailView.as_view(), name="house_detail"),
-
-    path("sale/real-estate/", views.RealEstateListRedirect.as_view(), name="real_estate_list_redirect"),
+    path(
+        "catalog/apartments/<int:pk>/",
+        views.ApartmentDetailView.as_view(),
+        name="apartment_detail",
+    ),
+    path(
+        "catalog/commerces/<int:pk>/",
+        views.CommerceDetailView.as_view(),
+        name="commerce_detail",
+    ),
+    path(
+        "catalog/houses/<int:pk>/", views.HouseDetailView.as_view(), name="house_detail"
+    ),
+    path(
+        "sale/real-estate/",
+        views.RealEstateListRedirect.as_view(),
+        name="real_estate_list_redirect",
+    ),
     path("sale/apartments/", views.ApartmentListView.as_view(), name="apartment_list"),
     path("sale/commerces/", views.CommerceListView.as_view(), name="commerce_list"),
     path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
-    path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
-    path("sale/apartments/reports/", views.apartment_report_list, name="apartment_reports"),
+    path(
+        "sale/report/changes/",
+        views.HistoryReportListView.as_view(),
+        name="changes_report_list",
+    ),
+    path(
+        "sale/apartments/reports/", views.apartment_report_list, name="apartment_reports"
+    ),
     path("sale/commerces/reports/", views.commerce_report_list, name="commerce_reports"),
     path("sale/houses/reports/", views.house_report_list, name="house_reports"),
     path(
@@ -36,35 +64,122 @@ urlpatterns = [
         views.BaseContractListView.as_view(type=RealEstateType.HOUSE),
         name="house_contracts",
     ),
-
-    path("office/apartments/", views.MyApartmentListView.as_view(), name="office_apartment_list"),
-    path("office/commerces/", views.MyCommerceListView.as_view(), name="office_commerce_list"),
+    path(
+        "office/apartments/",
+        views.MyApartmentListView.as_view(),
+        name="office_apartment_list",
+    ),
+    path(
+        "office/commerces/",
+        views.MyCommerceListView.as_view(),
+        name="office_commerce_list",
+    ),
     path("office/houses/", views.MyHouseListView.as_view(), name="office_house_list"),
-    path("office/filial/apartments/", views.FilialApartmentListView.as_view(), name="office_filial_apartment_list"),
-    path("office/filial/commerces/", views.FilialCommerceListView.as_view(), name="office_filial_commerce_list"),
-    path("office/filial/houses/", views.FilialHouseListView.as_view(), name="office_filial_house_list"),
-    path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
+    path(
+        "office/filial/apartments/",
+        views.FilialApartmentListView.as_view(),
+        name="office_filial_apartment_list",
+    ),
+    path(
+        "office/filial/commerces/",
+        views.FilialCommerceListView.as_view(),
+        name="office_filial_commerce_list",
+    ),
+    path(
+        "office/filial/houses/",
+        views.FilialHouseListView.as_view(),
+        name="office_filial_house_list",
+    ),
+    path(
+        "office/report/changes/",
+        views.OfficeHistoryReportListView.as_view(),
+        name="office_changes_report_list",
+    ),
     # path("office/report/", views.ReportOfficeListView.as_view(), name="office_report_list"),
     # path("office/report/<str:filter>/", views.ReportOfficeListView.as_view(), name="office_report_list"),
-    path("office/apartments/reports/", views.apartment_office_report_list, name="apartment_office_reports"),
-    path("office/commerces/reports/", views.commerce_office_report_list, name="commerce_office_reports"),
-    path("office/houses/reports/", views.house_office_report_list, name="house_office_reports"),
-
-    path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
-    path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),
+    path(
+        "office/apartments/reports/",
+        views.apartment_office_report_list,
+        name="apartment_office_reports",
+    ),
+    path(
+        "office/commerces/reports/",
+        views.commerce_office_report_list,
+        name="commerce_office_reports",
+    ),
+    path(
+        "office/houses/reports/",
+        views.house_office_report_list,
+        name="house_office_reports",
+    ),
+    path(
+        "base/create/apartment/",
+        views.ApartmentCreateView.as_view(),
+        name="create_apartment",
+    ),
+    path(
+        "base/create/commerce/",
+        views.CommerceCreateView.as_view(),
+        name="create_commerce",
+    ),
     path("base/create/house/", views.HouseCreateView.as_view(), name="create_house"),
-    path("base/update/apartment/<int:pk>/", views.ApartmentUpdateView.as_view(), name="update_apartment"),
-    path("base/update/commerce/<int:pk>/", views.CommerceUpdateView.as_view(), name="update_commerce"),
-    path("base/update/house/<int:pk>/", views.HouseUpdateView.as_view(), name="update_house"),
-    path("base/delete/apartment/<int:pk>/", views.ApartmentDeleteView.as_view(), name="delete_apartment"),
-    path("base/delete/commerce/<int:pk>/", views.CommerceDeleteView.as_view(), name="delete_commerce"),
-    path("base/delete/house/<int:pk>/", views.HouseDeleteView.as_view(), name="delete_house"),
-    path("base/history/<int:pk>/", views.ObjectHistoryDetailView.as_view(), name="history_apartment"),
-    path("base/selection/<int:client_id>/", views.SelectionListView.as_view(), name="selection"),
-
+    path(
+        "base/update/apartment/<int:pk>/",
+        views.ApartmentUpdateView.as_view(),
+        name="update_apartment",
+    ),
+    path(
+        "base/update/commerce/<int:pk>/",
+        views.CommerceUpdateView.as_view(),
+        name="update_commerce",
+    ),
+    path(
+        "base/update/house/<int:pk>/",
+        views.HouseUpdateView.as_view(),
+        name="update_house",
+    ),
+    path(
+        "base/delete/apartment/<int:pk>/",
+        views.ApartmentDeleteView.as_view(),
+        name="delete_apartment",
+    ),
+    path(
+        "base/delete/commerce/<int:pk>/",
+        views.CommerceDeleteView.as_view(),
+        name="delete_commerce",
+    ),
+    path(
+        "base/delete/house/<int:pk>/",
+        views.HouseDeleteView.as_view(),
+        name="delete_house",
+    ),
+    path(
+        "base/history/apartment/<int:pk>/",
+        views.ApartmentHistoryView.as_view(),
+        name="history_apartment",
+    ),
+    path(
+        "base/history/commerce/<int:pk>/",
+        views.CommerceHistoryView.as_view(),
+        name="history_commerce",
+    ),
+    path(
+        "base/history/house/<int:pk>/",
+        views.HouseHistoryView.as_view(),
+        name="history_house",
+    ),
+    path(
+        "base/selection/<int:client_id>/",
+        views.SelectionListView.as_view(),
+        name="selection",
+    ),
     path("pre/showing_act/", views.showing_act_redirect, name="showing_act_redirect"),
     path("showing_act/", views.ShowingActView.as_view(), name="showing_act"),
     path("pre/showing_act/pdf/", views.pdf_redirect, name="generate_pdf_redirect"),
     path("showing_act/pdf/", views.PdfView.as_view(), name="generate_pdf"),
-    path("base/selection/history/<int:pk>/", views.SelectionHistoryView.as_view(), name="selection_history"),
+    path(
+        "base/selection/history/<int:pk>/",
+        views.SelectionHistoryView.as_view(),
+        name="selection_history",
+    ),
 ]

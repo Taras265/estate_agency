@@ -14,26 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 
-from estate_agency.views import BaseView
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
 
 # for delete
-from estate_agency.views import fill_db
+from estate_agency.views import BaseView, fill_db
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('<str:lang>/', BaseView.as_view(), name='main'),
-    path('<str:lang>/accounts/', include(('accounts.urls', 'accounts'))),
-    path('<str:lang>/handbooks/', include(('handbooks.urls', 'handbooks'))),
-    path('<str:lang>/objects/', include(('objects.urls', 'objects'))),
-    path('<str:lang>/images/', include(('images.urls', 'images'))),
-
+    path("admin/", admin.site.urls),
+    path("<str:lang>/", BaseView.as_view(), name="main"),
+    path("<str:lang>/accounts/", include(("accounts.urls", "accounts"))),
+    path("<str:lang>/handbooks/", include(("handbooks.urls", "handbooks"))),
+    path("<str:lang>/objects/", include(("objects.urls", "objects"))),
+    path("<str:lang>/images/", include(("images.urls", "images"))),
     # for delete
-    path('<str:lang>/fill_db/', fill_db, name='fill_db'),
+    path("<str:lang>/fill_db/", fill_db, name="fill_db"),
 ]
 
 if settings.DEBUG:

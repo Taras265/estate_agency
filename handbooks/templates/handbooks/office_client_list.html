@@ -172,11 +172,12 @@
                                 {% for object in object_values %}
                                 <tr>
                                     <td></td>
-                                    {% for key, data in object.items %}
-                                    {% if key != 'on_delete' and key != 'user_permissions' %}
-                                    <td>{{data}}</td>
-                                    {% endif %}
-                                    {% endfor %}
+                                    <td>{{object.id}}</td>
+                                    <td>{{object.email}}</td>
+                                    <td>{{object.first_name}}</td>
+                                    <td>{{object.object_type}}</td>
+                                    <td>{{object.phone}}</td>
+                                    <td>{{object.status}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                                            href="{% url 'objects:selection' lang=lang client_id=object.id %}"

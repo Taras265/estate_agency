@@ -3,11 +3,15 @@ from django.utils import timezone
 
 from accounts.models import CustomUser
 from estate_agency.models import BaseModel
-from objects.choices import RealEstateType
 from handbooks.choices import (
-    CityType, CenterType, NewBuildingDistrictType, IncomeSourceType,
-    ClientStatusType, RealtorType,
+    CenterType,
+    CityType,
+    ClientStatusType,
+    IncomeSourceType,
+    NewBuildingDistrictType,
+    RealtorType,
 )
+from objects.choices import RealEstateType
 
 
 class Region(BaseModel):
@@ -22,7 +26,9 @@ class Region(BaseModel):
 
 class District(BaseModel):
     district = models.CharField(max_length=100)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="region_related_name")
+    region = models.ForeignKey(
+        Region, on_delete=models.CASCADE, related_name="region_related_name"
+    )
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -34,16 +40,14 @@ class District(BaseModel):
 class Locality(BaseModel):
     locality = models.CharField(max_length=100)
     district = models.ForeignKey(
-        District,
-        on_delete=models.CASCADE,
-        related_name="district_related_name"
+        District, on_delete=models.CASCADE, related_name="district_related_name"
     )
     city_type = models.PositiveSmallIntegerField(
-        choices=CityType.choices,
-        null=True, blank=True
+        choices=CityType.choices, null=True, blank=True
     )
-    center_type = models.PositiveSmallIntegerField(choices=CenterType.choices,
-        null=True, blank=True)
+    center_type = models.PositiveSmallIntegerField(
+        choices=CenterType.choices, null=True, blank=True
+    )
 
     class Meta:
         default_permissions = ("add", "change", "view")
@@ -55,9 +59,7 @@ class Locality(BaseModel):
 class LocalityDistrict(BaseModel):
     district = models.CharField(max_length=100)
     locality = models.ForeignKey(
-        Locality,
-        on_delete=models.CASCADE,
-        related_name="locality_related_name"
+        Locality, on_delete=models.CASCADE, related_name="locality_related_name"
     )
     description = models.TextField(null=True, blank=True)
     group_on_site = models.CharField(max_length=100, null=True, blank=True)
@@ -80,12 +82,10 @@ class Street(BaseModel):
     locality_district = models.ForeignKey(
         LocalityDistrict,
         on_delete=models.CASCADE,
-        related_name="locality_district_related_name"
+        related_name="locality_district_related_name",
     )
     locality = models.ForeignKey(
-        Locality,
-        on_delete=models.CASCADE,
-        related_name="locality_related_name_street"
+        Locality, on_delete=models.CASCADE, related_name="locality_related_name_street"
     )
 
     class Meta:
@@ -122,52 +122,42 @@ class Handbook(BaseModel):
             ("change_withdrawalreason", "Can change withdrawal reason"),
             ("view_withdrawalreason", "Can view withdrawal reason"),
             ("view_historicalwithdrawalreason", "Can view historical withdrawal reason"),
-
             ("add_condition", "Can add condition"),
             ("change_condition", "Can change condition"),
             ("view_condition", "Can view condition"),
             ("view_historicalcondition", "Can view historical condition"),
-
             ("add_material", "Can add material"),
             ("change_material", "Can change material"),
             ("view_material", "Can view material"),
             ("view_historicalmaterial", "Can view historical material"),
-
             ("add_separation", "Can add separation"),
             ("change_separation", "Can change separation"),
             ("view_separation", "Can view separation"),
             ("view_historicalseparation", "Can view historical separation"),
-
             ("add_agency", "Can add agency"),
             ("change_agency", "Can change agency"),
             ("view_agency", "Can view agency"),
             ("view_historicalagency", "Can view historical agency"),
-
             ("add_agencysales", "Can add agency sales"),
             ("change_agencysales", "Can change agency sales"),
             ("view_agencysales", "Can view agency sales"),
             ("view_historicalagencysales", "Can view historical agency sales"),
-
             ("add_newbuildingname", "Can add new building name"),
             ("change_newbuildingname", "Can change new building name"),
             ("view_newbuildingname", "Can view new building name"),
             ("view_historicalnewbuildingname", "Can view historical new building name"),
-
             ("add_stair", "Can add stair"),
             ("change_stair", "Can change stair"),
             ("view_stair", "Can view stair"),
             ("view_historicalstair", "Can view historical stair"),
-
             ("add_heating", "Can add heating"),
             ("change_heating", "Can change heating"),
             ("view_heating", "Can view heating"),
             ("view_historicalheating", "Can view historical heating"),
-
             ("add_layout", "Can add layout"),
             ("change_layout", "Can change layout"),
             ("view_layout", "Can view layout"),
             ("view_historicallayout", "Can view historical layout"),
-
             ("add_housetype", "Can add house type"),
             ("change_housetype", "Can change house type"),
             ("view_housetype", "Can view house type"),
@@ -183,7 +173,7 @@ class FilialAgency(BaseModel):
     locality_district = models.ForeignKey(
         LocalityDistrict,
         on_delete=models.CASCADE,
-        related_name="locality_district_agency_related_name"
+        related_name="locality_district_agency_related_name",
     )
     phone = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(unique=True, null=True, blank=True)
@@ -208,41 +198,28 @@ class Client(BaseModel):
     phone = models.CharField(max_length=100)
     messenger = models.CharField(max_length=200)
     income_source = models.PositiveSmallIntegerField(
-        choices=IncomeSourceType.choices,
-        default=1
+        choices=IncomeSourceType.choices, default=1
     )
-    status = models.PositiveSmallIntegerField(
-        choices=ClientStatusType.choices,
-        default=1
-    )
-    object_type = models.PositiveSmallIntegerField(
-        choices=RealEstateType,
-        default=1
-    )
+    status = models.PositiveSmallIntegerField(choices=ClientStatusType.choices, default=1)
+    object_type = models.PositiveSmallIntegerField(choices=RealEstateType, default=1)
     realtor_type = models.PositiveSmallIntegerField(
-        choices=RealtorType.choices,
-        default=1
+        choices=RealtorType.choices, default=1
     )
     realtor = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name="realtor_client_related_name"
+        CustomUser, on_delete=models.CASCADE, related_name="realtor_client_related_name"
     )
     rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
     locality = models.ManyToManyField(
-        Locality,
-        related_name="locality_client_related_name",
-        null=True, blank=True
+        Locality, related_name="locality_client_related_name", null=True, blank=True
     )
     locality_district = models.ManyToManyField(
         LocalityDistrict,
         related_name="locality_district_client_related_name",
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     street = models.ManyToManyField(
-        Street,
-        related_name="street_client_related_name",
-        null=True, blank=True
+        Street, related_name="street_client_related_name", null=True, blank=True
     )
     house = models.CharField(max_length=100, null=True, blank=True)
     floor_min = models.PositiveIntegerField(null=True, blank=True)
@@ -253,9 +230,7 @@ class Client(BaseModel):
     price_to = models.IntegerField(null=True, blank=True)
     square_meter_price_max = models.IntegerField(null=True, blank=True)
     condition = models.ManyToManyField(
-        Handbook,
-        related_name="condition_client_related_name",
-        null=True, blank=True
+        Handbook, related_name="condition_client_related_name", null=True, blank=True
     )
 
     class Meta:
@@ -265,7 +240,6 @@ class Client(BaseModel):
             ("view_own_client", "Can view own client"),
             ("change_filial_client", "Can change filial client"),
             ("view_filial_client", "Can view filial client"),
-
             ("view_own_office_client", "Can view in office own clients"),
             ("view_filial_office_client", "Can view in office filial clients"),
         )
@@ -277,14 +251,10 @@ class Client(BaseModel):
 class FilialReport(BaseModel):
     report = models.TextField()
     filial_agency = models.ForeignKey(
-        FilialAgency,
-        on_delete=models.CASCADE,
-        related_name="filial_agency_related_name"
+        FilialAgency, on_delete=models.CASCADE, related_name="filial_agency_related_name"
     )
     user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name="user_report_related_name"
+        CustomUser, on_delete=models.CASCADE, related_name="user_report_related_name"
     )
 
     class Meta:
@@ -299,11 +269,10 @@ class PhoneNumber(models.Model):
     Номер телефону користувача
     (може бути декілька номерів у одного користувача).
     """
+
     number = models.CharField(max_length=15)
     user = models.ForeignKey(
-        "accounts.CustomUser",
-        related_name="phone_numbers",
-        on_delete=models.CASCADE
+        "accounts.CustomUser", related_name="phone_numbers", on_delete=models.CASCADE
     )
 
     def __str__(self):

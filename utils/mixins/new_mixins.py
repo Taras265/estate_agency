@@ -9,7 +9,7 @@ from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES
-from utils.utils import get_office_context, by_user_queryset
+from utils.utils import by_user_queryset, get_office_context
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -35,8 +35,7 @@ class SearchByIdMixin:
             for field in form.cleaned_data.keys():
                 if form.cleaned_data.get(field):
                     queryset = self.main_service["objects_filter"](
-                        queryset,
-                        **{field: form.cleaned_data.get(field)}
+                        queryset, **{field: form.cleaned_data.get(field)}
                     )
         return queryset
 
@@ -57,10 +56,10 @@ class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         user = user_get(email=self.request.user)
 
         if user.has_perm(f"{self.app}.{self.perm}_{self.handbook_type}"):
-            return (f"{self.app}.{self.perm}_{self.handbook_type}", )
+            return (f"{self.app}.{self.perm}_{self.handbook_type}",)
         if user.has_perm(f"{self.app}.{self.perm}_filial_{self.handbook_type}"):
-            return (f"{self.app}.{self.perm}_filial_{self.handbook_type}", )
-        return (f"{self.app}.{self.perm}_own_{self.handbook_type}", )
+            return (f"{self.app}.{self.perm}_filial_{self.handbook_type}",)
+        return (f"{self.app}.{self.perm}_own_{self.handbook_type}",)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -70,7 +69,9 @@ class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
         if perm.find("own") != -1:
             queryset = by_user_queryset(queryset, self.handbook_type, user)
         elif perm.find("filial") != -1:
-            queryset = by_user_queryset(queryset, self.handbook_type, user.filials.all(), "filials__in")
+            queryset = by_user_queryset(
+                queryset, self.handbook_type, user.filials.all(), "filials__in"
+            )
         return queryset
 
 
@@ -78,7 +79,10 @@ class ClientListMixin:
     """
     Міксін, який об"єднує повторювані параметри. Використовувати разом з CustomListView
     """
-    main_service = {"objects_filter": client_filter, }
+
+    main_service = {
+        "objects_filter": client_filter,
+    }
     choices = SALE_CHOICES
     permission_required = "handbooks.view_client"
     template_name = "handbooks/client_list.html"
@@ -111,6 +115,7 @@ class UserClientListMixin(ClientListMixin):
     Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
     який користувач дивиться (бачити тільки своїх клієнтів у БУДЬ ЯКОМУ випадку)
     """
+
     template_name = "handbooks/office_client_list.html"
     permission_required = "handbooks.view_own_office_client"
 
@@ -129,12 +134,15 @@ class FilialClientListMixin(ClientListMixin):
     Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
     які є філіали має користувач, який дивиться (бачити тільки клієнтів свого філіалу у БУДЬ ЯКОМУ випадку)
     """
+
     template_name = "handbooks/office_filial_client_list.html"
     permission_required = "handbooks.view_own_office_client"
 
     def get_queryset(self):
-        return client_filter(self.queryset,
-                             realtor__filials__in=user_get(email=self.request.user).filials.all()).distinct()
+        return client_filter(
+            self.queryset,
+            realtor__filials__in=user_get(email=self.request.user).filials.all(),
+        ).distinct()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,12 +155,14 @@ class GetQuerysetMixin:
     """
     Міксін, який виконує найпоширінішу варіацію функції get_queryset
     """
+
     def get_queryset(self):
         if self.queryset is not None:
             return self.queryset
         raise ImproperlyConfigured(
             "%(cls)s is missing a Queryset. Define "
-            "%(cls)s.queryset or %(cls)s.get_queryset()." % {"cls": self.__class__.__name__}
+            "%(cls)s.queryset or %(cls)s.get_queryset()."
+            % {"cls": self.__class__.__name__}
         )
 
 
@@ -160,6 +170,7 @@ class StandardContextDataMixin:
     """
     Міксін, який виконує найпоширінішу варіацію функції get_context_data. Використовувати, мабуть, завжди
     """
+
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
 

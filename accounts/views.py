@@ -1,22 +1,33 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, ListView
 from django.utils.translation import activate
+from django.views.generic import ListView, UpdateView
 
-from accounts.forms import LoginForm, AvatarForm, UserForm, RegisterForm, GroupForm
+from accounts.forms import AvatarForm, GroupForm, LoginForm, RegisterForm, UserForm
 from accounts.models import CustomUser
 from accounts.services import (
-    user_all_visible, user_filter, group_filter, group_all,
-    user_can_create_user, user_can_update_user, user_can_view_custom_group,
-    user_can_view_user_history, user_get
+    group_all,
+    group_filter,
+    user_all_visible,
+    user_can_create_user,
+    user_can_update_user,
+    user_can_view_custom_group,
+    user_can_view_user_history,
+    user_filter,
 )
-from handbooks.forms import PhoneNumberFormSet, IdSearchForm
+from handbooks.forms import PhoneNumberFormSet
 from utils.const import USER_CHOICES
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin, GetQuerysetMixin
+from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin
 from utils.utils import get_office_context
-from utils.views import CustomListView, CustomCreateView, CustomUpdateView, CustomDeleteView, HistoryView
+from utils.views import (
+    CustomCreateView,
+    CustomDeleteView,
+    CustomUpdateView,
+    HistoryView,
+    CustomListView,
+)
 
 
 def login_view(request, lang):
@@ -42,15 +53,19 @@ def office_redirect(request, lang):
     user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
     if user:
-        if user.has_perm(f"handbooks.view_own_office_client"):
+        if user.has_perm("handbooks.view_own_office_client"):
             return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
-        elif user.has_perm(f"objects.view_own_office_objects"):
+        elif user.has_perm("objects.view_own_office_objects"):
             return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
-        if user.has_perm(f"handbooks.view_filial_office_client"):
-            return redirect(reverse_lazy("handbooks:office_filial_client_list", kwargs=kwargs))
-        elif user.has_perm(f"objects.view_filial_office_objects"):
-            return redirect(reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs))
-        elif user.has_perm(f"accounts.view_office_user"):
+        if user.has_perm("handbooks.view_filial_office_client"):
+            return redirect(
+                reverse_lazy("handbooks:office_filial_client_list", kwargs=kwargs)
+            )
+        elif user.has_perm("objects.view_filial_office_objects"):
+            return redirect(
+                reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs)
+            )
+        elif user.has_perm("accounts.view_office_user"):
             return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
         return redirect(reverse_lazy("accounts:profile", kwargs=kwargs))
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
@@ -80,9 +95,9 @@ def users_list_redirect(request, lang):
     kwargs = {"lang": lang}
 
     if user:
-        if user.has_perm(f"accounts.view_customuser"):
+        if user.has_perm("accounts.view_customuser"):
             return redirect(reverse_lazy("accounts:user_list", kwargs=kwargs))
-        if user.has_perm(f"accounts.view_group"):
+        if user.has_perm("accounts.view_group"):
             return redirect(reverse_lazy("accounts:group_list", kwargs=kwargs))
         return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
@@ -97,17 +112,19 @@ class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self):
         queryset = user_all_visible().prefetch_related("phone_numbers")
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
-        context.update({
-            "lang": self.kwargs["lang"],
-            "can_view_customgroup": user_can_view_custom_group(self.request.user),
-            "can_create": user_can_create_user(self.request.user),
-            "can_update": user_can_update_user(self.request.user),
-            "can_view_history": user_can_view_user_history(self.request.user),
-        })
+        context.update(
+            {
+                "lang": self.kwargs["lang"],
+                "can_view_customgroup": user_can_view_custom_group(self.request.user),
+                "can_create": user_can_create_user(self.request.user),
+                "can_update": user_can_update_user(self.request.user),
+                "can_view_history": user_can_view_user_history(self.request.user),
+            }
+        )
         return context
 
 
@@ -116,8 +133,10 @@ class MyUserListView(UserListView):
     template_name = "accounts/office_user_list.html"
 
     def get_queryset(self):
-        group = self.kwargs.get('group_id') or group_all(first=True).id
-        queryset = user_filter(user_all_visible(), groups__id=group).prefetch_related("phone_numbers")
+        group = self.kwargs.get("group_id") or group_all(first=True).id
+        queryset = user_filter(user_all_visible(), groups__id=group).prefetch_related(
+            "phone_numbers"
+        )
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -125,24 +144,29 @@ class MyUserListView(UserListView):
         context = super().get_context_data(**kwargs)
         context.update(get_office_context(self.request.user))
 
-        context.update({
-            "lang": self.kwargs["lang"],
-            "can_create": user_can_create_user(self.request.user),
-            "can_update": user_can_update_user(self.request.user),
-            "can_view_history": user_can_view_user_history(self.request.user),
-            "groups": group_all(),
-            "g": self.kwargs.get('group_id') or group_all(first=True).id
-        })
+        context.update(
+            {
+                "lang": self.kwargs["lang"],
+                "can_create": user_can_create_user(self.request.user),
+                "can_update": user_can_update_user(self.request.user),
+                "can_view_history": user_can_view_user_history(self.request.user),
+                "groups": group_all(),
+                "g": self.kwargs.get("group_id") or group_all(first=True).id,
+            }
+        )
         return context
 
 
 class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
     queryset = group_all()
-    main_service = {"objects_filter": group_filter, }
+    main_service = {
+        "objects_filter": group_filter,
+    }
     choices = USER_CHOICES
     permission_required = "accounts.view_group"
 
     handbook_type = "group"
+    template_name = "accounts/group_list.html"
 
 
 class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
@@ -177,7 +201,9 @@ class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCr
         return redirect(super().get_success_url())
 
 
-class GroupCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
+class GroupCreateView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView
+):
     form_class = GroupForm
     permission_required = "auth.add_group"
 
@@ -194,11 +220,13 @@ class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUp
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=object_list, **kwargs)
         if self.request.POST:
-            context["formset"] = PhoneNumberFormSet(self.request.POST, instance=self.object)
+            context["formset"] = PhoneNumberFormSet(
+                self.request.POST, instance=self.object
+            )
         else:
             context["formset"] = PhoneNumberFormSet(instance=self.object)
         return context
-    
+
     def form_valid(self, form):
         formset = PhoneNumberFormSet(self.request.POST, instance=self.object)
         if not formset.is_valid():
@@ -209,7 +237,9 @@ class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUp
         return redirect(super().get_success_url())
 
 
-class GroupUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView):
+class GroupUpdateView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
+):
     queryset = group_all()
     form_class = GroupForm
     permission_required = "auth.change_group"
@@ -222,10 +252,13 @@ class UserDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDe
     handbook_type = "user"
 
 
-class GroupDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView):
+class GroupDeleteView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
+):
     queryset = group_all()
     permission_required = "auth.delete_group"
     handbook_type = "group"
+
 
 class UserHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     queryset = user_all_visible()

@@ -3,25 +3,30 @@ from typing import Any, Optional
 from django.db.models import QuerySet
 
 from accounts.models import CustomUser
-from utils.const import TABLE_TO_APP, LIST_BY_USER, OBJECT_FIELDS
+from utils.const import LIST_BY_USER, TABLE_TO_APP
 
 
 def have_permission_to_do(user, perm_type, handbook_type, obj, p=""):
-
     p_handbook_type = "".join(handbook_type.split("_"))
-    has_perm = user.has_perm(f"{TABLE_TO_APP[handbook_type]}.{perm_type}_{p}{p_handbook_type}")
+    has_perm = user.has_perm(
+        f"{TABLE_TO_APP[handbook_type]}.{perm_type}_{p}{p_handbook_type}"
+    )
     if handbook_type in LIST_BY_USER.keys() and not has_perm:
         if isinstance(LIST_BY_USER[handbook_type], str):
-            return check_own_perm_by_field(obj,
-                                           LIST_BY_USER[handbook_type],
-                                           user,
-                                           f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}")
+            return check_own_perm_by_field(
+                obj,
+                LIST_BY_USER[handbook_type],
+                user,
+                f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}",
+            )
         else:
             for field in LIST_BY_USER[handbook_type]:
-                has_perm = check_own_perm_by_field(obj,
-                                                   field,
-                                                   user,
-                                                   f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}")
+                has_perm = check_own_perm_by_field(
+                    obj,
+                    field,
+                    user,
+                    f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}",
+                )
 
                 if has_perm:
                     break
@@ -35,44 +40,68 @@ def check_own_perm_by_field(obj, field, user, perm):
     return False
 
 
-def model_to_dict(user, queryset, app, handbook_type, own=False):
-    object_fields: list[str] | None = OBJECT_FIELDS.get(handbook_type)
+def get_queryset_with_related_values(queryset):
+    model = queryset[0]
+    base_fields = [
+        f.name for f in model._meta.fields if not f.is_relation or f.many_to_one
+    ]
+    fk_fields = [
+        (f.name, f.related_model._meta.fields)
+        for f in model._meta.fields
+        if f.is_relation and f.many_to_one
+    ]
 
-    if object_fields:
-        n_queryset = queryset.values(*object_fields)
-    else:
-        n_queryset = queryset.values()
+    values_fields = base_fields.copy()
+    for fk_name, fk_model_fields in fk_fields:
+        for fk_field in fk_model_fields:
+            values_fields.append(f"{fk_name}__{fk_field.name}")
+
+    return queryset.select_related(*[f[0] for f in fk_fields]).values(*values_fields)
+
+
+def new_model_to_dict(user, queryset, app, handbook_type, own=False):
+    n_queryset = get_queryset_with_related_values(queryset)
 
     for i, instance in enumerate(n_queryset):
         if user.has_perm(f"{app}.change_{handbook_type}"):
-            instance.update({
-                "user_permissions": {
-                    "can_update": True,
+            instance.update(
+                {
+                    "user_permissions": {
+                        "can_update": True,
+                    }
                 }
-            })
+            )
         elif own and user.has_perm(f"{app}.change_filial_{handbook_type}"):
             if isinstance(LIST_BY_USER[handbook_type], str):
                 filials = getattr(queryset[i], LIST_BY_USER[handbook_type]).filials.all()
                 if set(filials).intersection(set(user.filials.all())):
-                    instance.update({
-                        "user_permissions": {
-                            "can_update": True,
+                    instance.update(
+                        {
+                            "user_permissions": {
+                                "can_update": True,
+                            }
                         }
-                    })
+                    )
         elif own and user.has_perm(f"{app}.change_own_{handbook_type}"):
-            if isinstance(LIST_BY_USER[handbook_type], str) and \
-                getattr(queryset[i], LIST_BY_USER[handbook_type]).id == user.id:
-                    instance.update({
+            if (
+                isinstance(LIST_BY_USER[handbook_type], str)
+                and getattr(queryset[i], LIST_BY_USER[handbook_type]).id == user.id
+            ):
+                instance.update(
+                    {
                         "user_permissions": {
                             "can_update": True,
                         }
-                    })
+                    }
+                )
         else:
-            instance.update({
-                "user_permissions": {
-                    "can_update": False,
+            instance.update(
+                {
+                    "user_permissions": {
+                        "can_update": False,
+                    }
                 }
-            })
+            )
         """instance.update({
             "user_permissions": {
                 "can_update": change_perm or user.has_perm(f"{app}.change_own_{handbook_type}")
@@ -82,9 +111,15 @@ def model_to_dict(user, queryset, app, handbook_type, own=False):
     return n_queryset
 
 
-def by_user_queryset(queryset: QuerySet, handbook_type: str, filter_by, pref: Optional[str] = None) -> QuerySet:
+def by_user_queryset(
+    queryset: QuerySet, handbook_type: str, filter_by, pref: Optional[str] = None
+) -> QuerySet:
     if isinstance(LIST_BY_USER[handbook_type], str):
-        field = f"{LIST_BY_USER[handbook_type]}__{pref}" if pref else LIST_BY_USER[handbook_type]
+        field = (
+            f"{LIST_BY_USER[handbook_type]}__{pref}"
+            if pref
+            else LIST_BY_USER[handbook_type]
+        )
         return queryset.filter(**{field: filter_by}).distinct()
     new_queryset = None
     for field in LIST_BY_USER[handbook_type]:

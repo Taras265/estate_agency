@@ -23,11 +23,11 @@ class NewBuildingDistrictType(models.IntegerChoices):
 
 class IncomeSourceType(models.IntegerChoices):
     RECOMMENDATIONS = 1, _("Recommendations")
-    SELLER = 2, _("Seller") # Продавець
+    SELLER = 2, _("Seller")  # Продавець
     INTERNET = 3, _("Internet")
     VISITOR = 4, _("Visitor")
     BANNER = 5, _("Banner")
-    POSTING = 6, _("Posting") # Расклейка
+    POSTING = 6, _("Posting")  # Расклейка
 
 
 class RealtorType(models.IntegerChoices):

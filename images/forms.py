@@ -8,12 +8,10 @@ from objects.models import Apartment
 
 class ApartmentImageForm(forms.ModelForm):
     apartment = forms.ModelChoiceField(
-        queryset=Apartment.objects.all(),
-        widget=forms.HiddenInput()
+        queryset=Apartment.objects.all(), widget=forms.HiddenInput()
     )
     image = forms.ImageField(
-        label=_("Image"),
-        widget=forms.FileInput(attrs={"class": "form-control"})
+        label=_("Image"), widget=forms.FileInput(attrs={"class": "form-control"})
     )
 
     class Meta:
