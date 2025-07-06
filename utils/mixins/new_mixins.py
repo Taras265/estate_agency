@@ -1,15 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.exceptions import ImproperlyConfigured
 from django.db.models import QuerySet
 from django.urls import reverse
-from django.utils.translation import activate
 
-from accounts.services import user_get
+from accounts.services import user_get, get_user_choices
 from handbooks.forms import IdSearchForm
 from handbooks.models import Client
 from handbooks.services import client_filter
 from utils.const import SALE_CHOICES
 from utils.utils import by_user_queryset, get_office_context
+from django.utils.translation import gettext as _
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -25,7 +24,6 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
 class SearchByIdMixin:
     form = IdSearchForm
-    main_service = None
 
     def get_queryset(self):
         form = self.form(self.request.GET)
@@ -34,9 +32,7 @@ class SearchByIdMixin:
         if form.is_valid():
             for field in form.cleaned_data.keys():
                 if form.cleaned_data.get(field):
-                    queryset = self.main_service["objects_filter"](
-                        queryset, **{field: form.cleaned_data.get(field)}
-                    )
+                    queryset = queryset.filter(**{field: form.cleaned_data.get(field)})
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -53,7 +49,7 @@ class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     perms = None
 
     def get_permission_required(self):
-        user = user_get(email=self.request.user)
+        user = self.request.user
 
         if user.has_perm(f"{self.app}.{self.perm}_{self.handbook_type}"):
             return (f"{self.app}.{self.perm}_{self.handbook_type}",)
@@ -63,7 +59,7 @@ class ByUserMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        user = user_get(email=self.request.user)
+        user = self.request.user
         perm = self.get_permission_required()[0]
 
         if perm.find("own") != -1:
@@ -80,9 +76,6 @@ class ClientListMixin:
     Міксін, який об"єднує повторювані параметри. Використовувати разом з CustomListView
     """
 
-    main_service = {
-        "objects_filter": client_filter,
-    }
     choices = SALE_CHOICES
     permission_required = "handbooks.view_client"
     template_name = "handbooks/client_list.html"
@@ -147,34 +140,5 @@ class FilialClientListMixin(ClientListMixin):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(get_office_context(self.request.user))
-
-        return context
-
-
-class GetQuerysetMixin:
-    """
-    Міксін, який виконує найпоширінішу варіацію функції get_queryset
-    """
-
-    def get_queryset(self):
-        if self.queryset is not None:
-            return self.queryset
-        raise ImproperlyConfigured(
-            "%(cls)s is missing a Queryset. Define "
-            "%(cls)s.queryset or %(cls)s.get_queryset()."
-            % {"cls": self.__class__.__name__}
-        )
-
-
-class StandardContextDataMixin:
-    """
-    Міксін, який виконує найпоширінішу варіацію функції get_context_data. Використовувати, мабуть, завжди
-    """
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
 
         return context

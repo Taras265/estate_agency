@@ -1,15 +1,17 @@
 from typing import Any, Optional
 
+from django.apps import apps
 from django.db.models import QuerySet
 
 from accounts.models import CustomUser
-from utils.const import LIST_BY_USER, TABLE_TO_APP
+from handbooks.models import Handbook
+from utils.const import LIST_BY_USER
 
 
 def have_permission_to_do(user, perm_type, handbook_type, obj, p=""):
     p_handbook_type = "".join(handbook_type.split("_"))
     has_perm = user.has_perm(
-        f"{TABLE_TO_APP[handbook_type]}.{perm_type}_{p}{p_handbook_type}"
+        f"{table_to_app(handbook_type)}.{perm_type}_{p}{p_handbook_type}"
     )
     if handbook_type in LIST_BY_USER.keys() and not has_perm:
         if isinstance(LIST_BY_USER[handbook_type], str):
@@ -17,7 +19,7 @@ def have_permission_to_do(user, perm_type, handbook_type, obj, p=""):
                 obj,
                 LIST_BY_USER[handbook_type],
                 user,
-                f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}",
+                f"{table_to_app(handbook_type)}.{perm_type}_own_{p}{p_handbook_type}",
             )
         else:
             for field in LIST_BY_USER[handbook_type]:
@@ -25,7 +27,7 @@ def have_permission_to_do(user, perm_type, handbook_type, obj, p=""):
                     obj,
                     field,
                     user,
-                    f"{TABLE_TO_APP[handbook_type]}.{perm_type}_own_{p}{p_handbook_type}",
+                    f"{table_to_app(handbook_type)}.{perm_type}_own_{p}{p_handbook_type}",
                 )
 
                 if has_perm:
@@ -145,3 +147,11 @@ def get_office_context(user: CustomUser) -> dict[str, Any]:
         "users": user.has_perm("accounts.view_office_user"),
     }
     return context
+
+
+def table_to_app(table):
+    for model in apps.get_models():
+        if model.__name__.lower() == table.lower():
+            return model._meta.app_label
+        if table in ["".join(label.split("_")) for _, label in Handbook.HANDBOOKS_TYPE_CHOICE]:
+            return "handbooks"

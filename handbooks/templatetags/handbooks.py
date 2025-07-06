@@ -1,7 +1,8 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 
-from utils.const import BASE_CHOICES, SALE_CHOICES, TABLE_TO_APP
+from utils.const import BASE_CHOICES, SALE_CHOICES
+from utils.utils import table_to_app
 
 register = template.Library()
 
@@ -9,7 +10,7 @@ register = template.Library()
 @register.simple_tag
 @stringfilter
 def url_app(value):
-    data = TABLE_TO_APP.get(value) or "objects"
+    data = table_to_app(value) or "objects"
     return data
 
 
@@ -17,9 +18,9 @@ def url_app(value):
 @stringfilter
 def choices_url(value):
     for choice in BASE_CHOICES:
-        if value == choice[1]:
+        if value == choice:
             return "base"
     for choice in SALE_CHOICES:
-        if value == choice[1]:
+        if value == choice:
             return "sale"
     return "accounts"

@@ -21,22 +21,17 @@ from handbooks.services import (
     client_all_visible,
     client_filter_visible,
     district_all_visible,
-    district_filter,
     filialagency_all_visible,
     filialreport_all_visible,
     handbook_all_visible,
     handbook_filter_visible,
     locality_all_visible,
-    locality_filter,
     localitydistrict_all_visible,
-    localitydistrict_filter,
     region_all_visible,
-    region_filter,
     street_all_visible,
-    street_filter,
 )
 from objects.services import user_can_view_real_estate_list, user_can_view_report
-from utils.const import BASE_CHOICES
+from utils.const import BASE_CHOICES, SALE_CHOICES
 from utils.mixins.new_mixins import (
     ByUserMixin,
     ClientListMixin,
@@ -58,36 +53,34 @@ from utils.views import (
 def handbook_redirect(request, lang):
     # Функція, яка перебрасує користувача на довідник,
     # з яким він моєе взаємодіяти
-    user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
 
-    if user:
+    if request.user:
         for choice in BASE_CHOICES:
-            if user.has_perm(f"handbooks.view_{choice[1]}"):
+            if request.user.has_perm(f"handbooks.view_{choice}"):
                 return redirect(
-                    reverse_lazy(f"handbooks:{choice[1]}_list", kwargs=kwargs)
+                    reverse_lazy(f"handbooks:{choice}_list", kwargs=kwargs)
                 )
         return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
 def sale_redirect(request, lang):
-    user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
-    if user:
+    if request.user:
         if (
-            user.has_perm("handbooks.view_client")
-            or user.has_perm("handbooks.view_own_client")
-            or user.has_perm("handbooks.view_filial_client")
+            request.user.has_perm("handbooks.view_client")
+            or request.user.has_perm("handbooks.view_own_client")
+            or request.user.has_perm("handbooks.view_filial_client")
         ):
             return redirect(reverse_lazy("handbooks:client_list", kwargs=kwargs))
-        elif user_can_view_real_estate_list(user):
+        elif user_can_view_real_estate_list(request.user):
             return redirect(
                 reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs)
             )
-        elif user_can_view_report(user):
+        elif user_can_view_report(request.user):
             return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
-        elif user.has_perm("objects.view_contract"):
+        elif request.user.has_perm("objects.view_contract"):
             return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
         return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
@@ -97,9 +90,6 @@ class RegionListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = region_all_visible()
-    main_service = {
-        "objects_filter": region_filter,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_region"
     template_name = "handbooks/region_list.html"
@@ -112,9 +102,6 @@ class DistrictListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = district_all_visible()
-    main_service = {
-        "objects_filter": district_filter,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_district"
     template_name = "handbooks/district_list.html"
@@ -127,9 +114,6 @@ class LocalityListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = locality_all_visible()
-    main_service = {
-        "objects_filter": locality_filter,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_locality"
     template_name = "handbooks/locality_list.html"
@@ -156,9 +140,6 @@ class LocalityDistrictListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = localitydistrict_all_visible()
-    main_service = {
-        "objects_filter": localitydistrict_filter,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_localitydistrict"
     template_name = "handbooks/localitydistrict_list.html"
@@ -186,9 +167,6 @@ class StreetListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = street_all_visible()
-    main_service = {
-        "objects_filter": street_filter,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_street"
     template_name = "handbooks/street_list.html"
@@ -206,6 +184,7 @@ class WithdrawalReasonListView(
     queryset = handbook_filter_visible(type=1)
     permission_required = "handbooks.view_withdrawalreason"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "withdrawalreason"
@@ -220,6 +199,7 @@ class ConditionListView(
     queryset = handbook_filter_visible(type=2)
     permission_required = "handbooks.view_condition"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "condition"
@@ -234,6 +214,7 @@ class MaterialListView(
     queryset = handbook_filter_visible(type=3)
     permission_required = "handbooks.view_material"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "material"
@@ -248,6 +229,7 @@ class SeparationListView(
     queryset = handbook_filter_visible(type=4)
     permission_required = "handbooks.view_separation"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "separation"
@@ -262,6 +244,7 @@ class AgencyListView(
     queryset = handbook_filter_visible(type=5)
     permission_required = "handbooks.view_agency"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "agency"
@@ -276,6 +259,7 @@ class AgencySalesListView(
     queryset = handbook_filter_visible(type=6)
     permission_required = "handbooks.view_agencysales"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "agencysales"
@@ -290,6 +274,7 @@ class NewBuildingNameListView(
     queryset = handbook_filter_visible(type=7)
     permission_required = "handbooks.view_newbuildingname"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "newbuildingname"
@@ -304,6 +289,7 @@ class StairListView(
     queryset = handbook_filter_visible(type=8)
     permission_required = "handbooks.view_stair"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "stair"
@@ -318,6 +304,7 @@ class HeatingListView(
     queryset = handbook_filter_visible(type=9)
     permission_required = "handbooks.view_heating"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "heating"
@@ -332,6 +319,7 @@ class LayoutListView(
     queryset = handbook_filter_visible(type=10)
     permission_required = "handbooks.view_layout"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "layout"
@@ -346,6 +334,7 @@ class HouseTypeListView(
     queryset = handbook_filter_visible(type=11)
     permission_required = "handbooks.view_housetype"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "housetype"
@@ -360,6 +349,7 @@ class ComplexListView(
     queryset = handbook_filter_visible(type=12)
     permission_required = "handbooks.view_complex"
     template_name = "handbooks/handbook_list.html"
+    choices = BASE_CHOICES
 
     app = "handbooks"
     handbook_type = "complex"
@@ -369,9 +359,6 @@ class FilialAgencyListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = filialagency_all_visible()
-    main_service = {
-        "objects_filter": filialagency_all_visible,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_filialagency"
     template_name = "handbooks/filial_list.html"
@@ -384,9 +371,6 @@ class FilialReportListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
     queryset = filialreport_all_visible()
-    main_service = {
-        "objects_filter": filialreport_all_visible,
-    }
     choices = BASE_CHOICES
     permission_required = "handbooks.view_filialreport"
     template_name = "handbooks/filialreport_list.html"
@@ -1180,6 +1164,7 @@ class AllClientsListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomLi
     queryset = client_all_visible()
     filter = "all"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
@@ -1188,6 +1173,7 @@ class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomLis
     )
     filter = "new"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class InSelectionClientListView(
@@ -1196,6 +1182,7 @@ class InSelectionClientListView(
     queryset = client_filter_visible(status=1)
     filter = "in_selection"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class WithShowClientListView(
@@ -1204,6 +1191,7 @@ class WithShowClientListView(
     queryset = client_filter_visible(status=2)
     filter = "with_show"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class DecidedClientListView(
@@ -1212,6 +1200,7 @@ class DecidedClientListView(
     queryset = client_filter_visible(status=3)
     filter = "decided"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class DeferredDemandClientListView(
@@ -1220,6 +1209,7 @@ class DeferredDemandClientListView(
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyAllClientsListView(
@@ -1228,6 +1218,7 @@ class MyAllClientsListView(
     queryset = client_all_visible()
     filter = "all"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyNewClientListView(
@@ -1238,6 +1229,7 @@ class MyNewClientListView(
     )
     filter = "new"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyInSelectionClientListView(
@@ -1246,6 +1238,7 @@ class MyInSelectionClientListView(
     queryset = client_filter_visible(status=1)
     filter = "in_selection"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyWithShowClientListView(
@@ -1254,6 +1247,7 @@ class MyWithShowClientListView(
     queryset = client_filter_visible(status=2)
     filter = "with_show"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyDecidedClientListView(
@@ -1262,6 +1256,7 @@ class MyDecidedClientListView(
     queryset = client_filter_visible(status=3)
     filter = "decided"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class MyDeferredDemandClientListView(
@@ -1270,6 +1265,7 @@ class MyDeferredDemandClientListView(
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialAllClientsListView(
@@ -1278,6 +1274,7 @@ class FilialAllClientsListView(
     queryset = client_all_visible()
     filter = "all"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialNewClientListView(
@@ -1288,6 +1285,7 @@ class FilialNewClientListView(
     )
     filter = "new"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialInSelectionClientListView(
@@ -1296,6 +1294,7 @@ class FilialInSelectionClientListView(
     queryset = client_filter_visible(status=1)
     filter = "in_selection"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialWithShowClientListView(
@@ -1304,6 +1303,7 @@ class FilialWithShowClientListView(
     queryset = client_filter_visible(status=2)
     filter = "with_show"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialDecidedClientListView(
@@ -1312,6 +1312,7 @@ class FilialDecidedClientListView(
     queryset = client_filter_visible(status=3)
     filter = "decided"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class FilialDeferredDemandClientListView(
@@ -1320,6 +1321,7 @@ class FilialDeferredDemandClientListView(
     queryset = client_filter_visible(status=4)
     filter = "deferred_demand"
     perm = "view"
+    choices = SALE_CHOICES
 
 
 class ClientCreateView(

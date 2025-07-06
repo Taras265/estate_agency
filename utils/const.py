@@ -1,63 +1,16 @@
-from django.utils.translation import gettext as _
-
 BASE_CHOICES = [
-    (_("region"), "region"),
-    (_("district"), "district"),
-    (_("locality"), "locality"),
-    (_("localitydistrict"), "localitydistrict"),
-    (_("street"), "street"),
-    (_("withdrawalreason"), "withdrawalreason"),
-    (_("condition"), "condition"),
-    (_("material"), "material"),
-    (_("separation"), "separation"),
-    (_("agency"), "agency"),
-    (_("agencysales"), "agencysales"),
-    (_("newbuildingname"), "newbuildingname"),
-    (_("stair"), "stair"),
-    (_("heating"), "heating"),
-    (_("layout"), "layout"),
-    (_("housetype"), "housetype"),
-    (_("filialagency"), "filialagency"),
-    (_("filialreport"), "filialreport"),
-    (_("complex"), "complex"),
+        "region", "district", "locality",
+        "localitydistrict", "street",
+        "withdrawalreason", "condition",
+        "material", "separation", "agency",
+        "agencysales", "newbuildingname", "stair",
+        "heating", "layout", "housetype",
+        "filialagency", "filialreport", "complex",
 ]
 SALE_CHOICES = [
-    (_("client"), "client"),
-    (_("realestate"), "realestate"),
-    (_("report"), "report"),
+    "client", "realestate", "report"
 ]
-USER_CHOICES = [(_("user"), "user"), (_("group"), "group")]
-
-TABLE_TO_APP = {
-    "region": "handbooks",
-    "district": "handbooks",
-    "locality": "handbooks",
-    "localitydistrict": "handbooks",
-    "street": "handbooks",
-    "client": "handbooks",
-    "filialagency": "handbooks",
-    "filialreport": "handbooks",
-    "apartment": "objects",
-    "commerce": "objects",
-    "house": "objects",
-    "withdrawalreason": "handbooks",
-    "condition": "handbooks",
-    "material": "handbooks",
-    "separation": "handbooks",
-    "agency": "handbooks",
-    "agencysales": "handbooks",
-    "newbuildingname": "handbooks",
-    "stair": "handbooks",
-    "heating": "handbooks",
-    "layout": "handbooks",
-    "housetype": "handbooks",
-    "report": "objects",
-    "history_report": "objects",
-    "contract": "objects",
-    "complex": "handbooks",
-    "user": "accounts",
-    "group": "accounts",
-}
+USER_CHOICES = ["user", "group"]
 
 OBJECT_COLUMNS = {
     "district": [

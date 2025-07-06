@@ -15,17 +15,15 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
         activate(self.kwargs["lang"])  # переклад
         context = super().get_context_data(**kwargs)
 
-        user = user_get(email=self.request.user)
-
         context["lang"] = self.kwargs["lang"]
         context.update(
             {
                 "accounts": any(
-                    user.has_perm(perm)
+                    self.request.user.has_perm(perm)
                     for perm in ["accounts.view_customuser", "accounts.view_group"]
                 ),
                 "sale": any(
-                    user.has_perm(perm)
+                    self.request.user.has_perm(perm)
                     for perm in [
                         "handbooks.view_client",
                         "handbooks.view_own_client",
@@ -34,10 +32,10 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                     ]
                 )
                 and any(
-                    [user_can_view_real_estate_list(user), user_can_view_report(user)]
+                    [user_can_view_real_estate_list(self.request.user), user_can_view_report(self.request.user)]
                 ),
                 "handbooks": any(
-                    user.has_perm(f"handbooks.view_{perm[1]}") for perm in BASE_CHOICES
+                    self.request.user.has_perm(f"handbooks.view_{perm}") for perm in BASE_CHOICES
                 ),
             }
         )

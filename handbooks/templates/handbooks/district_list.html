@@ -47,14 +47,12 @@
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             {% for i in choices %}
-            {% if i.0 != 'profile' and i.1 != 'profile' %}
             <li class="nav-item" role="presentation">
-                <a class="nav-link {% if i.1 == choice %}active{% endif %}"
-                   href='/{{lang}}/{% url_app i.1 %}/{% choices_url i.1 %}/{{i.1}}/'>
-                    {% translate i.0 %}
+                <a class="nav-link {% if i == choice %}active{% endif %}"
+                   href='/{{lang}}/{% url_app i %}/{% choices_url i %}/{{i}}/'>
+                    {% translate i %}
                 </a>
             </li>
-            {% endif %}
             {% endfor %}
         </ul>
         <div class="row">

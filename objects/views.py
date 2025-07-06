@@ -35,8 +35,6 @@ from utils.mixins.mixins import (
 )
 from utils.mixins.new_mixins import (
     CustomLoginRequiredMixin,
-    GetQuerysetMixin,
-    StandardContextDataMixin,
 )
 from utils.pdf import generate_pdf
 from utils.utils import get_office_context
@@ -379,8 +377,6 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 class SelectionHistoryView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
-    StandardContextDataMixin,
-    GetQuerysetMixin,
     ListView,
 ):
     object_list = selection_all()
@@ -393,6 +389,14 @@ class SelectionHistoryView(
         context = self.get_context_data()
         context["selections"] = selection_filter(client_id=pk)
         return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+
+        return context
 
 
 def showing_act_redirect(request, lang):
@@ -407,11 +411,10 @@ def showing_act_redirect(request, lang):
 
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)
-    user = user_get(email=request.user)
 
     selection = selection_create(
         client=client,
-        user=user,
+        user=request.user,
     )
     for obj in objects:
         selection_add_selected(object_type, selection, obj)
@@ -436,11 +439,10 @@ def pdf_redirect(request, lang):
 
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)
-    user = user_get(email=request.user)
 
     selection = selection_create(
         client=client,
-        user=user,
+        user=request.user,
     )
     for obj in objects:
         selection_add_selected(object_type, selection, obj)
@@ -673,7 +675,6 @@ class HouseListView(
 
 class MyApartmentListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -701,7 +702,10 @@ class MyApartmentListView(
         return apartment_filter_by_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -725,7 +729,6 @@ class MyApartmentListView(
 
 class MyCommerceListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -756,7 +759,10 @@ class MyCommerceListView(
         return commerce_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -779,7 +785,6 @@ class MyCommerceListView(
 
 class MyHouseListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -810,7 +815,10 @@ class MyHouseListView(
         return house_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -832,7 +840,6 @@ class MyHouseListView(
 
 class FilialApartmentListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -845,7 +852,6 @@ class FilialApartmentListView(
     permission_required = "objects.view_filial_office_objects"
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -858,10 +864,13 @@ class FilialApartmentListView(
                 if value is not None
             }
 
-        return apartment_filter_by_filial(user, **filters)
+        return apartment_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -885,7 +894,6 @@ class FilialApartmentListView(
 
 class FilialCommerceListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -901,7 +909,6 @@ class FilialCommerceListView(
         return user_can_view_commerce_list(self.request.user)
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -914,10 +921,13 @@ class FilialCommerceListView(
                 if value is not None
             }
 
-        return commerce_filter_by_filial(user, **filters)
+        return commerce_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -940,7 +950,6 @@ class FilialCommerceListView(
 
 class FilialHouseListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -956,7 +965,6 @@ class FilialHouseListView(
         return user_can_view_house_list(self.request.user)
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -969,10 +977,13 @@ class FilialHouseListView(
                 if value is not None
             }
 
-        return house_filter_by_filial(user, **filters)
+        return house_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -1097,10 +1108,8 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
         if self.request.user.has_perm("objects.view_contract"):
             return real_estate_contract_all(self.type)
         elif self.request.user.has_perm("objects.view_filial_contract"):
-            user = user_get(email=self.request.user)
-            return real_estate_contract_by_filials(self.type, user.filials.all())
-        user = user_get(email=self.request.user)
-        return real_estate_contract_by_user(self.type, user)
+            return real_estate_contract_by_filials(self.type, self.request.user.filials.all())
+        return real_estate_contract_by_user(self.type, self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
@@ -1146,8 +1155,6 @@ class HistoryReportListView(
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])  # переклад
 
-        user = CustomUser.objects.filter(email=self.request.user).first()
-
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
@@ -1168,7 +1175,7 @@ class HistoryReportListView(
         )
 
         context["choice"] = self.handbook_type
-        context.update({"choices": self.choices_by_user(user)})
+        context.update({"choices": self.choices_by_user(self.request.user)})
 
         """
         Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.

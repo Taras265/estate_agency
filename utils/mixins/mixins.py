@@ -9,9 +9,8 @@ from utils.const import (
     LIST_BY_USER,
     OBJECT_COLUMNS,
     OBJECT_FIELDS,
-    TABLE_TO_APP,
 )
-from utils.utils import have_permission_to_do
+from utils.utils import have_permission_to_do, table_to_app
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -51,7 +50,7 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     ):  # Отримаємо яке нам потрібно право для цієї сторінки
         if not self.permission_required:
             self.permission_required = (
-                f"{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}"
+                f"{table_to_app(self.handbook_type)}.view_{self.handbook_type}"
             )
         return super().get_permission_required()
 
@@ -129,11 +128,11 @@ class HandbookListMixin(CustomLoginRequiredMixin, PermissionRequiredMixin):
     def choices_by_user(self, user):
         choices = []
         for choice in self.choices:
-            app = TABLE_TO_APP.get(choice[1]) or "objects"
+            app = table_to_app(choice) or "objects"
             if (
-                user.has_perm(f"{app}.view_{choice[1]}")
-                or user.has_perm(f"{app}.view_own_{choice[1]}")
-                or user.has_perm(f"{app}.view_filial_{choice[1]}")
+                user.has_perm(f"{app}.view_{choice}")
+                or user.has_perm(f"{app}.view_own_{choice}")
+                or user.has_perm(f"{app}.view_filial_{choice}")
             ):
                 choices.append(choice)
         return choices
@@ -168,14 +167,14 @@ class HandbookOwnPermissionListMixin(HandbookListMixin):
             user = CustomUser.objects.filter(email=self.request.user).first()
 
             if user.has_perm(
-                f"{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}"
+                f"{table_to_app(self.handbook_type)}.view_{self.handbook_type}"
             ):
                 self.permission_required = (
-                    f"{TABLE_TO_APP[self.handbook_type]}.view_{self.handbook_type}"
+                    f"{table_to_app(self.handbook_type)}.view_{self.handbook_type}"
                 )
             else:
                 self.permission_required = (
-                    f"{TABLE_TO_APP[self.handbook_type]}.view_own_{self.handbook_type}"
+                    f"{table_to_app(self.handbook_type)}.view_own_{self.handbook_type}"
                 )
         return (self.permission_required,)
 
@@ -201,6 +200,6 @@ class HandbookWithFilterListMixin(HandbookListMixin):
         context = super().get_context_data(**kwargs)
         context["filters"] = self.filters
         context["filter"] = f
-        context["app"] = TABLE_TO_APP[context["choice"]]
+        context["app"] = table_to_app(context["choice"])
 
         return context

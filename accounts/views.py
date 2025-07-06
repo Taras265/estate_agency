@@ -19,7 +19,7 @@ from accounts.services import (
 )
 from handbooks.forms import PhoneNumberFormSet
 from utils.const import USER_CHOICES
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin
+from utils.mixins.new_mixins import CustomLoginRequiredMixin
 from utils.utils import get_office_context
 from utils.views import (
     CustomCreateView,
@@ -50,28 +50,27 @@ def logout_view(request, lang):
 
 
 def office_redirect(request, lang):
-    user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
-    if user:
-        if user.has_perm("handbooks.view_own_office_client"):
+    if request.user:
+        if request.user.has_perm("handbooks.view_own_office_client"):
             return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
-        elif user.has_perm("objects.view_own_office_objects"):
+        elif request.user.has_perm("objects.view_own_office_objects"):
             return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
-        if user.has_perm("handbooks.view_filial_office_client"):
+        if request.user.has_perm("handbooks.view_filial_office_client"):
             return redirect(
                 reverse_lazy("handbooks:office_filial_client_list", kwargs=kwargs)
             )
-        elif user.has_perm("objects.view_filial_office_objects"):
+        elif request.user.has_perm("objects.view_filial_office_objects"):
             return redirect(
                 reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs)
             )
-        elif user.has_perm("accounts.view_office_user"):
+        elif request.user.has_perm("accounts.view_office_user"):
             return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
         return redirect(reverse_lazy("accounts:profile", kwargs=kwargs))
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
-class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView):
+class ProfileView(CustomLoginRequiredMixin, UpdateView):
     context_object_name = "user"
     template_name = "accounts/profile.html"
     form_class = AvatarForm
@@ -84,20 +83,22 @@ class ProfileView(CustomLoginRequiredMixin, StandardContextDataMixin, UpdateView
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
 
         return context
 
 
 def users_list_redirect(request, lang):
-    user = CustomUser.objects.filter(email=request.user).first()
     kwargs = {"lang": lang}
 
-    if user:
-        if user.has_perm("accounts.view_customuser"):
+    if request.user:
+        if request.user.has_perm("accounts.view_customuser"):
             return redirect(reverse_lazy("accounts:user_list", kwargs=kwargs))
-        if user.has_perm("accounts.view_group"):
+        if request.user.has_perm("accounts.view_group"):
             return redirect(reverse_lazy("accounts:group_list", kwargs=kwargs))
         return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
@@ -159,9 +160,6 @@ class MyUserListView(UserListView):
 
 class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
     queryset = group_all()
-    main_service = {
-        "objects_filter": group_filter,
-    }
     choices = USER_CHOICES
     permission_required = "accounts.view_group"
 

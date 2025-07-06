@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, List
 
 from django.db.models import QuerySet
 
@@ -10,21 +10,21 @@ from estate_agency.services import (
     objects_filter,
 )
 from objects.services import user_can_view_real_estate_list
-from utils.const import TABLE_TO_APP
+from utils.utils import table_to_app
 
 
 def get_user_choices(
-    user: CustomUser, choices: List[Tuple[str, str]]
-) -> List[Tuple[str, str]]:
+    user: CustomUser, choices: List[str]
+) -> List[str]:
     available_choices = []
     for choice in choices:
-        app: str = TABLE_TO_APP.get(choice[1])
-        if choice[1] == "realestate" and user_can_view_real_estate_list(user):
+        app: str = table_to_app(choice)
+        if choice == "realestate" and user_can_view_real_estate_list(user):
             available_choices.append(choice)
         elif (
-            user.has_perm(f"{app}.view_{choice[1]}")
-            or user.has_perm(f"{app}.view_own_{choice[1]}")
-        ) or user.has_perm(f"{app}.view_filial_{choice[1]}"):
+            user.has_perm(f"{app}.view_{choice}")
+            or user.has_perm(f"{app}.view_own_{choice}")
+        ) or user.has_perm(f"{app}.view_filial_{choice}"):
             available_choices.append(choice)
     return available_choices
 
