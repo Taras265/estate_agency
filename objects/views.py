@@ -51,11 +51,13 @@ from .services import (
     apartment_filter_by_filial, commerce_filter_by_filial, house_filter_by_filial,
     estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials,
     real_estate_contract_by_user, user_can_update_full_apartment, user_can_update_full_commerce,
-    user_can_update_full_house, can_view_reports_of_user, can_view_reports_of_filial,
-    reports_accessible_for_user, can_view_reports_of_user_in_office,
-    can_view_reports_of_filial_in_office, reports_accessible_for_user_in_office
+    user_can_update_full_house, reports_accessible_for_user, reports_accessible_for_user_in_office
 )
-from .utils import real_estate_form_save
+from .utils import (
+    real_estate_form_save,
+    get_sale_report_list_context,
+    real_estate_form_filter
+)
 from .choices import RealEstateType, RealEstateStatus
 from .mixins import (
     RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin, DefaultUserInCreateViewMixin
@@ -990,28 +992,106 @@ class FilialHouseListView(
         return context
 
 
-def reports_redirect(request, lang):
-    """
-    Знаходить сторінку звітів, які користувач може бачити
-    в залежності від наявних в нього прав доступу
-    """
-    user = request.user
-    kwargs = {"lang": lang}
-    if user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+class NewApartmentReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів квартир"""
+
+    template_name = "objects/report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Apartment.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
     
-    url = reverse_lazy("objects:apartment_reports", kwargs=kwargs)
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
+        return context
+
+
+class NewCommerceReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів комерцій"""
+
+    template_name = "objects/report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Commerce.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
     
-    if user.has_perm("objects.view_report"):
-        return redirect(url)
-    if user.has_perm("objects.view_own_report"):
-        return redirect(f"{url}?realtor_id={user.id}")
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
+        return context
 
 
-class BaseReportListView(CustomLoginRequiredMixin, ListView):
-    """Базовий клас для списку звітів об'єктів нерухомості"""
+class NewHouseReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів будинків"""
 
-    model: BaseRealEstate
+    template_name = "objects/report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = House.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
+        return context
+
+
+class AllApartmentReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """Список всіх звітів квартир"""
+
+    permission_required = "objects.view_report"
     template_name = "objects/report_list.html"
     paginate_by = 10
 
@@ -1022,176 +1102,278 @@ class BaseReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        user = self.request.user
-        realtor_id = self._form.cleaned_data["realtor_id"]
-        filials = self._form.cleaned_data["filial"]
-        only_accessible = self._form.cleaned_data["only_accessible"]
-
-        # якщо користувач хоче отримати всі звіти, але не має права view_report
-        if (not realtor_id) and len(filials) == 0 and (not user.has_perm("objects.view_report")) and (not only_accessible):
-            raise PermissionDenied()
-
-        # перевірка, чи може користувач <user> отримати звіти користувача з id <realtor_id>
-        if realtor_id and (not can_view_reports_of_user(user, realtor_id)) and (not only_accessible):
-            raise PermissionDenied()
-
-        # перевірка, чи може користувач <user> отримати звіти, які належать філіалам <filials>
-        if len(filials) > 0 and (not can_view_reports_of_filial(user, filials)) and (not only_accessible):
-            raise PermissionDenied()
-
-        qs = self.model.objects.filter(on_delete=False)
-        if only_accessible:
-            qs = reports_accessible_for_user(user, qs)
-        if realtor_id:
-            qs = qs.filter(realtor=realtor_id)
-        if (creation_date_min := self._form.cleaned_data["creation_date_min"]):
-            qs = qs.filter(creation_date__gte=creation_date_min)
-        if (creation_date_max := self._form.cleaned_data["creation_date_max"]):
-            qs = qs.filter(creation_date__lte=creation_date_max)
-        if (statuses := self._form.cleaned_data["status"]):
-            qs = qs.filter(status__in=statuses)
-
-        return qs
+        qs = Apartment.objects.filter(on_delete=False)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
-        user = self.request.user
         context = super().get_context_data(**kwargs)
-        user_filial_ids = [filial.id for filial in user.filials.only("id").all()]
-        user_filials_querystring = "&".join([f"filial={id}" for id in user_filial_ids])
-        context.update({
-            "lang": self.kwargs["lang"],
-            "form": self._form,
-            "realtor_id": self._form.cleaned_data["realtor_id"],
-            "filial": self._form.cleaned_data["filial"],
-            "creation_date_min": self._form.cleaned_data["creation_date_min"],
-            "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
-            "can_view_client": has_any_perm_from_list(
-                user,
-                "handbooks.view_client",
-                "handbooks.view_own_client",
-                "handbooks.view_filial_client",
-            ),
-            "can_view_real_estate": user_can_view_real_estate_list(user),
-            "can_view_contract": has_any_perm_from_list(
-                user,
-                "objects.view_contract",
-                "objects.view_own_contract",
-                "objects.view_filial_contract"
-            ),
-            "can_view_report": user.has_perm("objects.view_report"),
-            "can_view_own_report": user.has_perm("objects.view_own_report"),
-            "can_view_filial_report": user.has_perm("objects.view_filial_report"),
-            "user_filials_querystring": user_filials_querystring
-        })
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
         return context
 
 
-class ApartmentReportListView(BaseReportListView):
-    model = Apartment
+class MyApartmentReportListView(CustomLoginRequiredMixin, ListView):
+    """Список звітів квартир, які належать користувачу"""
 
-class CommerceReportListView(BaseReportListView):
-    model = Commerce
-
-class HouseReportListView(BaseReportListView):
-    model = House
-
-
-def office_reports_redirect(request, lang):
-    """
-    Знаходить сторінку звітів в офісі, які користувач може бачити
-    в залежності від наявних в нього прав доступу
-    """
-    user = request.user
-    kwargs = {"lang": lang}
-    if user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
-
-    url = reverse_lazy("objects:apartment_office_reports", kwargs=kwargs)
-    
-    if user.has_perm("objects.view_office_report"):
-        return redirect(url)
-    if user.has_perm("objects.view_office_own_report"):
-        return redirect(f"{url}?realtor_id={user.id}")
-
-
-class BaseOfficeReportListView(CustomLoginRequiredMixin, ListView):
-    """Базовий клас для списку звітів об'єктів нерухомості в офісі"""
-
-    model: BaseRealEstate
-    template_name="objects/office_report_list.html"
+    permission_required = "objects.view_own_report"
+    template_name = "objects/report_list.html"
     paginate_by = 10
 
     _form: RealEstateFilteringForm
-    
+
     def get_queryset(self):
         self._form = RealEstateFilteringForm(self.request.GET)
         if not self._form.is_valid():
             raise BadRequest()
 
-        user = self.request.user
-        realtor_id = self._form.cleaned_data["realtor_id"]
-        filials = self._form.cleaned_data["filial"]
-        only_accessible = self._form.cleaned_data["only_accessible"]
-
-        # якщо користувач хоче отримати всі звіти, але не має права view_report
-        if (not realtor_id) and len(filials) == 0 and (not user.has_perm("objects.view_office_report")) and (not only_accessible):
-            raise PermissionDenied()
-
-        # перевірка, чи може користувач <user> отримати звіти користувача з id <realtor_id>
-        if realtor_id and (not can_view_reports_of_user_in_office(user, realtor_id)) and (not only_accessible):
-            raise PermissionDenied()
-
-        # перевірка, чи може користувач <user> отримати звіти, які належать філіалам <filials>
-        if len(filials) > 0 and (not can_view_reports_of_filial_in_office(user, filials)) and (not only_accessible):
-            raise PermissionDenied()
-
-        qs = self.model.objects.filter(on_delete=False)
-        if only_accessible:
-            qs = reports_accessible_for_user_in_office(user, qs)
-        if realtor_id:
-            qs = qs.filter(realtor=realtor_id)
-        if (creation_date_min := self._form.cleaned_data["creation_date_min"]):
-            qs = qs.filter(creation_date__gte=creation_date_min)
-        if (creation_date_max := self._form.cleaned_data["creation_date_max"]):
-            qs = qs.filter(creation_date__lte=creation_date_max)
-        if (statuses := self._form.cleaned_data["status"]):
-            qs = qs.filter(status__in=statuses)
-
-        return qs
+        qs = Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
-        user = self.request.user
         context = super().get_context_data(**kwargs)
-        user_filial_ids = [filial.id for filial in user.filials.only("id").all()]
-        user_filials_querystring = "&".join([f"filial={id}" for id in user_filial_ids])
-        context.update({
-            "lang": self.kwargs["lang"],
-            "form": self._form,
-            "realtor_id": self._form.cleaned_data["realtor_id"],
-            "filial": self._form.cleaned_data["filial"],
-            "creation_date_min": self._form.cleaned_data["creation_date_min"],
-            "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
-            "can_view_report": user.has_perm("objects.view_office_report"),
-            "can_view_own_report": user.has_perm("objects.view_office_own_report"),
-            "can_view_filial_report": user.has_perm("objects.view_office_filial_report"),
-            "user_filials_querystring": user_filials_querystring
-        })
-        context.update(get_office_context(user))
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
         return context
 
 
-class ApartmentOfficeReportListView(BaseOfficeReportListView):
-    model = Apartment
+# class BaseOfficeReportListView(CustomLoginRequiredMixin, ListView):
+#     """Базовий клас для списку звітів об'єктів нерухомості в офісі"""
+
+#     model: BaseRealEstate
+#     template_name="objects/office_report_list.html"
+#     paginate_by = 10
+
+#     _form: RealEstateFilteringForm
+    
+#     def get_queryset(self):
+#         self._form = RealEstateFilteringForm(self.request.GET)
+#         if not self._form.is_valid():
+#             raise BadRequest()
+
+#         user = self.request.user
+#         realtor_id = self._form.cleaned_data["realtor_id"]
+#         filials = self._form.cleaned_data["filial"]
+#         only_accessible = self._form.cleaned_data["only_accessible"]
+
+#         # якщо користувач хоче отримати всі звіти, але не має права view_report
+#         if (not realtor_id) and len(filials) == 0 and (not user.has_perm("objects.view_office_report")) and (not only_accessible):
+#             raise PermissionDenied()
+
+#         # перевірка, чи може користувач <user> отримати звіти користувача з id <realtor_id>
+#         if realtor_id and (not can_view_reports_of_user_in_office(user, realtor_id)) and (not only_accessible):
+#             raise PermissionDenied()
+
+#         # перевірка, чи може користувач <user> отримати звіти, які належать філіалам <filials>
+#         if len(filials) > 0 and (not can_view_reports_of_filial_in_office(user, filials)) and (not only_accessible):
+#             raise PermissionDenied()
+
+#         qs = self.model.objects.filter(on_delete=False)
+#         if only_accessible:
+#             qs = reports_accessible_for_user_in_office(user, qs)
+#         if realtor_id:
+#             qs = qs.filter(realtor=realtor_id)
+#         if (creation_date_min := self._form.cleaned_data["creation_date_min"]):
+#             qs = qs.filter(creation_date__gte=creation_date_min)
+#         if (creation_date_max := self._form.cleaned_data["creation_date_max"]):
+#             qs = qs.filter(creation_date__lte=creation_date_max)
+#         if (statuses := self._form.cleaned_data["status"]):
+#             qs = qs.filter(status__in=statuses)
+
+#         return qs
+    
+#     def get_context_data(self, **kwargs):
+#         activate(self.kwargs["lang"])
+#         user = self.request.user
+#         context = super().get_context_data(**kwargs)
+#         user_filial_ids = [filial.id for filial in user.filials.only("id").all()]
+#         user_filials_querystring = "&".join([f"filial={id}" for id in user_filial_ids])
+#         context.update({
+#             "lang": self.kwargs["lang"],
+#             "form": self._form,
+#             "realtor_id": self._form.cleaned_data["realtor_id"],
+#             "filial": self._form.cleaned_data["filial"],
+#             "creation_date_min": self._form.cleaned_data["creation_date_min"],
+#             "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
+#             "can_view_report": user.has_perm("objects.view_office_report"),
+#             "can_view_own_report": user.has_perm("objects.view_office_own_report"),
+#             "can_view_filial_report": user.has_perm("objects.view_office_filial_report"),
+#             "user_filials_querystring": user_filials_querystring
+#         })
+#         context.update(get_office_context(user))
+#         return context
 
 
-class CommerceOfficeReportListView(BaseOfficeReportListView):
-    model = Commerce
+# class ApartmentOfficeReportListView(BaseOfficeReportListView):
+#     model = Apartment
 
 
-class HouseOfficeReportListView(BaseOfficeReportListView):
-    model = House
+# class CommerceOfficeReportListView(BaseOfficeReportListView):
+#     model = Commerce
+
+
+# class HouseOfficeReportListView(BaseOfficeReportListView):
+#     model = House
+
+
+class OfficeNewApartmentReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів квартир в офісі"""
+
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Apartment.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user_in_office(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
+
+
+class OfficeNewCommerceReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів комерцій в офісі"""
+
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Commerce.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user_in_office(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
+
+
+class OfficeNewHouseReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів будинків в офісі"""
+
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = House.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user_in_office(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
+
+
+class OfficeAllApartmentReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+    """Список всіх звітів квартир в офісі"""
+
+    permission_required = "objects.view_office_report"
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        self._form = RealEstateFilteringForm(self.request.GET)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Apartment.objects.filter(on_delete=False)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
+
+
+class OfficeMyApartmentReportListView(CustomLoginRequiredMixin, ListView):
+    """Список звітів квартир, які належать користувачу в офісі"""
+
+    permission_required = "objects.view_office_own_report"
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        self._form = RealEstateFilteringForm(self.request.GET)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
 
 
 class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -1269,6 +1451,8 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
+            "can_view_filial_report": self.request.user.has_perm("objects.view_filial_report"),
+            "can_view_own_report": self.request.user.has_perm("objects.view_own_report"),
             "can_view_contract": self.request.user.has_perm("objects.view_contract")
                                  or self.request.user.has_perm("objects.view_filial_contract")
                                  or self.request.user.has_perm("objects.view_own_contract"),

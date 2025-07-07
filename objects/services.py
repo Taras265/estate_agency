@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404
 from estate_agency.services import objects_filter, object_create, objects_all
 from .choices import RealEstateType, RealEstateStatus
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection
-from handbooks.models import FilialAgency
 from accounts.models import CustomUser
 
 
@@ -44,80 +43,6 @@ def user_can_view_report(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.view_report", "objects.view_own_report", "objects.view_filial_report"
     )
-
-
-def can_view_reports_of_user(user: CustomUser, another_user_id: int) -> bool:
-    """
-    Перевіряє, чи користувач <user> має відповідне право
-    для перегляду звітів користувача з id <another_user_id>
-    """
-    if type(another_user_id) != int: return False
-
-    required_perm = (
-        "objects.view_own_report"
-        if another_user_id == user.id
-        else "objects.view_report"
-    )
-    return user.has_perm(required_perm)
-
-
-def can_view_reports_of_user_in_office(user: CustomUser, another_user_id: int) -> bool:
-    """
-    Перевіряє, чи користувач <user> має відповідне право
-    для перегляду звітів в офісі користувача з id <another_user_id>
-    """
-    if type(another_user_id) != int: return False
-
-    required_perm = (
-        "objects.view_office_own_report"
-        if another_user_id == user.id
-        else "objects.view_office_report"
-    )
-    return user.has_perm(required_perm)
-
-
-def can_view_reports_of_filial(user: CustomUser, *filials: FilialAgency) -> bool:
-    """
-    Перевіряє, чи користувач <user> має відповідне право
-    для перегляду звітів, які належать філіалам <filials>
-    """
-    if len(filials) == 0: return True
-    
-    user_filials = user.filials.all()
-    can_view = True
-
-    for filial in filials:
-        requested_perm = (
-            "objects.view_filial_report"
-            if filial in user_filials
-            else "objects.view_report"
-        )
-        if not user.has_perm(requested_perm):
-            can_view = False
-            break
-    return can_view
-
-
-def can_view_reports_of_filial_in_office(user: CustomUser, *filials: FilialAgency) -> bool:
-    """
-    Перевіряє, чи користувач <user> має відповідне право
-    для перегляду звітів в офісі, які належать філіалам <filials>
-    """
-    if len(filials) == 0: return True
-    
-    user_filials = user.filials.all()
-    can_view = True
-
-    for filial in filials:
-        requested_perm = (
-            "objects.view_office_filial_report"
-            if filial in user_filials
-            else "objects.view_office_report"
-        )
-        if not user.has_perm(requested_perm):
-            can_view = False
-            break
-    return can_view
 
 
 def user_can_create_apartment(user: CustomUser) -> bool:

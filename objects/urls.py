@@ -19,10 +19,12 @@ urlpatterns = [
     path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
     path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
 
-    path("sale/reports", views.reports_redirect, name="reports_redirect"),
-    path("sale/apartments/reports/", views.ApartmentReportListView.as_view(), name="apartment_reports"),
-    path("sale/commerces/reports/", views.CommerceReportListView.as_view(), name="commerce_reports"),
-    path("sale/houses/reports/", views.HouseReportListView.as_view(), name="house_reports"),
+    path("sale/apartments/reports/new/", views.NewApartmentReportListView.as_view(), name="new_apartment_reports"),
+    path("sale/apartments/reports/all/", views.AllApartmentReportListView.as_view(), name="all_apartment_reports"),
+    path("sale/apartments/reports/my/", views.MyApartmentReportListView.as_view(), name="my_apartment_reports"),
+    path("sale/commerces/reports/new/", views.NewCommerceReportListView.as_view(), name="new_commerce_reports"),
+    path("sale/houses/reports/new/", views.NewHouseReportListView.as_view(), name="new_house_reports"),
+
     path(
         "sale/apartments/contracts/",
         views.BaseContractListView.as_view(type=RealEstateType.APARTMENT),
@@ -46,11 +48,12 @@ urlpatterns = [
     path("office/filial/commerces/", views.FilialCommerceListView.as_view(), name="office_filial_commerce_list"),
     path("office/filial/houses/", views.FilialHouseListView.as_view(), name="office_filial_house_list"),
     path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
-    
-    path("office/reports", views.office_reports_redirect, name="office_reports_redirect"),
-    path("office/apartments/reports/", views.ApartmentOfficeReportListView.as_view(), name="apartment_office_reports"),
-    path("office/commerces/reports/", views.CommerceOfficeReportListView.as_view(), name="commerce_office_reports"),
-    path("office/houses/reports/", views.HouseOfficeReportListView.as_view(), name="house_office_reports"),
+
+    path("office/apartments/reports/new/", views.OfficeNewApartmentReportListView.as_view(), name="office_new_apartment_reports"),
+    path("office/apartments/reports/all/", views.OfficeAllApartmentReportListView.as_view(), name="office_all_apartment_reports"),
+    path("office/apartments/reports/my/", views.OfficeMyApartmentReportListView.as_view(), name="office_my_apartment_reports"),
+    path("office/commerces/reports/new/", views.OfficeNewCommerceReportListView.as_view(), name="office_new_commerce_reports"),
+    path("office/houses/reports/new/", views.OfficeNewHouseReportListView.as_view(), name="office_new_house_reports"),
 
     path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
     path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),

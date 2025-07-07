@@ -245,13 +245,7 @@ class HouseVerifyAddressForm(BaseVerifyAddressForm):
 
 class RealEstateFilteringForm(forms.Form):
     """Форма для валідації query параметрів для списку нерухомості"""
-    _allowed_statuses = ("on_sale", "deposit", "withdrawn", "sold", "completely_withdrawn")
 
-    realtor_id = forms.IntegerField(min_value=1, required=False)
-    filial = forms.ModelMultipleChoiceField(
-        queryset=FilialAgency.objects.all(),
-        required=False
-    )
     creation_date_min = forms.DateField(
         required=False,
         label=_("Period from"),
@@ -273,6 +267,3 @@ class RealEstateFilteringForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
-
-    # якщо True, то буде повернуто список нерухомості, доступний користувачу для перегляду
-    only_accessible = forms.BooleanField(required=False)

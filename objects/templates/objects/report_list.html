@@ -21,9 +21,6 @@
             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
                 <form method="get" class="search-form">
                     <div class="row g-4">
-                        {{ form.realtor_id.as_hidden }}
-                        {{ form.filial.as_hidden }}
-                        {{ form.only_accessible.as_hidden }}
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                             <label class="customlbl" for="id_{{ form.creation_date_min.name }}">
                                 {{ form.creation_date_min.label }}
@@ -78,57 +75,55 @@
             {% endif %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
-                    href="{% url 'objects:apartment_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
+                    href="{% url 'objects:new_apartment_reports' lang=lang %}">
                     {% translate "Reports" %}
                 </a>
             </li>
         </ul>
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
-                {% if can_view_report or can_view_own_report or can_view_filial_report %}
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_reports' and realtor_id is None and filial|length == 0 and creation_date_min is not None %}active{% endif %}"
-                        href="{% url 'objects:apartment_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
-                            {% translate "New apartments" %}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'commerce_reports' and realtor_id is None and filial|length == 0 and creation_date_min is not None %}active{% endif %}"
-                        href="{% url 'objects:commerce_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
-                            {% translate "New commerces" %}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'house_reports' and realtor_id is None and filial|length == 0 and creation_date_min is not None %}active{% endif %}"
-                        href="{% url 'objects:house_reports' lang=lang %}?creation_date_min={{ new_creation_date|date:'Y-m-d' }}&only_accessible=on">
-                            {% translate "New houses" %}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link"
-                        href="#">
-                            {% translate "New lands" %}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link"
-                        href="#">
-                            {% translate "New rooms" %}
-                        </a>
-                    </li>
-                {% endif %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if url_name == 'new_apartment_reports' %}active{% endif %}"
+                        href="{% url 'objects:new_apartment_reports' lang=lang %}">
+                        {% translate "New apartments" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if url_name == 'new_commerce_reports' %}active{% endif %}"
+                    href="{% url 'objects:new_commerce_reports' lang=lang %}">
+                        {% translate "New commerces" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if url_name == 'new_house_reports' %}active{% endif %}"
+                    href="{% url 'objects:new_house_reports' lang=lang %}">
+                        {% translate "New houses" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="#">
+                        {% translate "New lands" %}
+                    </a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="#">
+                        {% translate "New rooms" %}
+                    </a>
+                </li>
                 {% if can_view_report %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_reports' and realtor_id is None and filial|length == 0 and creation_date_min is None %}active{% endif %}"
-                           href="{% url 'objects:apartment_reports' lang=lang %}">
+                        <a class="nav-link {% if url_name == 'all_apartment_reports' %}active{% endif %}"
+                           href="{% url 'objects:all_apartment_reports' lang=lang %}">
                             {% translate "All apartments" %}
                         </a>
                     </li>
                 {% endif %}
                 {% if can_view_own_report %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'apartment_reports' and realtor_id == user.id and filial|length == 0 %}active{% endif %}"
-                           href="{% url 'objects:apartment_reports' lang=lang %}?realtor_id={{ user.id }}">
+                        <a class="nav-link {% if url_name == 'my_apartment_reports' %}active{% endif %}"
+                           href="{% url 'objects:my_apartment_reports' lang=lang %}">
                             {% translate "My apartments" %}
                         </a>
                     </li>

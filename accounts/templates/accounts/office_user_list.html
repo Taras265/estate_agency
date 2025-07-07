@@ -17,57 +17,51 @@
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             {% if my_clients %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'handbooks:office_client_list' lang=lang %}">
-                    {% translate "My clients" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'handbooks:office_client_list' lang=lang %}">
+                        {% translate "My clients" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if my_objects %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_apartment_list' lang=lang %}">
-                    {% translate "My objects" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'objects:office_apartment_list' lang=lang %}">
+                        {% translate "My objects" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if filial_clients %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
-                    {% translate "Filial clients" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
+                        {% translate "Filial clients" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if filial_objects %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
-                    {% translate "Filial objects" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
+                        {% translate "Filial objects" %}
+                    </a>
+                </li>
             {% endif %}
-
-            {% if report %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_reports_redirect' lang=lang %}">
-                    {% translate "Report" %}
-                </a>
-            </li>
+            {% if can_view_report or can_view_filial_report or can_view_own_report %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'objects:office_new_apartment_reports' lang=lang %}">
+                        {% translate "Report" %}
+                    </a>
+                </li>
             {% endif %}
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
                    href="{% url 'accounts:office_user_list' lang=lang %}">
                     {% translate "Users" %}
                 </a>
             </li>
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
                    href="{% url 'accounts:profile' lang=lang %}">
