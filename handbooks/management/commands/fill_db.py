@@ -39,7 +39,7 @@ ROOMS_TYPE_MAP = {
     "Смежные": RoomType.ADJACENT,
     "Раздельные": RoomType.SEPARATE,
     "Кухня-студия": RoomType.STUDIO_KITCHEN,
-    "1 комната ":RoomType.ROOM,
+    "1 комната ":RoomType.NONE,
 }
 
 
@@ -205,8 +205,6 @@ class Command(BaseCommand):
         for obj in object_root.find("Catalog"):
 
             obj_data = {
-                "creation_date": get_date(obj, "creation_date", "%d.%m.%Y")
-                                        if obj.find('creation_date') is not None else None,
                 "deposit_date": get_date(obj, "deposit_date", "%d.%m.%Y"),
                 "exclusive": bool(obj.find("exclusive")) if obj.find("exclusive") else False,
                 "locality": localities[obj.find("locality").text],
@@ -246,6 +244,9 @@ class Command(BaseCommand):
                 "realtor_notes": obj.find('realtor_notes').text if obj.find('realtor_notes') is not None else None,
                 "comment": obj.find('comment').text if obj.find('comment') is not None else None,
             }
+            if obj.find("creation_date"):
+                obj_data["creation_date"] = get_date(obj, "creation_date", "%d.%m.%Y")
+
             if obj.find("object_type").text == "квартира":
                 print(obj.find("living_square").text)
                 obj_data.update({
