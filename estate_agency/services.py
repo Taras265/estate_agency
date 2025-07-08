@@ -1,6 +1,6 @@
-from typing import Optional, Any
+from typing import Any, Optional
 
-from django.db.models import QuerySet, Model
+from django.db.models import Model, QuerySet
 
 
 def sort_decorator(func: callable):

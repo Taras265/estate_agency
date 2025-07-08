@@ -47,14 +47,10 @@ class CustomUser(AbstractUser):
 
     email = models.EmailField(unique=True, verbose_name=_("Email"))
     first_name = models.CharField(
-        blank=True, null=True,
-        max_length=150,
-        verbose_name=_("First name")
+        blank=True, null=True, max_length=150, verbose_name=_("First name")
     )
     last_name = models.CharField(
-        blank=True, null=True,
-        max_length=150,
-        verbose_name=_("Last name")
+        blank=True, null=True, max_length=150, verbose_name=_("Last name")
     )
     filials = models.ManyToManyField(
         "handbooks.FilialAgency",
@@ -70,9 +66,7 @@ class CustomUser(AbstractUser):
     last_login = models.DateTimeField(blank=True, null=True)
 
     image = models.ImageField(
-        upload_to="avatar/",
-        default="avatar/avatar.png",
-        verbose_name=_("Image")
+        upload_to="avatar/", default="avatar/avatar.png", verbose_name=_("Image")
     )
 
     on_delete = models.BooleanField(default=False)
@@ -92,9 +86,7 @@ class CustomUser(AbstractUser):
         verbose_name_plural = "Users"
         default_permissions = ("add", "change", "view")
 
-        permissions = (
-            ("view_office_user", "Can view in office users"),
-        )
+        permissions = (("view_office_user", "Can view in office users"),)
 
     def get_full_name(self):
         return self.first_name, self.last_name, self.email

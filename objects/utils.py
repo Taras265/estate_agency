@@ -1,14 +1,18 @@
+from typing import Any
+
 import datetime
 from typing import TypeVar, TypedDict
 
 from django.db.models import QuerySet
+
 from django.forms import ModelForm
 from django.forms.formsets import BaseFormSet
 from django.http.request import QueryDict
 from django.utils.datastructures import MultiValueDict
 
-from .models import BaseRealEstate
 from accounts.models import CustomUser
+
+from .models import BaseRealEstate
 from .services import has_any_perm_from_list, user_can_view_real_estate_list
 
 

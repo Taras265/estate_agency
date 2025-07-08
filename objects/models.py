@@ -1,13 +1,14 @@
 import datetime
 
-from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
-from images.models import RealEstateImage
 from accounts.models import CustomUser
-from handbooks.models import Locality, Street, Handbook, Client
+from handbooks.models import Client, Handbook, Locality, Street
+from images.models import RealEstateImage
+
 from .choices import RealEstateStatus, RoomType
 
 
@@ -20,9 +21,13 @@ class BaseRealEstate(models.Model):
     class Meta:
         abstract = True
         default_permissions = ("add", "change", "view")
-    
-    creation_date = models.DateField(verbose_name=_("Creation date"), default=datetime.date.today) # дата побудови
-    deposit_date = models.DateField(null=True, blank=True, verbose_name=_("Deposit date")) # дата постановки
+
+    creation_date = models.DateField(
+        verbose_name=_("Creation date"), default=datetime.date.today
+    )  # дата побудови
+    deposit_date = models.DateField(
+        null=True, blank=True, verbose_name=_("Deposit date")
+    )  # дата постановки
     # date_before_temporarily_removed = models.DateField(null=True, blank=True)
     # purchase_date = models.DateField(null=True, blank=True)
     # sale_date = models.DateField(null=True, blank=True)
@@ -44,25 +49,20 @@ class BaseRealEstate(models.Model):
     #     null=True, blank=True,
     # )
     locality = models.ForeignKey(
-        Locality,
-        on_delete=models.CASCADE,
-        verbose_name=_("Locality")
+        Locality, on_delete=models.CASCADE, verbose_name=_("Locality")
     )
     # locality_district = models.ForeignKey(
     #     LocalityDistrict,
     #     on_delete=models.CASCADE,
     # )
-    street = models.ForeignKey(
-        Street,
-        on_delete=models.CASCADE,
-        verbose_name=_("Street")
-    )
+    street = models.ForeignKey(Street, on_delete=models.CASCADE, verbose_name=_("Street"))
     house = models.CharField(max_length=100, verbose_name=_("House"))
 
     realtor = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE,
+        CustomUser,
+        on_delete=models.CASCADE,
         related_name="%(app_label)s_%(class)ss",
-        verbose_name=_("Realtor")
+        verbose_name=_("Realtor"),
     )
     # site_realtor1 = models.ForeignKey(
     #     CustomUser, on_delete=models.CASCADE, null=True, blank=True,
@@ -77,7 +77,8 @@ class BaseRealEstate(models.Model):
     #     related_name="%(app_label)s_%(class)ss",
     # )
     condition = models.ForeignKey(
-        Handbook, on_delete=models.CASCADE,
+        Handbook,
+        on_delete=models.CASCADE,
         related_name="condition_%(app_label)s_%(class)ss",
         verbose_name=_("Condition"),
         null=True,
@@ -161,7 +162,7 @@ class BaseRealEstate(models.Model):
     # trade = models.BooleanField(null=True, blank=True)
     parking = models.BooleanField(default=False, verbose_name=_("Parking"))
     generator = models.BooleanField(default=False, verbose_name=_("Generator"))
-    e_home = models.BooleanField(default=False, verbose_name=_("EHome")) # єОселя
+    e_home = models.BooleanField(default=False, verbose_name=_("EHome"))  # єОселя
     on_delete = models.BooleanField(default=False)
 
     price = models.IntegerField(verbose_name=_("Price"))
@@ -346,9 +347,7 @@ class House(BaseRealEstate):
     rooms_number = models.PositiveSmallIntegerField(
         verbose_name=_("Number of rooms"), null=True, blank=True
     )
-    communications = models.BooleanField(
-        default=False, verbose_name=_("Communications")
-    )
+    communications = models.BooleanField(default=False, verbose_name=_("Communications"))
     terrace = models.BooleanField(default=False, verbose_name=_("Terrace"))
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))
     own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
@@ -360,13 +359,9 @@ class Selection(models.Model):
     class Meta(BaseRealEstate.Meta):
         permissions = (("selection", "Selection"),)
 
-    client = models.ForeignKey(
-        Client, on_delete=models.CASCADE, verbose_name=_("Client")
-    )
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name=_("Client"))
     date = models.DateField(default=datetime.date.today, verbose_name=_("Date"))
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, verbose_name=_("User")
-    )
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name=_("User"))
     selected_apartments = models.ManyToManyField(
         Apartment, blank=True, related_name="related_selected_apartments"
     )

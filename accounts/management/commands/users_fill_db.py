@@ -1,9 +1,9 @@
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import Element
 from dataclasses import dataclass, field
+from xml.etree.ElementTree import Element
 
-from django.core.management import BaseCommand
 from django.contrib.auth.models import Permission
+from django.core.management import BaseCommand
 
 from accounts.models import CustomGroup, CustomUser
 from handbooks.models import FilialAgency
@@ -33,10 +33,12 @@ def parse_group_element(group_element: Element) -> GroupData:
     perm_list_element = group_element.find("PermissionList")
     if perm_list_element is None:
         return group
-    
-    group.permissions += [elem.text 
-                          for elem in perm_list_element.findall("Permission") 
-                          if elem.text is not None]
+
+    group.permissions += [
+        elem.text
+        for elem in perm_list_element.findall("Permission")
+        if elem.text is not None
+    ]
 
     return group
 
@@ -52,16 +54,20 @@ def parse_user_element(user_element: Element) -> UserData:
 
     filial_list_element = user_element.find("FilialList")
     if filial_list_element is not None:
-        user.filials += [element.text for element in filial_list_element.findall("Filial")]
-    
+        user.filials += [
+            element.text for element in filial_list_element.findall("Filial")
+        ]
+
     phone_list_element = user_element.find("PhoneNumberList")
     if phone_list_element is not None:
-        user.phone_numbers += [element.text for element in phone_list_element.findall("PhoneNumber")]
-    
+        user.phone_numbers += [
+            element.text for element in phone_list_element.findall("PhoneNumber")
+        ]
+
     group_list_element = user_element.find("GroupList")
     if group_list_element is not None:
         user.groups += [element.text for element in group_list_element.findall("Group")]
-    
+
     return user
 
 
@@ -96,11 +102,16 @@ class Command(BaseCommand):
 
         if any(user.email == "" for user in users_data):
             raise ValueError("You didn't specify user email.")
-        
+
         if any(user.password == "" for user in users_data):
             raise ValueError("You didn't specify user password.")
-        
-        users = [CustomUser(email=user.email, first_name=user.first_name, last_name=user.last_name) for user in users_data]
+
+        users = [
+            CustomUser(
+                email=user.email, first_name=user.first_name, last_name=user.last_name
+            )
+            for user in users_data
+        ]
         for i, user_data in enumerate(users_data):
             users[i].set_password(user_data.password)
 
@@ -118,5 +129,5 @@ class Command(BaseCommand):
 
             for phone_number in user_data.phone_numbers:
                 users[i].phone_numbers.create(number=phone_number)
-        
+
         self.stdout.write(self.style.SUCCESS("Groups and users filled successfully!"))

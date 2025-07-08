@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load handbooks %}
+{% load i18n %}
+
+{% block title %}{% translate 'Handbooks' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{% translate "Region" %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+      <li>{% translate "region" %}</li>
+    </ul>
+  </div>
+</div>
+{% if form %}
+<div class="container">
+    <div class="property_search">
+        <div class="row justify-content-center text-center">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <form method="get" class="search-form">
+                    <div class="row g-4">
+                        {% for field in form %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label class="customlbl" for="id_{{ field.name }}">
+                                {{ field.label }}
+                            </label>
+                            <div class="form-group">
+                                {{ field }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <br>
+                            <button type="submit" class="custombtn">{% translate 'Search' %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- Properties Search -->
+<div class="container">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for i in choices %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if i == choice %}active{% endif %}"
+                   href='/{{lang}}/{% url_app i %}/{% choices_url i %}/{{i}}/'>
+                    {% translate i %}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="row">
+            <div class="responsive-tabs" data-type="horizontal">
+                <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+                    {% if page_obj %}
+                    <div>
+                        <div class="offset-top-66 text-center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+
+                                    <th scope="col">{% translate "id" %}</th>
+                                    <th scope="col">{% translate "region" %}</th>
+
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in object_values %}
+                                <tr>
+                                    <td></td>
+                                    <td>{{object.id}}</td>
+                                    <td>{{object.region}}</td>
+                                    {% if object.user_permissions.can_update %}
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/update{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'Update' %}</a></td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/delete{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'Delete' %}</a></td>
+                                    {% else %}
+                                    <td></td>
+                                    <td></td>
+                                    {% endif %}
+                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
+                                           type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                                    <td></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if can_create %}
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                       href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/create{% if choice != 'apartment' %}/{{ choice }}{% endif %}/"
+                             type="button" style="max-width: 120px">{% translate 'Create' %}</a>
+                    {% endif %}
+                </div>
+            </div>
+            <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
+                <div class="btn-group" role="group">
+                    {% if page_obj.has_previous %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+                    {% endif %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                    {% if page_obj.has_next %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

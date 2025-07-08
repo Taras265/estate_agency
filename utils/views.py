@@ -1,32 +1,29 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from handbooks.forms import IdSearchForm
+from accounts.services import user_get, get_user_choices
 from handbooks.models import Handbook
-from accounts.services import get_user_choices, user_get
-from handbooks.services import handbook_filter
-from utils.const import TABLE_TO_APP, OBJECT_COLUMNS, BASE_CHOICES
-from utils.mixins.new_mixins import GetQuerysetMixin, StandardContextDataMixin
-from utils.utils import model_to_dict
+from utils.utils import new_model_to_dict, table_to_app
+from django.utils.translation import activate
 
 
-class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
+class CustomListView(ListView):
     """
     Вьюшка для списку
 
     filters і filter вказувати, якщо в нас є підвиди списку
     (приклад: у вкладці клієнта є вкладки "всі клієнти", "нові клієнти" ітд)
     """
+
     paginate_by = 5
-    template_name = "handbooks/list.html"
     context_object_name = "objects"
 
     model = None
-    choices = None
-    main_service = None
 
     app = None
     handbook_type = None
+
+    choices = None
 
     filters = None
     filter = None
@@ -34,44 +31,45 @@ class CustomListView(StandardContextDataMixin, GetQuerysetMixin, ListView):
     own = False
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        user = user_get(email=self.request.user)
+        user = self.request.user
 
         # підгружаємо частину готової дати і додаємо що потрібно
-        context = super().get_context_data(**kwargs)
+        activate(self.kwargs["lang"])  # Перекладаємо
 
-        context.update({
-            "choice": self.handbook_type,
-            "choices": get_user_choices(user, self.choices),
-            "can_create": user.has_perm(f"{self.app}.add_{self.handbook_type}"),
-            "filters": self.filters,
-            "filter": self.filter,
-            "handbook": self.handbook_type,
-        })
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+
+        context.update(
+            {
+                "choice": self.handbook_type,
+                "choices": get_user_choices(self.request.user, self.choices),
+                "can_create": user.has_perm(f"{self.app}.add_{self.handbook_type}"),
+                "filters": self.filters,
+                "filter": self.filter,
+                "handbook": self.handbook_type,
+            }
+        )
 
         if context.get("objects"):
-            object_columns = (OBJECT_COLUMNS.get(self.handbook_type)
-                              or list(context["object_list"].values()[0]))
-
-            context.update({
-                "object_columns": object_columns,
-                "object_values": model_to_dict(
-                    user,
-                    context["page_obj"].object_list,
-                    self.app,
-                    self.handbook_type,
-                    self.own
-                )
-            })
+            context.update(
+                {
+                    "object_values": new_model_to_dict(
+                        user,
+                        context["page_obj"].object_list,
+                        self.app,
+                        self.handbook_type,
+                        self.own,
+                    )
+                }
+            )
 
         return context
 
 
-class CustomHandbookListView(CustomListView):
+class NewCustomHandbookListView(CustomListView):
     """
     Вьюшка для списку з бд Handbook
     """
-    main_service = {"objects_filter": handbook_filter, }
-    choices = BASE_CHOICES
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
@@ -87,79 +85,94 @@ class CustomHandbookListView(CustomListView):
         return context
 
 
-class CustomCreateView(StandardContextDataMixin, CreateView):
+class CustomCreateView(CreateView):
     template_name = "form.html"
     success_message = "Success"
 
     form_class = None
     model = None
-    main_service = None
     permission_required = None
 
     handbook_type = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
 
         return context
 
     def get_success_url(self):
         handbook_type = self.handbook_type or self.kwargs.get("handbook_type")
         kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
+        return reverse_lazy(
+            f"{table_to_app(handbook_type)}:{handbook_type}_list", kwargs=kwargs
+        )
 
 
-class CustomUpdateView(StandardContextDataMixin, GetQuerysetMixin, UpdateView):
+class CustomUpdateView(UpdateView):
     template_name = "form.html"
     success_message = "Success"
 
     form_class = None
     model = None
-    main_service = None
     permission_required = None
 
     handbook_type = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
 
         return context
 
     def get_success_url(self):
         handbook_type = self.handbook_type
         kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
+        return reverse_lazy(
+            f"{table_to_app(handbook_type)}:{handbook_type}_list", kwargs=kwargs
+        )
 
 
-class CustomDeleteView(StandardContextDataMixin, GetQuerysetMixin, DeleteView):
+class CustomDeleteView(DeleteView):
     template_name = "delete_form.html"
     success_message = "Success"
     model = None
-    main_service = None
     handbook_type = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
 
         return context
 
     def get_success_url(self):
         handbook_type = self.handbook_type
         kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy(f"{TABLE_TO_APP[handbook_type]}:{handbook_type}_list", kwargs=kwargs)
+        return reverse_lazy(
+            f"{table_to_app(handbook_type)}:{handbook_type}_list", kwargs=kwargs
+        )
 
 
-class HistoryView(StandardContextDataMixin, GetQuerysetMixin, DetailView):
+class HistoryView(DetailView):
     """
     Вьюшка щоб подивитись історію змін
     """
+
     template_name = "handbooks/history_list.html"
     model = None
-    main_service = None
     handbook_type = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
 
         history = context["object"].history.all()
         changes = []
@@ -171,15 +184,19 @@ class HistoryView(StandardContextDataMixin, GetQuerysetMixin, DetailView):
                     old_value = getattr(prev_record, field_name)
                     new_value = getattr(record, field_name)
                     if old_value != new_value:
-                        changes.append({
-                            "date": record.history_date,
-                            "user": record.history_user,
-                            "field": field.verbose_name,
-                            "old_value": old_value,
-                            "new_value": new_value
-                        })
+                        changes.append(
+                            {
+                                "date": record.history_date,
+                                "user": record.history_user,
+                                "field": field.verbose_name,
+                                "old_value": old_value,
+                                "new_value": new_value,
+                            }
+                        )
         context["history"] = changes
         context["handbook"] = self.handbook_type
-        context["list_url"] = f"{TABLE_TO_APP[self.handbook_type]}:{self.handbook_type}_list"
+        context["list_url"] = (
+            f"{table_to_app(self.handbook_type)}:{self.handbook_type}_list"
+        )
 
         return context

@@ -1,8 +1,14 @@
 import io
+from collections.abc import Callable
+
 import datetime
+
 from itertools import chain
 from typing import Any
 from urllib.parse import urlencode
+
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 from django.contrib.auth.mixins import (
     PermissionRequiredMixin,
@@ -10,6 +16,7 @@ from django.contrib.auth.mixins import (
 )
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
+
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -20,7 +27,6 @@ from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     CreateView,
     DeleteView,
-    DetailView,
     ListView,
     TemplateView,
     UpdateView,
@@ -69,13 +75,15 @@ from .forms import (
 )
 
 from utils.mixins.mixins import (
-    CustomLoginRequiredMixin,
-    HandbookHistoryListMixin,
     HandbookOwnPermissionListMixin,
     HandbookWithFilterListMixin,
 )
-from utils.mixins.new_mixins import GetQuerysetMixin, StandardContextDataMixin
+from utils.mixins.new_mixins import (
+    CustomLoginRequiredMixin,
+)
 from utils.pdf import generate_pdf
+from utils.utils import get_office_context
+from utils.views import HistoryView
 
 from .choices import RealEstateStatus, RealEstateType
 from .forms import (
@@ -95,6 +103,49 @@ from .mixins import (
     SaleListContextMixin,
 )
 from .models import Apartment, BaseRealEstate, Commerce, House
+
+from .services import (
+    apartment_filter_by_filial,
+    apartment_filter_by_user,
+    apartment_filter_for_user,
+    commerce_filter_by_filial,
+    commerce_filter_for_user,
+    estate_objects_filter_visible,
+    get_all_apartment_history,
+    get_all_commerce_history,
+    get_all_houses_history,
+    has_any_perm_from_list,
+    house_filter_by_filial,
+    house_filter_for_user,
+    real_estate_contract_all,
+    real_estate_contract_by_filials,
+    real_estate_contract_by_user,
+    selection_add_selected,
+    selection_all,
+    selection_create,
+    selection_filter,
+    user_can_create_apartment,
+    user_can_create_commerce,
+    user_can_create_house,
+    user_can_update_apartment,
+    user_can_update_apartment_list,
+    user_can_update_commerce,
+    user_can_update_commerce_list,
+    user_can_update_full_apartment,
+    user_can_update_full_commerce,
+    user_can_update_full_house,
+    user_can_update_house,
+    user_can_update_house_list,
+    user_can_view_apartment_list,
+    user_can_view_apartment_list_history,
+    user_can_view_commerce_list,
+    user_can_view_commerce_list_history,
+    user_can_view_house_list,
+    user_can_view_house_list_history,
+    user_can_view_real_estate_list,
+)
+from .utils import get_report_list_context, real_estate_form_save
+
 from .utils import real_estate_form_save
 from utils.utils import get_office_context
 
@@ -375,8 +426,6 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
 class SelectionHistoryView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
-    StandardContextDataMixin,
-    GetQuerysetMixin,
     ListView,
 ):
     object_list = selection_all()
@@ -390,14 +439,20 @@ class SelectionHistoryView(
         context["selections"] = selection_filter(client_id=pk)
         return self.render_to_response(context)
 
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+
+        return context
+
 
 def showing_act_redirect(request, lang):
     selected_ids = request.GET.getlist("objects")
     object_type = int(request.GET.get("object_type"))
 
-    objects = estate_objects_filter_visible(
-        object_type=object_type, id__in=selected_ids
-    )
+    objects = estate_objects_filter_visible(object_type=object_type, id__in=selected_ids)
 
     for obj in objects:
         obj.in_selection = True
@@ -405,11 +460,10 @@ def showing_act_redirect(request, lang):
 
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)
-    user = user_get(email=request.user)
 
     selection = selection_create(
         client=client,
-        user=user,
+        user=request.user,
     )
     for obj in objects:
         selection_add_selected(object_type, selection, obj)
@@ -426,9 +480,7 @@ def pdf_redirect(request, lang):
     selected_ids = request.GET.getlist("objects")
     object_type = int(request.GET.get("object_type"))
 
-    objects = estate_objects_filter_visible(
-        object_type=object_type, id__in=selected_ids
-    )
+    objects = estate_objects_filter_visible(object_type=object_type, id__in=selected_ids)
 
     for obj in objects:
         obj.in_selection = True
@@ -436,11 +488,10 @@ def pdf_redirect(request, lang):
 
     client_id = int(request.GET.get("client"))
     client = client_get(id=client_id)
-    user = user_get(email=request.user)
 
     selection = selection_create(
         client=client,
-        user=user,
+        user=request.user,
     )
     for obj in objects:
         selection_add_selected(object_type, selection, obj)
@@ -540,7 +591,7 @@ class ApartmentListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return apartment_filter_for_user(self.request.user.id, **filters)
@@ -592,7 +643,7 @@ class CommerceListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return commerce_filter_for_user(self.request.user.id, **filters)
@@ -643,7 +694,7 @@ class HouseListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return house_filter_for_user(self.request.user.id, **filters)
@@ -673,7 +724,6 @@ class HouseListView(
 
 class MyApartmentListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -695,13 +745,16 @@ class MyApartmentListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return apartment_filter_by_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -725,7 +778,6 @@ class MyApartmentListView(
 
 class MyCommerceListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -750,13 +802,16 @@ class MyCommerceListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return commerce_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -779,7 +834,6 @@ class MyCommerceListView(
 
 class MyHouseListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -804,13 +858,16 @@ class MyHouseListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
         return house_filter_for_user(self.request.user.id, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -832,7 +889,6 @@ class MyHouseListView(
 
 class FilialApartmentListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -845,7 +901,6 @@ class FilialApartmentListView(
     permission_required = "objects.view_filial_office_objects"
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -855,13 +910,16 @@ class FilialApartmentListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
-        return apartment_filter_by_filial(user, **filters)
+        return apartment_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -885,7 +943,6 @@ class FilialApartmentListView(
 
 class FilialCommerceListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -901,7 +958,6 @@ class FilialCommerceListView(
         return user_can_view_commerce_list(self.request.user)
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -911,13 +967,16 @@ class FilialCommerceListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
-        return commerce_filter_by_filial(user, **filters)
+        return commerce_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -940,7 +999,6 @@ class FilialCommerceListView(
 
 class FilialHouseListView(
     CustomLoginRequiredMixin,
-    StandardContextDataMixin,
     PermissionRequiredMixin,
     ListView,
 ):
@@ -956,7 +1014,6 @@ class FilialHouseListView(
         return user_can_view_house_list(self.request.user)
 
     def get_queryset(self):
-        user = user_get(email=self.request.user)
         filters = {}
         if "id" in self.request.GET:
             form = self.form_class(self.request.GET)
@@ -966,13 +1023,16 @@ class FilialHouseListView(
             filters = {
                 field: value
                 for field, value in form.cleaned_data.items()
-                if value != None
+                if value is not None
             }
 
-        return house_filter_by_filial(user, **filters)
+        return house_filter_by_filial(self.request.user, **filters)
 
     def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
         context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
         context.update(
             {
@@ -1321,10 +1381,8 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
         if self.request.user.has_perm("objects.view_contract"):
             return real_estate_contract_all(self.type)
         elif self.request.user.has_perm("objects.view_filial_contract"):
-            user = user_get(email=self.request.user)
-            return real_estate_contract_by_filials(self.type, user.filials.all())
-        user = user_get(email=self.request.user)
-        return real_estate_contract_by_user(self.type, user)
+            return real_estate_contract_by_filials(self.type, self.request.user.filials.all())
+        return real_estate_contract_by_user(self.type, self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
@@ -1338,9 +1396,7 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
                     "handbooks.view_client",
                     "handbooks.view_own_client",
                 ),
-                "can_view_real_estate": user_can_view_real_estate_list(
-                    self.request.user
-                ),
+                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
                 "can_view_report": self.request.user.has_perm("objects.view_report"),
                 "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
             }
@@ -1348,24 +1404,49 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
         return context
 
 
-class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView):
+class HistoryReportListView(
+    HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView
+):
     model = Apartment.history.all().model
     template_name = "objects/changes_report_list.html"
-    handbook_type = 'report'
-    filters = ['new_apartments', 'new_commerce', 'new_houses',
-               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments', 'changes']
-    queryset_filters = {'changes': Apartment.history.all(), }
+    handbook_type = "report"
+    filters = [
+        "new_apartments",
+        "new_commerce",
+        "new_houses",
+        "new_lands",
+        "new_rooms",
+        "changes",
+        "all_apartments",
+        "my_apartments",
+        "changes",
+    ]
+    queryset_filters = {
+        "changes": Apartment.history.all(),
+    }
     custom = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])  # переклад
 
-        user = CustomUser.objects.filter(email=self.request.user).first()
-
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
+        context.update(
+            {
+                "can_view_client": has_any_perm_from_list(
+                    self.request.user,
+                    "handbooks.view_client",
+                    "handbooks.view_own_client",
+                ),
+                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+                "can_view_report": self.request.user.has_perm("objects.view_report"),
+                "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                or self.request.user.has_perm("objects.view_filial_contract")
+                or self.request.user.has_perm("objects.view_own_contract"),
+            }
+        )
         context.update({
             "can_view_client": has_any_perm_from_list(
                 self.request.user, "handbooks.view_client", "handbooks.view_own_client"
@@ -1381,7 +1462,7 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
         })
 
         context["choice"] = self.handbook_type
-        context.update({"choices": self.choices_by_user(user)})
+        context.update({"choices": self.choices_by_user(self.request.user)})
 
         """
         Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
@@ -1401,11 +1482,17 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
             reverse=True,
         )
 
-        if context['object_list']:  # Якщо нам взагалі є з чим працювати
-            context['object_values'] = []
-            context['object_columns'] = ['id', 'date', 'user', 'field',
-                                         'old_value', 'new_value']  # Назва стовпців
-            for record in context['object_list']:
+        if context["object_list"]:  # Якщо нам взагалі є з чим працювати
+            context["object_values"] = []
+            context["object_columns"] = [
+                "id",
+                "date",
+                "user",
+                "field",
+                "old_value",
+                "new_value",
+            ]  # Назва стовпців
+            for record in context["object_list"]:
                 if record.prev_record:
                     prev_record = record.prev_record
                     for field in record._meta.fields:
@@ -1414,15 +1501,17 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
                             old_value = getattr(prev_record, field_name)
                             new_value = getattr(record, field_name)
                             if old_value != new_value:
-                                context['object_values'].append({
-                                    'id': record.id,
-                                    'date': record.history_date,
-                                    'user': record.history_user,
-                                    'field': field.verbose_name,
-                                    'old_value': old_value,
-                                    'new_value': new_value,
-                                    'model': record._meta.model_name[10::],
-                                })
+                                context["object_values"].append(
+                                    {
+                                        "id": record.id,
+                                        "date": record.history_date,
+                                        "user": record.history_user,
+                                        "field": field.verbose_name,
+                                        "old_value": old_value,
+                                        "new_value": new_value,
+                                        "model": record._meta.model_name[10::],
+                                    }
+                                )
         else:
             context["object_columns"] = None
         return context
@@ -1431,17 +1520,28 @@ class HistoryReportListView(HandbookOwnPermissionListMixin, HandbookWithFilterLi
 class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
     model = Apartment.history.all().model
     template_name = "objects/office_changes_report_list.html"
-    handbook_type = 'report'
-    filters = ['new_apartments', 'new_commerce', 'new_houses',
-               'new_lands', 'new_rooms', 'changes', 'all_apartments', 'my_apartments', 'changes']
-    queryset_filters = {'changes': Apartment.history.all(), }
+    handbook_type = "report"
+    filters = [
+        "new_apartments",
+        "new_commerce",
+        "new_houses",
+        "new_lands",
+        "new_rooms",
+        "changes",
+        "all_apartments",
+        "my_apartments",
+        "changes",
+    ]
+    queryset_filters = {
+        "changes": Apartment.history.all(),
+    }
     custom = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # підгружаємо частину готової дати і додаємо що потрібно
-        context.update(get_office_context(self.request.user))   
+        context.update(get_office_context(self.request.user))
         context["lang"] = self.kwargs["lang"]
 
         context.update({
@@ -1473,15 +1573,23 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
         apartments = get_all_apartment_history(order_by="history_date")
         commerces = get_all_commerce_history(order_by="history_date")
         houses = get_all_houses_history(order_by="history_date")
-        context['object_list'] = sorted(chain(apartments, commerces, houses),
-                                        key=lambda x: x.history_date,
-                                        reverse=True)
+        context["object_list"] = sorted(
+            chain(apartments, commerces, houses),
+            key=lambda x: x.history_date,
+            reverse=True,
+        )
 
-        if context['object_list']:  # Якщо нам взагалі є з чим працювати
-            context['object_values'] = []
-            context['object_columns'] = ['id', 'date', 'user', 'field',
-                                         'old_value', 'new_value']  # Назва стовпців
-            for record in context['object_list']:
+        if context["object_list"]:  # Якщо нам взагалі є з чим працювати
+            context["object_values"] = []
+            context["object_columns"] = [
+                "id",
+                "date",
+                "user",
+                "field",
+                "old_value",
+                "new_value",
+            ]  # Назва стовпців
+            for record in context["object_list"]:
                 if record.prev_record:
                     prev_record = record.prev_record
                     for field in record._meta.fields:
@@ -1490,25 +1598,29 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
                             old_value = getattr(prev_record, field_name)
                             new_value = getattr(record, field_name)
                             if old_value != new_value:
-                                context['object_values'].append({
-                                    'id': record.id,
-                                    'date': record.history_date,
-                                    'user': record.history_user,
-                                    'field': field.verbose_name,
-                                    'old_value': old_value,
-                                    'new_value': new_value,
-                                    'model': record._meta.model_name[10::],
-                                })
+                                context["object_values"].append(
+                                    {
+                                        "id": record.id,
+                                        "date": record.history_date,
+                                        "user": record.history_user,
+                                        "field": field.verbose_name,
+                                        "old_value": old_value,
+                                        "new_value": new_value,
+                                        "model": record._meta.model_name[10::],
+                                    }
+                                )
         else:
             context["object_columns"] = None
         return context
 
 
-class ApartmentCreateView(CustomLoginRequiredMixin,
-                          UserPassesTestMixin,
-                          RealEstateCreateContextMixin,
-                          DefaultUserInCreateViewMixin,
-                          CreateView):
+class ApartmentCreateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateCreateContextMixin,
+    DefaultUserInCreateViewMixin,
+    CreateView,
+):
     """
     Форма створення нової квартири.
     Для доступу до цієї сторінки потрібно мати право
@@ -1545,11 +1657,13 @@ class ApartmentCreateView(CustomLoginRequiredMixin,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class CommerceCreateView(CustomLoginRequiredMixin,
-                         UserPassesTestMixin,
-                         RealEstateCreateContextMixin,
-                         DefaultUserInCreateViewMixin,
-                         CreateView):
+class CommerceCreateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateCreateContextMixin,
+    DefaultUserInCreateViewMixin,
+    CreateView,
+):
     """
     Форма створення нової комерції.
     Для доступу до цієї сторінки потрібно мати право
@@ -1585,11 +1699,13 @@ class CommerceCreateView(CustomLoginRequiredMixin,
         return reverse_lazy("objects:commerce_list", kwargs=kwargs)
 
 
-class HouseCreateView(CustomLoginRequiredMixin,
-                      UserPassesTestMixin,
-                      RealEstateCreateContextMixin,
-                      DefaultUserInCreateViewMixin,
-                      CreateView):
+class HouseCreateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateCreateContextMixin,
+    DefaultUserInCreateViewMixin,
+    CreateView,
+):
     """
     Форма створення нового будинку.
     Для доступу до цієї сторінки потрібно мати право
@@ -1625,10 +1741,12 @@ class HouseCreateView(CustomLoginRequiredMixin,
         return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
-class ApartmentUpdateView(CustomLoginRequiredMixin,
-                          UserPassesTestMixin,
-                          RealEstateUpdateContextMixin,
-                          UpdateView):
+class ApartmentUpdateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateUpdateContextMixin,
+    UpdateView,
+):
     """Форма редагування квартири."""
 
     model = Apartment
@@ -1643,18 +1761,28 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
         context["type"] = RealEstateType.APARTMENT
 
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-            user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_apartment(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_apartment(user, self.kwargs["pk"]):
             for name, field in context["form"].fields.items():
-                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
-                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                if (
+                    not (
+                        name == "comment"
+                        and self.request.user.has_perm("objects.change_object_comment")
+                    )
+                ) and (
+                    not (
+                        name == "price"
+                        and self.request.user.has_perm("objects.change_object_price")
+                    )
+                ):
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
             for form in context["formset"].forms:
                 for name, field in form.fields.items():
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
 
         return context
 
@@ -1671,9 +1799,10 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
 
     def form_invalid(self, form):
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-             user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_apartment(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_apartment(user, self.kwargs["pk"]):
             o = self.get_object()
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
@@ -1690,10 +1819,12 @@ class ApartmentUpdateView(CustomLoginRequiredMixin,
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class CommerceUpdateView(CustomLoginRequiredMixin,
-                         UserPassesTestMixin,
-                         RealEstateUpdateContextMixin,
-                         UpdateView):
+class CommerceUpdateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateUpdateContextMixin,
+    UpdateView,
+):
     """Форма редагування комерції."""
 
     model = Commerce
@@ -1708,18 +1839,28 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
         context["type"] = RealEstateType.COMMERCE
 
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-             user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_commerce(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_commerce(user, self.kwargs["pk"]):
             for name, field in context["form"].fields.items():
-                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
-                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                if (
+                    not (
+                        name == "comment"
+                        and self.request.user.has_perm("objects.change_object_comment")
+                    )
+                ) and (
+                    not (
+                        name == "price"
+                        and self.request.user.has_perm("objects.change_object_price")
+                    )
+                ):
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
             for form in context["formset"].forms:
                 for name, field in form.fields.items():
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
 
         return context
 
@@ -1736,9 +1877,10 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
 
     def form_invalid(self, form):
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-             user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_commerce(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_commerce(user, self.kwargs["pk"]):
             o = self.get_object()
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
@@ -1760,10 +1902,12 @@ class CommerceUpdateView(CustomLoginRequiredMixin,
         return reverse_lazy("objects:commerce_list", kwargs=kwargs)
 
 
-class HouseUpdateView(CustomLoginRequiredMixin,
-                      UserPassesTestMixin,
-                      RealEstateUpdateContextMixin,
-                      UpdateView):
+class HouseUpdateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateUpdateContextMixin,
+    UpdateView,
+):
     """Форма редагування будинку."""
 
     model = House
@@ -1778,18 +1922,28 @@ class HouseUpdateView(CustomLoginRequiredMixin,
         context["type"] = RealEstateType.HOUSE
 
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-             user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_house(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_house(user, self.kwargs["pk"]):
             for name, field in context["form"].fields.items():
-                if ((not (name == "comment" and self.request.user.has_perm("objects.change_object_comment"))) and
-                        (not (name == "price" and self.request.user.has_perm("objects.change_object_price")))):
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                if (
+                    not (
+                        name == "comment"
+                        and self.request.user.has_perm("objects.change_object_comment")
+                    )
+                ) and (
+                    not (
+                        name == "price"
+                        and self.request.user.has_perm("objects.change_object_price")
+                    )
+                ):
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
             for form in context["formset"].forms:
                 for name, field in form.fields.items():
-                    field.widget.attrs['disabled'] = True
-                    field.widget.attrs['readonly'] = True
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
 
         return context
 
@@ -1806,9 +1960,10 @@ class HouseUpdateView(CustomLoginRequiredMixin,
 
     def form_invalid(self, form):
         user = self.request.user
-        if ((user.has_perm("objects.change_object_comment") or \
-             user.has_perm("objects.change_object_price")) and
-                not user_can_update_full_house(user, self.kwargs["pk"])):
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_house(user, self.kwargs["pk"]):
             o = self.get_object()
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
@@ -1902,14 +2057,18 @@ class CatalogListView(ListView):
         form = SearchForm(self.request.GET)
 
         if form.is_valid():
-            if form.cleaned_data.get('locality'):
-                queryset = queryset.filter(locality__locality__icontains=form.cleaned_data['locality'])
-            if form.cleaned_data.get('street'):
-                queryset = queryset.filter(street__street__icontains=form.cleaned_data['street'])
-            if form.cleaned_data.get('price_min'):
-                queryset = queryset.filter(price__gte=form.cleaned_data['price_min'])
-            if form.cleaned_data.get('price_max'):
-                queryset = queryset.filter(price__lte=form.cleaned_data['price_max'])
+            if form.cleaned_data.get("locality"):
+                queryset = queryset.filter(
+                    locality__locality__icontains=form.cleaned_data["locality"]
+                )
+            if form.cleaned_data.get("street"):
+                queryset = queryset.filter(
+                    street__street__icontains=form.cleaned_data["street"]
+                )
+            if form.cleaned_data.get("price_min"):
+                queryset = queryset.filter(price__gte=form.cleaned_data["price_min"])
+            if form.cleaned_data.get("price_max"):
+                queryset = queryset.filter(price__lte=form.cleaned_data["price_max"])
 
         return queryset
 
@@ -1921,12 +2080,9 @@ class CatalogListView(ListView):
         context["form"] = SearchForm(self.request.GET)
 
         objects = []
-        for obj in context['objects']:
-            objects.append({
-                'object': obj,
-                'image': obj.images.first()
-            })
-        context['objects'] = objects
+        for obj in context["objects"]:
+            objects.append({"object": obj, "image": obj.images.first()})
+        context["objects"] = objects
         return context
 
 
@@ -1990,7 +2146,31 @@ class HouseDetailView(UpdateView):
         return context
 
 
-class ObjectHistoryDetailView(HandbookHistoryListMixin, DetailView):
-    context_object_name = "object"
-
+class ApartmentHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
     handbook_type = "apartment"
+    queryset = Apartment.objects.filter(on_delete=False)
+
+    def test_func(self):
+        return user_can_view_apartment_list_history(
+            self.request.user, Apartment.objects.filter(id=self.kwargs["pk"])
+        )
+
+
+class CommerceHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+    handbook_type = "commerce"
+    queryset = Commerce.objects.filter(on_delete=False)
+
+    def test_func(self):
+        return user_can_view_commerce_list_history(
+            self.request.user, Commerce.objects.filter(id=self.kwargs["pk"])
+        )
+
+
+class HouseHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+    handbook_type = "house"
+    queryset = House.objects.filter(on_delete=False)
+
+    def test_func(self):
+        return user_can_view_house_list_history(
+            self.request.user, House.objects.filter(id=self.kwargs["pk"])
+        )
