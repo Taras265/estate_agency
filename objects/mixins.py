@@ -1,3 +1,5 @@
+import datetime
+from django.views.generic.base import ContextMixin
 from django.utils.translation import activate
 from django.views.generic.base import ContextMixin
 
@@ -6,6 +8,11 @@ from images.models import RealEstateImage
 
 from .choices import RealEstateType
 from .services import has_any_perm_from_list, user_can_view_real_estate_list
+from .services import (
+    has_any_perm_from_list, user_can_view_real_estate_list, user_can_view_report
+)
+from images.models import RealEstateImage
+from images.forms import RealEstateImageFormSet
 
 
 class RealEstateCreateContextMixin(ContextMixin):
@@ -68,23 +75,21 @@ class SaleListContextMixin(ContextMixin):
     """
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                "lang": self.kwargs["lang"],
-                "form": self.form_class(self.request.GET),
-                "can_view_client": has_any_perm_from_list(
-                    self.request.user,
-                    "handbooks.view_client",
-                    "handbooks.view_own_client",
-                    "handbooks.view_filial_client",
-                ),
-                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
-                "can_view_report": self.request.user.has_perm("objects.view_report"),
-                "can_view_contract": self.request.user.has_perm("objects.view_contract"),
-            }
-        )
+
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self.form_class(self.request.GET),
+            "can_view_client": has_any_perm_from_list(
+                user, "handbooks.view_client", "handbooks.view_own_client",
+                "handbooks.view_filial_client"
+            ),
+            "can_view_real_estate": user_can_view_real_estate_list(user),
+            "can_view_report": user_can_view_report(user),
+            "can_view_contract": user.has_perm("objects.view_contract"),
+        })
         return context
 
 

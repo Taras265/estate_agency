@@ -217,13 +217,21 @@ class Apartment(BaseRealEstate):
             ("view_own_apartment", "Can view own apartment"),
             ("change_filial_apartment", "Can change filial apartment"),
             ("view_filial_apartment", "Can view filial apartment"),
+
             ("view_own_office_objects", "Can view in office own objects"),
             ("view_filial_office_objects", "Can view in office filial objects"),
+
             ("view_report", "Can view reports"),
+            ("view_own_report", "Can view own reports"),
+            ("view_filial_report", "Can view filial reports"),
             ("view_office_report", "Can view reports in office"),
+            ("view_office_own_report", "Can view own reports in office"),
+            ("view_office_filial_report", "Can view filial reports in office"),
+
             ("view_contract", "Can view contracts"),
             ("view_filial_contract", "Can view filial contracts"),
             ("view_own_contract", "Can view own contracts"),
+
             ("change_object_comment", "Can change comment field in object"),
             ("change_object_price", "Can change price field in object"),
         )

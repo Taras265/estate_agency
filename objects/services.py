@@ -1,8 +1,16 @@
 from collections.abc import Iterable
+
 from typing import List, Optional
+
+from typing import Optional, List, TypeVar
+
 
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
+
+from estate_agency.services import objects_filter, object_create, objects_all
+from .choices import RealEstateType, RealEstateStatus
+from .models import BaseRealEstate, Apartment, Commerce, House, Selection
 
 from accounts.models import CustomUser
 from estate_agency.services import (
@@ -13,6 +21,9 @@ from estate_agency.services import (
 
 from .choices import RealEstateStatus, RealEstateType
 from .models import Apartment, BaseRealEstate, Commerce, House, Selection
+
+
+T = TypeVar("T", bound=BaseRealEstate)
 
 
 def user_can_view_apartment_list(user: CustomUser) -> bool:
@@ -48,7 +59,10 @@ def user_can_view_real_estate_list(user: CustomUser) -> bool:
 
 
 def user_can_view_report(user: CustomUser) -> bool:
-    return has_any_perm_from_list(user, "objects.view_report", "objects.view_own_report")
+    return has_any_perm_from_list(
+        user, "objects.view_report", "objects.view_own_report", "objects.view_filial_report"
+    )
+
 
 
 def user_can_create_apartment(user: CustomUser) -> bool:
@@ -356,6 +370,42 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
     elif can_view_own_house:
         return queryset.filter(realtor=user_id)
     return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def reports_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
+    """
+    Повертає лише ті звіти, які доступні користувачу для перегляду
+    відповідно до наявних в нього прав доступу
+    """
+    if user.has_perm("objects.view_report"):
+        return qs
+
+    if user.has_perm("objects.view_filial_report"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials)
+
+    if user.has_perm("objects.view_own_report"):
+        return qs.filter(realtor=user)
+
+    return qs.none()
+
+
+def reports_accessible_for_user_in_office(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
+    """
+    Повертає лише ті звіти, які доступні користувачу для перегляду
+    відповідно до наявних в нього прав доступу
+    """
+    if user.has_perm("objects.view_office_report"):
+        return qs
+
+    if user.has_perm("objects.view_office_filial_report"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials)
+
+    if user.has_perm("objects.view_office_own_report"):
+        return qs.filter(realtor=user)
+
+    return qs.none()
 
 
 def apartment_filter_by_user(user_id: int, **kwargs) -> QuerySet[Apartment]:

@@ -322,6 +322,9 @@ class Command(BaseCommand):
                 if obj.find("comment") is not None
                 else None,
             }
+            if obj.find("creation_date"):
+                obj_data["creation_date"] = get_date(obj, "creation_date", "%d.%m.%Y")
+
             if obj.find("object_type").text == "квартира":
                 print(obj.find("living_square").text)
                 obj_data.update(

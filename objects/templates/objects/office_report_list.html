@@ -15,61 +15,96 @@
     </ul>
   </div>
 </div>
+<div class="container">
+    <div class="property_search">
+        <div class="row justify-content-center text-center">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <form method="get" class="search-form">
+                    <div class="row g-4">
+                        {{ form.realtor_id.as_hidden }}
+                        {{ form.filial.as_hidden }}
+                        {{ form.only_accessible.as_hidden }}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label class="customlbl" for="id_{{ form.creation_date_min.name }}">
+                                {{ form.creation_date_min.label }}
+                            </label>
+                            <div class="form-group">
+                                {{ form.creation_date_min }}
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <label class="customlbl" for="id_{{ form.creation_date_max.name }}">
+                                {{ form.creation_date_max.label }}
+                            </label>
+                            <div class="form-group">
+                                {{ form.creation_date_max }}
+                            </div>
+                        </div>
+                        <div class="d-flex gap-5">
+                            {% for status_checkbox in form.status %}
+                                <div>
+                                    {{ status_checkbox }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container agents_details_section">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             {% if my_clients %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'handbooks:office_client_list' lang=lang %}">
-                    {% translate "My clients" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'handbooks:office_client_list' lang=lang %}">
+                        {% translate "My clients" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if my_objects %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_apartment_list' lang=lang %}">
-                    {% translate "My objects" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'objects:office_apartment_list' lang=lang %}">
+                        {% translate "My objects" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if filial_clients %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
-                    {% translate "Filial clients" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
+                        {% translate "Filial clients" %}
+                    </a>
+                </li>
             {% endif %}
-
             {% if filial_objects %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
-                    {% translate "Filial objects" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
+                        {% translate "Filial objects" %}
+                    </a>
+                </li>
             {% endif %}
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
-                   href="{% url 'objects:apartment_office_reports' lang=lang %}">
+                   href="{% url 'objects:office_new_apartment_reports' lang=lang %}">
                     {% translate "Report" %}
                 </a>
             </li>
-
             {% if users %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link"
-                   href="{% url 'accounts:office_user_list' lang=lang %}">
-                    {% translate "Users" %}
-                </a>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                    href="{% url 'accounts:office_user_list' lang=lang %}">
+                        {% translate "Users" %}
+                    </a>
+                </li>
             {% endif %}
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
                    href="{% url 'accounts:profile' lang=lang %}">
@@ -85,20 +120,20 @@
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_office_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:apartment_office_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link {% if url_name == 'office_new_apartment_reports' %}active{% endif %}"
+                       href="{% url 'objects:office_new_apartment_reports' lang=lang %}">
                         {% translate "New apartments" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'commerce_office_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:commerce_office_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link {% if url_name == 'office_new_commerce_reports' %}active{% endif %}"
+                       href="{% url 'objects:office_new_commerce_reports' lang=lang %}">
                         {% translate "New commerces" %}
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'house_office_reports' and own is False and days_ago > 0 %}active{% endif %}"
-                       href="{% url 'objects:house_office_reports' lang=lang %}?created_days_ago=30">
+                    <a class="nav-link {% if url_name == 'office_new_house_reports' %}active{% endif %}"
+                       href="{% url 'objects:office_new_house_reports' lang=lang %}">
                         {% translate "New houses" %}
                     </a>
                 </li>
@@ -114,18 +149,22 @@
                         {% translate "New rooms" %}
                     </a>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_office_reports' and own is False and days_ago <= 0 %}active{% endif %}"
-                       href="{% url 'objects:apartment_office_reports' lang=lang %}">
-                        {% translate "All apartments" %}
-                    </a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'apartment_office_reports' and own is True and days_ago <= 0 %}active{% endif %}"
-                       href="{% url 'objects:apartment_office_reports' lang=lang %}?own=true">
-                        {% translate "My apartments" %}
-                    </a>
-                </li>
+                {% if can_view_report %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if url_name == 'office_all_apartment_reports' %}active{% endif %}"
+                        href="{% url 'objects:office_all_apartment_reports' lang=lang %}">
+                            {% translate "All apartments" %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if can_view_own_report %}
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if url_name == 'office_my_apartment_reports' %}active{% endif %}"
+                        href="{% url 'objects:office_my_apartment_reports' lang=lang %}">
+                            {% translate "My apartments" %}
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
                        href="{% url 'objects:office_changes_report_list' lang=lang %}">

@@ -50,10 +50,10 @@
             </li>
             {% endif %}
 
-            {% if report %}
+            {% if can_view_report or can_view_filial_report or can_view_own_report %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link"
-                   href="{% url 'objects:apartment_office_reports' lang=lang %}">
+                   href="{% url 'objects:office_new_apartment_reports' lang=lang %}">
                     {% translate "Report" %}
                 </a>
             </li>
