@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from accounts.services import user_get, get_user_choices
+from accounts.services import get_user_choices
 from handbooks.models import Handbook
 from utils.utils import new_model_to_dict, table_to_app
 from django.utils.translation import activate

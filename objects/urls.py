@@ -98,7 +98,7 @@ urlpatterns = [
     path("base/delete/commerce/<int:pk>/", views.CommerceDeleteView.as_view(), name="delete_commerce"),
     path("base/delete/house/<int:pk>/", views.HouseDeleteView.as_view(), name="delete_house"),
 
-    path("base/history/<int:pk>/", views.ObjectHistoryDetailView.as_view(), name="history_apartment"),
+    #path("base/history/<int:pk>/", views.ObjectHistoryDetailView.as_view(), name="history_apartment"),
     path("base/selection/<int:client_id>/", views.SelectionListView.as_view(), name="selection"),
 
     path("pre/showing_act/", views.showing_act_redirect, name="showing_act_redirect"),

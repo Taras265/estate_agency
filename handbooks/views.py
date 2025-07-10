@@ -4,7 +4,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 
-from accounts.models import CustomUser
 from handbooks.forms import (
     ClientForm,
     DistrictForm,
@@ -32,7 +31,7 @@ from handbooks.services import (
 )
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from utils.const import BASE_CHOICES, SALE_CHOICES
-from utils.mixins.new_mixins import (
+from utils.mixins.mixins import (
     ByUserMixin,
     ClientListMixin,
     CustomLoginRequiredMixin,

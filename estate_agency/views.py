@@ -2,10 +2,9 @@ from django.utils.translation import activate
 from django.views.generic import TemplateView
 
 from accounts.models import CustomUser
-from accounts.services import user_get
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from utils.const import BASE_CHOICES
-from utils.mixins.new_mixins import CustomLoginRequiredMixin
+from utils.mixins.mixins import CustomLoginRequiredMixin
 
 
 class BaseView(CustomLoginRequiredMixin, TemplateView):

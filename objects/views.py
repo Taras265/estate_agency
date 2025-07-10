@@ -1,25 +1,18 @@
 import io
-from collections.abc import Callable
 
 import datetime
 
 from itertools import chain
-from typing import Any
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 
-from django.contrib.auth.mixins import (
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
-)
-from django.core.exceptions import PermissionDenied, BadRequest
+from django.core.exceptions import BadRequest
 from django.shortcuts import redirect, get_object_or_404
 
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import activate
 from django.utils.translation import gettext_lazy as _
@@ -33,56 +26,29 @@ from django.views.generic import (
     View,
 )
 
-from accounts.models import CustomUser
-from accounts.services import user_get
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
 
-from utils.mixins.new_mixins import StandardContextDataMixin, GetQuerysetMixin
 from utils.utils import get_office_context
 from .models import Apartment, Commerce, House
-from .services import (
-    has_any_perm_from_list, user_can_view_real_estate_list,
-    user_can_view_apartment_list, user_can_view_commerce_list, user_can_view_house_list,
-    user_can_create_apartment, user_can_create_commerce, user_can_create_house,
-    user_can_update_apartment, user_can_update_commerce, user_can_update_house,
-    user_can_update_apartment_list, user_can_update_commerce_list, user_can_update_house_list,
-    user_can_view_apartment_list_history, user_can_view_commerce_list_history,
-    user_can_view_house_list_history, apartment_filter_by_user,
-    apartment_filter_for_user, commerce_filter_for_user, house_filter_for_user,
-    selection_create, selection_filter, selection_all, selection_add_selected,
-    get_all_apartment_history, get_all_commerce_history, get_all_houses_history,
-    apartment_filter_by_filial, commerce_filter_by_filial, house_filter_by_filial,
-    estate_objects_filter_visible, real_estate_contract_all, real_estate_contract_by_filials,
-    real_estate_contract_by_user, user_can_update_full_apartment, user_can_update_full_commerce,
-    user_can_update_full_house, reports_accessible_for_user, reports_accessible_for_user_in_office
-)
+from .services import (reports_accessible_for_user, reports_accessible_for_user_in_office, user_can_view_report,
+                       user_can_view_office_report
+                       )
 from .utils import (
     real_estate_form_save,
     get_sale_report_list_context,
     real_estate_form_filter
 )
-from .choices import RealEstateType, RealEstateStatus
-from .mixins import (
-    RealEstateCreateContextMixin, RealEstateUpdateContextMixin, SaleListContextMixin, DefaultUserInCreateViewMixin
-)
 from .forms import (
-    SearchForm, HandbooksSearchForm, ApartmentForm, CommerceForm, HouseForm,
-    ApartmentVerifyAddressForm, CommerceVerifyAddressForm, HouseVerifyAddressForm,
     RealEstateFilteringForm
 )
 
 from utils.mixins.mixins import (
-    HandbookOwnPermissionListMixin,
-    HandbookWithFilterListMixin,
-)
-from utils.mixins.new_mixins import (
     CustomLoginRequiredMixin,
 )
 from utils.pdf import generate_pdf
-from utils.utils import get_office_context
 from utils.views import HistoryView
 
 from .choices import RealEstateStatus, RealEstateType
@@ -102,7 +68,6 @@ from .mixins import (
     RealEstateUpdateContextMixin,
     SaleListContextMixin,
 )
-from .models import Apartment, BaseRealEstate, Commerce, House
 
 from .services import (
     apartment_filter_by_filial,
@@ -144,10 +109,7 @@ from .services import (
     user_can_view_house_list_history,
     user_can_view_real_estate_list,
 )
-from .utils import get_report_list_context, real_estate_form_save
 
-from .utils import real_estate_form_save
-from utils.utils import get_office_context
 
 
 @require_GET
@@ -1404,27 +1366,14 @@ class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListVi
         return context
 
 
-class HistoryReportListView(
-    HandbookOwnPermissionListMixin, HandbookWithFilterListMixin, ListView
-):
+class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Apartment.history.all().model
     template_name = "objects/changes_report_list.html"
     handbook_type = "report"
-    filters = [
-        "new_apartments",
-        "new_commerce",
-        "new_houses",
-        "new_lands",
-        "new_rooms",
-        "changes",
-        "all_apartments",
-        "my_apartments",
-        "changes",
-    ]
-    queryset_filters = {
-        "changes": Apartment.history.all(),
-    }
-    custom = True
+    paginate_by = 5
+
+    def test_func(self):
+        return user_can_view_report(self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])  # переклад
@@ -1443,8 +1392,8 @@ class HistoryReportListView(
                 "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
                 "can_view_report": self.request.user.has_perm("objects.view_report"),
                 "can_view_contract": self.request.user.has_perm("objects.view_contract")
-                or self.request.user.has_perm("objects.view_filial_contract")
-                or self.request.user.has_perm("objects.view_own_contract"),
+                                     or self.request.user.has_perm("objects.view_filial_contract")
+                                     or self.request.user.has_perm("objects.view_own_contract"),
             }
         )
         context.update({
@@ -1462,17 +1411,7 @@ class HistoryReportListView(
         })
 
         context["choice"] = self.handbook_type
-        context.update({"choices": self.choices_by_user(self.request.user)})
 
-        """
-        Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
-        Тому ми тут робимо перевірку
-        """
-
-        """
-        Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
-        (районами, квартирами ітд). Бажано колись спростити, коли буде час.
-        """
         apartments = get_all_apartment_history(order_by="history_date")
         commerces = get_all_commerce_history(order_by="history_date")
         houses = get_all_houses_history(order_by="history_date")
@@ -1484,14 +1423,6 @@ class HistoryReportListView(
 
         if context["object_list"]:  # Якщо нам взагалі є з чим працювати
             context["object_values"] = []
-            context["object_columns"] = [
-                "id",
-                "date",
-                "user",
-                "field",
-                "old_value",
-                "new_value",
-            ]  # Назва стовпців
             for record in context["object_list"]:
                 if record.prev_record:
                     prev_record = record.prev_record
@@ -1513,63 +1444,56 @@ class HistoryReportListView(
                                     }
                                 )
         else:
-            context["object_columns"] = None
+            context["object_values"] = None
         return context
 
 
-class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
+class OfficeHistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Apartment.history.all().model
     template_name = "objects/office_changes_report_list.html"
     handbook_type = "report"
-    filters = [
-        "new_apartments",
-        "new_commerce",
-        "new_houses",
-        "new_lands",
-        "new_rooms",
-        "changes",
-        "all_apartments",
-        "my_apartments",
-        "changes",
-    ]
-    queryset_filters = {
-        "changes": Apartment.history.all(),
-    }
-    custom = True
+    paginate_by = 5
+
+    def test_func(self):
+        return user_can_view_office_report(self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
+        activate(self.kwargs["lang"])  # переклад
 
         # підгружаємо частину готової дати і додаємо що потрібно
-        context.update(get_office_context(self.request.user))
+        context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
+        context.update(
+            {
+                "can_view_client": has_any_perm_from_list(
+                    self.request.user,
+                    "handbooks.view_client",
+                    "handbooks.view_own_client",
+                ),
+                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
+                "can_view_report": self.request.user.has_perm("objects.view_report"),
+                "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                                     or self.request.user.has_perm("objects.view_filial_contract")
+                                     or self.request.user.has_perm("objects.view_own_contract"),
+            }
+        )
         context.update({
             "can_view_client": has_any_perm_from_list(
                 self.request.user, "handbooks.view_client", "handbooks.view_own_client"
             ),
             "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
             "can_view_report": self.request.user.has_perm("objects.view_report"),
-            "can_view_contract": (
-                self.request.user.has_perm("objects.view_contract")
-                or self.request.user.has_perm("objects.view_filial_contract")
-                or self.request.user.has_perm("objects.view_own_contract"),
-            ),
+            "can_view_filial_report": self.request.user.has_perm("objects.view_filial_report"),
+            "can_view_own_report": self.request.user.has_perm("objects.view_own_report"),
+            "can_view_contract": self.request.user.has_perm("objects.view_contract")
+                                 or self.request.user.has_perm("objects.view_filial_contract")
+                                 or self.request.user.has_perm("objects.view_own_contract"),
             "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
         })
 
         context["choice"] = self.handbook_type
-        context.update({"choices": self.choices_by_user(self.request.user)})
 
-        """
-        Ми можемо бачити дату, але, наприклад, не можемо її додавати чи продивлятись історію змін.
-        Тому ми тут робимо перевірку
-        """
-
-        """
-        Страшний код, де ми обробляємо список з ДІЙСНО потрібними для клієнта даними 
-        (районами, квартирами ітд). Бажано колись спростити, коли буде час.
-        """
         apartments = get_all_apartment_history(order_by="history_date")
         commerces = get_all_commerce_history(order_by="history_date")
         houses = get_all_houses_history(order_by="history_date")
@@ -1581,14 +1505,6 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
 
         if context["object_list"]:  # Якщо нам взагалі є з чим працювати
             context["object_values"] = []
-            context["object_columns"] = [
-                "id",
-                "date",
-                "user",
-                "field",
-                "old_value",
-                "new_value",
-            ]  # Назва стовпців
             for record in context["object_list"]:
                 if record.prev_record:
                     prev_record = record.prev_record
@@ -1610,7 +1526,7 @@ class OfficeHistoryReportListView(HandbookWithFilterListMixin, ListView):
                                     }
                                 )
         else:
-            context["object_columns"] = None
+            context["object_values"] = None
         return context
 
 

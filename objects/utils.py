@@ -1,4 +1,3 @@
-from typing import Any
 
 import datetime
 from typing import TypeVar, TypedDict
