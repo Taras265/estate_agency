@@ -2,7 +2,7 @@ from collections.abc import Iterable
 
 from typing import List, Optional
 
-from typing import Optional, List, TypeVar
+from typing import TypeVar
 
 
 from django.db.models import QuerySet
@@ -13,14 +13,7 @@ from .choices import RealEstateType, RealEstateStatus
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection
 
 from accounts.models import CustomUser
-from estate_agency.services import (
-    object_create,
-    objects_all,
-    objects_filter,
-)
 
-from .choices import RealEstateStatus, RealEstateType
-from .models import Apartment, BaseRealEstate, Commerce, House, Selection
 
 
 T = TypeVar("T", bound=BaseRealEstate)
@@ -61,6 +54,11 @@ def user_can_view_real_estate_list(user: CustomUser) -> bool:
 def user_can_view_report(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.view_report", "objects.view_own_report", "objects.view_filial_report"
+    )
+
+def user_can_view_office_report(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_office_report", "objects.view_office_own_report", "objects.view_office_filial_report"
     )
 
 
@@ -375,7 +373,7 @@ def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
 def reports_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
     """
     Повертає лише ті звіти, які доступні користувачу для перегляду
-    відповідно до наявних в нього прав доступу
+    відповідно до наявних в нього прав доступуf
     """
     if user.has_perm("objects.view_report"):
         return qs

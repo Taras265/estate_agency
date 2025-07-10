@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -11,7 +10,6 @@ from accounts.models import CustomUser
 from accounts.services import (
 
     group_all,
-    group_filter,
     user_all_visible,
     user_can_create_user,
     user_can_update_user,
@@ -21,15 +19,8 @@ from accounts.services import (
 )
 from handbooks.forms import PhoneNumberFormSet
 from utils.const import USER_CHOICES
-from utils.mixins.new_mixins import CustomLoginRequiredMixin
+from utils.mixins.mixins import CustomLoginRequiredMixin
 
-    user_all_visible, user_filter, group_filter, group_all,
-    user_can_create_user, user_can_update_user, user_can_view_custom_group,
-    user_can_view_user_history
-)
-from handbooks.forms import PhoneNumberFormSet
-from utils.const import USER_CHOICES
-from utils.mixins.new_mixins import CustomLoginRequiredMixin, StandardContextDataMixin
 
 from utils.utils import get_office_context
 from utils.views import (
@@ -71,19 +62,19 @@ def office_redirect(request, lang):
         return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
     # клієнти
-    if user.has_perm(f"handbooks.view_own_office_client"):
+    if user.has_perm("handbooks.view_own_office_client"):
         return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
-    if user.has_perm(f"handbooks.view_filial_office_client"):
+    if user.has_perm("handbooks.view_filial_office_client"):
         return redirect(reverse_lazy("handbooks:office_filial_client_list", kwargs=kwargs))
     
     # нерухомість
-    if user.has_perm(f"objects.view_own_office_objects"):
+    if user.has_perm("objects.view_own_office_objects"):
         return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
-    if user.has_perm(f"objects.view_filial_office_objects"):
+    if user.has_perm("objects.view_filial_office_objects"):
         return redirect(reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs))
     
     # користувачі
-    if user.has_perm(f"accounts.view_office_user"):
+    if user.has_perm("accounts.view_office_user"):
         return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
     
     # звіти
