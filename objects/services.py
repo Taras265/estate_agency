@@ -1,19 +1,12 @@
 from collections.abc import Iterable
-
-from typing import List, Optional
-
-from typing import TypeVar
+from typing import List, Optional, TypeVar, Literal
 
 
 from django.db.models import QuerySet
-from django.shortcuts import get_object_or_404
 
-from estate_agency.services import objects_filter, object_create, objects_all
 from .choices import RealEstateType, RealEstateStatus
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection
-
 from accounts.models import CustomUser
-
 
 
 T = TypeVar("T", bound=BaseRealEstate)
@@ -293,94 +286,87 @@ def user_can_view_house_list_history(
     )
 
 
-def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
-    """Повертає список квартир, які доступні користувачу для перегляду."""
-    user = get_object_or_404(CustomUser, id=user_id)
-    can_view_apartment = user.has_perm("objects.view_apartment")
-    can_view_own_apartment = user.has_perm("objects.view_own_apartment")
-    can_view_filial_apartment = user.has_perm("objects.view_filial_apartment")
-
-    if (
-        not can_view_apartment
-        and not can_view_own_apartment
-        and not can_view_filial_apartment
-    ):
-        return Apartment.objects.none()
-
-    queryset = (
-        Apartment.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    if can_view_apartment:
-        return queryset
-    elif can_view_own_apartment:
-        return queryset.filter(realtor=user_id)
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+def real_estate_model_from_type(type: int) -> type[BaseRealEstate]:
+    """
+    Повертає клас моделі нерухомості в залежності від вказаного типу.
+    Якщо вказано неправильний тип нерухомості, буде повернуто None.
+    """
+    model_class = None
+    if type == RealEstateType.APARTMENT:
+        model_class = Apartment
+    elif type == RealEstateType.COMMERCE:
+        model_class = Commerce
+    elif type == RealEstateType.HOUSE:
+        model_class = House
+    
+    return model_class
 
 
-def commerce_filter_for_user(user_id: int, **kwargs) -> QuerySet[Commerce]:
-    """Повертає список комерцій, які доступні користувачу для перегляду."""
-    user = get_object_or_404(CustomUser, id=user_id)
-    can_view_commerce = user.has_perm("objects.view_commerce")
-    can_view_own_commerce = user.has_perm("objects.view_own_commerce")
-    can_view_filial_commerce = user.has_perm("objects.view_filial_commerce")
-
-    if (
-        not can_view_commerce
-        and not can_view_own_commerce
-        and not can_view_filial_commerce
-    ):
-        return Commerce.objects.none()
-
-    queryset = (
-        Commerce.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    if can_view_commerce:
-        return queryset
-    elif can_view_own_commerce:
-        return queryset.filter(realtor=user_id)
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+def apartment_accessible_for_user(user: CustomUser, qs: QuerySet[Apartment]) -> QuerySet[Apartment]:
+    """
+    Повертає лише ті квартири з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_apartment, view_filial_apartment, view_own_apartment.
+    """
+    if user.has_perm("objects.view_apartment"):
+        return qs
+    
+    if user.has_perm("objects.view_filial_apartment"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
+    
+    if user.has_perm("objects.view_own_apartment"):
+        return qs.filter(realtor=user)
+    
+    return qs.none()
 
 
-def house_filter_for_user(user_id: int, **kwargs) -> QuerySet[House]:
-    """Повертає список будинків, які доступні користувачу для перегляду."""
-    user = get_object_or_404(CustomUser, id=user_id)
-    can_view_house = user.has_perm("objects.view_house")
-    can_view_own_house = user.has_perm("objects.view_own_house")
-    can_view_filial_house = user.has_perm("objects.view_filial_house")
+def commerce_accessible_for_user(user: CustomUser, qs: QuerySet[Commerce]) -> QuerySet[Commerce]:
+    """
+    Повертає лише ті комерції з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_commerce, view_filial_commerce, view_own_commerce.
+    """
+    if user.has_perm("objects.view_commerce"):
+        return qs
 
-    if not can_view_house and not can_view_own_house and not can_view_filial_house:
-        return House.objects.none()
+    if user.has_perm("objects.view_filial_commerce"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
-    queryset = (
-        House.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
+    if user.has_perm("objects.view_own_commerce"):
+        return qs.filter(realtor=user)
 
-    if can_view_house:
-        return queryset
-    elif can_view_own_house:
-        return queryset.filter(realtor=user_id)
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+    return qs.none()
+
+
+def house_accessible_for_user(user: CustomUser, qs: QuerySet[Commerce]) -> QuerySet[House]:
+    """
+    Повертає лише ті будинки з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_house, view_filial_house, view_own_house.
+    """
+    if user.has_perm("objects.view_house"):
+        return qs
+    
+    if user.has_perm("objects.view_filial_house"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
+
+    if user.has_perm("objects.view_own_house"):
+        return qs.filter(realtor=user)
+
+    return qs.none()
 
 
 def reports_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
     """
-    Повертає лише ті звіти, які доступні користувачу для перегляду
-    відповідно до наявних в нього прав доступуf
+    Повертає лише ті звіти з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_report, view_filial_report, view_own_report.
     """
     if user.has_perm("objects.view_report"):
         return qs
 
     if user.has_perm("objects.view_filial_report"):
         user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials)
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     if user.has_perm("objects.view_own_report"):
         return qs.filter(realtor=user)
@@ -390,15 +376,16 @@ def reports_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T
 
 def reports_accessible_for_user_in_office(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
     """
-    Повертає лише ті звіти, які доступні користувачу для перегляду
-    відповідно до наявних в нього прав доступу
+    Повертає лише ті звіти з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_office_report, view_office_filial_report,
+    view_office_own_report.
     """
     if user.has_perm("objects.view_office_report"):
         return qs
 
     if user.has_perm("objects.view_office_filial_report"):
         user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials)
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     if user.has_perm("objects.view_office_own_report"):
         return qs.filter(realtor=user)
@@ -406,101 +393,24 @@ def reports_accessible_for_user_in_office(user: CustomUser, qs: QuerySet[T]) -> 
     return qs.none()
 
 
-def apartment_filter_by_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
-    """Повертає список квартир, які є у користувача."""
-    queryset = (
-        Apartment.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
+def contracts_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
+    """
+    Повертає лише ті контракти з <qs>, які доступні користувачу для перегляду.
+    Перевіряються такі права: view_contract, view_filial_contract, view_own_contract.
+    """
+    qs = qs.filter(status=RealEstateStatus.SOLD)
 
-    return queryset.filter(realtor=user_id)
-
-
-def commerce_filter_by_user(user_id: int, **kwargs) -> QuerySet[Commerce]:
-    """Повертає список комерцій, які є у користувача'."""
-    queryset = (
-        Commerce.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    return queryset.filter(realtor=user_id)
-
-
-def house_filter_by_user(user_id: int, **kwargs) -> QuerySet[House]:
-    """Повертає список будинків, які є у користувача."""
-    queryset = (
-        House.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    return queryset.filter(realtor=user_id)
-
-
-def apartment_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[Apartment]:
-    """Повертає список квартир, які є у користувача."""
-    queryset = (
-        Apartment.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
-
-
-def commerce_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[Commerce]:
-    """Повертає список комерцій, які є у користувача'."""
-    queryset = (
-        Commerce.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
-
-
-def house_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[House]:
-    """Повертає список будинків, які є у користувача."""
-    queryset = (
-        House.objects.filter(on_delete=False, **kwargs)
-        .select_related("locality", "street", "realtor")
-        .only("id", "locality__locality", "street__street", "realtor__email")
-    )
-
-    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
-
-
-def real_estate_contract_all(type: int):
-    """Повертає список всіх контрактів для об'єктів нерухомості з типом type."""
-    model_class = None
-    if type == RealEstateType.APARTMENT:
-        model_class = Apartment
-    elif type == RealEstateType.COMMERCE:
-        model_class = Commerce
-    elif type == RealEstateType.HOUSE:
-        model_class = House
-    else:
-        raise ValueError(f"Invalid real estate type: {type}")
-
-    return (
-        model_class.objects.filter(on_delete=False, status=RealEstateStatus.SOLD)
-        .select_related("locality", "street", "realtor")
-        .only("locality__locality", "street__street", "realtor__email")
-    )
-
-
-def real_estate_contract_by_filials(type: int, filials):
-    """Повертає список контрактів для об'єктів нерухомості з типом type для заданих філіалів"""
-    qs = real_estate_contract_all(type)
-    return qs.filter(realtor__filials__in=filials).distinct()
-
-
-def real_estate_contract_by_user(type: int, user):
-    """Повертає список контрактів для об'єктів нерухомості з типом type визначеного користувача"""
-    qs = real_estate_contract_all(type)
-    return qs.filter(realtor=user).distinct()
+    if user.has_perm("objects.view_contract"):
+        return qs
+    
+    if user.has_perm("objects.view_filial_contract"):
+        user_filials = user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
+    
+    if user.has_perm("objects.view_own_contract"):
+        return qs.filter(realtor=user)
+    
+    return qs.none()
 
 
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
@@ -593,19 +503,6 @@ def can_interact_with_object_list(
     return loc
 
 
-def estate_objects_filter_visible(
-    object_type: int, *args, **kwargs
-) -> QuerySet[Apartment | Commerce | House]:
-    """
-    Функція для того щоб отримати кверісет об'єктів в залежності від object_type (типа об'єкта)
-    """
-    if object_type == RealEstateType.APARTMENT:
-        return objects_filter(Apartment.objects, on_delete=False, *args, **kwargs)
-    elif object_type == RealEstateType.COMMERCE:
-        return objects_filter(Commerce.objects, on_delete=False, *args, **kwargs)
-    return objects_filter(House.objects, on_delete=False, *args, **kwargs)
-
-
 def selection_add_selected(
     object_type: int, selection: Selection, selected, *args, **kwargs
 ) -> None:
@@ -616,29 +513,5 @@ def selection_add_selected(
         selection.selected_apartments.add(selected)
     elif object_type == RealEstateType.COMMERCE:
         selection.selected_commerces.add(selected)
-    else:
+    elif object_type == RealEstateType.HOUSE:
         selection.selected_houses.add(selected)
-
-
-def selection_create(*args, **kwargs) -> Selection:
-    return object_create(Selection.objects, *args, **kwargs)
-
-
-def selection_all(*args, **kwargs) -> QuerySet[Selection]:
-    return objects_all(Selection.objects, *args, **kwargs)
-
-
-def selection_filter(*args, **kwargs) -> QuerySet[Selection]:
-    return Selection.objects.filter(*args, **kwargs)
-
-
-def get_all_apartment_history(*args, **kwargs):
-    return objects_all(Apartment.history, *args, **kwargs)
-
-
-def get_all_commerce_history(*args, **kwargs):
-    return objects_all(Commerce.history, *args, **kwargs)
-
-
-def get_all_houses_history(*args, **kwargs):
-    return objects_all(House.history, *args, **kwargs)

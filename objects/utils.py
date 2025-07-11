@@ -1,16 +1,14 @@
 
 import datetime
-from typing import TypeVar, TypedDict
+from typing import TypeVar, TypedDict, Any
 
 from django.db.models import QuerySet
-
 from django.forms import ModelForm
 from django.forms.formsets import BaseFormSet
 from django.http.request import QueryDict
 from django.utils.datastructures import MultiValueDict
 
 from accounts.models import CustomUser
-
 from .models import BaseRealEstate
 from .services import has_any_perm_from_list, user_can_view_real_estate_list
 
@@ -40,7 +38,7 @@ def real_estate_form_save(
     return (formset, True)
 
 
-def get_sale_report_list_context(lang: str, user: CustomUser, form):
+def get_sale_report_list_context(lang: str, user: CustomUser, form) -> dict[str, Any]:
     context = {
         "lang": lang,
         "form": form,
@@ -60,6 +58,22 @@ def get_sale_report_list_context(lang: str, user: CustomUser, form):
         "can_view_report": user.has_perm("objects.view_report"),
         "can_view_own_report": user.has_perm("objects.view_own_report"),
         "can_view_filial_report": user.has_perm("objects.view_filial_report"),
+    }
+    return context
+
+
+def get_sale_contract_list_context(lang: str, user: CustomUser) -> dict[str, Any]:
+    context = {
+        "lang": lang,
+        "can_view_client": has_any_perm_from_list(
+            user,
+            "handbooks.view_client",
+            "handbooks.view_own_client",
+        ),
+        "can_view_real_estate": user_can_view_real_estate_list(user),
+        "can_view_report": user.has_perm("objects.view_report"),
+        "can_view_filial_report": user.has_perm("objects.view_filial_report"),
+        "can_view_own_report": user.has_perm("objects.view_own_report"),
     }
     return context
 
