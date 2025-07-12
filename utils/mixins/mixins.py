@@ -2,10 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.db.models import QuerySet
 from django.urls import reverse
 
-from accounts.services import user_get
 from handbooks.forms import IdSearchForm
 from handbooks.models import Client
-from handbooks.services import client_filter
 from utils.const import SALE_CHOICES
 from utils.utils import by_user_queryset, get_office_context
 
@@ -112,7 +110,7 @@ class UserClientListMixin(ClientListMixin):
     permission_required = "handbooks.view_own_office_client"
 
     def get_queryset(self):
-        return client_filter(self.queryset, realtor=user_get(email=self.request.user))
+        return self.queryset.filter(realtor=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -131,10 +129,8 @@ class FilialClientListMixin(ClientListMixin):
     permission_required = "handbooks.view_own_office_client"
 
     def get_queryset(self):
-        return client_filter(
-            self.queryset,
-            realtor__filials__in=user_get(email=self.request.user).filials.all(),
-        ).distinct()
+        user_filials = self.request.user.filials.all()
+        return self.queryset.filter(realtor__filials__in=user_filials).distinct()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -23,7 +23,6 @@ from django.views.generic import (
 
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
 
 from utils.utils import get_office_context
@@ -395,7 +394,7 @@ def showing_act_redirect(request, lang):
         obj.save()
 
     client_id = int(request.GET.get("client"))
-    client = client_get(id=client_id)
+    client = Client.objects.filter(on_delete=False, id=client_id).first()
 
     selection = Selection.objects.create(
         client=client,
@@ -427,7 +426,7 @@ def pdf_redirect(request, lang):
         obj.save()
 
     client_id = int(request.GET.get("client"))
-    client = client_get(id=client_id)
+    client = Client.objects.filter(on_delete=False, id=client_id).first()
 
     selection = Selection.objects.create(
         client=client,

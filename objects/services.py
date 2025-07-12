@@ -1,5 +1,5 @@
 from collections.abc import Iterable
-from typing import List, Optional, TypeVar, Literal
+from typing import List, Optional, TypeVar
 
 
 from django.db.models import QuerySet
@@ -32,7 +32,10 @@ def user_can_view_commerce_list(user: CustomUser) -> bool:
 
 def user_can_view_house_list(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_house", "objects.view_own_house", "objects.view_filial_house"
+        user,
+        "objects.view_house",
+        "objects.view_own_house",
+        "objects.view_filial_house"
     )
 
 
@@ -46,14 +49,20 @@ def user_can_view_real_estate_list(user: CustomUser) -> bool:
 
 def user_can_view_report(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_report", "objects.view_own_report", "objects.view_filial_report"
+        user,
+        "objects.view_report",
+        "objects.view_own_report",
+        "objects.view_filial_report"
     )
+
 
 def user_can_view_office_report(user: CustomUser) -> bool:
     return has_any_perm_from_list(
-        user, "objects.view_office_report", "objects.view_office_own_report", "objects.view_office_filial_report"
+        user,
+        "objects.view_office_report",
+        "objects.view_office_own_report",
+        "objects.view_office_filial_report"
     )
-
 
 
 def user_can_create_apartment(user: CustomUser) -> bool:
