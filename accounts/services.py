@@ -1,14 +1,6 @@
-from typing import Any, List
+from typing import List
 
-from django.db.models import QuerySet
-
-from accounts.models import CustomGroup, CustomUser
-from estate_agency.services import (
-    object_get,
-    objects_all,
-    objects_all_visible,
-    objects_filter,
-)
+from accounts.models import CustomUser
 from objects.services import user_can_view_real_estate_list
 from utils.utils import table_to_app
 
@@ -27,36 +19,6 @@ def get_user_choices(
         ) or user.has_perm(f"{app}.view_filial_{choice}"):
             available_choices.append(choice)
     return available_choices
-
-
-def user_get(
-    objects: QuerySet = CustomUser.objects, *args: Any, **kwargs: Any
-) -> CustomUser | None:
-    return object_get(objects, *args, **kwargs)
-
-
-def user_all_visible(
-    objects: QuerySet = CustomUser.objects, *args: Any, **kwargs: Any
-) -> QuerySet:
-    return objects_all_visible(objects, *args, **kwargs)
-
-
-def user_filter(
-    objects: QuerySet = CustomUser.objects, *args: Any, **kwargs: Any
-) -> QuerySet:
-    return objects_filter(objects, on_delete=False, *args, **kwargs)
-
-
-def group_all(
-    objects: QuerySet = CustomGroup.objects, *args: Any, **kwargs: Any
-) -> QuerySet:
-    return objects_all(objects, *args, **kwargs)
-
-
-def group_filter(
-    objects: QuerySet = CustomGroup.objects, *args: Any, **kwargs: Any
-) -> QuerySet:
-    return objects_filter(objects, on_delete=False, *args, **kwargs)
 
 
 def user_can_create_user(user: CustomUser) -> bool:
