@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from handbooks.models import Handbook
-from objects.models import Apartment, Commerce, House
+from objects.models import Apartment, Commerce, House, Land
 from objects.choices import RealEstateStatus
 
 
@@ -240,6 +240,63 @@ class HouseForm(BaseRealEstateForm):
             "document": forms.TextInput(attrs={"class": "form-control"}),
             "floor": forms.TextInput(attrs={"class": "form-control"}),
             "storeys_number": forms.TextInput(attrs={"class": "form-control"}),
+            "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
+            "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
+            "comment": forms.Textarea(attrs={"class": "form-control"}),
+        }
+
+
+class LandForm(BaseRealEstateForm):
+    """Форма для створення або редагування будинку."""
+
+    template_name = "objects/_land_form.html"
+
+    class Meta:
+        model = Land
+        fields = (
+                "creation_date",
+                "deposit_date",
+                "exclusive",
+                "locality",
+                "street",
+                "house",
+                "realtor",
+                "condition",
+                "material",
+                "agency",
+                "house_type",
+                "layout",
+                "stair",
+
+                "owner",
+                "parking",
+                "generator",
+                "e_home",
+                "price",
+                "status",
+                "room_types",
+                "document",
+                "sale_terms",
+                "realtor_notes",
+                "comment",
+                "in_selection",
+                "housing",
+                "land_square",
+                "communications" ,
+                "target",
+                "disposition",
+                "own_parking",
+        )
+        widgets = {
+            "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "house": forms.TextInput(attrs={"class": "form-control"}),
+            "housing": forms.TextInput(attrs={"class": "form-control"}),
+            "useful_square": forms.TextInput(attrs={"class": "form-control"}),
+            "land_square": forms.TextInput(attrs={"class": "form-control"}),
+            "rooms_number": forms.TextInput(attrs={"class": "form-control"}),
+            "price": forms.TextInput(attrs={"class": "form-control"}),
+            "document": forms.TextInput(attrs={"class": "form-control"}),
             "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
             "comment": forms.Textarea(attrs={"class": "form-control"}),

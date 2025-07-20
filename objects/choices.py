@@ -8,6 +8,7 @@ class RealEstateType(models.IntegerChoices):
     APARTMENT = 1, _("Apartment")
     COMMERCE = 2, _("Commerce")
     HOUSE = 3, _("House")
+    LAND = 4, _("Land")
 
 
 class RealEstateStatus(models.IntegerChoices):
@@ -27,3 +28,18 @@ class RoomType(models.IntegerChoices):
     SEPARATE = 2, _("Separate")  # Раздельные
     STUDIO_KITCHEN = 3, _("Studio")  # Студия
     NONE = 4, "---"
+
+
+class LandTarget(models.IntegerChoices):
+    """Назначення землі в земельній ділянці"""
+
+    DWELLING = 1, _("Dwelling")  # Житло
+    COMMERCE = 2, _("Commerce")  # Комерція
+
+
+class LandDisposition(models.IntegerChoices):
+    """Розташування земельної ділянки"""
+
+    FACADE = 1, _("Facade")  # Фасад
+    INTERNAL = 2, _("Internal")  # Внутрішній
+    CORNER = 3, _("Corner")  # Кутовий

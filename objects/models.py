@@ -9,7 +9,7 @@ from accounts.models import CustomUser
 from handbooks.models import Client, Handbook, Locality, Street
 from images.models import RealEstateImage
 
-from .choices import RealEstateStatus, RoomType
+from .choices import RealEstateStatus, RoomType, LandTarget, LandDisposition
 
 
 class BaseRealEstate(models.Model):
@@ -168,12 +168,12 @@ class BaseRealEstate(models.Model):
     price = models.IntegerField(verbose_name=_("Price"))
     # site_price = models.IntegerField(null=True, blank=True)
     # square_meter_price = models.IntegerField(null=True, blank=True)
-    square = models.IntegerField(verbose_name=_("Square"))
-    kitchen_square = models.PositiveIntegerField(verbose_name=_("Kitchen square"))
-    height = models.FloatField(verbose_name=_("Height"))
+    square = models.IntegerField(verbose_name=_("Square"), null=True, blank=True)
+    kitchen_square = models.PositiveIntegerField(verbose_name=_("Kitchen square"), null=True, blank=True)
+    height = models.FloatField(verbose_name=_("Height"), null=True, blank=True)
     # owners_number = models.PositiveSmallIntegerField(null=True, blank=True)
-    floor = models.PositiveIntegerField(verbose_name=_("Floor"))
-    storeys_number = models.PositiveIntegerField(verbose_name=_("Number of storeys"))
+    floor = models.PositiveIntegerField(verbose_name=_("Floor"), null=True, blank=True)
+    storeys_number = models.PositiveIntegerField(verbose_name=_("Number of storeys"), null=True, blank=True)
 
     status = models.PositiveSmallIntegerField(
         choices=RealEstateStatus.choices, verbose_name=_("Status")
@@ -353,6 +353,35 @@ class House(BaseRealEstate):
     own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
     # attic = models.BooleanField(default=False)
     # gas = models.BooleanField(default=False)
+
+
+class Land(BaseRealEstate):
+    """Приватна ділянка"""
+
+    class Meta(BaseRealEstate.Meta):
+        permissions = (
+            ("change_own_land", "Can change own land"),
+            ("view_own_land", "Can view own land"),
+            ("change_filial_land", "Can change filial land"),
+            ("view_filial_land", "Can view filial land"),
+        )
+
+    housing = models.CharField(
+        max_length=50, verbose_name=_("Housing"), null=True, blank=True
+    )  # корпус
+    land_square = models.PositiveIntegerField(
+        verbose_name=_("Land's square"), null=True, blank=True
+    )  # площа ділянки
+
+    communications = models.BooleanField(default=False, verbose_name=_("Communications"))
+
+    target = models.PositiveSmallIntegerField(
+        choices=LandTarget.choices, verbose_name=_("Target")
+    )  # назначення землі
+    disposition = models.PositiveSmallIntegerField(
+        choices=LandDisposition.choices, verbose_name=_("Disposition")
+    )  # розташування
+    own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
 
 
 class Selection(models.Model):

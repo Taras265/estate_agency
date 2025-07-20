@@ -32,9 +32,11 @@ from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
 
 from utils.utils import get_office_context
-from .models import Apartment, Commerce, House
+from .models import Apartment, Commerce, House, Land
 from .services import (reports_accessible_for_user, reports_accessible_for_user_in_office, user_can_view_report,
-                       user_can_view_office_report
+                       user_can_view_office_report, land_filter_for_user, user_can_view_land_list,
+                       user_can_view_land_list_history, user_can_update_land_list, land_filter_by_filial,
+                       get_all_lands_history, user_can_update_land, user_can_update_full_land
                        )
 from .utils import (
     real_estate_form_save,
@@ -42,7 +44,7 @@ from .utils import (
     real_estate_form_filter
 )
 from .forms import (
-    RealEstateFilteringForm
+    RealEstateFilteringForm, LandForm
 )
 
 from utils.mixins.mixins import (
@@ -565,6 +567,7 @@ class ApartmentListView(
                 "can_view_apartment": True,
                 "can_view_commerce": user_can_view_commerce_list(self.request.user),
                 "can_view_house": user_can_view_house_list(self.request.user),
+                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_apartment(self.request.user),
                 "can_update": user_can_update_apartment_list(
                     self.request.user,
@@ -617,6 +620,7 @@ class CommerceListView(
                 "can_view_apartment": user_can_view_apartment_list(self.request.user),
                 "can_view_commerce": True,
                 "can_view_house": user_can_view_house_list(self.request.user),
+                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_commerce(self.request.user),
                 "can_update": user_can_update_commerce_list(
                     self.request.user, context["object_list"]
@@ -668,6 +672,7 @@ class HouseListView(
                 "can_view_apartment": user_can_view_apartment_list(self.request.user),
                 "can_view_commerce": user_can_view_commerce_list(self.request.user),
                 "can_view_house": True,
+                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_house(self.request.user),
                 "can_update": user_can_update_house_list(
                     self.request.user, context["object_list"]
@@ -679,6 +684,66 @@ class HouseListView(
                 "update_url_name": "objects:update_house",
                 "delete_url_name": "objects:delete_house",
                 "real_estate_type": RealEstateType.HOUSE,
+            }
+        )
+        return context
+
+
+class LandListView(
+    CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
+):
+    """Список квартир."""
+
+    template_name = "objects/real_estate_list.html"
+    model = Land
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+
+    def test_func(self):
+        return has_any_perm_from_list(
+            self.request.user,
+            "objects.view_land",
+            "objects.view_own_land",
+            "objects.view_filial_land",
+        )
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        return land_filter_for_user(self.request.user.id, **filters)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_view_apartment": user_can_view_apartment_list(self.request.user),
+                "can_view_commerce": user_can_view_commerce_list(self.request.user),
+                "can_view_house": user_can_view_house_list(self.request.user),
+                "can_view_land": True,
+                "can_create": has_any_perm_from_list(
+        self.request.user, "objects.add_land", "objects.add_own_land"
+    ),
+                "can_update": user_can_update_land_list(
+                    self.request.user,
+                    context["object_list"],
+                ),
+                "can_view_history": user_can_view_land_list_history(
+                    self.request.user, context["object_list"]
+                ),
+                "create_url_name": "objects:create_land",
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
             }
         )
         return context
@@ -849,6 +914,62 @@ class MyHouseListView(
         return context
 
 
+class MyLandListView(
+    CustomLoginRequiredMixin,
+    PermissionRequiredMixin,
+    ListView,
+):
+    """Список земельних ділянок."""
+
+    template_name = "objects/office_real_estate_list.html"
+    model = Land
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+    permission_required = "objects.view_own_office_objects"
+
+    def test_func(self):
+        return user_can_view_land_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        return land_filter_for_user(self.request.user.id, **filters)
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context.update(get_office_context(self.request.user))
+        context.update(
+            {
+                "can_create": has_any_perm_from_list(self.request.user, "objects.add_land",
+                                                     "objects.add_own_land"),
+                "can_update": user_can_update_land_list(
+                    self.request.user, context["object_list"]
+                ),
+                "can_view_history": user_can_view_land_list_history(
+                    self.request.user, context["object_list"]
+                ),
+                "create_url_name": "objects:create_land",
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
+            }
+        )
+        return context
+
+
 class FilialApartmentListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
@@ -1014,6 +1135,61 @@ class FilialHouseListView(
         return context
 
 
+class FilialLandListView(
+    CustomLoginRequiredMixin,
+    PermissionRequiredMixin,
+    ListView,
+):
+    """Список будинків."""
+
+    template_name = "objects/office_filial_real_estate_list.html"
+    model = Land
+    paginate_by = 5
+    form_class = HandbooksSearchForm
+    permission_required = "objects.view_filial_office_objects"
+
+    def test_func(self):
+        return user_can_view_land_list(self.request.user)
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        return land_filter_by_filial(self.request.user, **filters)
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])  # Перекладаємо
+
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context.update(get_office_context(self.request.user))
+        context.update(
+            {
+                "can_create": has_any_perm_from_list(self.request.user, "objects.add_land", "objects.add_own_land"),
+                "can_update": user_can_update_land_list(
+                    self.request.user, context["object_list"]
+                ),
+                "can_view_history": user_can_view_land_list_history(
+                    self.request.user, context["object_list"]
+                ),
+                "create_url_name": "objects:create_land",
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
+            }
+        )
+        return context
+
+
 class NewApartmentReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів квартир"""
 
@@ -1078,6 +1254,38 @@ class NewCommerceReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
+class NewLandReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів будинків"""
+
+    template_name = "objects/report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Land.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        report_list_context = get_sale_report_list_context(
+            self.kwargs["lang"], self.request.user, self._form
+        )
+        context.update(report_list_context)
+        return context
+
+
 class NewHouseReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків"""
 
@@ -1099,7 +1307,7 @@ class NewHouseReportListView(CustomLoginRequiredMixin, ListView):
         qs = House.objects.filter(on_delete=False)
         qs = reports_accessible_for_user(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
-    
+
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
@@ -1263,6 +1471,39 @@ class OfficeNewHouseReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
+class OfficeNewLandReportListView(CustomLoginRequiredMixin, ListView):
+    """Список нових, доступних користувачу для перегляду, звітів будинків в офісі"""
+
+    template_name = "objects/office_report_list.html"
+    paginate_by = 10
+
+    _form: RealEstateFilteringForm
+
+    def get_queryset(self):
+        form_data = self.request.GET.copy()
+        if "creation_date_min" not in form_data:
+            creation_date_min = datetime.datetime.today() - datetime.timedelta(days=30)
+            form_data["creation_date_min"] = creation_date_min
+
+        self._form = RealEstateFilteringForm(form_data)
+        if not self._form.is_valid():
+            raise BadRequest()
+
+        qs = Land.objects.filter(on_delete=False)
+        qs = reports_accessible_for_user_in_office(self.request.user, qs)
+        return real_estate_form_filter(qs, self._form.cleaned_data)
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": self._form,
+        })
+        context.update(get_office_context(self.request.user))
+        return context
+
+
 class OfficeAllApartmentReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     """Список всіх звітів квартир в офісі"""
 
@@ -1415,8 +1656,9 @@ class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListV
         apartments = get_all_apartment_history(order_by="history_date")
         commerces = get_all_commerce_history(order_by="history_date")
         houses = get_all_houses_history(order_by="history_date")
+        lands = get_all_lands_history(order_by="history_date")
         context["object_list"] = sorted(
-            chain(apartments, commerces, houses),
+            chain(apartments, commerces, houses, lands),
             key=lambda x: x.history_date,
             reverse=True,
         )
@@ -1497,8 +1739,9 @@ class OfficeHistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin,
         apartments = get_all_apartment_history(order_by="history_date")
         commerces = get_all_commerce_history(order_by="history_date")
         houses = get_all_houses_history(order_by="history_date")
+        lands = get_all_lands_history(order_by="history_date")
         context["object_list"] = sorted(
-            chain(apartments, commerces, houses),
+            chain(apartments, commerces, houses, lands),
             key=lambda x: x.history_date,
             reverse=True,
         )
@@ -1655,6 +1898,53 @@ class HouseCreateView(
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:house_list", kwargs=kwargs)
+
+
+class LandCreateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateCreateContextMixin,
+    DefaultUserInCreateViewMixin,
+    CreateView,
+):
+    """
+    Форма створення нової квартири.
+    Для доступу до цієї сторінки потрібно мати право
+    objects.add_apartment або objects.add_own_apartment.
+    """
+
+    model = Land
+    form_class = LandForm
+    template_name = "objects/real_estate_create_form.html"
+
+    def test_func(self):
+        return has_any_perm_from_list(
+            self.request.user, "objects.add_land", "objects.add_own_land"
+        )
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.LAND
+
+        return context
+
+    def form_valid(self, form):
+
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+        )
+        if not is_saved:
+            return self.form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:land_list", kwargs=kwargs)
 
 
 class ApartmentUpdateView(
@@ -1902,6 +2192,90 @@ class HouseUpdateView(
         return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
+class LandUpdateView(
+    CustomLoginRequiredMixin,
+    UserPassesTestMixin,
+    RealEstateUpdateContextMixin,
+    UpdateView,
+):
+    """Форма редагування будинку."""
+
+    model = Land
+    form_class = LandForm
+    template_name = "objects/real_estate_update_form.html"
+
+    def test_func(self):
+        return user_can_update_land(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["type"] = RealEstateType.LAND
+
+        user = self.request.user
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_land(user, self.kwargs["pk"]):
+            for name, field in context["form"].fields.items():
+                if (
+                    not (
+                        name == "comment"
+                        and self.request.user.has_perm("objects.change_object_comment")
+                    )
+                ) and (
+                    not (
+                        name == "price"
+                        and self.request.user.has_perm("objects.change_object_price")
+                    )
+                ):
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
+            for form in context["formset"].forms:
+                for name, field in form.fields.items():
+                    field.widget.attrs["disabled"] = True
+                    field.widget.attrs["readonly"] = True
+
+        return context
+
+    def form_valid(self, form):
+        _, is_saved = real_estate_form_save(
+            form,
+            RealEstateImageFormSet,
+            self.request.POST,
+            self.request.FILES,
+            instance=self.get_object(),
+        )
+
+        return redirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        user = self.request.user
+        if (
+            user.has_perm("objects.change_object_comment")
+            or user.has_perm("objects.change_object_price")
+        ) and not user_can_update_full_land(user, self.kwargs["pk"]):
+            o = self.get_object()
+            post_data = self.request.POST.copy()
+            for field in self.form_class().fields.keys():
+                if not post_data.get(field):
+                    post_data[field] = getattr(o, field)
+            f = self.form_class(post_data, instance=o)
+            for obj in Land.objects.all():
+                if obj.room_types >= 5:
+                    obj.room_types = 4
+                    obj.save()
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:land_list", kwargs=kwargs)
+
+
 class ApartmentDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Видалення квартири."""
 
@@ -1960,6 +2334,26 @@ class HouseDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView)
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:house_list", kwargs=kwargs)
+
+
+class LandDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Видалення будинку."""
+
+    template_name = "delete_form.html"
+    model = Land
+
+    def test_func(self):
+        return user_can_update_land(self.request.user, self.kwargs["pk"])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("objects:land_list", kwargs=kwargs)
 
 
 class CatalogListView(ListView):
@@ -2089,4 +2483,14 @@ class HouseHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryVie
     def test_func(self):
         return user_can_view_house_list_history(
             self.request.user, House.objects.filter(id=self.kwargs["pk"])
+        )
+
+
+class LandHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+    handbook_type = "land"
+    queryset = Land.objects.filter(on_delete=False)
+
+    def test_func(self):
+        return user_can_view_land_list_history(
+            self.request.user, Land.objects.filter(id=self.kwargs["pk"])
         )

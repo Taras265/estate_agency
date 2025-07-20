@@ -43,6 +43,9 @@
                 {% if can_add_house or can_add_own_house %}
                     <option value="3">{% translate 'House' %}</option>
                 {% endif %}
+                {% if can_add_land or can_add_own_land %}
+                    <option value="4">{% translate 'Land' %}</option>
+                {% endif %}
             </select>
         </div>
     </div>

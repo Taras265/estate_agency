@@ -7,6 +7,7 @@ const RealEstateType = Object.freeze({
     APARTMENT: 1,
     COMMERCE: 2,
     HOUSE: 3,
+    LAND: 4,
 });
 
 const dataset = document.currentScript.dataset;
