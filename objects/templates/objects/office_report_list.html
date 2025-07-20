@@ -138,8 +138,8 @@
                     </a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                       href="#">
+                    <a class="nav-link {% if url_name == 'office_new_land_reports' %}active{% endif %}"
+                       href="{% url 'objects:office_new_land_reports' lang=lang %}">
                         {% translate "New lands" %}
                     </a>
                 </li>

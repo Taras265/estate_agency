@@ -130,6 +130,12 @@
                         {% translate "Houses" %}
                     </a>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {% if url_name == 'office_land_list' %}active{% endif %}"
+                       href="{% url 'objects:office_land_list' lang=lang %}">
+                        {% translate "Land" %}
+                    </a>
+                </li>
             </ul>
         {% endwith %}
         <div class="row">

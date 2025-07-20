@@ -1,0 +1,193 @@
+{% load i18n %}
+
+<div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.room_types.label_tag }} {{ form.room_types }}
+            </div>
+            {{ form.room_types.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.realtor.label_tag }} {{ form.realtor }}
+            </div>
+            {{ form.realtor.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.creation_date.label_tag }} {{ form.creation_date }}
+            </div>
+            {{ form.creation_date.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.status.label_tag }} {{ form.status }}
+            </div>
+            {{ form.status.errors }}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.locality.label_tag }} {{ form.locality }}
+            </div>
+            <div id="locality-error" class="text-danger"></div>
+            {{ form.locality.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.street.label_tag }} {{ form.street }}
+            </div>
+            <label id="street-error" class="text-danger"></label>
+            {{ form.street.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.house.label_tag }} {{ form.house }}
+            </div>
+            <label id="house-error" class="text-danger"></label>
+            {{ form.house.errors }}
+        </div>
+    <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.housing.label_tag }} {{ form.housing }}
+            </div>
+            <label id="housing-error" class="text-danger"></label>
+            {{ form.housing.errors }}
+        </div>
+    </div>
+    <div class="d-flex gap-3 mb-5">
+        {% if not disabled %}
+        <div>
+            <button type="button" id="btn-fill-address" class="btn btn-secondary">{% translate 'Fill address' %}</button>
+        </div>
+        <div>
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
+                <label></label>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="d-inline-block mb-5">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            {{ form.agency.label_tag }} {{ form.agency }}
+        </div>
+        {{ form.agency.errors }}
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.land_square.label_tag }} {{ form.land_square }}
+            </div>
+            {{ form.land_square.errors }}
+        </div>
+        <div class="col d-flex align-items-center gap-2">
+            {{ form.communications.as_field_group }}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.price.label_tag }} {{ form.price }}
+            </div>
+            {{ form.price.errors }}
+        </div>
+        <div class="col d-flex align-items-center gap-2">
+            {{ form.exclusive.as_field_group }}
+        </div>
+        <div class="col d-flex align-items-center gap-2">
+            {{ form.e_home.as_field_group }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.document.label_tag }} {{ form.document }}
+            </div>
+            {{ form.document.errors }}
+        </div>
+    </div>
+    {{ formset.management_form }}
+    <div id="photo-formset" class="row mb-10">
+        {% for f in formset %}
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 18rem;">
+                    {% if f.instance.pk %}
+                    <img src="{{ f.instance.image.url }}" style="height: 18rem; object-fit: cover;" alt="Apartment image">
+                    {% endif %}
+                    <div class="photo-form card-body">
+                        {{ f.as_p }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if not disabled %}
+    <div class="d-flex align-items-center gap-3 mb-5">
+        <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
+    </div>
+    {% endif %}
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.target.label_tag }} {{ form.target }}
+            </div>
+            {{ form.target.errors }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.disposition.label_tag }} {{ form.disposition }}
+            </div>
+            {{ form.disposition.errors }}
+        </div>
+        <div class="col d-flex align-items-center gap-2">
+            {{ form.parking.as_field_group }}
+        </div>
+        <div class="col d-flex align-items-center gap-2">
+            {{ form.generator.as_field_group }}
+        </div>
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.creation_date.label_tag }} {{ form.creation_date }}
+            </div>
+            {{ form.creation_date.errors }}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
+            </div>
+            {{ form.realtor_notes.errors }}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.sale_terms.label_tag }} {{ form.sale_terms }}
+            </div>
+            {{ form.sale_terms.errors }}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.owner.label_tag }} {{ form.owner }}
+            </div>
+            {{ form.owner.errors }}
+        </div>
+        <div class="col">
+            {% if not disabled %}
+            <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                {{ form.comment.label_tag }} {{ form.comment }}
+            </div>
+            {{ form.comment.errors }}
+        </div>
+    </div>
+</div>

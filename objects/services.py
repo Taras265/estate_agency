@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 from estate_agency.services import objects_filter, object_create, objects_all
 from .choices import RealEstateType, RealEstateStatus
-from .models import BaseRealEstate, Apartment, Commerce, House, Selection
+from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
 
 from accounts.models import CustomUser
 
@@ -40,6 +40,12 @@ def user_can_view_commerce_list(user: CustomUser) -> bool:
 def user_can_view_house_list(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.view_house", "objects.view_own_house", "objects.view_filial_house"
+    )
+
+
+def user_can_view_land_list(user: CustomUser) -> bool:
+    return has_any_perm_from_list(
+        user, "objects.view_land", "objects.view_own_land", "objects.view_filial_land"
     )
 
 
@@ -216,6 +222,27 @@ def user_can_update_house(user: CustomUser, house_id: int) -> bool:
     )
 
 
+def user_can_update_land(user: CustomUser, land_id: int) -> bool:
+    try:
+        land = House.objects.only("realtor").get(id=land_id, on_delete=False)
+    except Land.DoesNotExist:
+        return False
+
+    return can_interact_with_object(
+        user,
+        land,
+        "objects.change_land",
+        "objects.change_own_land",
+        "objects.change_filial_land",
+        "realtor",
+        Land,
+        partial_edit_perm=[
+            "objects.change_object_comment",
+            "objects.change_object_price",
+        ],
+    )
+
+
 def user_can_update_full_house(user: CustomUser, house_id: int) -> bool:
     try:
         house = House.objects.only("realtor").get(id=house_id, on_delete=False)
@@ -233,6 +260,23 @@ def user_can_update_full_house(user: CustomUser, house_id: int) -> bool:
     )
 
 
+def user_can_update_full_land(user: CustomUser, house_id: int) -> bool:
+    try:
+        land = Land.objects.only("realtor").get(id=house_id, on_delete=False)
+    except Land.DoesNotExist:
+        return False
+
+    return can_interact_with_object(
+        user,
+        land,
+        "objects.change_land",
+        "objects.change_own_land",
+        "objects.change_filial_land",
+        "realtor",
+        Land,
+    )
+
+
 def user_can_update_house_list(
     user: CustomUser, house_list: Iterable[House]
 ) -> dict[int, bool]:
@@ -244,6 +288,24 @@ def user_can_update_house_list(
         "objects.change_filial_house",
         "realtor",
         House,
+        partial_edit_perm=[
+            "objects.change_object_comment",
+            "objects.change_object_price",
+        ],
+    )
+
+
+def user_can_update_land_list(
+    user: CustomUser, land_list: Iterable[Land]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user,
+        land_list,
+        "objects.change_land",
+        "objects.change_own_land",
+        "objects.change_filial_land",
+        "realtor",
+        Land,
         partial_edit_perm=[
             "objects.change_object_comment",
             "objects.change_object_price",
@@ -293,6 +355,20 @@ def user_can_view_house_list_history(
     )
 
 
+def user_can_view_land_list_history(
+    user: CustomUser, land_list: Iterable[House]
+) -> dict[int, bool]:
+    return can_interact_with_object_list(
+        user,
+        land_list,
+        "objects.view_land",
+        "objects.view_own_land",
+        "objects.view_filial_land",
+        "realtor",
+        Land,
+    )
+
+
 def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
     """Повертає список квартир, які доступні користувачу для перегляду."""
     user = get_object_or_404(CustomUser, id=user_id)
@@ -316,6 +392,33 @@ def apartment_filter_for_user(user_id: int, **kwargs) -> QuerySet[Apartment]:
     if can_view_apartment:
         return queryset
     elif can_view_own_apartment:
+        return queryset.filter(realtor=user_id)
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def land_filter_for_user(user_id: int, **kwargs) -> QuerySet[Land]:
+    """Повертає список квартир, які доступні користувачу для перегляду."""
+    user = get_object_or_404(CustomUser, id=user_id)
+    can_view_land = user.has_perm("objects.view_land")
+    can_view_own_land = user.has_perm("objects.view_own_land")
+    can_view_filial_land = user.has_perm("objects.view_filial_land")
+
+    if (
+        not can_view_land
+        and not can_view_own_land
+        and not can_view_filial_land
+    ):
+        return Land.objects.none()
+
+    queryset = (
+        Land.objects.filter(on_delete=False, **kwargs)
+        .select_related("locality", "street", "realtor")
+        .only("id", "locality__locality", "street__street", "realtor__email")
+    )
+
+    if can_view_land:
+        return queryset
+    elif can_view_own_land:
         return queryset.filter(realtor=user_id)
     return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
 
@@ -465,6 +568,17 @@ def house_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[House]:
     """Повертає список будинків, які є у користувача."""
     queryset = (
         House.objects.filter(on_delete=False, **kwargs)
+        .select_related("locality", "street", "realtor")
+        .only("id", "locality__locality", "street__street", "realtor__email")
+    )
+
+    return queryset.filter(**{"realtor__filials__in": user.filials.all()}).distinct()
+
+
+def land_filter_by_filial(user: CustomUser, **kwargs) -> QuerySet[Land]:
+    """Повертає список будинків, які є у користувача."""
+    queryset = (
+        Land.objects.filter(on_delete=False, **kwargs)
         .select_related("locality", "street", "realtor")
         .only("id", "locality__locality", "street__street", "realtor__email")
     )
@@ -642,3 +756,7 @@ def get_all_commerce_history(*args, **kwargs):
 
 def get_all_houses_history(*args, **kwargs):
     return objects_all(House.history, *args, **kwargs)
+
+
+def get_all_lands_history(*args, **kwargs):
+    return objects_all(Land.history, *args, **kwargs)

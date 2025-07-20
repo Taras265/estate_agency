@@ -29,6 +29,9 @@ realEstateTypeSelect.addEventListener("change", async e => {
         case RealEstateType.HOUSE:
             url += "objects/base/create/house"
             break;
+        case RealEstateType.LAND:
+            url += "objects/base/create/land"
+            break;
         default:
             return;
     }

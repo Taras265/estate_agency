@@ -34,6 +34,8 @@ class RealEstateCreateContextMixin(ContextMixin):
                 ),
                 "can_add_house": self.request.user.has_perm("objects.add_house"),
                 "can_add_own_house": self.request.user.has_perm("objects.add_own_house"),
+                "can_add_land": self.request.user.has_perm("objects.add_land"),
+                "can_add_own_land": self.request.user.has_perm("objects.add_own_land"),
                 "formset": RealEstateImageFormSet(
                     queryset=RealEstateImage.objects.none(),
                     prefix="images",
