@@ -717,7 +717,9 @@ def estate_objects_filter_visible(
         return objects_filter(Apartment.objects, on_delete=False, *args, **kwargs)
     elif object_type == RealEstateType.COMMERCE:
         return objects_filter(Commerce.objects, on_delete=False, *args, **kwargs)
-    return objects_filter(House.objects, on_delete=False, *args, **kwargs)
+    elif object_type == RealEstateType.HOUSE:
+        return objects_filter(House.objects, on_delete=False, *args, **kwargs)
+    return objects_filter(Land.objects, on_delete=False, *args, **kwargs)
 
 
 def selection_add_selected(
@@ -730,8 +732,10 @@ def selection_add_selected(
         selection.selected_apartments.add(selected)
     elif object_type == RealEstateType.COMMERCE:
         selection.selected_commerces.add(selected)
-    else:
+    elif object_type == RealEstateType.HOUSE:
         selection.selected_houses.add(selected)
+    else:
+        selection.selected_lands.add(selected)
 
 
 def selection_create(*args, **kwargs) -> Selection:
