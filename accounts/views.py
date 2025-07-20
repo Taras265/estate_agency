@@ -223,6 +223,13 @@ class GroupCreateView(
 
     handbook_type = "group"
 
+    def get_success_url(self):
+        handbook_type = self.handbook_type
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy(
+            f"accounts:{handbook_type}_list", kwargs=kwargs
+        )
+
 
 class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView):
     template_name = "accounts/user_form.html"
@@ -259,6 +266,13 @@ class GroupUpdateView(
     permission_required = "auth.change_group"
     handbook_type = "group"
 
+    def get_success_url(self):
+        handbook_type = self.handbook_type
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy(
+            f"accounts:{handbook_type}_list", kwargs=kwargs
+        )
+
 
 class UserDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView):
     queryset = user_all_visible()
@@ -272,6 +286,13 @@ class GroupDeleteView(
     queryset = group_all()
     permission_required = "auth.delete_group"
     handbook_type = "group"
+
+    def get_success_url(self):
+        handbook_type = self.handbook_type
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy(
+            f"accounts:{handbook_type}_list", kwargs=kwargs
+        )
 
 
 class UserHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
