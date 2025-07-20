@@ -32,6 +32,9 @@ urlpatterns = [
         "catalog/houses/<int:pk>/", views.HouseDetailView.as_view(), name="house_detail"
     ),
     path(
+        "catalog/lands/<int:pk>/", views.LandDetailView.as_view(), name="land_detail"
+    ),
+    path(
         "sale/real-estate/",
         views.RealEstateListRedirect.as_view(),
         name="real_estate_list_redirect",

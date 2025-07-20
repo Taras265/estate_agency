@@ -304,8 +304,13 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
                 on_delete=False,
                 status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
             )
-        else:
+        elif obj_type == RealEstateType.HOUSE:
             queryset = House.objects.filter(
+                on_delete=False,
+                status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
+            )
+        else:
+            queryset = Land.objects.filter(
                 on_delete=False,
                 status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
             )
@@ -528,6 +533,9 @@ class RealEstateListRedirect(CustomLoginRequiredMixin, View):
 
         if user_can_view_house_list(self.request.user):
             return redirect(reverse_lazy("objects:house_list", kwargs=kwargs))
+
+        if user_can_view_land_list(self.request.user):
+            return redirect(reverse_lazy("objects:land_list", kwargs=kwargs))
 
         raise PermissionDenied()
 
@@ -2441,6 +2449,26 @@ class HouseDetailView(UpdateView):
     queryset = estate_objects_filter_visible(RealEstateType.HOUSE)
     form_class = HouseForm
     model = House
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+
+        for field in context["form"].fields.values():
+            field.widget.attrs["disabled"] = True
+            field.widget.attrs["readonly"] = True
+
+        context["disabled"] = True
+
+        return context
+
+
+class LandDetailView(UpdateView):
+    template_name = "objects/real_estate_details_form.html"
+    queryset = estate_objects_filter_visible(RealEstateType.LAND)
+    form_class = LandForm
+    model = Land
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])

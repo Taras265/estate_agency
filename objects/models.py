@@ -400,3 +400,6 @@ class Selection(models.Model):
     selected_commerces = models.ManyToManyField(
         Commerce, blank=True, related_name="related_selected_commerces"
     )
+    selected_lands = models.ManyToManyField(
+        Land, blank=True, related_name="related_selected_lands"
+    )
