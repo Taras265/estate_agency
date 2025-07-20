@@ -212,8 +212,7 @@ class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCr
         for phone_number in formset.save(commit=False):
             phone_number.user = user
             phone_number.save()
-
-        return redirect(super().get_success_url())
+        return redirect(f"/{self.kwargs['lang']}/")
 
 
 class GroupCreateView(
@@ -249,7 +248,7 @@ class UserUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUp
 
         form.save()
         formset.save()
-        return redirect(super().get_success_url())
+        return redirect(f"/{self.kwargs['lang']}/")
 
 
 class GroupUpdateView(
