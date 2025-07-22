@@ -15,20 +15,18 @@ from handbooks.forms import (
     RegionForm,
     StreetForm,
 )
-from handbooks.models import Locality, LocalityDistrict
-from handbooks.services import (
-    client_all_visible,
-    client_filter_visible,
-    district_all_visible,
-    filialagency_all_visible,
-    filialreport_all_visible,
-    handbook_all_visible,
-    handbook_filter_visible,
-    locality_all_visible,
-    localitydistrict_all_visible,
-    region_all_visible,
-    street_all_visible,
+from handbooks.models import (
+    Region,
+    District,
+    Locality,
+    Street,
+    LocalityDistrict,
+    Client,
+    FilialAgency,
+    FilialReport,
+    Handbook,
 )
+from handbooks.choices import ClientStatusType
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from utils.const import BASE_CHOICES, SALE_CHOICES
 from utils.mixins.mixins import (
@@ -88,7 +86,7 @@ def sale_redirect(request, lang):
 class RegionListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = region_all_visible()
+    queryset = Region.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_region"
     template_name = "handbooks/region_list.html"
@@ -100,7 +98,7 @@ class RegionListView(
 class DistrictListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = district_all_visible()
+    queryset = District.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_district"
     template_name = "handbooks/district_list.html"
@@ -112,7 +110,7 @@ class DistrictListView(
 class LocalityListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = locality_all_visible()
+    queryset = Locality.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_locality"
     template_name = "handbooks/locality_list.html"
@@ -138,7 +136,7 @@ class LocalityListView(
 class LocalityDistrictListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = localitydistrict_all_visible()
+    queryset = LocalityDistrict.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_localitydistrict"
     template_name = "handbooks/localitydistrict_list.html"
@@ -165,7 +163,7 @@ class LocalityDistrictListView(
 class StreetListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = street_all_visible()
+    queryset = Street.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_street"
     template_name = "handbooks/street_list.html"
@@ -180,7 +178,7 @@ class WithdrawalReasonListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=1)
+    queryset = Handbook.objects.filter(on_delete=False, type=1)
     permission_required = "handbooks.view_withdrawalreason"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -195,7 +193,7 @@ class ConditionListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=2)
+    queryset = Handbook.objects.filter(on_delete=False, type=2)
     permission_required = "handbooks.view_condition"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -210,7 +208,7 @@ class MaterialListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=3)
+    queryset = Handbook.objects.filter(on_delete=False, type=3)
     permission_required = "handbooks.view_material"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -225,7 +223,7 @@ class SeparationListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=4)
+    queryset = Handbook.objects.filter(on_delete=False, type=4)
     permission_required = "handbooks.view_separation"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -240,7 +238,7 @@ class AgencyListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=5)
+    queryset = Handbook.objects.filter(on_delete=False, type=5)
     permission_required = "handbooks.view_agency"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -255,7 +253,7 @@ class AgencySalesListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=6)
+    queryset = Handbook.objects.filter(on_delete=False, type=6)
     permission_required = "handbooks.view_agencysales"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -270,7 +268,7 @@ class NewBuildingNameListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=7)
+    queryset = Handbook.objects.filter(on_delete=False, type=7)
     permission_required = "handbooks.view_newbuildingname"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -285,7 +283,7 @@ class StairListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=8)
+    queryset = Handbook.objects.filter(on_delete=False, type=8)
     permission_required = "handbooks.view_stair"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -300,7 +298,7 @@ class HeatingListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=9)
+    queryset = Handbook.objects.filter(on_delete=False, type=9)
     permission_required = "handbooks.view_heating"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -315,7 +313,7 @@ class LayoutListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=10)
+    queryset = Handbook.objects.filter(on_delete=False, type=10)
     permission_required = "handbooks.view_layout"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -330,7 +328,7 @@ class HouseTypeListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=11)
+    queryset = Handbook.objects.filter(on_delete=False, type=11)
     permission_required = "handbooks.view_housetype"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -345,7 +343,7 @@ class ComplexListView(
     SearchByIdMixin,
     NewCustomHandbookListView,
 ):
-    queryset = handbook_filter_visible(type=12)
+    queryset = Handbook.objects.filter(on_delete=False, type=12)
     permission_required = "handbooks.view_complex"
     template_name = "handbooks/handbook_list.html"
     choices = BASE_CHOICES
@@ -357,7 +355,7 @@ class ComplexListView(
 class FilialAgencyListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = filialagency_all_visible()
+    queryset = FilialAgency.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_filialagency"
     template_name = "handbooks/filial_list.html"
@@ -369,7 +367,7 @@ class FilialAgencyListView(
 class FilialReportListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = filialreport_all_visible()
+    queryset = FilialReport.objects.filter(on_delete=False)
     choices = BASE_CHOICES
     permission_required = "handbooks.view_filialreport"
     template_name = "handbooks/filialreport_list.html"
@@ -667,7 +665,7 @@ class FilialReportCreateView(
 class RegionUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = region_all_visible()
+    queryset = Region.objects.filter(on_delete=False)
     form_class = RegionForm
     permission_required = "handbooks.change_region"
 
@@ -678,7 +676,7 @@ class RegionUpdateView(
 class DistrictUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = district_all_visible()
+    queryset = District.objects.filter(on_delete=False)
     form_class = DistrictForm
     permission_required = "handbooks.change_district"
 
@@ -689,7 +687,7 @@ class DistrictUpdateView(
 class LocalityUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = locality_all_visible()
+    queryset = Locality.objects.filter(on_delete=False)
     form_class = LocalityForm
     permission_required = "handbooks.change_locality"
 
@@ -700,7 +698,7 @@ class LocalityUpdateView(
 class LocalityDistrictUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = localitydistrict_all_visible()
+    queryset = LocalityDistrict.objects.filter(on_delete=False)
     form_class = LocalityDistrictForm
     permission_required = "handbooks.change_localitydistrict"
 
@@ -711,7 +709,7 @@ class LocalityDistrictUpdateView(
 class StreetUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = street_all_visible()
+    queryset = Street.objects.filter(on_delete=False)
     form_class = StreetForm
     permission_required = "handbooks.change_street"
 
@@ -722,7 +720,7 @@ class StreetUpdateView(
 class WithdrawalReasonUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_withdrawalreason"
 
@@ -741,7 +739,7 @@ class WithdrawalReasonUpdateView(
 class ConditionUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_condition"
 
@@ -760,7 +758,7 @@ class ConditionUpdateView(
 class MaterialUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_material"
 
@@ -779,7 +777,7 @@ class MaterialUpdateView(
 class SeparationUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_separation"
 
@@ -798,7 +796,7 @@ class SeparationUpdateView(
 class AgencyUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_agency"
 
@@ -817,7 +815,7 @@ class AgencyUpdateView(
 class AgencySalesUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_agencysales"
 
@@ -836,7 +834,7 @@ class AgencySalesUpdateView(
 class NewBuildingNameUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_newbuildingname"
 
@@ -855,7 +853,7 @@ class NewBuildingNameUpdateView(
 class StairUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_stair"
 
@@ -874,7 +872,7 @@ class StairUpdateView(
 class HeatingUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_heating"
 
@@ -893,7 +891,7 @@ class HeatingUpdateView(
 class LayoutUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_layout"
 
@@ -912,7 +910,7 @@ class LayoutUpdateView(
 class HouseTypeUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_housetype"
 
@@ -931,7 +929,7 @@ class HouseTypeUpdateView(
 class ComplexUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     form_class = HandbookForm
     permission_required = "handbooks.change_complex"
 
@@ -950,7 +948,7 @@ class ComplexUpdateView(
 class FilialAgencyUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = filialagency_all_visible()
+    queryset = FilialAgency.objects.filter(on_delete=False)
     form_class = FilialForm
     permission_required = "handbooks.change_filialagency"
 
@@ -961,7 +959,7 @@ class FilialAgencyUpdateView(
 class FilialReportUpdateView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomUpdateView
 ):
-    queryset = filialreport_all_visible()
+    queryset = FilialReport.objects.filter(on_delete=False)
     form_class = FilialReportForm
     permission_required = "handbooks.change_filialreport"
 
@@ -972,7 +970,7 @@ class FilialReportUpdateView(
 class RegionDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = region_all_visible()
+    queryset = Region.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_region"
@@ -982,7 +980,7 @@ class RegionDeleteView(
 class DistrictDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = district_all_visible()
+    queryset = District.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_district"
@@ -992,7 +990,7 @@ class DistrictDeleteView(
 class LocalityDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = locality_all_visible()
+    queryset = Locality.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_locality"
@@ -1002,7 +1000,7 @@ class LocalityDeleteView(
 class LocalityDistrictDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = localitydistrict_all_visible()
+    queryset = LocalityDistrict.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_localitydistrict"
@@ -1012,7 +1010,7 @@ class LocalityDistrictDeleteView(
 class StreetDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = street_all_visible()
+    queryset = Street.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_street"
@@ -1022,7 +1020,7 @@ class StreetDeleteView(
 class WithdrawalReasonDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_withdrawalreason"
@@ -1032,7 +1030,7 @@ class WithdrawalReasonDeleteView(
 class ConditionDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_condition"
@@ -1042,7 +1040,7 @@ class ConditionDeleteView(
 class MaterialDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_material"
@@ -1052,7 +1050,7 @@ class MaterialDeleteView(
 class SeparationDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_separation"
@@ -1062,7 +1060,7 @@ class SeparationDeleteView(
 class AgencyDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_agency"
@@ -1072,7 +1070,7 @@ class AgencyDeleteView(
 class AgencySalesDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_agencysales"
@@ -1082,7 +1080,7 @@ class AgencySalesDeleteView(
 class NewBuildingNameDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_newbuildingname"
@@ -1092,7 +1090,7 @@ class NewBuildingNameDeleteView(
 class StairDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_stair"
@@ -1102,7 +1100,7 @@ class StairDeleteView(
 class HeatingDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_heating"
@@ -1112,7 +1110,7 @@ class HeatingDeleteView(
 class LayoutDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_layout"
@@ -1122,7 +1120,7 @@ class LayoutDeleteView(
 class HouseTypeDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_housetype"
@@ -1132,7 +1130,7 @@ class HouseTypeDeleteView(
 class ComplexDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_complex"
@@ -1142,7 +1140,7 @@ class ComplexDeleteView(
 class FilialAgencyDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = filialagency_all_visible()
+    queryset = FilialAgency.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_filialagency"
@@ -1152,7 +1150,7 @@ class FilialAgencyDeleteView(
 class FilialReportDeleteView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, CustomDeleteView
 ):
-    queryset = filialreport_all_visible()
+    queryset = FilialReport.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     permission_required = "handbooks.change_filialreport"
@@ -1160,14 +1158,15 @@ class FilialReportDeleteView(
 
 
 class AllClientsListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)
     filter = "all"
     perm = "view"
     choices = SALE_CHOICES
 
 
 class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
-    queryset = client_filter_visible(
+    queryset = Client.objects.filter(
+        on_delete=False,
         date_of_add__gte=timezone.now() - relativedelta(months=1)
     )
     filter = "new"
@@ -1178,7 +1177,7 @@ class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomLis
 class InSelectionClientListView(
     ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=1)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.IN_SEARCH)
     filter = "in_selection"
     perm = "view"
     choices = SALE_CHOICES
@@ -1187,7 +1186,7 @@ class InSelectionClientListView(
 class WithShowClientListView(
     ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=2)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.WITH_SHOW)
     filter = "with_show"
     perm = "view"
     choices = SALE_CHOICES
@@ -1196,7 +1195,7 @@ class WithShowClientListView(
 class DecidedClientListView(
     ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=3)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DECIDED)
     filter = "decided"
     perm = "view"
     choices = SALE_CHOICES
@@ -1205,7 +1204,7 @@ class DecidedClientListView(
 class DeferredDemandClientListView(
     ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=4)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
     filter = "deferred_demand"
     perm = "view"
     choices = SALE_CHOICES
@@ -1214,7 +1213,7 @@ class DeferredDemandClientListView(
 class MyAllClientsListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)
     filter = "all"
     perm = "view"
     choices = SALE_CHOICES
@@ -1223,7 +1222,8 @@ class MyAllClientsListView(
 class MyNewClientListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(
+    queryset = Client.objects.filter(
+        on_delete=False,
         date_of_add__gte=timezone.now() - relativedelta(months=1)
     )
     filter = "new"
@@ -1234,7 +1234,7 @@ class MyNewClientListView(
 class MyInSelectionClientListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=1)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.IN_SEARCH)
     filter = "in_selection"
     perm = "view"
     choices = SALE_CHOICES
@@ -1243,7 +1243,7 @@ class MyInSelectionClientListView(
 class MyWithShowClientListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=2)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.WITH_SHOW)
     filter = "with_show"
     perm = "view"
     choices = SALE_CHOICES
@@ -1252,7 +1252,7 @@ class MyWithShowClientListView(
 class MyDecidedClientListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=3)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DECIDED)
     filter = "decided"
     perm = "view"
     choices = SALE_CHOICES
@@ -1261,7 +1261,7 @@ class MyDecidedClientListView(
 class MyDeferredDemandClientListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=4)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
     filter = "deferred_demand"
     perm = "view"
     choices = SALE_CHOICES
@@ -1270,7 +1270,7 @@ class MyDeferredDemandClientListView(
 class FilialAllClientsListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)
     filter = "all"
     perm = "view"
     choices = SALE_CHOICES
@@ -1279,7 +1279,8 @@ class FilialAllClientsListView(
 class FilialNewClientListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(
+    queryset = Client.objects.filter(
+        on_delete=False,
         date_of_add__gte=timezone.now() - relativedelta(months=1)
     )
     filter = "new"
@@ -1290,7 +1291,7 @@ class FilialNewClientListView(
 class FilialInSelectionClientListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=1)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.IN_SEARCH)
     filter = "in_selection"
     perm = "view"
     choices = SALE_CHOICES
@@ -1299,7 +1300,7 @@ class FilialInSelectionClientListView(
 class FilialWithShowClientListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=2)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.WITH_SHOW)
     filter = "with_show"
     perm = "view"
     choices = SALE_CHOICES
@@ -1308,7 +1309,7 @@ class FilialWithShowClientListView(
 class FilialDecidedClientListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=3)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DECIDED)
     filter = "decided"
     perm = "view"
     choices = SALE_CHOICES
@@ -1317,7 +1318,7 @@ class FilialDecidedClientListView(
 class FilialDeferredDemandClientListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
-    queryset = client_filter_visible(status=4)
+    queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
     filter = "deferred_demand"
     perm = "view"
     choices = SALE_CHOICES
@@ -1335,7 +1336,7 @@ class ClientCreateView(
 
 
 class ClientUpdateView(ByUserMixin, CustomUpdateView):
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)
     form_class = ClientForm
     template_name = "handbooks/client_form.html"
     perm = "change"
@@ -1345,7 +1346,7 @@ class ClientUpdateView(ByUserMixin, CustomUpdateView):
 
 
 class ClientDeleteView(ByUserMixin, CustomDeleteView):
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)
     template_name = "delete_form.html"
     success_message = "Success"
     handbook_type = "client"
@@ -1356,19 +1357,19 @@ class ClientDeleteView(ByUserMixin, CustomDeleteView):
 class RegionHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_region"
     handbook_type = "region"
-    queryset = region_all_visible()
+    queryset = Region.objects.filter(on_delete=False)
 
 
 class DistrictHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_district"
     handbook_type = "district"
-    queryset = district_all_visible()
+    queryset = District.objects.filter(on_delete=False)
 
 
 class LocalityHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_locality"
     handbook_type = "locality"
-    queryset = locality_all_visible()
+    queryset = Locality.objects.filter(on_delete=False)
 
 
 class LocalityDistrictHistoryView(
@@ -1376,13 +1377,13 @@ class LocalityDistrictHistoryView(
 ):
     permission_required = "handbooks.view_localitydistrict"
     handbook_type = "localitydistrict"
-    queryset = localitydistrict_all_visible()
+    queryset = LocalityDistrict.objects.filter(on_delete=False)
 
 
 class StreetHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_street"
     handbook_type = "street"
-    queryset = street_all_visible()
+    queryset = Street.objects.filter(on_delete=False)
 
 
 class WithdrawalReasonHistoryView(
@@ -1390,7 +1391,7 @@ class WithdrawalReasonHistoryView(
 ):
     permission_required = "handbooks.view_withdrawalreason"
     handbook_type = "withdrawalreason"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class ConditionHistoryView(
@@ -1398,13 +1399,13 @@ class ConditionHistoryView(
 ):
     permission_required = "handbooks.view_condition"
     handbook_type = "condition"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class MaterialHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_material"
     handbook_type = "material"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class SeparationHistoryView(
@@ -1412,13 +1413,13 @@ class SeparationHistoryView(
 ):
     permission_required = "handbooks.view_separation"
     handbook_type = "separation"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class AgencyHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_agency"
     handbook_type = "agency"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class AgencySalesHistoryView(
@@ -1426,7 +1427,7 @@ class AgencySalesHistoryView(
 ):
     permission_required = "handbooks.view_agencysales"
     handbook_type = "agencysales"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class NewBuildingNameHistoryView(
@@ -1434,25 +1435,25 @@ class NewBuildingNameHistoryView(
 ):
     permission_required = "handbooks.view_newbuildingname"
     handbook_type = "newbuildingname"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class StairHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_stair"
     handbook_type = "stair"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class HeatingHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_heating"
     handbook_type = "heating"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class LayoutHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_layout"
     handbook_type = "layout"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class HouseTypeHistoryView(
@@ -1460,7 +1461,7 @@ class HouseTypeHistoryView(
 ):
     permission_required = "handbooks.view_housetype"
     handbook_type = "housetype"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class FilialAgencyHistoryView(
@@ -1468,7 +1469,7 @@ class FilialAgencyHistoryView(
 ):
     permission_required = "handbooks.view_filialagency"
     handbook_type = "filialagency"
-    queryset = filialagency_all_visible()
+    queryset = FilialAgency.objects.filter(on_delete=False)
 
 
 class FilialReportHistoryView(
@@ -1476,13 +1477,13 @@ class FilialReportHistoryView(
 ):
     permission_required = "handbooks.view_filialreport"
     handbook_type = "filialreport"
-    queryset = filialreport_all_visible()
+    queryset = FilialReport.objects.filter(on_delete=False)
 
 
 class ComplexHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_complex"
     handbook_type = "complex"
-    queryset = handbook_all_visible()
+    queryset = Handbook.objects.filter(on_delete=False)
 
 
 class ClientHistoryView(HistoryView):
@@ -1490,4 +1491,4 @@ class ClientHistoryView(HistoryView):
     handbook_type = "client"
     perm = "view"
     app = "handbooks"
-    queryset = client_all_visible()
+    queryset = Client.objects.filter(on_delete=False)

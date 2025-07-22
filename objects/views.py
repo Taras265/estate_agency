@@ -1,21 +1,16 @@
 import io
-
 import datetime
-
 from itertools import chain
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
-
-from django.core.exceptions import BadRequest
+from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
-from django.utils.translation import activate
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     CreateView,
@@ -28,25 +23,16 @@ from django.views.generic import (
 
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from handbooks.services import client_get
 from images.forms import RealEstateImageFormSet
 
 from utils.utils import get_office_context
-from .models import Apartment, Commerce, House, Land
-from .services import (reports_accessible_for_user, reports_accessible_for_user_in_office, user_can_view_report,
-                       user_can_view_office_report, land_filter_for_user, user_can_view_land_list,
-                       user_can_view_land_list_history, user_can_update_land_list, land_filter_by_filial,
-                       get_all_lands_history, user_can_update_land, user_can_update_full_land
-                       )
+from .models import Apartment, Commerce, House, Land, Selection
 from .utils import (
     real_estate_form_save,
     get_sale_report_list_context,
+    get_sale_contract_list_context,
     real_estate_form_filter
 )
-from .forms import (
-    RealEstateFilteringForm, LandForm
-)
-
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
 )
@@ -63,6 +49,8 @@ from .forms import (
     HouseForm,
     HouseVerifyAddressForm,
     SearchForm,
+    LandForm,
+    RealEstateFilteringForm
 )
 from .mixins import (
     DefaultUserInCreateViewMixin,
@@ -72,46 +60,43 @@ from .mixins import (
 )
 
 from .services import (
-    apartment_filter_by_filial,
-    apartment_filter_by_user,
-    apartment_filter_for_user,
-    commerce_filter_by_filial,
-    commerce_filter_for_user,
-    estate_objects_filter_visible,
-    get_all_apartment_history,
-    get_all_commerce_history,
-    get_all_houses_history,
+    apartment_accessible_for_user,
+    commerce_accessible_for_user,
+    house_accessible_for_user,
+    land_accessible_for_user,
+    reports_accessible_for_user,
+    reports_accessible_for_user_in_office,
+    contracts_accessible_for_user,
+    real_estate_model_from_type,
     has_any_perm_from_list,
-    house_filter_by_filial,
-    house_filter_for_user,
-    real_estate_contract_all,
-    real_estate_contract_by_filials,
-    real_estate_contract_by_user,
     selection_add_selected,
-    selection_all,
-    selection_create,
-    selection_filter,
     user_can_create_apartment,
     user_can_create_commerce,
     user_can_create_house,
     user_can_update_apartment,
-    user_can_update_apartment_list,
     user_can_update_commerce,
+    user_can_update_house,
+    user_can_update_land,
+    user_can_update_apartment_list,
     user_can_update_commerce_list,
+    user_can_update_house_list,
+    user_can_update_land_list,
     user_can_update_full_apartment,
     user_can_update_full_commerce,
     user_can_update_full_house,
-    user_can_update_house,
-    user_can_update_house_list,
+    user_can_update_full_land,
     user_can_view_apartment_list,
-    user_can_view_apartment_list_history,
     user_can_view_commerce_list,
-    user_can_view_commerce_list_history,
     user_can_view_house_list,
+    user_can_view_land_list,
+    user_can_view_apartment_list_history,
+    user_can_view_commerce_list_history,
     user_can_view_house_list_history,
+    user_can_view_land_list_history,
     user_can_view_real_estate_list,
+    user_can_view_report,
+    user_can_view_office_report
 )
-
 
 
 @require_GET
@@ -163,15 +148,8 @@ def verify_real_estate_address(request, lang):
             }
         )
 
-    real_estate = None
-
-    if real_estate_type == RealEstateType.APARTMENT:
-        real_estate = Apartment.objects.filter(**form.cleaned_data).only("id").first()
-    elif real_estate_type == RealEstateType.COMMERCE:
-        real_estate = Commerce.objects.filter(**form.cleaned_data).only("id").first()
-    elif real_estate_type == RealEstateType.HOUSE:
-        real_estate = House.objects.filter(**form.cleaned_data).only("id").first()
-
+    model_class = real_estate_model_from_type(real_estate_type)
+    real_estate = model_class.objects.filter(**form.cleaned_data).only("id").first()
     if not real_estate:
         return JsonResponse(
             {
@@ -179,6 +157,7 @@ def verify_real_estate_address(request, lang):
                 "message": _("Doesn't exist"),
             }
         )
+
     return JsonResponse(
         {
             "success": True,
@@ -233,16 +212,8 @@ def set_real_estate_status_sold(request, lang, id):
             }
         )
 
-    model = None
-
-    if real_estate_type == RealEstateType.APARTMENT:
-        model = Apartment
-    elif real_estate_type == RealEstateType.COMMERCE:
-        model = Commerce
-    elif real_estate_type == RealEstateType.HOUSE:
-        model = House
-
-    if not model:
+    model_class = real_estate_model_from_type(real_estate_type)
+    if not model_class:
         return JsonResponse(
             {
                 "success": False,
@@ -250,7 +221,7 @@ def set_real_estate_status_sold(request, lang, id):
             }
         )
 
-    real_estate = get_object_or_404(model.objects.only("status"), id=id)
+    real_estate = get_object_or_404(model_class.objects.only("status"), id=id)
     real_estate.status = RealEstateStatus.SOLD
     real_estate.save()
     return JsonResponse({"success": True})
@@ -397,7 +368,7 @@ class SelectionHistoryView(
     PermissionRequiredMixin,
     ListView,
 ):
-    object_list = selection_all()
+    object_list = Selection.objects.all()
     permission_required = "objects.selection"
     template_name = "objects/selection_history_list.html"
     context_object_name = "objects"
@@ -405,7 +376,7 @@ class SelectionHistoryView(
     def get(self, request, *args, **kwargs):
         pk = self.kwargs.get("pk")
         context = self.get_context_data()
-        context["selections"] = selection_filter(client_id=pk)
+        context["selections"] = Selection.objects.filter(client_id=pk)
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -421,16 +392,20 @@ def showing_act_redirect(request, lang):
     selected_ids = request.GET.getlist("objects")
     object_type = int(request.GET.get("object_type"))
 
-    objects = estate_objects_filter_visible(object_type=object_type, id__in=selected_ids)
+    model_class = real_estate_model_from_type(object_type)
+    if not model_class:
+        raise BadRequest()
+    
+    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
 
     for obj in objects:
         obj.in_selection = True
         obj.save()
 
     client_id = int(request.GET.get("client"))
-    client = client_get(id=client_id)
+    client = Client.objects.filter(on_delete=False, id=client_id).first()
 
-    selection = selection_create(
+    selection = Selection.objects.create(
         client=client,
         user=request.user,
     )
@@ -449,16 +424,20 @@ def pdf_redirect(request, lang):
     selected_ids = request.GET.getlist("objects")
     object_type = int(request.GET.get("object_type"))
 
-    objects = estate_objects_filter_visible(object_type=object_type, id__in=selected_ids)
+    model_class = real_estate_model_from_type(object_type)
+    if not model_class:
+        raise BadRequest()
+    
+    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
 
     for obj in objects:
         obj.in_selection = True
         obj.save()
 
     client_id = int(request.GET.get("client"))
-    client = client_get(id=client_id)
+    client = Client.objects.filter(on_delete=False, id=client_id).first()
 
-    selection = selection_create(
+    selection = Selection.objects.create(
         client=client,
         user=request.user,
     )
@@ -478,11 +457,12 @@ class PdfView(CustomLoginRequiredMixin, View):
         selected_ids = self.request.GET.getlist("objects")
         object_type = int(self.request.GET.get("object_type"))
 
-        pdf = generate_pdf(
-            estate_objects_filter_visible(object_type=object_type, id__in=selected_ids),
-            request.user.get_full_name()[0],
-        )
-
+        model_class = real_estate_model_from_type(object_type)
+        if not model_class:
+            raise BadRequest()
+        
+        objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+        pdf = generate_pdf(objects, request.user.get_full_name()[0])
         return FileResponse(
             io.BytesIO(pdf.output()),
             as_attachment=True,
@@ -501,10 +481,11 @@ class ShowingActView(TemplateView):
         object_type = int(self.request.GET.get("object_type"))
 
         context["lang"] = self.kwargs["lang"]
+        model_class = real_estate_model_from_type(object_type)
+        if not model_class:
+            raise BadRequest()
         objects = []
-        for obj in estate_objects_filter_visible(
-            object_type=object_type, id__in=selected_ids
-        ):
+        for obj in model_class.objects.filter(on_delete=False, id__in=selected_ids):
             objects.append(
                 {
                     "object": obj,
@@ -540,10 +521,10 @@ class RealEstateListRedirect(CustomLoginRequiredMixin, View):
         raise PermissionDenied()
 
 
-class ApartmentListView(
+class AccessibleApartmentListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
-    """Список квартир."""
+    """Список лише тих квартир, які доступні поточному користувачу для перегляду."""
 
     template_name = "objects/real_estate_list.html"
     model = Apartment
@@ -565,8 +546,14 @@ class ApartmentListView(
                 for field, value in form.cleaned_data.items()
                 if value is not None
             }
+        
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
 
-        return apartment_filter_for_user(self.request.user.id, **filters)
+        return apartment_accessible_for_user(self.request.user, qs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -593,10 +580,10 @@ class ApartmentListView(
         return context
 
 
-class CommerceListView(
+class AccessibleCommerceListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
-    """Список комерцій."""
+    """Список лише тих комерцій, які доступні поточному користувачу для перегляду."""
 
     template_name = "objects/real_estate_list.html"
     model = Commerce
@@ -618,8 +605,14 @@ class CommerceListView(
                 for field, value in form.cleaned_data.items()
                 if value is not None
             }
+        
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
 
-        return commerce_filter_for_user(self.request.user.id, **filters)
+        return commerce_accessible_for_user(self.request.user, qs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -645,10 +638,10 @@ class CommerceListView(
         return context
 
 
-class HouseListView(
+class AccessibleHouseListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
-    """Список будинків."""
+    """Список лише тих будинків, які доступні поточному користувачу для перегляду."""
 
     template_name = "objects/real_estate_list.html"
     model = House
@@ -670,8 +663,14 @@ class HouseListView(
                 for field, value in form.cleaned_data.items()
                 if value is not None
             }
+        
+        qs = (
+            House.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
 
-        return house_filter_for_user(self.request.user.id, **filters)
+        return house_accessible_for_user(self.request.user, qs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -697,7 +696,7 @@ class HouseListView(
         return context
 
 
-class LandListView(
+class AccessibleLandListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
     """Список квартир."""
@@ -728,7 +727,13 @@ class LandListView(
                 if value is not None
             }
 
-        return land_filter_for_user(self.request.user.id, **filters)
+        qs = (
+            Land.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+
+        return land_accessible_for_user(self.request.user, qs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -757,12 +762,12 @@ class LandListView(
         return context
 
 
-class MyApartmentListView(
+class OfficeMyApartmentListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список квартир."""
+    """Список власних квартир поточного користувача в офісі."""
 
     template_name = "objects/office_real_estate_list.html"
     model = Apartment
@@ -783,7 +788,12 @@ class MyApartmentListView(
                 if value is not None
             }
 
-        return apartment_filter_by_user(self.request.user.id, **filters)
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        return qs.filter(realtor=self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
@@ -811,12 +821,12 @@ class MyApartmentListView(
         return context
 
 
-class MyCommerceListView(
+class OfficeMyCommerceListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список комерцій."""
+    """Список власних комерцій поточного користувача в офісі."""
 
     template_name = "objects/office_real_estate_list.html"
     model = Commerce
@@ -840,7 +850,12 @@ class MyCommerceListView(
                 if value is not None
             }
 
-        return commerce_filter_for_user(self.request.user.id, **filters)
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        return qs.filter(realtor=self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
@@ -867,12 +882,12 @@ class MyCommerceListView(
         return context
 
 
-class MyHouseListView(
+class OfficeMyHouseListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список будинків."""
+    """Список власних будинків поточного користувача в офісі."""
 
     template_name = "objects/office_real_estate_list.html"
     model = House
@@ -896,7 +911,12 @@ class MyHouseListView(
                 if value is not None
             }
 
-        return house_filter_for_user(self.request.user.id, **filters)
+        qs = (
+            House.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        return qs.filter(realtor=self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
@@ -922,7 +942,7 @@ class MyHouseListView(
         return context
 
 
-class MyLandListView(
+class OfficeMyLandListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
@@ -951,7 +971,12 @@ class MyLandListView(
                 if value is not None
             }
 
-        return land_filter_for_user(self.request.user.id, **filters)
+        qs = (
+            Land.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        return qs.filter(realtor=self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
@@ -978,12 +1003,15 @@ class MyLandListView(
         return context
 
 
-class FilialApartmentListView(
+class OfficeFilialApartmentListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список квартир."""
+    """
+    Список лише тих квартир  в офісі, рієлтори яких належать до тих же філіалів,
+    що й поточний користувач.
+    """
 
     template_name = "objects/office_filial_real_estate_list.html"
     model = Apartment
@@ -1003,12 +1031,18 @@ class FilialApartmentListView(
                 for field, value in form.cleaned_data.items()
                 if value is not None
             }
+        
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
 
-        return apartment_filter_by_filial(self.request.user, **filters)
+        user_filials = self.request.user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
-
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
@@ -1032,12 +1066,15 @@ class FilialApartmentListView(
         return context
 
 
-class FilialCommerceListView(
+class OfficeFilialCommerceListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список комерцій."""
+    """
+    Список лише тих комерцій  в офісі, рієлтори яких належать до тих же філіалів,
+    що й поточний користувач.
+    """
 
     template_name = "objects/office_filial_real_estate_list.html"
     model = Commerce
@@ -1061,11 +1098,17 @@ class FilialCommerceListView(
                 if value is not None
             }
 
-        return commerce_filter_by_filial(self.request.user, **filters)
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+
+        user_filials = self.request.user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
-
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
@@ -1088,12 +1131,15 @@ class FilialCommerceListView(
         return context
 
 
-class FilialHouseListView(
+class OfficeFilialHouseListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
 ):
-    """Список будинків."""
+    """
+    Список лише тих будинків  в офісі, рієлтори яких належать до тих же філіалів,
+    що й поточний користувач.
+    """
 
     template_name = "objects/office_filial_real_estate_list.html"
     model = House
@@ -1117,11 +1163,17 @@ class FilialHouseListView(
                 if value is not None
             }
 
-        return house_filter_by_filial(self.request.user, **filters)
+        qs = (
+            House.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+
+        user_filials = self.request.user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
-
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
@@ -1143,7 +1195,7 @@ class FilialHouseListView(
         return context
 
 
-class FilialLandListView(
+class OfficeFilialLandListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
@@ -1172,7 +1224,14 @@ class FilialLandListView(
                 if value is not None
             }
 
-        return land_filter_by_filial(self.request.user, **filters)
+        qs = (
+            Land.objects.filter(on_delete=False, **filters)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+
+        user_filials = self.request.user.filials.all()
+        return qs.filter(realtor__filials__in=user_filials).distinct()
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])  # Перекладаємо
@@ -1198,7 +1257,7 @@ class FilialLandListView(
         return context
 
 
-class NewApartmentReportListView(CustomLoginRequiredMixin, ListView):
+class NewAccessibleApartmentReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів квартир"""
 
     template_name = "objects/report_list.html"
@@ -1216,7 +1275,11 @@ class NewApartmentReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False)
+        qs = (
+            Apartment.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
@@ -1230,7 +1293,7 @@ class NewApartmentReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class NewCommerceReportListView(CustomLoginRequiredMixin, ListView):
+class NewAccessibleCommerceReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів комерцій"""
 
     template_name = "objects/report_list.html"
@@ -1248,7 +1311,11 @@ class NewCommerceReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Commerce.objects.filter(on_delete=False)
+        qs = (
+            Commerce.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
@@ -1262,7 +1329,7 @@ class NewCommerceReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class NewLandReportListView(CustomLoginRequiredMixin, ListView):
+class NewAccessibleLandReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків"""
 
     template_name = "objects/report_list.html"
@@ -1294,7 +1361,7 @@ class NewLandReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class NewHouseReportListView(CustomLoginRequiredMixin, ListView):
+class NewAccessibleHouseReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків"""
 
     template_name = "objects/report_list.html"
@@ -1312,7 +1379,11 @@ class NewHouseReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = House.objects.filter(on_delete=False)
+        qs = (
+            House.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
 
@@ -1340,7 +1411,11 @@ class AllApartmentReportListView(CustomLoginRequiredMixin, PermissionRequiredMix
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False)
+        qs = (
+            Apartment.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
@@ -1367,7 +1442,11 @@ class MyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+        qs = (
+            Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
@@ -1380,7 +1459,7 @@ class MyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class OfficeNewApartmentReportListView(CustomLoginRequiredMixin, ListView):
+class OfficeNewAccessibleApartmentReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів квартир в офісі"""
 
     template_name = "objects/office_report_list.html"
@@ -1398,7 +1477,11 @@ class OfficeNewApartmentReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False)
+        qs = (
+            Apartment.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user_in_office(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
@@ -1413,7 +1496,7 @@ class OfficeNewApartmentReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class OfficeNewCommerceReportListView(CustomLoginRequiredMixin, ListView):
+class OfficeNewAccessibleCommerceReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів комерцій в офісі"""
 
     template_name = "objects/office_report_list.html"
@@ -1431,7 +1514,11 @@ class OfficeNewCommerceReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Commerce.objects.filter(on_delete=False)
+        qs = (
+            Commerce.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user_in_office(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
@@ -1446,7 +1533,7 @@ class OfficeNewCommerceReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class OfficeNewHouseReportListView(CustomLoginRequiredMixin, ListView):
+class OfficeNewAccessibleHouseReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків в офісі"""
 
     template_name = "objects/office_report_list.html"
@@ -1464,7 +1551,11 @@ class OfficeNewHouseReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = House.objects.filter(on_delete=False)
+        qs = (
+            House.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         qs = reports_accessible_for_user_in_office(self.request.user, qs)
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
@@ -1479,7 +1570,7 @@ class OfficeNewHouseReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class OfficeNewLandReportListView(CustomLoginRequiredMixin, ListView):
+class OfficeNewAccessibleLandReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків в офісі"""
 
     template_name = "objects/office_report_list.html"
@@ -1526,7 +1617,11 @@ class OfficeAllApartmentReportListView(CustomLoginRequiredMixin, PermissionRequi
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False)
+        qs = (
+            Apartment.objects.filter(on_delete=False)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
@@ -1554,7 +1649,11 @@ class OfficeMyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         if not self._form.is_valid():
             raise BadRequest()
 
-        qs = Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+        qs = (
+            Apartment.objects.filter(on_delete=False, realtor=self.request.user)
+            .select_related("locality", "street", "owner")
+            .only("locality__locality", "street__street", "owner__email", "owner__first_name", "owner__last_name")
+        )
         return real_estate_form_filter(qs, self._form.cleaned_data)
     
     def get_context_data(self, **kwargs):
@@ -1568,49 +1667,65 @@ class OfficeMyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class BaseContractListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
+class AccessibleApartmentContractListView(CustomLoginRequiredMixin, ListView):
     """
-    Базовий клас для списку контрактів.
-    Для дочірнього класу потрібно вказати
-    атрибут type (можна через as_view(type=RealEstateStatus.APARTMENT)).
+    Список лише тих контрактів по квартирах, які доступні
+    поточному користувачу для перегляду.
     """
-
     template_name = "objects/contract_list.html"
-    context_object_name = "object_list"
-    paginate_by = 5
-    type = None  # тип нерухомості
-
-    def test_func(self):
-        return has_any_perm_from_list(
-            self.request.user,
-            "objects.view_contract",
-            "objects.view_filial_contract",
-            "objects.view_own_contract",
-        )
+    paginate_by = 10
 
     def get_queryset(self):
-        if self.request.user.has_perm("objects.view_contract"):
-            return real_estate_contract_all(self.type)
-        elif self.request.user.has_perm("objects.view_filial_contract"):
-            return real_estate_contract_by_filials(self.type, self.request.user.filials.all())
-        return real_estate_contract_by_user(self.type, self.request.user)
-
+        qs = Apartment.objects.filter(on_delete=False)
+        return contracts_accessible_for_user(self.request.user, qs)
+    
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data()
         context.update(
-            {
-                "lang": self.kwargs["lang"],
-                "form": HandbooksSearchForm,
-                "can_view_client": has_any_perm_from_list(
-                    self.request.user,
-                    "handbooks.view_client",
-                    "handbooks.view_own_client",
-                ),
-                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
-                "can_view_report": self.request.user.has_perm("objects.view_report"),
-                "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
-            }
+            get_sale_contract_list_context(self.kwargs["lang"], self.request.user)
+        )
+        return context
+
+
+class AccessibleCommerceContractListView(CustomLoginRequiredMixin, ListView):
+    """
+    Список лише тих контрактів по комерціям, які доступні
+    поточному користувачу для перегляду.
+    """
+    template_name = "objects/contract_list.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        qs = Commerce.objects.filter(on_delete=False)
+        return contracts_accessible_for_user(self.request.user, qs)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data()
+        context.update(
+            get_sale_contract_list_context(self.kwargs["lang"], self.request.user)
+        )
+        return context
+
+
+class AccessibleHouseContractListView(CustomLoginRequiredMixin, ListView):
+    """
+    Список лише тих контрактів по будинках, які доступні
+    поточному користувачу для перегляду.
+    """
+    template_name = "objects/contract_list.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        qs = House.objects.filter(on_delete=False)
+        return contracts_accessible_for_user(self.request.user, qs)
+    
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data()
+        context.update(
+            get_sale_contract_list_context(self.kwargs["lang"], self.request.user)
         )
         return context
 
@@ -1656,15 +1771,14 @@ class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListV
             "can_view_contract": self.request.user.has_perm("objects.view_contract")
                                  or self.request.user.has_perm("objects.view_filial_contract")
                                  or self.request.user.has_perm("objects.view_own_contract"),
-            "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
         })
 
         context["choice"] = self.handbook_type
 
-        apartments = get_all_apartment_history(order_by="history_date")
-        commerces = get_all_commerce_history(order_by="history_date")
-        houses = get_all_houses_history(order_by="history_date")
-        lands = get_all_lands_history(order_by="history_date")
+        apartments = Apartment.history.all().order_by("history_date")
+        commerces = Commerce.history.all().order_by("history_date")
+        houses = House.history.all().order_by("history_date")
+        lands = Land.history.all().order_by("history_date")
         context["object_list"] = sorted(
             chain(apartments, commerces, houses, lands),
             key=lambda x: x.history_date,
@@ -1739,15 +1853,14 @@ class OfficeHistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin,
             "can_view_contract": self.request.user.has_perm("objects.view_contract")
                                  or self.request.user.has_perm("objects.view_filial_contract")
                                  or self.request.user.has_perm("objects.view_own_contract"),
-            "new_creation_date": datetime.date.today() - datetime.timedelta(days=30),
         })
 
         context["choice"] = self.handbook_type
 
-        apartments = get_all_apartment_history(order_by="history_date")
-        commerces = get_all_commerce_history(order_by="history_date")
-        houses = get_all_houses_history(order_by="history_date")
-        lands = get_all_lands_history(order_by="history_date")
+        apartments = Apartment.history.all().order_by("history_date")
+        commerces = Commerce.history.all().order_by("history_date")
+        houses = House.history.all().order_by("history_date")
+        lands = Land.history.all().order_by("history_date")
         context["object_list"] = sorted(
             chain(apartments, commerces, houses, lands),
             key=lambda x: x.history_date,
@@ -2406,9 +2519,8 @@ class CatalogListView(ListView):
 
 class ApartmentDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = estate_objects_filter_visible(RealEstateType.APARTMENT)
+    queryset = Apartment.objects.filter(on_delete=False)
     form_class = ApartmentForm
-    model = Apartment
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -2426,9 +2538,8 @@ class ApartmentDetailView(UpdateView):
 
 class CommerceDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = estate_objects_filter_visible(RealEstateType.COMMERCE)
+    queryset = Commerce.objects.filter(on_delete=False)
     form_class = CommerceForm
-    model = Commerce
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -2446,9 +2557,8 @@ class CommerceDetailView(UpdateView):
 
 class HouseDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = estate_objects_filter_visible(RealEstateType.HOUSE)
+    queryset = House.objects.filter(on_delete=False)
     form_class = HouseForm
-    model = House
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -2466,7 +2576,7 @@ class HouseDetailView(UpdateView):
 
 class LandDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = estate_objects_filter_visible(RealEstateType.LAND)
+    queryset = Land.objects.filter(on_delete=False)
     form_class = LandForm
     model = Land
 
