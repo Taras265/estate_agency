@@ -696,7 +696,7 @@ class AccessibleHouseListView(
         return context
 
 
-class LandListView(
+class AccessibleLandListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
     """Список квартир."""
@@ -942,7 +942,7 @@ class OfficeMyHouseListView(
         return context
 
 
-class MyLandListView(
+class OfficeMyLandListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
@@ -1195,7 +1195,7 @@ class OfficeFilialHouseListView(
         return context
 
 
-class FilialLandListView(
+class OfficeFilialLandListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
     ListView,
@@ -1329,7 +1329,7 @@ class NewAccessibleCommerceReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
-class NewLandReportListView(CustomLoginRequiredMixin, ListView):
+class NewAccessibleLandReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків"""
 
     template_name = "objects/report_list.html"
@@ -1570,7 +1570,7 @@ class OfficeNewAccessibleHouseReportListView(CustomLoginRequiredMixin, ListView)
         return context
 
 
-class OfficeNewLandReportListView(CustomLoginRequiredMixin, ListView):
+class OfficeNewAccessibleLandReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів будинків в офісі"""
 
     template_name = "objects/office_report_list.html"
