@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .choices import RealEstateType
+
 
 urlpatterns = [
     path(
@@ -39,42 +39,42 @@ urlpatterns = [
         views.RealEstateListRedirect.as_view(),
         name="real_estate_list_redirect",
     ),
-    path("sale/apartments/", views.ApartmentListView.as_view(), name="apartment_list"),
-    path("sale/commerces/", views.CommerceListView.as_view(), name="commerce_list"),
-    path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
+    path("sale/apartments/", views.AccessibleApartmentListView.as_view(), name="apartment_list"),
+    path("sale/commerces/", views.AccessibleCommerceListView.as_view(), name="commerce_list"),
+    path("sale/houses/", views.AccessibleHouseListView.as_view(), name="house_list"),
     path("sale/land/", views.LandListView.as_view(), name="land_list"),
 
     path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
 
-    path("sale/apartments/reports/new/", views.NewApartmentReportListView.as_view(), name="new_apartment_reports"),
+    path("sale/apartments/reports/new/", views.NewAccessibleApartmentReportListView.as_view(), name="new_apartment_reports"),
     path("sale/apartments/reports/all/", views.AllApartmentReportListView.as_view(), name="all_apartment_reports"),
     path("sale/apartments/reports/my/", views.MyApartmentReportListView.as_view(), name="my_apartment_reports"),
-    path("sale/commerces/reports/new/", views.NewCommerceReportListView.as_view(), name="new_commerce_reports"),
-    path("sale/houses/reports/new/", views.NewHouseReportListView.as_view(), name="new_house_reports"),
+    path("sale/commerces/reports/new/", views.NewAccessibleCommerceReportListView.as_view(), name="new_commerce_reports"),
+    path("sale/houses/reports/new/", views.NewAccessibleHouseReportListView.as_view(), name="new_house_reports"),
 
     path(
         "sale/apartments/contracts/",
-        views.BaseContractListView.as_view(type=RealEstateType.APARTMENT),
+        views.AccessibleApartmentContractListView.as_view(),
         name="apartment_contracts",
     ),
     path(
         "sale/commerces/contracts/",
-        views.BaseContractListView.as_view(type=RealEstateType.COMMERCE),
+        views.AccessibleCommerceContractListView.as_view(),
         name="commerce_contracts",
     ),
     path(
         "sale/houses/contracts/",
-        views.BaseContractListView.as_view(type=RealEstateType.HOUSE),
+        views.AccessibleHouseContractListView.as_view(),
         name="house_contracts",
     ),
     path(
         "office/apartments/",
-        views.MyApartmentListView.as_view(),
+        views.OfficeMyApartmentListView.as_view(),
         name="office_apartment_list",
     ),
     path(
         "office/commerces/",
-        views.MyCommerceListView.as_view(),
+        views.OfficeMyCommerceListView.as_view(),
         name="office_commerce_list",
     ),
     path("office/houses/", views.MyHouseListView.as_view(), name="office_house_list"),
@@ -86,7 +86,7 @@ urlpatterns = [
     path("office/filial/land/", views.FilialLandListView.as_view(), name="office_filial_land_list"),
     path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
 
-    path("office/apartments/reports/new/", views.OfficeNewApartmentReportListView.as_view(), name="office_new_apartment_reports"),
+    path("office/apartments/reports/new/", views.OfficeNewAccessibleApartmentReportListView.as_view(), name="office_new_apartment_reports"),
     path("office/apartments/reports/all/", views.OfficeAllApartmentReportListView.as_view(), name="office_all_apartment_reports"),
     path("office/apartments/reports/my/", views.OfficeMyApartmentReportListView.as_view(), name="office_my_apartment_reports"),
     path("office/commerces/reports/new/", views.OfficeNewCommerceReportListView.as_view(), name="office_new_commerce_reports"),
