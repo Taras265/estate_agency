@@ -21,13 +21,30 @@ class RealEstateStatus(models.IntegerChoices):
     COMPLETELY_WITHDRAWN = 5, _("Completely withdrawn")  # Снята совсем
 
 
-class RoomType(models.IntegerChoices):
-    """Тип кімнат (рубрика) обʼєкта нерухомості"""
+class ApartmentRubric(models.IntegerChoices):
+    """Рубрика квартири"""
 
-    ADJACENT = 1, _("Adjacent")  # Смежные
-    SEPARATE = 2, _("Separate")  # Раздельные
-    STUDIO_KITCHEN = 3, _("Studio")  # Студия
-    NONE = 4, "---"
+    ONE_ROOM = 1, _("1 room")  # 1 кімнатна
+    TWO_ROOM = 2, _("2 rooms")  # 2 кімнатна
+    THREE_ROOM = 3, _("3 rooms")  # 3 кімнатна
+    MANY_ROOMS = 4, _("Many rooms")  # багато кімнат
+
+
+class CommerceRubric(models.IntegerChoices):
+    """Рубрика комерції"""
+    RESIDENTIAL = 1, _("Residential")  # Житлова
+    NOT_RESIDENTIAL = 2, _("Not residential")  # Не житлова
+
+
+class HouseRubric(models.IntegerChoices):
+    """Рубрика будинку"""
+    HOUSE = 1, _("House")  # будинок
+
+
+class LandRubric(models.IntegerChoices):
+    """Рубрика ділянки"""
+    HOUSE = 1, _("House")  # будинок
+    LAND = 2, _("Land")  # ділянка
 
 
 class LandTarget(models.IntegerChoices):

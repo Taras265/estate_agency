@@ -2297,10 +2297,10 @@ class HouseUpdateView(
                 if not post_data.get(field):
                     post_data[field] = getattr(o, field)
             f = self.form_class(post_data, instance=o)
-            for obj in House.objects.all():
+            """for obj in House.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
-                    obj.save()
+                    obj.save()"""
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())
@@ -2381,10 +2381,10 @@ class LandUpdateView(
                 if not post_data.get(field):
                     post_data[field] = getattr(o, field)
             f = self.form_class(post_data, instance=o)
-            for obj in Land.objects.all():
+            """for obj in Land.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
-                    obj.save()
+                    obj.save()"""
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())

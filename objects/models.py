@@ -9,7 +9,8 @@ from accounts.models import CustomUser
 from handbooks.models import Client, Handbook, Locality, Street
 from images.models import RealEstateImage
 
-from .choices import RealEstateStatus, RoomType, LandTarget, LandDisposition
+from .choices import RealEstateStatus, LandTarget, LandDisposition, LandRubric, HouseRubric, CommerceRubric, \
+    ApartmentRubric
 
 
 class BaseRealEstate(models.Model):
@@ -178,9 +179,6 @@ class BaseRealEstate(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=RealEstateStatus.choices, verbose_name=_("Status")
     )
-    room_types = models.PositiveSmallIntegerField(
-        choices=RoomType.choices, verbose_name=_("Rubric"), default=RoomType.NONE
-    )
 
     document = models.CharField(max_length=150, blank=True, verbose_name=_("Document"))
     # filename_of_exclusive_agreement = models.CharField(max_length=150, null=True, blank=True)
@@ -236,6 +234,9 @@ class Apartment(BaseRealEstate):
             ("change_object_price", "Can change price field in object"),
         )
 
+    rubric = models.PositiveSmallIntegerField(
+        choices=ApartmentRubric.choices, verbose_name=_("Rubric"), default=ApartmentRubric.MANY_ROOMS
+    )
     apartment = models.CharField(max_length=50, verbose_name=_("Apartment"))
     living_square = models.PositiveIntegerField(verbose_name=_("Living square"))
     balcony = models.BooleanField(default=False, verbose_name=_("Balcony"))
@@ -296,6 +297,9 @@ class Commerce(BaseRealEstate):
             ("view_filial_commerce", "Can view filial commerce"),
         )
 
+    rubric = models.PositiveSmallIntegerField(
+        choices=CommerceRubric.choices, verbose_name=_("Rubric"), default=CommerceRubric.RESIDENTIAL
+    )
     premises = models.CharField(max_length=50, verbose_name=_("Premises"))  # приміщення
     useful_square = models.PositiveIntegerField(
         verbose_name=_("Useful square"), null=True, blank=True
@@ -335,6 +339,9 @@ class House(BaseRealEstate):
             ("view_filial_house", "Can view filial house"),
         )
 
+    rubric = models.PositiveSmallIntegerField(
+        choices=HouseRubric.choices, verbose_name=_("Rubric"), default=HouseRubric.HOUSE
+    )
     housing = models.CharField(
         max_length=50, verbose_name=_("Housing"), null=True, blank=True
     )  # корпус
@@ -366,6 +373,9 @@ class Land(BaseRealEstate):
             ("view_filial_land", "Can view filial land"),
         )
 
+    rubric = models.PositiveSmallIntegerField(
+        choices=LandRubric.choices, verbose_name=_("Rubric"), default=LandRubric.LAND
+    )
     housing = models.CharField(
         max_length=50, verbose_name=_("Housing"), null=True, blank=True
     )  # корпус
