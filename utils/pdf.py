@@ -1,171 +1,249 @@
 from django.db.models.query import QuerySet
+from django.utils.translation import gettext as _
 from fpdf import FPDF, FontFace
 from fpdf.enums import Align, VAlign
-from fpdf.template import FlexTemplate
 
-from objects.models import Apartment
-
-document_data_ua: tuple[str] = (
-    # head data
-    "АКТ ПОКАЗУ",
-    "(квартири, домоволодіння, земельної ділянки, об'єкту новобудови)",
-    "     Я, ",
-    "підтверджую, що прийняв послуги, надані мені співробітником філії",
-    "202_р.",
-    "П.І.Б представника / філіал",
-    # table head data
-    "№ п/п",
-    "ID",
-    "Адреса обʼекту",
-    "Короткий опис технічного стану об'єкта показу",
-    "Ціна",
-    "Відгуки та рекомендації клієнта",
-    "Підпис клієнта",
-    # table body data
-    "Поверх",
-    "Площа (заг/житл/кухня)",
-    "Тип дому",
-    "Планування",
-)
-
-TABLE_WIDTH = 277
-COLUMN_WIDTHS = (14, 17, 56, 62, 17, 56, 20)
+from objects.models import BaseRealEstate, Apartment, Commerce, House, Land
+from objects.choices import ShowingActType
+from accounts.models import CustomUser
+from handbooks.models import Client
 
 
-def generate_pdf(data: QuerySet[Apartment], username: str) -> FPDF:
-    font_family = "DejaVuSerif"
-    font_size = 10
-    font_size_table_body = 9
-
-    pdf = FPDF(orientation="L", unit="mm", format="A4")
-
+def showing_act_pdf(
+    user: CustomUser,
+    client: Client,
+    qs: QuerySet[BaseRealEstate],
+    type: ShowingActType
+) -> FPDF:
+    """Генерує pdf файл для акту показу об'єкту нерухомості"""
+    FONT_FAMILY = "DejaVuSerif"
+    FONT_SIZE = 10
+    FONT_SIZE_TABLE_BODY = 9
     FPDF_FONT_DIR = "static/fonts"
 
+    COLUMN_WIDTHS = (12, 15, 19, 53, 62, 17, 20, 56, 22)
+    TABLE_WIDTH = sum(COLUMN_WIDTHS)
+
+    pdf = FPDF(orientation="L", unit="mm", format="A4")
     pdf.add_page()
 
-    pdf.add_font(font_family, fname=f"{FPDF_FONT_DIR}/{font_family}.ttf")
-    pdf.add_font(font_family, "B", fname=f"{FPDF_FONT_DIR}/{font_family}-Bold.ttf")
-    pdf.add_font(font_family, "I", fname=f"{FPDF_FONT_DIR}/{font_family}-Italic.ttf")
+    pdf.add_font(FONT_FAMILY, fname=f"{FPDF_FONT_DIR}/{FONT_FAMILY}.ttf")
+    pdf.add_font(FONT_FAMILY, "B", fname=f"{FPDF_FONT_DIR}/{FONT_FAMILY}-Bold.ttf")
+    pdf.add_font(FONT_FAMILY, "I", fname=f"{FPDF_FONT_DIR}/{FONT_FAMILY}-Italic.ttf")
 
-    # document content
-    pdf.set_font(font_family, "B", size=14)
+    # вміст файлу
+    pdf.set_font(FONT_FAMILY, "B", size=14)
+    pdf.cell(text=_("SHOWING ACT"))
+    pdf.ln(6)
 
-    # current index for document_data_ua
-    data_index = 0
+    pdf.set_font(FONT_FAMILY, size=FONT_SIZE)
+    pdf.cell(text=_("(of apartment, house, land, new building)"))
+    pdf.ln(FONT_SIZE)
 
-    # print text
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
-    pdf.ln(font_size / 1.5)
-
-    pdf.set_font(font_family, size=font_size)
-
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
-    pdf.ln(font_size)
-
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
-
-    # print line
-    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    pdf.set_x(pdf.get_x() + 6)
+    pdf.cell(text=_("I am,"))
 
     pdf.set_line_width(0.4)
     pdf.set_draw_color(0, 0, 0)
-    pdf.line(pdf.get_x() + 3, pdf.get_y() + 3, line_x2, pdf.get_y() + 3)
+    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    pdf.line(pdf.get_x() + 3, pdf.get_y() + 4, line_x2, pdf.get_y() + 4)
 
-    # print username
-    elements: list[dict] = [
-        {
-            "name": "username",
-            "type": "T",
-            "x1": 30,
-            "y1": 27,
-            "x2": 30 + line_x2,
-            "y2": 27,
-            "font": font_family,
-            "size": font_size,
-            "italic": True,
-        }
-    ]
+    # ім'я клієнта
+    pdf.set_font(FONT_FAMILY, "I", size=FONT_SIZE)
+    pdf.set_x(pdf.get_x() + 5)
+    pdf.cell(text=client.first_name)
 
-    template = FlexTemplate(pdf, elements)
-    template["username"] = username
-    template.render()
+    pdf.ln(5)
+    pdf.set_font(FONT_FAMILY, size=FONT_SIZE)
+    pdf.cell(text=str(_("I confirm that I received the services provided to me by the branch employee")))
 
-    pdf.ln(font_size / 1.5)
-
-    # print text
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
-
-    # print place for current date
+    # число
     pdf.set_x(pdf.l_margin + sum(COLUMN_WIDTHS[0:7]))
-
-    pdf.write(text='"')
-
+    pdf.cell(text='"')
     pdf.set_line_width(0.1)
-
     line_x2 = pdf.get_x() + 10
-    pdf.line(pdf.get_x() + 2, pdf.get_y() + 3, line_x2, pdf.get_y() + 3)
+    pdf.line(pdf.get_x(), pdf.get_y() + 3, line_x2, pdf.get_y() + 3)
     pdf.set_x(line_x2)
-
     pdf.write(text='"')
 
+    # місяць
     line_x2 = pdf.get_x() + 35
     pdf.line(pdf.get_x() + 2, pdf.get_y() + 3, line_x2, pdf.get_y() + 3)
     pdf.set_x(line_x2)
 
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
+    # рік
+    pdf.write(text=str(_("202_ y.")))
+    pdf.ln(5)
 
-    pdf.ln(font_size / 1.5)
-
-    # print text
-    pdf.write(text=document_data_ua[data_index])
-    data_index += 1
-
-    # print line
-    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    pdf.cell(text=str(_("S. N. P. of user / filial")))
 
     pdf.set_line_width(0.5)
-    pdf.line(pdf.get_x() + 3, pdf.get_y() + 3, line_x2, pdf.get_y() + 3)
-    pdf.ln(font_size)
+    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    pdf.line(pdf.get_x() + 3, pdf.get_y() + 4, line_x2, pdf.get_y() + 4)
 
-    # print table
+    # дані про користувача та філіал
+    pdf.set_font(FONT_FAMILY, "I", size=FONT_SIZE)
+    pdf.set_x(pdf.get_x() + 5)
+    pdf.cell(text=f"{user.first_name} / {user.filials.first().filial_agency}")
+    pdf.ln(FONT_SIZE)
+
+    # таблиця
+    TABLE_BODY_TEXT_ALIGN = (
+        "CENTER", "CENTER", "CENTER", "LEFT", "LEFT", "CENTER", "CENTER", "CENTER", "CENTER"
+    )
+    TABLE_HEAD_DATA = (
+        str(_("N")), str(_("ID")), str(_("Rooms number")), str(_("Object's address")),
+        str(_("Brief description of the technical condition of the display object")),
+        str(_("Price")), str(_("Price per sq. m.")), str(_("Customer reviews and recommendations")),
+        str(_("Customer signature"))
+    )
+    pdf.set_font(FONT_FAMILY, size=FONT_SIZE)
+
     with pdf.table(
         width=TABLE_WIDTH,
         col_widths=COLUMN_WIDTHS,
-        text_align="CENTER",
-        v_align=VAlign.B,
+        text_align=TABLE_BODY_TEXT_ALIGN,
+        v_align=VAlign.T,
         line_height=4,
     ) as table:
-        # table head
-        table.row(document_data_ua[data_index : data_index + 7])
-        data_index += 7
+        # шапка таблиці
+        row = table.row()
+        for data in TABLE_HEAD_DATA:
+            row.cell(data, align=Align.C, v_align=VAlign.B)
 
-        # table body
+        # тіло таблиці
         pdf.set_line_width(0.1)
 
-        for row_index, apartment in enumerate(data):
-            row = table.row(style=FontFace(size_pt=font_size_table_body))
+        for index, obj in enumerate(qs):
+            address_data = ""
+            if type == ShowingActType.SIMPLE:
+                address_data = f"{obj.locality} {obj.street}"
+            elif type == ShowingActType.WITH_USER_INFO:
+                address_data = f"{obj.locality} {obj.street} {obj.owner.first_name} {obj.owner.last_name} {obj.owner.phone}"
 
-            # tuple with text in each cell in current row
-            data_row: tuple[str] = (
-                str(row_index + 1),  # first cell
-                str(apartment.pk),  # second
-                f"{apartment.locality} {apartment.street}",  # fourth-1
-                f"{document_data_ua[data_index]}: {apartment.floor}/{apartment.storeys_number}. "
-                + f"{document_data_ua[data_index + 1]}: {apartment.square}. "
-                + "",  # fifth-1
-                str(apartment.price),  # sixth-1
-                apartment.comment,  # eighth
-                "",  # ninth
+            row_data = (
+                str(index + 1),
+                str(obj.pk),
+                str(obj.rooms_number) if hasattr(obj, "rooms_number") else "",
+                address_data,
+                _get_real_estate_description(obj),
+                str(obj.price),
+                "",
+                "",
+                ""
             )
+            table.row(row_data, style=FontFace(size_pt=FONT_SIZE_TABLE_BODY))
+    
+    # футер
+    pdf.ln(FONT_SIZE)
+    pdf.cell(text=str(_("The show was conducted by a real estate representative from the agency")))
 
-            for cell_index, cell_data in enumerate(data_row):
-                text_align: Align = Align.L if cell_index in (3, 4, 7) else Align.C
+    text = str(_("(Surname, name, signature)"))
+    text_width = pdf.get_string_width(text)
+    text_x1 = pdf.l_margin + TABLE_WIDTH - text_width
+    pdf.set_x(text_x1)
+    pdf.cell(text=text)
 
-                row.cell(cell_data, text_align, VAlign.T)
+    pdf.set_line_width(0.4)
+    line_x1 = text_x1 - 90
+    line_x2 = text_x1
+    pdf.line(line_x1, pdf.get_y() + 4, line_x2, pdf.get_y() + 4)
+
+    username = f"{user.last_name} {user.first_name}"
+    pdf.set_x(line_x2 - pdf.get_string_width(username) - 3)
+    pdf.cell(text=f"{user.last_name} {user.first_name}")
+
+    pdf.ln(6)
+    pdf.cell(text=_("This document is given to the branch director (after the transaction is completed)"))
+    pdf.set_x(pdf.get_x() + 10)
+    pdf.cell(text="(098)7546898, e-mail: reklama@evropa.od.ua")
 
     return pdf
+
+
+def _get_real_estate_description(obj: BaseRealEstate) -> str:
+    if isinstance(obj, Apartment):
+        return _get_apartment_description(obj)
+    if isinstance(obj, Commerce):
+        return _get_commerce_description(obj)
+    if isinstance(obj, House):
+        return _get_house_description(obj)
+    if isinstance(obj, Land):
+        return _get_land_description(obj)
+
+
+def _get_apartment_description(obj: Apartment) -> str:
+    result = ""
+    if obj.floor and obj.storeys_number:
+        result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
+    if obj.square and obj.living_square and obj.kitchen_square:
+        result += _("Area (total/living/kitchen): {total}/{living}/{kitchen}. ").format(
+            total=obj.square,
+            living=obj.living_square,
+            kitchen=obj.kitchen_square
+        )
+    if obj.house_type:
+        result += _("House type: {house_type}. ").format(house_type=obj.house_type.handbook)
+    if obj.layout:
+        result += _("Layout: {layout}. ").format(layout=obj.layout.handbook)
+    if obj.condition:
+        result += _("Condition: {condition}. ").format(condition=obj.condition.handbook)
+    return result
+
+
+def _get_commerce_description(obj: Commerce) -> str:
+    result = ""
+    if obj.floor and obj.storeys_number:
+        result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
+    if obj.square and obj.living_square and obj.kitchen_square:
+        result += _("Area (total/useful/kitchen): {total}/{useful}/{kitchen}. ").format(
+            total=obj.square,
+            useful=obj.useful_square,
+            kitchen=obj.kitchen_square
+        )
+    if obj.house_type:
+        result += _("House type: {house_type}. ").format(house_type=obj.house_type.handbook)
+    if obj.layout:
+        result += _("Layout: {layout}. ").format(layout=obj.layout.handbook)
+    if obj.condition:
+        result += _("Condition: {condition}. ").format(condition=obj.condition.handbook)
+    return result
+
+
+def _get_house_description(obj: House) -> str:
+    result = ""
+    if obj.floor and obj.storeys_number:
+        result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
+    if obj.square and obj.living_square and obj.kitchen_square:
+        result += _("Area (total/land/kitchen): {total}/{land}/{kitchen}. ").format(
+            total=obj.square,
+            land=obj.land_square,
+            kitchen=obj.kitchen_square
+        )
+    if obj.house_type:
+        result += _("House type: {house_type}. ").format(house_type=obj.house_type.handbook)
+    if obj.layout:
+        result += _("Layout: {layout}. ").format(layout=obj.layout.handbook)
+    if obj.condition:
+        result += _("Condition: {condition}. ").format(condition=obj.condition.handbook)
+    return result
+
+
+def _get_land_description(obj: Land) -> str:
+    result = ""
+    if obj.floor and obj.storeys_number:
+        result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
+    if obj.square and obj.living_square and obj.kitchen_square:
+        result += _("Area (total/land/kitchen): {total}/{land}/{kitchen}. ").format(
+            total=obj.square,
+            land=obj.land_square,
+            kitchen=obj.kitchen_square
+        )
+    if obj.house_type:
+        result += _("House type: {house_type}. ").format(house_type=obj.house_type.handbook)
+    if obj.layout:
+        result += _("Layout: {layout}. ").format(layout=obj.layout.handbook)
+    if obj.condition:
+        result += _("Condition: {condition}. ").format(condition=obj.condition.handbook)
+    return result
+
