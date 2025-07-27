@@ -46,12 +46,6 @@ def user_can_view_land_list(user: CustomUser) -> bool:
     )
 
 
-def user_can_view_land_list(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user, "objects.view_land", "objects.view_own_land", "objects.view_filial_land"
-    )
-
-
 def user_can_view_real_estate_list(user: CustomUser) -> bool:
     return (
         user_can_view_apartment_list(user)
@@ -614,17 +608,17 @@ def can_interact_with_object_list(
     return loc
 
 
-def selection_add_selected(
-    object_type: int, selection: Selection, selected, *args, **kwargs
+def selection_add_selected_objects(
+    selection: Selection, object_type: int, *objects: BaseRealEstate
 ) -> None:
     """
     Функція для того щоб створити запис того, що ми зробили виборку для клієнтів (Selection)
     """
     if object_type == RealEstateType.APARTMENT:
-        selection.selected_apartments.add(selected)
+        selection.selected_apartments.add(*objects)
     elif object_type == RealEstateType.COMMERCE:
-        selection.selected_commerces.add(selected)
+        selection.selected_commerces.add(*objects)
     elif object_type == RealEstateType.HOUSE:
-        selection.selected_houses.add(selected)
+        selection.selected_houses.add(*objects)
     elif object_type == RealEstateType.LAND:
-        selection.selected_lands.add(selected)
+        selection.selected_lands.add(*objects)

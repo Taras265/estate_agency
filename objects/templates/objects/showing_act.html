@@ -3,7 +3,6 @@
 {% load i18n %}
 {% load i18n %}
 {% load objects_tags %}
-{% load static %}
 <html lang="">
 
 <head>
@@ -58,39 +57,39 @@
         <div class="container featured_property_section properties_list_section">
         {% for object in objects %}
         <div class="featured_div">
-                        <div id="carousel{{ object.object.id }}" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                {% for image in object.object.images.all %}  {# Проходимся по всем изображениям объекта #}
-                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                        <img class="d-block w-100" src="{{ image.image.url }}" alt="img" style="height: 200px; object-fit: cover;">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <!-- Кнопки управления -->
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            </button>
+            <div id="carousel{{ object.object.id }}" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in object.object.images.all %}  {# Проходимся по всем изображениям объекта #}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img class="d-block w-100" src="{{ image.image.url }}" alt="img" style="height: 200px; object-fit: cover;">
                         </div>
-                        <div class="featured_content">
-                            <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</a></h2>
-                            <p>{% translate 'id' %}: {{ object.object.id }}</p>
-                            {% if object.object.house_type %}<p>{% translate 'house_type' %}: {{ object.object.house_type }}</p>{% endif %}
-                            <p><span><i class='bx bx-map'></i></span>{% if object.object.locality %}{{ object.object.locality }}, {% endif %}{% if object.object.locality_district %}{{ object.object.locality_district }}, {% endif %}{% if object.object.street %}{{ object.object.street }}, {% endif %}{% if object.object.house %}{{ object.object.house }} {% translate 'house' %}{% endif %}{% if object.object.floor > 0 %}, {{ object.object.floor }} {% translate 'floor' %}{% endif %}</p>
-                            <ul class="property_spec">
-                                <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
-                            </ul>
-                        </div>
-                        <div class="property_price">
-                            <div class="price_div">
-                                <p>₴{{ object.object.price }}</p>
-                            </div>
-                            {% get_model_name object.object as model_name %}
-                            <a class="custombtn" href="{% url 'objects:'|add:model_name|add:'_detail' lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
-                        </div>
-                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Кнопки управления -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="featured_content">
+                <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</a></h2>
+                <p>{% translate 'id' %}: {{ object.object.id }}</p>
+                {% if object.object.house_type %}<p>{% translate 'house_type' %}: {{ object.object.house_type }}</p>{% endif %}
+                <p><span><i class='bx bx-map'></i></span>{% if object.object.locality %}{{ object.object.locality }}, {% endif %}{% if object.object.locality_district %}{{ object.object.locality_district }}, {% endif %}{% if object.object.street %}{{ object.object.street }}, {% endif %}{% if object.object.house %}{{ object.object.house }} {% translate 'house' %}{% endif %}{% if object.object.floor > 0 %}, {{ object.object.floor }} {% translate 'floor' %}{% endif %}</p>
+                <ul class="property_spec">
+                    <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
+                </ul>
+            </div>
+            <div class="property_price">
+                <div class="price_div">
+                    <p>₴{{ object.object.price }}</p>
+                </div>
+                {% get_model_name object.object as model_name %}
+                <a class="custombtn" href="{% url 'objects:'|add:model_name|add:'_detail' lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
+            </div>
+        </div>
         {% endfor %}
         </div>
     </div>

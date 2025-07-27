@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from enum import Enum
+
 
 class RealEstateType(models.IntegerChoices):
     """Тип обʼєкта нерухомості"""
@@ -60,3 +62,8 @@ class LandDisposition(models.IntegerChoices):
     FACADE = 1, _("Facade")  # Фасад
     INTERNAL = 2, _("Internal")  # Внутрішній
     CORNER = 3, _("Corner")  # Кутовий
+
+
+class ShowingActType(Enum):
+    SIMPLE = 1
+    WITH_USER_INFO = 2
