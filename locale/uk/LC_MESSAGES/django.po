@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-28 22:54+0300\n"
+"POT-Creation-Date: 2025-07-27 08:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,89 +20,84 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
-
-#: .\accounts\forms.py:10 .\accounts\forms.py:40 .\accounts\forms.py:62
+#: .\accounts\forms.py:11 .\accounts\forms.py:49 .\accounts\forms.py:79
 #: .\accounts\models.py:48
-#: .\accounts\templates\accounts\office_user_list.html:89
-#: .\accounts\templates\accounts\profile.html:50
-#: .\accounts\templates\accounts\user_list.html:50 .\handbooks\forms.py:140
-#: .\handbooks\forms.py:287
-#: .\handbooks\templates\handbooks\client_list.html:107
-#: .\handbooks\templates\handbooks\office_client_list.html:151
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:151
+#: .\accounts\templates\accounts\office_user_list.html:105
+#: .\accounts\templates\accounts\profile.html:109
+#: .\accounts\templates\accounts\user_list.html:50 .\handbooks\forms.py:146
+#: .\handbooks\forms.py:286
+#: .\handbooks\templates\handbooks\client_list.html:108
+#: .\handbooks\templates\handbooks\office_client_list.html:159
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:158
 #: .\objects\templates\objects\details.html:310
 #: .\objects\templates\objects\details.html:330
 #: .\objects\templates\objects\details.html:351
 #: .\objects\templates\objects\details.html:372
 msgid "Email"
-msgstr "Електронна пошта"
+msgstr "Пошта"
 
-#: .\accounts\forms.py:11 .\accounts\forms.py:66
+#: .\accounts\forms.py:14 .\accounts\forms.py:82
 msgid "Password"
 msgstr "Пароль"
 
-#: .\accounts\forms.py:19
+#: .\accounts\forms.py:23
 msgid "There is no user with this email"
-msgstr "Користувача з такою електронною поштою не існує"
+msgstr "Жодного користувача з такою поштою"
 
-#: .\accounts\forms.py:21
+#: .\accounts\forms.py:25
 msgid "The password is not valid"
-msgstr "Неправильний пароль"
+msgstr "Пароль невірний"
 
-#: .\accounts\forms.py:24
+#: .\accounts\forms.py:28
 msgid "The user is inactive"
-msgstr "Користувач неактивний"
+msgstr "Користувач не активний"
 
-#: .\accounts\forms.py:29 .\accounts\models.py:75 .\images\forms.py:15
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
+#: .\accounts\forms.py:34 .\accounts\models.py:69 .\images\forms.py:14
 msgid "Image"
 msgstr "Зображення"
 
-#: .\accounts\forms.py:41
+#: .\accounts\forms.py:51
 msgid "email"
-msgstr "Електронна пошта"
+msgstr "пошта"
 
-#: .\accounts\forms.py:44 .\accounts\forms.py:70 .\accounts\models.py:52
-#: .\accounts\templates\accounts\office_user_list.html:88
-#: .\accounts\templates\accounts\user_list.html:49 .\handbooks\forms.py:144
-#: .\handbooks\templates\handbooks\client_list.html:108
-#: .\handbooks\templates\handbooks\office_client_list.html:152
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:152
+#: .\accounts\forms.py:55 .\accounts\forms.py:85 .\accounts\models.py:50
+#: .\accounts\templates\accounts\office_user_list.html:104
+#: .\accounts\templates\accounts\user_list.html:49 .\handbooks\forms.py:149
+#: .\handbooks\templates\handbooks\client_list.html:109
+#: .\handbooks\templates\handbooks\office_client_list.html:160
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:159
 msgid "First name"
 msgstr "Ім'я"
 
-#: .\accounts\forms.py:48 .\accounts\forms.py:74 .\accounts\models.py:57
-#: .\accounts\templates\accounts\office_user_list.html:87
-#: .\accounts\templates\accounts\user_list.html:48 .\handbooks\forms.py:148
+#: .\accounts\forms.py:58 .\accounts\forms.py:88 .\accounts\models.py:53
+#: .\accounts\templates\accounts\office_user_list.html:103
+#: .\accounts\templates\accounts\user_list.html:48 .\handbooks\forms.py:152
 msgid "Last name"
 msgstr "Прізвище"
 
-#: .\accounts\forms.py:87 .\accounts\templates\accounts\profile.html:41
+#: .\accounts\forms.py:106 .\accounts\templates\accounts\profile.html:100
 #: .\objects\templates\objects\details.html:308
 #: .\objects\templates\objects\details.html:328
 #: .\objects\templates\objects\details.html:349
 #: .\objects\templates\objects\details.html:370
 msgid "Name"
-msgstr "Ім'я"
+msgstr "Назва"
 
-#: .\accounts\templates\accounts\login.html:4
-#: .\accounts\templates\accounts\login.html:10 .\templates\base.html:82
-msgid "Login"
-msgstr "Вхід"
-
-#: .\accounts\templates\accounts\login.html:15
-#: .\accounts\templates\accounts\user_form.html:62
-#: .\handbooks\templates\handbooks\client_form.html:183
-#: .\objects\templates\objects\real_estate_create_form.html:53
-#: .\objects\templates\objects\real_estate_update_form.html:38
-#: .\templates\form.html:29
-msgid "Submit"
-msgstr "Зберегти"
-
+#: .\accounts\templates\accounts\group_list.html:5
 #: .\accounts\templates\accounts\office_user_list.html:4
 #: .\accounts\templates\accounts\user_list.html:4
 #: .\handbooks\templates\handbooks\client_list.html:5
+#: .\handbooks\templates\handbooks\district_list.html:5
+#: .\handbooks\templates\handbooks\filial_list.html:5
+#: .\handbooks\templates\handbooks\filialreport_list.html:5
+#: .\handbooks\templates\handbooks\handbook_list.html:5
+#: .\handbooks\templates\handbooks\handbook_list.html:10
+#: .\handbooks\templates\handbooks\handbook_list.html:13
 #: .\handbooks\templates\handbooks\list.html:5
+#: .\handbooks\templates\handbooks\locality_list.html:5
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:5
+#: .\handbooks\templates\handbooks\region_list.html:5
+#: .\handbooks\templates\handbooks\street_list.html:5
 #: .\objects\templates\objects\changes_report_list.html:6
 #: .\objects\templates\objects\contract_list.html:6
 #: .\objects\templates\objects\office_changes_report_list.html:6
@@ -110,48 +105,45 @@ msgstr "Зберегти"
 #: .\objects\templates\objects\office_real_estate_list.html:7
 #: .\objects\templates\objects\office_report_list.html:6
 #: .\objects\templates\objects\real_estate_list.html:7
-#: .\objects\templates\objects\report_list.html:6 .\templates\main.html:37
-#: .\templates\main.html:40
+#: .\objects\templates\objects\report_list.html:6 .\templates\main.html:27
+#: .\templates\main.html:30
 msgid "Handbooks"
-msgstr "Довідники"
+msgstr "Каталог"
 
-#: .\accounts\templates\accounts\office_user_list.html:9
-#: .\accounts\templates\accounts\office_user_list.html:12
-#: .\accounts\templates\accounts\office_user_list.html:67
-#: .\accounts\templates\accounts\user_form.html:22
-#: .\accounts\templates\accounts\user_list.html:9
-#: .\accounts\templates\accounts\user_list.html:12
-#: .\accounts\templates\accounts\user_list.html:24
-#: .\handbooks\templates\handbooks\office_client_list.html:66
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:66
-#: .\objects\templates\objects\office_changes_report_list.html:68
-#: .\objects\templates\objects\office_filial_real_estate_list.html:69
-#: .\objects\templates\objects\office_real_estate_list.html:69
-#: .\objects\templates\objects\office_report_list.html:68
-#: .\templates\main.html:49 .\templates\main.html:52
-msgid "Users"
-msgstr "Користувачі"
+#: .\accounts\templates\accounts\group_list.html:10
+#: .\accounts\templates\accounts\group_list.html:13
+msgid "Group"
+msgstr "Група"
 
+#: .\accounts\templates\accounts\group_list.html:12
 #: .\accounts\templates\accounts\office_user_list.html:11
 #: .\accounts\templates\accounts\profile.html:11
 #: .\accounts\templates\accounts\user_form.html:21
 #: .\accounts\templates\accounts\user_list.html:11
 #: .\handbooks\templates\handbooks\client_form.html:25
 #: .\handbooks\templates\handbooks\client_list.html:12
+#: .\handbooks\templates\handbooks\district_list.html:12
+#: .\handbooks\templates\handbooks\filial_list.html:12
+#: .\handbooks\templates\handbooks\filialreport_list.html:12
+#: .\handbooks\templates\handbooks\handbook_list.html:12
 #: .\handbooks\templates\handbooks\history_list.html:12
 #: .\handbooks\templates\handbooks\list.html:12
+#: .\handbooks\templates\handbooks\locality_list.html:12
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:12
 #: .\handbooks\templates\handbooks\office_client_list.html:11
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:11
+#: .\handbooks\templates\handbooks\region_list.html:12
+#: .\handbooks\templates\handbooks\street_list.html:12
 #: .\objects\templates\objects\catalog.html:13
 #: .\objects\templates\objects\changes_report_list.html:13
 #: .\objects\templates\objects\contract_list.html:13
-#: .\objects\templates\objects\contract_list.html:14
 #: .\objects\templates\objects\details.html:12
 #: .\objects\templates\objects\office_changes_report_list.html:13
 #: .\objects\templates\objects\office_filial_real_estate_list.html:14
 #: .\objects\templates\objects\office_real_estate_list.html:14
 #: .\objects\templates\objects\office_report_list.html:13
 #: .\objects\templates\objects\real_estate_create_form.html:25
+#: .\objects\templates\objects\real_estate_details_form.html:25
 #: .\objects\templates\objects\real_estate_list.html:14
 #: .\objects\templates\objects\real_estate_update_form.html:25
 #: .\objects\templates\objects\report_list.html:13
@@ -162,202 +154,334 @@ msgstr "Користувачі"
 msgid "Main"
 msgstr "Головна"
 
+#: .\accounts\templates\accounts\group_list.html:36
+#: .\handbooks\templates\handbooks\client_list.html:35
+#: .\handbooks\templates\handbooks\district_list.html:36
+#: .\handbooks\templates\handbooks\filial_list.html:36
+#: .\handbooks\templates\handbooks\filialreport_list.html:36
+#: .\handbooks\templates\handbooks\handbook_list.html:36
+#: .\handbooks\templates\handbooks\list.html:36
+#: .\handbooks\templates\handbooks\locality_list.html:36
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:36
+#: .\handbooks\templates\handbooks\office_client_list.html:100
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:99
+#: .\handbooks\templates\handbooks\region_list.html:36
+#: .\handbooks\templates\handbooks\street_list.html:36
+#: .\objects\templates\objects\catalog.html:30
+#: .\objects\templates\objects\changes_report_list.html:36
+#: .\objects\templates\objects\office_filial_real_estate_list.html:104
+#: .\objects\templates\objects\office_real_estate_list.html:102
+#: .\objects\templates\objects\office_report_list.html:51
+#: .\objects\templates\objects\real_estate_list.html:37
+#: .\objects\templates\objects\report_list.html:48
+#: .\objects\templates\objects\selection_list.html:37
+msgid "Search"
+msgstr "Пошук"
+
+#: .\accounts\templates\accounts\group_list.html:69
+#: .\handbooks\templates\handbooks\district_list.html:69
+#: .\handbooks\templates\handbooks\filial_list.html:69
+#: .\handbooks\templates\handbooks\filialreport_list.html:69
+#: .\handbooks\templates\handbooks\handbook_list.html:69
+#: .\handbooks\templates\handbooks\locality_list.html:69
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:69
+#: .\handbooks\templates\handbooks\region_list.html:69
+#: .\handbooks\templates\handbooks\street_list.html:69
+#: .\objects\templates\objects\catalog.html:59
+#: .\objects\templates\objects\selection_list.html:74
+#: .\objects\templates\objects\showing_act.html:79
+msgid "id"
+msgstr "id"
+
+#: .\accounts\templates\accounts\group_list.html:70
+msgid "name"
+msgstr "прізвище"
+
+#: .\accounts\templates\accounts\group_list.html:88
+#: .\accounts\templates\accounts\office_user_list.html:132
+#: .\accounts\templates\accounts\user_list.html:77
+#: .\handbooks\templates\handbooks\client_list.html:144
+#: .\handbooks\templates\handbooks\district_list.html:90
+#: .\handbooks\templates\handbooks\filial_list.html:88
+#: .\handbooks\templates\handbooks\filialreport_list.html:92
+#: .\handbooks\templates\handbooks\handbook_list.html:90
+#: .\handbooks\templates\handbooks\list.html:116
+#: .\handbooks\templates\handbooks\locality_list.html:94
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:98
+#: .\handbooks\templates\handbooks\office_client_list.html:195
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:194
+#: .\handbooks\templates\handbooks\region_list.html:88
+#: .\handbooks\templates\handbooks\street_list.html:90
+#: .\objects\templates\objects\office_filial_real_estate_list.html:173
+#: .\objects\templates\objects\office_real_estate_list.html:172
+#: .\objects\templates\objects\real_estate_list.html:137
+msgid "Update"
+msgstr "Оновити"
+
+#: .\accounts\templates\accounts\group_list.html:92
+#: .\accounts\templates\accounts\office_user_list.html:139
+#: .\accounts\templates\accounts\user_list.html:84
+#: .\handbooks\templates\handbooks\client_list.html:149
+#: .\handbooks\templates\handbooks\district_list.html:94
+#: .\handbooks\templates\handbooks\filial_list.html:92
+#: .\handbooks\templates\handbooks\filialreport_list.html:96
+#: .\handbooks\templates\handbooks\handbook_list.html:94
+#: .\handbooks\templates\handbooks\list.html:120
+#: .\handbooks\templates\handbooks\locality_list.html:98
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:102
+#: .\handbooks\templates\handbooks\office_client_list.html:200
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:199
+#: .\handbooks\templates\handbooks\region_list.html:92
+#: .\handbooks\templates\handbooks\street_list.html:94
+#: .\images\templates\images\list.html:21
+#: .\objects\templates\objects\office_filial_real_estate_list.html:180
+#: .\objects\templates\objects\office_real_estate_list.html:179
+#: .\objects\templates\objects\real_estate_list.html:144
+#: .\templates\delete_form.html:25
+msgid "Delete"
+msgstr "Видалити"
+
+#: .\accounts\templates\accounts\group_list.html:99
+#: .\accounts\templates\accounts\office_user_list.html:151
+#: .\accounts\templates\accounts\user_list.html:96
+#: .\handbooks\templates\handbooks\client_list.html:157
+#: .\handbooks\templates\handbooks\district_list.html:101
+#: .\handbooks\templates\handbooks\filial_list.html:99
+#: .\handbooks\templates\handbooks\filialreport_list.html:103
+#: .\handbooks\templates\handbooks\handbook_list.html:101
+#: .\handbooks\templates\handbooks\history_list.html:5
+#: .\handbooks\templates\handbooks\history_list.html:15
+#: .\handbooks\templates\handbooks\list.html:127
+#: .\handbooks\templates\handbooks\locality_list.html:105
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:109
+#: .\handbooks\templates\handbooks\office_client_list.html:208
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:207
+#: .\handbooks\templates\handbooks\region_list.html:99
+#: .\handbooks\templates\handbooks\street_list.html:101
+#: .\objects\templates\objects\office_filial_real_estate_list.html:192
+#: .\objects\templates\objects\office_real_estate_list.html:191
+#: .\objects\templates\objects\real_estate_list.html:157
+msgid "History"
+msgstr "Історія"
+
+#: .\accounts\templates\accounts\group_list.html:111
+#: .\accounts\templates\accounts\office_user_list.html:170
+#: .\accounts\templates\accounts\user_list.html:115
+#: .\handbooks\templates\handbooks\client_list.html:168
+#: .\handbooks\templates\handbooks\district_list.html:113
+#: .\handbooks\templates\handbooks\filial_list.html:111
+#: .\handbooks\templates\handbooks\filialreport_list.html:115
+#: .\handbooks\templates\handbooks\handbook_list.html:113
+#: .\handbooks\templates\handbooks\list.html:139
+#: .\handbooks\templates\handbooks\locality_list.html:117
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:121
+#: .\handbooks\templates\handbooks\office_client_list.html:219
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:218
+#: .\handbooks\templates\handbooks\region_list.html:111
+#: .\handbooks\templates\handbooks\street_list.html:113
+#: .\objects\templates\objects\office_filial_real_estate_list.html:225
+#: .\objects\templates\objects\office_real_estate_list.html:224
+#: .\objects\templates\objects\real_estate_list.html:191
+msgid "Create"
+msgstr "Додавання"
+
+#: .\accounts\templates\accounts\group_list.html:119
+#: .\accounts\templates\accounts\office_user_list.html:180
+#: .\accounts\templates\accounts\user_list.html:125
+#: .\handbooks\templates\handbooks\client_list.html:176
+#: .\handbooks\templates\handbooks\district_list.html:121
+#: .\handbooks\templates\handbooks\filial_list.html:119
+#: .\handbooks\templates\handbooks\filialreport_list.html:123
+#: .\handbooks\templates\handbooks\handbook_list.html:121
+#: .\handbooks\templates\handbooks\list.html:147
+#: .\handbooks\templates\handbooks\locality_list.html:125
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:129
+#: .\handbooks\templates\handbooks\office_client_list.html:227
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:226
+#: .\handbooks\templates\handbooks\region_list.html:119
+#: .\handbooks\templates\handbooks\street_list.html:121
+#: .\objects\templates\objects\changes_report_list.html:182
+#: .\objects\templates\objects\contract_list.html:199
+#: .\objects\templates\objects\office_changes_report_list.html:184
+#: .\objects\templates\objects\office_filial_real_estate_list.html:234
+#: .\objects\templates\objects\office_real_estate_list.html:233
+#: .\objects\templates\objects\office_report_list.html:223
+#: .\objects\templates\objects\real_estate_list.html:200
+#: .\objects\templates\objects\report_list.html:194
+msgid "Previous"
+msgstr "Попередній"
+
+#: .\accounts\templates\accounts\group_list.html:125
+#: .\accounts\templates\accounts\office_user_list.html:190
+#: .\accounts\templates\accounts\user_list.html:135
+#: .\handbooks\templates\handbooks\client_list.html:182
+#: .\handbooks\templates\handbooks\district_list.html:127
+#: .\handbooks\templates\handbooks\filial_list.html:125
+#: .\handbooks\templates\handbooks\filialreport_list.html:129
+#: .\handbooks\templates\handbooks\handbook_list.html:127
+#: .\handbooks\templates\handbooks\list.html:153
+#: .\handbooks\templates\handbooks\locality_list.html:131
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:135
+#: .\handbooks\templates\handbooks\office_client_list.html:233
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:232
+#: .\handbooks\templates\handbooks\region_list.html:125
+#: .\handbooks\templates\handbooks\street_list.html:127
+#: .\objects\templates\objects\changes_report_list.html:188
+#: .\objects\templates\objects\contract_list.html:205
+#: .\objects\templates\objects\office_changes_report_list.html:190
+#: .\objects\templates\objects\office_filial_real_estate_list.html:240
+#: .\objects\templates\objects\office_real_estate_list.html:239
+#: .\objects\templates\objects\office_report_list.html:229
+#: .\objects\templates\objects\real_estate_list.html:206
+#: .\objects\templates\objects\report_list.html:200
+msgid "Next"
+msgstr "Наступний"
+
+#: .\accounts\templates\accounts\login.html:4
+#: .\accounts\templates\accounts\login.html:10 .\templates\base.html:82
+msgid "Login"
+msgstr "Увійти"
+
+#: .\accounts\templates\accounts\login.html:15
+#: .\accounts\templates\accounts\user_form.html:62
+#: .\handbooks\templates\handbooks\client_form.html:183
+#: .\objects\templates\objects\real_estate_create_form.html:56
+#: .\objects\templates\objects\real_estate_details_form.html:38
+#: .\objects\templates\objects\real_estate_update_form.html:38
+#: .\templates\form.html:29
+msgid "Submit"
+msgstr "Підтвердити"
+
+#: .\accounts\templates\accounts\office_user_list.html:9
+#: .\accounts\templates\accounts\office_user_list.html:12
+#: .\accounts\templates\accounts\office_user_list.html:62
+#: .\accounts\templates\accounts\profile.html:64
+#: .\accounts\templates\accounts\user_form.html:22
+#: .\accounts\templates\accounts\user_list.html:9
+#: .\accounts\templates\accounts\user_list.html:12
+#: .\accounts\templates\accounts\user_list.html:24
+#: .\handbooks\templates\handbooks\office_client_list.html:66
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:66
+#: .\objects\templates\objects\office_changes_report_list.html:68
+#: .\objects\templates\objects\office_filial_real_estate_list.html:69
+#: .\objects\templates\objects\office_real_estate_list.html:69
+#: .\objects\templates\objects\office_report_list.html:104
+#: .\templates\main.html:41 .\templates\main.html:44
+msgid "Users"
+msgstr "Користувачі"
+
 #: .\accounts\templates\accounts\office_user_list.html:23
+#: .\accounts\templates\accounts\profile.html:24
 #: .\handbooks\templates\handbooks\office_client_list.html:22
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:23
 #: .\objects\templates\objects\office_changes_report_list.html:25
 #: .\objects\templates\objects\office_filial_real_estate_list.html:26
 #: .\objects\templates\objects\office_real_estate_list.html:26
-#: .\objects\templates\objects\office_report_list.html:25
-#, fuzzy
+#: .\objects\templates\objects\office_report_list.html:66
 msgid "My clients"
 msgstr "Мої клієнти"
 
-#: .\accounts\templates\accounts\office_user_list.html:32
+#: .\accounts\templates\accounts\office_user_list.html:31
+#: .\accounts\templates\accounts\profile.html:32
 #: .\handbooks\templates\handbooks\office_client_list.html:30
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:32
 #: .\objects\templates\objects\office_changes_report_list.html:34
 #: .\objects\templates\objects\office_filial_real_estate_list.html:35
 #: .\objects\templates\objects\office_real_estate_list.html:34
-#: .\objects\templates\objects\office_report_list.html:34
+#: .\objects\templates\objects\office_report_list.html:74
 msgid "My objects"
 msgstr "Мої об'єкти"
 
-#: .\accounts\templates\accounts\office_user_list.html:41
+#: .\accounts\templates\accounts\office_user_list.html:39
+#: .\accounts\templates\accounts\profile.html:40
 #: .\handbooks\templates\handbooks\office_client_list.html:39
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:40
 #: .\objects\templates\objects\office_changes_report_list.html:43
 #: .\objects\templates\objects\office_filial_real_estate_list.html:44
 #: .\objects\templates\objects\office_real_estate_list.html:42
-#: .\objects\templates\objects\office_report_list.html:43
-#, fuzzy
+#: .\objects\templates\objects\office_report_list.html:82
 msgid "Filial clients"
-msgstr "Клієнти філіала"
+msgstr "Клієнти філіалу"
 
-#: .\accounts\templates\accounts\office_user_list.html:50
+#: .\accounts\templates\accounts\office_user_list.html:47
+#: .\accounts\templates\accounts\profile.html:48
 #: .\handbooks\templates\handbooks\office_client_list.html:48
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:48
 #: .\objects\templates\objects\office_changes_report_list.html:52
 #: .\objects\templates\objects\office_filial_real_estate_list.html:52
 #: .\objects\templates\objects\office_real_estate_list.html:51
-#: .\objects\templates\objects\office_report_list.html:52
-#, fuzzy
+#: .\objects\templates\objects\office_report_list.html:90
 msgid "Filial objects"
-msgstr "Об'єкти філіала"
+msgstr "Об'єкти філіалу"
 
-#: .\accounts\templates\accounts\office_user_list.html:59
-#: .\handbooks\forms.py:340
+#: .\accounts\templates\accounts\office_user_list.html:55
+#: .\accounts\templates\accounts\profile.html:56 .\handbooks\forms.py:342
 #: .\handbooks\templates\handbooks\office_client_list.html:57
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:57
-#: .\objects\templates\objects\changes_report_list.html:69
-#: .\objects\templates\objects\contract_list.html:70
 #: .\objects\templates\objects\office_changes_report_list.html:60
 #: .\objects\templates\objects\office_filial_real_estate_list.html:60
 #: .\objects\templates\objects\office_real_estate_list.html:60
-#: .\objects\templates\objects\office_report_list.html:60
-#: .\objects\templates\objects\real_estate_list.html:70
-#: .\objects\templates\objects\report_list.html:11
-#: .\objects\templates\objects\report_list.html:14
-#: .\objects\templates\objects\report_list.html:69
+#: .\objects\templates\objects\office_report_list.html:97
 msgid "Report"
 msgstr "Звіт"
 
-#: .\accounts\templates\accounts\office_user_list.html:86
-#: .\accounts\templates\accounts\user_list.html:47 .\handbooks\forms.py:437
-#: .\handbooks\templates\handbooks\client_list.html:106
-#: .\handbooks\templates\handbooks\office_client_list.html:150
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:150
-#: .\objects\forms.py:178
-#: .\objects\templates\objects\changes_report_list.html:145
-#: .\objects\templates\objects\contract_list.html:180
-#: .\objects\templates\objects\office_changes_report_list.html:140
-#: .\objects\templates\objects\office_filial_real_estate_list.html:138
-#: .\objects\templates\objects\office_real_estate_list.html:138
-#: .\objects\templates\objects\office_report_list.html:140
-#: .\objects\templates\objects\real_estate_list.html:112
-#: .\objects\templates\objects\report_list.html:145
-msgid "Id"
-msgstr "Ідентифікатор"
-
-#: .\accounts\templates\accounts\office_user_list.html:90
-#: .\accounts\templates\accounts\user_list.html:51
-msgid "Phone numbers"
-msgstr "Номери телефонів"
-
-#: .\accounts\templates\accounts\office_user_list.html:116
-#: .\accounts\templates\accounts\user_list.html:77
-#: .\handbooks\templates\handbooks\client_list.html:142
-#: .\handbooks\templates\handbooks\list.html:116
-#: .\handbooks\templates\handbooks\office_client_list.html:186
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:186
-#: .\objects\templates\objects\office_filial_real_estate_list.html:158
-#: .\objects\templates\objects\office_real_estate_list.html:159
-#: .\objects\templates\objects\real_estate_list.html:133
-msgid "Update"
-msgstr "Оновити"
-
-#: .\accounts\templates\accounts\office_user_list.html:123
-#: .\accounts\templates\accounts\user_list.html:84
-#: .\handbooks\templates\handbooks\client_list.html:147
-#: .\handbooks\templates\handbooks\list.html:120
-#: .\handbooks\templates\handbooks\office_client_list.html:191
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:191
-#: .\images\templates\images\list.html:21
-#: .\objects\templates\objects\office_filial_real_estate_list.html:165
-#: .\objects\templates\objects\office_real_estate_list.html:166
-#: .\objects\templates\objects\real_estate_list.html:140
-#: .\templates\delete_form.html:25
-#: .\venv\Lib\site-packages\django\forms\formsets.py:499
-msgid "Delete"
-msgstr "Видалити"
-
-#: .\accounts\templates\accounts\office_user_list.html:135
-#: .\accounts\templates\accounts\user_list.html:96
-#: .\handbooks\templates\handbooks\client_list.html:155
-#: .\handbooks\templates\handbooks\history_list.html:5
-#: .\handbooks\templates\handbooks\history_list.html:15
-#: .\handbooks\templates\handbooks\list.html:127
-#: .\handbooks\templates\handbooks\office_client_list.html:199
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:199
-#: .\objects\templates\objects\office_filial_real_estate_list.html:177
-#: .\objects\templates\objects\office_real_estate_list.html:178
-#: .\objects\templates\objects\real_estate_list.html:152
-msgid "History"
-msgstr "Історія"
-
-#: .\accounts\templates\accounts\office_user_list.html:148
-#: .\accounts\templates\accounts\user_list.html:109
-#: .\objects\templates\objects\contract_list.html:199
-#: .\objects\templates\objects\office_filial_real_estate_list.html:203
-#: .\objects\templates\objects\office_real_estate_list.html:204
-#: .\objects\templates\objects\real_estate_list.html:178
-msgid "Not found"
-msgstr "Не знайдено"
-
-#: .\accounts\templates\accounts\office_user_list.html:154
-#: .\accounts\templates\accounts\user_list.html:115
-#: .\handbooks\templates\handbooks\client_list.html:166
-#: .\handbooks\templates\handbooks\list.html:139
-#: .\handbooks\templates\handbooks\office_client_list.html:210
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:210
-#: .\objects\templates\objects\office_filial_real_estate_list.html:210
-#: .\objects\templates\objects\office_real_estate_list.html:211
-#: .\objects\templates\objects\real_estate_list.html:185
-msgid "Create"
-msgstr "Створити"
-
-#: .\accounts\templates\accounts\office_user_list.html:164
-#: .\accounts\templates\accounts\user_list.html:125
-#: .\handbooks\templates\handbooks\client_list.html:174
-#: .\handbooks\templates\handbooks\list.html:147
-#: .\handbooks\templates\handbooks\office_client_list.html:218
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:218
-#: .\objects\templates\objects\changes_report_list.html:180
-#: .\objects\templates\objects\contract_list.html:207
-#: .\objects\templates\objects\office_changes_report_list.html:175
-#: .\objects\templates\objects\office_filial_real_estate_list.html:219
-#: .\objects\templates\objects\office_real_estate_list.html:220
-#: .\objects\templates\objects\office_report_list.html:177
-#: .\objects\templates\objects\real_estate_list.html:194
-#: .\objects\templates\objects\report_list.html:182
-msgid "Previous"
-msgstr "Попередня"
-
-#: .\accounts\templates\accounts\office_user_list.html:174
-#: .\accounts\templates\accounts\user_list.html:135
-#: .\handbooks\templates\handbooks\client_list.html:180
-#: .\handbooks\templates\handbooks\list.html:153
-#: .\handbooks\templates\handbooks\office_client_list.html:224
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:224
-#: .\objects\templates\objects\changes_report_list.html:186
-#: .\objects\templates\objects\contract_list.html:213
-#: .\objects\templates\objects\office_changes_report_list.html:181
-#: .\objects\templates\objects\office_filial_real_estate_list.html:225
-#: .\objects\templates\objects\office_real_estate_list.html:226
-#: .\objects\templates\objects\office_report_list.html:183
-#: .\objects\templates\objects\real_estate_list.html:200
-#: .\objects\templates\objects\report_list.html:188
-msgid "Next"
-msgstr "Наступна"
-
+#: .\accounts\templates\accounts\office_user_list.html:68
 #: .\accounts\templates\accounts\profile.html:4
 #: .\accounts\templates\accounts\profile.html:9
 #: .\accounts\templates\accounts\profile.html:12
+#: .\accounts\templates\accounts\profile.html:71
 #: .\handbooks\templates\handbooks\office_client_list.html:4
+#: .\handbooks\templates\handbooks\office_client_list.html:74
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:4
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:74
+#: .\objects\templates\objects\office_changes_report_list.html:76
+#: .\objects\templates\objects\office_filial_real_estate_list.html:79
+#: .\objects\templates\objects\office_real_estate_list.html:77
+#: .\objects\templates\objects\office_report_list.html:111
 #: .\templates\base.html:86
 msgid "Profile"
 msgstr "Профіль"
 
-#: .\accounts\templates\accounts\profile.html:43
+#: .\accounts\templates\accounts\office_user_list.html:102
+#: .\accounts\templates\accounts\user_list.html:47 .\handbooks\forms.py:435
+#: .\handbooks\templates\handbooks\client_list.html:107
+#: .\handbooks\templates\handbooks\office_client_list.html:158
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:157
+#: .\objects\forms.py:337
+#: .\objects\templates\objects\changes_report_list.html:147
+#: .\objects\templates\objects\contract_list.html:172
+#: .\objects\templates\objects\office_changes_report_list.html:149
+#: .\objects\templates\objects\office_filial_real_estate_list.html:153
+#: .\objects\templates\objects\office_real_estate_list.html:151
+#: .\objects\templates\objects\office_report_list.html:186
+#: .\objects\templates\objects\real_estate_list.html:116
+#: .\objects\templates\objects\report_list.html:157
+msgid "Id"
+msgstr "Id"
+
+#: .\accounts\templates\accounts\office_user_list.html:106
+#: .\accounts\templates\accounts\user_list.html:51
+msgid "Phone numbers"
+msgstr "Номери телефонів"
+
+#: .\accounts\templates\accounts\office_user_list.html:164
+#: .\accounts\templates\accounts\user_list.html:109
+#: .\objects\templates\objects\contract_list.html:191
+#: .\objects\templates\objects\office_filial_real_estate_list.html:218
+#: .\objects\templates\objects\office_real_estate_list.html:217
+#: .\objects\templates\objects\real_estate_list.html:184
+msgid "Not found"
+msgstr "Не знайдено"
+
+#: .\accounts\templates\accounts\profile.html:102
 #: .\objects\templates\objects\details.html:309
 #: .\objects\templates\objects\details.html:329
 #: .\objects\templates\objects\details.html:350
 #: .\objects\templates\objects\details.html:371
 msgid "Phone"
-msgstr "Телефон"
+msgstr "Номер телефону"
 
-#: .\accounts\templates\accounts\profile.html:57
+#: .\accounts\templates\accounts\profile.html:116
 msgid "New avatar"
 msgstr "Новий аватар"
 
@@ -371,7 +495,6 @@ msgstr "Форма"
 
 #: .\accounts\templates\accounts\user_form.html:19
 #: .\accounts\templates\accounts\user_form.html:24
-#, fuzzy
 msgid "User form"
 msgstr "Форма користувача"
 
@@ -381,7 +504,7 @@ msgstr "Додати номер телефону"
 
 #: .\accounts\templates\accounts\user_list.html:31
 msgid "Groups"
-msgstr "Групи"
+msgstr "Група"
 
 #: .\handbooks\choices.py:6
 msgid "Village"
@@ -389,17 +512,15 @@ msgstr "Село"
 
 #: .\handbooks\choices.py:7
 msgid "Urban-type village"
-msgstr "Селище міського типу"
+msgstr "Село міського типу"
 
 #: .\handbooks\choices.py:8
 msgid "City"
 msgstr "Місто"
 
 #: .\handbooks\choices.py:12
-#, fuzzy
-#| msgid "District"
 msgid "Districtional"
-msgstr "Район"
+msgstr "Регіональний"
 
 #: .\handbooks\choices.py:13
 msgid "Regional"
@@ -407,15 +528,15 @@ msgstr "Обласний"
 
 #: .\handbooks\choices.py:18
 msgid "Seaside+Center"
-msgstr "Приморський+Центр"
+msgstr "Seaside+Center"
 
 #: .\handbooks\choices.py:19
 msgid "Kyiv+Malinovsky"
-msgstr "Київський+Малиновський"
+msgstr "Києв+Маліновський"
 
 #: .\handbooks\choices.py:20
 msgid "Suvorov"
-msgstr "Суворовський"
+msgstr "Суворський"
 
 #: .\handbooks\choices.py:25
 msgid "Recommendations"
@@ -439,221 +560,229 @@ msgstr "Банер"
 
 #: .\handbooks\choices.py:30
 msgid "Posting"
-msgstr "Розміщення"
+msgstr "Публікації"
 
-#: .\handbooks\choices.py:34 .\handbooks\forms.py:176 .\objects\models.py:64
+#: .\handbooks\choices.py:34 .\handbooks\forms.py:177 .\objects\models.py:66
 msgid "Realtor"
-msgstr "Рієлтор"
+msgstr "Ріелтор"
 
 #: .\handbooks\choices.py:35
 msgid "Realtor 5x5"
-msgstr "Рієлтор 5x5"
+msgstr "Ріелтор 5х5"
 
 #: .\handbooks\choices.py:39
 msgid "In search"
 msgstr "У пошуку"
 
 #: .\handbooks\choices.py:40
-#: .\handbooks\templates\handbooks\client_list.html:80
-#: .\handbooks\templates\handbooks\office_client_list.html:124
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:124
+#: .\handbooks\templates\handbooks\client_list.html:81
+#: .\handbooks\templates\handbooks\office_client_list.html:132
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:131
 msgid "With a show"
-msgstr "З переглядом"
+msgstr "З показом"
 
 #: .\handbooks\choices.py:41
-#: .\handbooks\templates\handbooks\client_list.html:86
-#: .\handbooks\templates\handbooks\office_client_list.html:130
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:130
+#: .\handbooks\templates\handbooks\client_list.html:87
+#: .\handbooks\templates\handbooks\office_client_list.html:138
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:137
 msgid "Decided"
-msgstr "Визначився"
+msgstr "Визначений"
 
 #: .\handbooks\choices.py:42
-#: .\handbooks\templates\handbooks\client_list.html:92
-#: .\handbooks\templates\handbooks\office_client_list.html:136
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:136
+#: .\handbooks\templates\handbooks\client_list.html:93
+#: .\handbooks\templates\handbooks\office_client_list.html:144
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:143
 msgid "Deferred demand"
 msgstr "Відкладений попит"
 
-#: .\handbooks\forms.py:20 .\handbooks\forms.py:36
+#: .\handbooks\forms.py:32 .\handbooks\forms.py:46
+#: .\handbooks\templates\handbooks\region_list.html:10
 msgid "Region"
 msgstr "Область"
 
-#: .\handbooks\forms.py:31 .\handbooks\forms.py:52 .\handbooks\forms.py:74
+#: .\handbooks\forms.py:42 .\handbooks\forms.py:61 .\handbooks\forms.py:83
+#: .\handbooks\templates\handbooks\district_list.html:10
+#: .\handbooks\templates\handbooks\district_list.html:13
 msgid "District"
 msgstr "Район"
 
-#: .\handbooks\forms.py:47 .\handbooks\forms.py:79 .\handbooks\forms.py:124
-#: .\handbooks\forms.py:191 .\handbooks\forms.py:367 .\objects\forms.py:155
-#: .\objects\forms.py:157 .\objects\models.py:48
-#: .\objects\templates\objects\contract_list.html:181
-#: .\objects\templates\objects\office_filial_real_estate_list.html:139
-#: .\objects\templates\objects\office_real_estate_list.html:139
-#: .\objects\templates\objects\office_report_list.html:141
-#: .\objects\templates\objects\real_estate_list.html:113
-#: .\objects\templates\objects\report_list.html:146
+#: .\handbooks\forms.py:57 .\handbooks\forms.py:87 .\handbooks\forms.py:130
+#: .\handbooks\forms.py:192 .\handbooks\forms.py:368
+#: .\handbooks\templates\handbooks\locality_list.html:10
+#: .\handbooks\templates\handbooks\locality_list.html:13 .\objects\forms.py:308
+#: .\objects\forms.py:311 .\objects\models.py:53
+#: .\objects\templates\objects\contract_list.html:173
+#: .\objects\templates\objects\office_filial_real_estate_list.html:154
+#: .\objects\templates\objects\office_real_estate_list.html:152
+#: .\objects\templates\objects\office_report_list.html:187
+#: .\objects\templates\objects\real_estate_list.html:117
+#: .\objects\templates\objects\report_list.html:158
 msgid "Locality"
-msgstr "Населений пункт"
+msgstr "Місто"
 
-#: .\handbooks\forms.py:57
+#: .\handbooks\forms.py:66
 msgid "City type"
 msgstr "Тип міста"
 
-#: .\handbooks\forms.py:62
+#: .\handbooks\forms.py:71
 msgid "Center type"
 msgstr "Тип центру"
 
-#: .\handbooks\forms.py:83
+#: .\handbooks\forms.py:91
 msgid "Description"
 msgstr "Опис"
 
-#: .\handbooks\forms.py:89
+#: .\handbooks\forms.py:97
 msgid "Group on site"
-msgstr "Група на сайті"
+msgstr "Група на сайт"
 
-#: .\handbooks\forms.py:93
+#: .\handbooks\forms.py:101
 msgid "Hot deals limit"
-msgstr "Ліміт гарячих пропозицій"
+msgstr "Межа гарячих запросів"
 
-#: .\handbooks\forms.py:98
+#: .\handbooks\forms.py:106
 msgid "prefix_to_site"
-msgstr "Префікс до сайту"
+msgstr "Префікс на сайт"
 
-#: .\handbooks\forms.py:102
+#: .\handbooks\forms.py:109
 msgid "Is subdistrict"
-msgstr "Є підрайоном"
+msgstr "Підрайон"
 
-#: .\handbooks\forms.py:108
+#: .\handbooks\forms.py:115
 msgid "New building district"
-msgstr "Район новобудов"
+msgstr "Район новострой"
 
-#: .\handbooks\forms.py:119 .\handbooks\forms.py:203 .\handbooks\forms.py:378
-#: .\objects\forms.py:160 .\objects\forms.py:162 .\objects\models.py:57
-#: .\objects\templates\objects\contract_list.html:182
-#: .\objects\templates\objects\office_filial_real_estate_list.html:140
-#: .\objects\templates\objects\office_real_estate_list.html:140
-#: .\objects\templates\objects\office_report_list.html:142
-#: .\objects\templates\objects\real_estate_list.html:114
-#: .\objects\templates\objects\report_list.html:147
+#: .\handbooks\forms.py:126 .\handbooks\forms.py:204 .\handbooks\forms.py:380
+#: .\handbooks\templates\handbooks\street_list.html:10
+#: .\handbooks\templates\handbooks\street_list.html:13 .\objects\forms.py:315
+#: .\objects\forms.py:317 .\objects\models.py:59
+#: .\objects\templates\objects\contract_list.html:174
+#: .\objects\templates\objects\office_filial_real_estate_list.html:155
+#: .\objects\templates\objects\office_real_estate_list.html:153
+#: .\objects\templates\objects\office_report_list.html:188
+#: .\objects\templates\objects\real_estate_list.html:118
+#: .\objects\templates\objects\report_list.html:159
 msgid "Street"
 msgstr "Вулиця"
 
-#: .\handbooks\forms.py:129 .\handbooks\forms.py:197 .\handbooks\forms.py:278
-#: .\handbooks\forms.py:372
+#: .\handbooks\forms.py:135 .\handbooks\forms.py:198 .\handbooks\forms.py:277
+#: .\handbooks\forms.py:374
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:10
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:13
 msgid "Locality district"
-msgstr "Район населеного пункту"
+msgstr "Район міста"
 
-#: .\handbooks\forms.py:152 .\handbooks\forms.py:445
-#: .\handbooks\templates\handbooks\client_list.html:110
-#: .\handbooks\templates\handbooks\office_client_list.html:154
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:154
+#: .\handbooks\forms.py:155 .\handbooks\forms.py:443
+#: .\handbooks\templates\handbooks\client_list.html:111
+#: .\handbooks\templates\handbooks\office_client_list.html:162
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:161
 msgid "Phone number"
 msgstr "Номер телефону"
 
-#: .\handbooks\forms.py:156
+#: .\handbooks\forms.py:158
 msgid "Messenger"
 msgstr "Месенджер"
 
-#: .\handbooks\forms.py:161
+#: .\handbooks\forms.py:162
 msgid "Income source"
 msgstr "Джерело доходу"
 
-#: .\handbooks\forms.py:166 .\handbooks\forms.py:430
-#: .\handbooks\templates\handbooks\client_list.html:109
-#: .\handbooks\templates\handbooks\office_client_list.html:153
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:153
+#: .\handbooks\forms.py:167 .\handbooks\forms.py:428
+#: .\handbooks\templates\handbooks\client_list.html:110
+#: .\handbooks\templates\handbooks\office_client_list.html:161
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:160
 msgid "Real estate type"
 msgstr "Тип нерухомості"
 
-#: .\handbooks\forms.py:171
+#: .\handbooks\forms.py:172
 msgid "Realtor type"
-msgstr "Тип рієлтора"
+msgstr "Тип ріелтора"
 
-#: .\handbooks\forms.py:181
-#: .\handbooks\templates\handbooks\client_list.html:111
-#: .\handbooks\templates\handbooks\office_client_list.html:155
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:155
-#: .\objects\models.py:162
-#: .\objects\templates\objects\office_report_list.html:146
-#: .\objects\templates\objects\report_list.html:151
+#: .\handbooks\forms.py:182
+#: .\handbooks\templates\handbooks\client_list.html:112
+#: .\handbooks\templates\handbooks\office_client_list.html:163
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:162
+#: .\objects\models.py:180
+#: .\objects\templates\objects\office_report_list.html:192
+#: .\objects\templates\objects\report_list.html:163
 msgid "Status"
 msgstr "Статус"
 
-#: .\handbooks\forms.py:185 .\handbooks\forms.py:361
+#: .\handbooks\forms.py:186 .\handbooks\forms.py:362
 msgid "Rooms number"
-msgstr "Кількість кімнат"
+msgstr "Кількість номерів"
 
-#: .\handbooks\forms.py:208 .\handbooks\forms.py:383 .\objects\choices.py:9
-#: .\objects\models.py:59
+#: .\handbooks\forms.py:209 .\handbooks\forms.py:385 .\objects\choices.py:10
+#: .\objects\choices.py:41 .\objects\choices.py:46 .\objects\models.py:60
 #: .\objects\templates\objects\real_estate_create_form.html:44
 #: .\objects\templates\objects\selection_history_list.html:34
 msgid "House"
 msgstr "Будинок"
 
-#: .\handbooks\forms.py:213 .\handbooks\forms.py:388
+#: .\handbooks\forms.py:214 .\handbooks\forms.py:390
 msgid "Min floor"
-msgstr "Мінімальний поверх"
+msgstr "Мінімальний етаж"
 
-#: .\handbooks\forms.py:218 .\handbooks\forms.py:393
+#: .\handbooks\forms.py:219 .\handbooks\forms.py:395
 msgid "Max floor"
-msgstr "Максимальний поверх"
+msgstr "Максимальний етаж"
 
-#: .\handbooks\forms.py:223 .\handbooks\forms.py:398
+#: .\handbooks\forms.py:224 .\handbooks\forms.py:400
 msgid "Not first"
 msgstr "Не перший"
 
-#: .\handbooks\forms.py:228 .\handbooks\forms.py:403
+#: .\handbooks\forms.py:229 .\handbooks\forms.py:403
 msgid "Not last"
 msgstr "Не останній"
 
-#: .\handbooks\forms.py:233 .\handbooks\forms.py:408
+#: .\handbooks\forms.py:234 .\handbooks\forms.py:406
 msgid "Price from"
 msgstr "Ціна від"
 
-#: .\handbooks\forms.py:238 .\handbooks\forms.py:413
+#: .\handbooks\forms.py:239 .\handbooks\forms.py:411
 msgid "Price to"
 msgstr "Ціна до"
 
-#: .\handbooks\forms.py:243 .\handbooks\forms.py:418
+#: .\handbooks\forms.py:244 .\handbooks\forms.py:416
 msgid "Square meter max price"
-msgstr "Максимальна ціна за кв. м."
+msgstr "Максимальна ціна за квадратний метр"
 
-#: .\handbooks\forms.py:250 .\handbooks\forms.py:425 .\objects\models.py:81
+#: .\handbooks\forms.py:251 .\handbooks\forms.py:423 .\objects\models.py:84
 msgid "Condition"
 msgstr "Стан"
 
-#: .\handbooks\forms.py:261
+#: .\handbooks\forms.py:262
 msgid "Handbook"
-msgstr "Довідник"
+msgstr "Каталог"
 
-#: .\handbooks\forms.py:273 .\handbooks\forms.py:282 .\handbooks\forms.py:345
+#: .\handbooks\forms.py:273 .\handbooks\forms.py:281 .\handbooks\forms.py:346
+#: .\handbooks\templates\handbooks\filial_list.html:10
+#: .\handbooks\templates\handbooks\filial_list.html:13
 msgid "Filial agency"
-msgstr "Агенство філіала"
+msgstr "Агентство"
 
-#: .\handbooks\forms.py:292
-#, fuzzy
+#: .\handbooks\forms.py:291
 msgid "Address"
 msgstr "Адреса"
 
-#: .\handbooks\forms.py:297
+#: .\handbooks\forms.py:296
 msgid "Type"
 msgstr "Тип"
 
-#: .\handbooks\forms.py:302
-#, fuzzy
+#: .\handbooks\forms.py:301
 msgid "New build area"
-msgstr "Площа нової будівлі"
+msgstr "Площа новостоя"
 
-#: .\handbooks\forms.py:356
+#: .\handbooks\forms.py:357
 msgid "Key word"
 msgstr "Ключове слово"
 
-#: .\handbooks\forms.py:451
+#: .\handbooks\forms.py:449
 msgid "Phone number must contain 9 to 15 digits without spaces."
-msgstr "Номер телефону має мати від 9 до 15 символів без пробілів."
+msgstr "Номер телефону повинен містити від 9 до 15 символів без пробілів."
 
 #: .\handbooks\templates\handbooks\client_form.html:23
 #: .\handbooks\templates\handbooks\client_form.html:28
-#, fuzzy
 msgid "Client form"
 msgstr "Форма клієнта"
 
@@ -661,99 +790,155 @@ msgstr "Форма клієнта"
 #: .\handbooks\templates\handbooks\client_list.html:10
 #: .\handbooks\templates\handbooks\client_list.html:13
 #: .\handbooks\templates\handbooks\history_list.html:10
+#: .\objects\templates\objects\changes_report_list.html:52
+#: .\objects\templates\objects\contract_list.html:53
+#: .\objects\templates\objects\real_estate_list.html:52
+#: .\objects\templates\objects\report_list.html:64
 #: .\objects\templates\objects\selection_history_list.html:12
 #: .\objects\templates\objects\selection_list.html:15
-#, fuzzy
 msgid "Clients"
 msgstr "Клієнти"
 
-#: .\handbooks\templates\handbooks\client_list.html:35
-#: .\handbooks\templates\handbooks\list.html:36
-#: .\handbooks\templates\handbooks\office_client_list.html:92
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:92
-#: .\objects\templates\objects\catalog.html:30
-#: .\objects\templates\objects\changes_report_list.html:36
-#: .\objects\templates\objects\contract_list.html:37
-#: .\objects\templates\objects\office_filial_real_estate_list.html:95
-#: .\objects\templates\objects\office_real_estate_list.html:95
-#: .\objects\templates\objects\real_estate_list.html:37
-#: .\objects\templates\objects\report_list.html:36
-#: .\objects\templates\objects\selection_list.html:37
-msgid "Search"
-msgstr "Пошук"
-
 #: .\handbooks\templates\handbooks\client_list.html:53
-#: .\objects\templates\objects\changes_report_list.html:61
-#: .\objects\templates\objects\contract_list.html:62
+#: .\objects\templates\objects\changes_report_list.html:60
+#: .\objects\templates\objects\contract_list.html:61
 #: .\objects\templates\objects\real_estate_create_form.html:26
+#: .\objects\templates\objects\real_estate_details_form.html:26
 #: .\objects\templates\objects\real_estate_list.html:12
 #: .\objects\templates\objects\real_estate_list.html:15
-#: .\objects\templates\objects\real_estate_list.html:62
+#: .\objects\templates\objects\real_estate_list.html:58
 #: .\objects\templates\objects\real_estate_update_form.html:26
-#: .\objects\templates\objects\report_list.html:61
+#: .\objects\templates\objects\report_list.html:72
 msgid "Real estate"
 msgstr "Нерухомість"
 
-#: .\handbooks\templates\handbooks\client_list.html:62
-#: .\handbooks\templates\handbooks\office_client_list.html:106
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:106
+#: .\handbooks\templates\handbooks\client_list.html:63
+#: .\handbooks\templates\handbooks\office_client_list.html:114
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:113
 msgid "All"
 msgstr "Всі"
 
-#: .\handbooks\templates\handbooks\client_list.html:68
-#: .\handbooks\templates\handbooks\office_client_list.html:112
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:112
+#: .\handbooks\templates\handbooks\client_list.html:69
+#: .\handbooks\templates\handbooks\office_client_list.html:120
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:119
 msgid "New"
-msgstr "Нові"
+msgstr "Новий"
 
-#: .\handbooks\templates\handbooks\client_list.html:74
-#: .\handbooks\templates\handbooks\office_client_list.html:118
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:118
+#: .\handbooks\templates\handbooks\client_list.html:75
+#: .\handbooks\templates\handbooks\office_client_list.html:126
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:125
+#: .\objects\forms.py:349 .\objects\models.py:197
 msgid "In selection"
-msgstr "На підбір"
+msgstr "У виборці"
 
-#: .\handbooks\templates\handbooks\client_list.html:131
+#: .\handbooks\templates\handbooks\client_list.html:133
 #: .\handbooks\templates\handbooks\list.html:109
-#: .\handbooks\templates\handbooks\office_client_list.html:175
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:175
+#: .\handbooks\templates\handbooks\office_client_list.html:184
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:183
 #: .\objects\templates\objects\selection_list.html:7
-#: .\objects\templates\objects\selection_list.html:12
 #: .\objects\templates\objects\selection_list.html:16
 #: .\objects\templates\objects\selection_list.html:93
 msgid "Selection"
-msgstr "Підбір"
+msgstr "Виборка"
 
-#: .\handbooks\templates\handbooks\client_list.html:136
-#: .\handbooks\templates\handbooks\office_client_list.html:180
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:180
+#: .\handbooks\templates\handbooks\client_list.html:138
+#: .\handbooks\templates\handbooks\office_client_list.html:189
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:188
 #: .\objects\templates\objects\selection_history_list.html:4
 #: .\objects\templates\objects\selection_history_list.html:9
 #: .\objects\templates\objects\selection_history_list.html:13
 msgid "Selection history"
-msgstr "Історія підбору"
+msgstr "Історія виборки"
+
+#: .\handbooks\templates\handbooks\district_list.html:70
+#: .\handbooks\templates\handbooks\locality_list.html:71
+msgid "district"
+msgstr "район"
+
+#: .\handbooks\templates\handbooks\district_list.html:71
+#: .\handbooks\templates\handbooks\region_list.html:13
+#: .\handbooks\templates\handbooks\region_list.html:70
+msgid "region"
+msgstr "область"
+
+#: .\handbooks\templates\handbooks\filial_list.html:70
+#: .\handbooks\templates\handbooks\filialreport_list.html:71
+msgid "filial agency"
+msgstr "агентство"
+
+#: .\handbooks\templates\handbooks\filialreport_list.html:10
+#: .\handbooks\templates\handbooks\filialreport_list.html:13
+msgid "Filial report"
+msgstr "Звіти філіалу"
+
+#: .\handbooks\templates\handbooks\filialreport_list.html:70
+msgid "report"
+msgstr "звіт"
+
+#: .\handbooks\templates\handbooks\filialreport_list.html:72
+#: .\handbooks\templates\handbooks\history_list.html:24
+#: .\objects\templates\objects\selection_history_list.html:22
+msgid "user"
+msgstr "користувач"
+
+#: .\handbooks\templates\handbooks\handbook_list.html:70
+msgid "handbook"
+msgstr "довідник"
+
+#: .\handbooks\templates\handbooks\handbook_list.html:71
+msgid "type"
+msgstr "тип"
 
 #: .\handbooks\templates\handbooks\history_list.html:23
 #: .\objects\templates\objects\selection_history_list.html:21
 msgid "date"
-msgstr "Дата"
-
-#: .\handbooks\templates\handbooks\history_list.html:24
-#: .\objects\templates\objects\selection_history_list.html:22
-#: .\utils\const.py:39
-msgid "user"
-msgstr "Користувач"
+msgstr "дата"
 
 #: .\handbooks\templates\handbooks\history_list.html:25
 msgid "field"
-msgstr "Поле"
+msgstr "поле"
 
 #: .\handbooks\templates\handbooks\history_list.html:26
 msgid "old"
-msgstr "Старе"
+msgstr "старий"
 
 #: .\handbooks\templates\handbooks\history_list.html:27
 msgid "new"
-msgstr "Нове"
+msgstr "новий"
+
+#: .\handbooks\templates\handbooks\locality_list.html:70
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:71
+msgid "locality"
+msgstr "місто"
+
+#: .\handbooks\templates\handbooks\locality_list.html:72
+msgid "locality_type"
+msgstr "тип міста"
+
+#: .\handbooks\templates\handbooks\locality_list.html:73
+msgid "center_type"
+msgstr "Тип центру"
+
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:70
+#: .\handbooks\templates\handbooks\street_list.html:71
+msgid "locality district"
+msgstr "район міста"
+
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:72
+msgid "group on site"
+msgstr "група на сайті"
+
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:73
+msgid "hot deals limit"
+msgstr "межа гарячих речення"
+
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:74
+msgid "prefix to site"
+msgstr "префікс на сайт"
+
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:75
+msgid "new building district"
+msgstr "район новострой"
 
 #: .\handbooks\templates\handbooks\office_client_list.html:9
 #: .\handbooks\templates\handbooks\office_client_list.html:12
@@ -771,283 +956,329 @@ msgstr "Нове"
 msgid "Office"
 msgstr "Офіс"
 
+#: .\handbooks\templates\handbooks\street_list.html:70
+msgid "street"
+msgstr "вулиці"
+
 #: .\images\templates\images\list.html:4
 msgid "Images"
 msgstr "Зображення"
 
-#: .\objects\choices.py:7 .\objects\models.py:208
+#: .\objects\choices.py:8 .\objects\models.py:240
 #: .\objects\templates\objects\real_estate_create_form.html:38
 #: .\objects\templates\objects\selection_history_list.html:31
 msgid "Apartment"
 msgstr "Квартира"
 
-#: .\objects\choices.py:8
+#: .\objects\choices.py:9 .\objects\choices.py:54
 #: .\objects\templates\objects\real_estate_create_form.html:41
 #: .\objects\templates\objects\selection_history_list.html:37
 msgid "Commerce"
 msgstr "Комерція"
 
-#: .\objects\choices.py:14
-msgid "On sale"
-msgstr "У продажу"
-
-#: .\objects\choices.py:15
-msgid "Deposit"
-msgstr "Аванс"
-
-#: .\objects\choices.py:16
-msgid "Withdrawn"
-msgstr "Вилучено"
+#: .\objects\choices.py:11 .\objects\choices.py:47
+#: .\objects\templates\objects\office_filial_real_estate_list.html:138
+#: .\objects\templates\objects\office_real_estate_list.html:136
+#: .\objects\templates\objects\real_estate_create_form.html:47
+#: .\objects\templates\objects\real_estate_list.html:100
+msgid "Land"
+msgstr "Земельні ділянки"
 
 #: .\objects\choices.py:17
-#: .\objects\templates\objects\office_filial_real_estate_list.html:185
-#: .\objects\templates\objects\office_filial_real_estate_list.html:193
-#: .\objects\templates\objects\office_real_estate_list.html:186
-#: .\objects\templates\objects\office_real_estate_list.html:194
-#: .\objects\templates\objects\real_estate_list.html:160
-#: .\objects\templates\objects\real_estate_list.html:168
-msgid "Sold"
-msgstr "Продано"
+msgid "On sale"
+msgstr "На продаж"
 
 #: .\objects\choices.py:18
+msgid "Advance"
+msgstr "Аванс"
+
+#: .\objects\choices.py:19
+msgid "Withdrawn"
+msgstr "Знято з продажу"
+
+#: .\objects\choices.py:20
+#: .\objects\templates\objects\office_filial_real_estate_list.html:200
+#: .\objects\templates\objects\office_filial_real_estate_list.html:208
+#: .\objects\templates\objects\office_real_estate_list.html:199
+#: .\objects\templates\objects\office_real_estate_list.html:207
+#: .\objects\templates\objects\real_estate_list.html:166
+#: .\objects\templates\objects\real_estate_list.html:174
+msgid "Sold"
+msgstr "Проданий"
+
+#: .\objects\choices.py:21
 msgid "Completely withdrawn"
-msgstr "Повністю вилучено"
+msgstr "Повністю знятий з продажу"
 
-#: .\objects\choices.py:23
-msgid "Adjacent"
-msgstr "Суміжний"
+#: .\objects\choices.py:27
+msgid "1 room"
+msgstr "1 кімната"
 
-#: .\objects\choices.py:24
-msgid "Separate"
-msgstr "Окремий"
+#: .\objects\choices.py:28
+msgid "2 rooms"
+msgstr "2 кімнати"
 
-#: .\objects\choices.py:25
-msgid "Studio kitchen"
-msgstr "Студіо кухня"
+#: .\objects\choices.py:29
+msgid "3 rooms"
+msgstr "3 кімнати"
 
-#: .\objects\choices.py:26
-msgid "Room"
-msgstr "Кімната"
+#: .\objects\choices.py:30
+msgid "Many rooms"
+msgstr "Багато кімнат"
 
-#: .\objects\forms.py:165 .\objects\forms.py:166
-msgid "Min price"
-msgstr "Мінімальна ціна"
+#: .\objects\choices.py:35
+msgid "Residential"
+msgstr "Житловий"
 
-#: .\objects\forms.py:170 .\objects\forms.py:171
-msgid "Max price"
-msgstr "Максимальна ціна"
+#: .\objects\choices.py:36
+msgid "Not residential"
+msgstr "Не житловий"
 
-#: .\objects\forms.py:183 .\objects\models.py:31
-msgid "Exclusive"
-msgstr "Ексклюзив"
+#: .\objects\choices.py:53
+msgid "Dwelling"
+msgstr "Корпус"
 
-#: .\objects\forms.py:197
-msgid "You did not specify a locality"
-msgstr "Ви не вказали населений пункт"
-
-#: .\objects\forms.py:200
-msgid "You did not specify a street"
-msgstr "Ви не вказали вулицю"
-
-#: .\objects\forms.py:203
-msgid "You did not specify a house"
-msgstr "Ви не вказали дім"
-
-#: .\objects\forms.py:210
-msgid "You did not specify an apartment"
-msgstr "Ви не вказали квартиру"
-
-#: .\objects\forms.py:217
-msgid "You did not specify a premises"
-msgstr "Ви не вказали приміщення"
-
-#: .\objects\forms.py:224
-msgid "You did not specify a housing"
-msgstr "Ви не вказали корпус"
-
-#: .\objects\models.py:23
-#: .\objects\templates\objects\office_report_list.html:144
-#: .\objects\templates\objects\report_list.html:149
-msgid "Creation date"
-msgstr "Дата створення"
-
-#: .\objects\models.py:24
-msgid "Deposit date"
-msgstr "Дата депозиту"
-
-#: .\objects\models.py:86
-msgid "Material"
-msgstr "Матеріал"
-
-#: .\objects\models.py:91
-msgid "Agency"
-msgstr "Агенство"
-
-#: .\objects\models.py:96
-msgid "House type"
-msgstr "Тип дому"
-
-#: .\objects\models.py:101
-msgid "Layout"
-msgstr "Макет"
-
-#: .\objects\models.py:106
-msgid "Stair"
-msgstr "Сходи"
-
-#: .\objects\models.py:124
-#: .\objects\templates\objects\office_report_list.html:147
-#: .\objects\templates\objects\report_list.html:152
-msgid "Owner"
-msgstr "Власник"
-
-#: .\objects\models.py:145
-msgid "Parking"
-msgstr "Паркінг"
-
-#: .\objects\models.py:146
-msgid "Generator"
-msgstr "Генератор"
-
-#: .\objects\models.py:147
-msgid "EHome"
-msgstr "єОселя"
-
-#: .\objects\models.py:150
-#: .\objects\templates\objects\office_report_list.html:145
-#: .\objects\templates\objects\report_list.html:150
-msgid "Price"
-msgstr "Ціна"
-
-#: .\objects\models.py:153
-msgid "Square"
-msgstr "Площа"
-
-#: .\objects\models.py:154
-msgid "Kitchen square"
-msgstr "Площа кухні"
-
-#: .\objects\models.py:155
-msgid "Height"
-msgstr "Висота"
-
-#: .\objects\models.py:157
-#: .\objects\templates\objects\office_report_list.html:143
-#: .\objects\templates\objects\report_list.html:148
-msgid "Floor"
-msgstr "Поверх"
-
-#: .\objects\models.py:158
-msgid "Number of storeys"
-msgstr "Кількість поверхів"
-
-#: .\objects\models.py:166
-msgid "Rubric"
-msgstr "Рубрика"
-
-#: .\objects\models.py:170
-msgid "Document"
-msgstr "Документ"
-
-#: .\objects\models.py:176
-msgid "Sale terms"
-msgstr "Умови продажу"
-
-#: .\objects\models.py:177
-msgid "Realtor notes"
-msgstr "Нотатки рієлтора"
-
-#: .\objects\models.py:178
-msgid "Comment"
-msgstr "Коментар"
-
-#: .\objects\models.py:209
-msgid "Living square"
-msgstr "Житлова площа"
-
-#: .\objects\models.py:210 .\objects\models.py:266
-msgid "Balcony"
-msgstr "Балкон"
-
-#: .\objects\models.py:211 .\objects\models.py:267
-msgid "Number of balconies"
-msgstr "Кількість балконів"
-
-#: .\objects\models.py:215 .\objects\models.py:277
-msgid "Complex"
-msgstr "Комплекс"
-
-#: .\objects\models.py:264
-msgid "Premises"
-msgstr "Приміщення"
-
-#: .\objects\models.py:265 .\objects\models.py:291
-msgid "Useful square"
-msgstr "Корисна площа"
-
-#: .\objects\models.py:268
-msgid "Ground floor"
-msgstr "Цоколь"
-
-#: .\objects\models.py:269 .\objects\models.py:296
+#: .\objects\choices.py:60 .\objects\models.py:314 .\objects\models.py:359
 msgid "Facade"
 msgstr "Фасад"
 
-#: .\objects\models.py:270 .\objects\models.py:297
+#: .\objects\choices.py:61
+msgid "Internal"
+msgstr "Внутрішній"
+
+#: .\objects\choices.py:62
+msgid "Corner"
+msgstr "Куточок"
+
+#: .\objects\forms.py:320 .\objects\forms.py:322
+msgid "Min price"
+msgstr "Мінімальна ціна"
+
+#: .\objects\forms.py:327 .\objects\forms.py:329
+msgid "Max price"
+msgstr "Максимальна ціна"
+
+#: .\objects\forms.py:346 .\objects\models.py:38
+msgid "Exclusive"
+msgstr "Ексклюзів"
+
+#: .\objects\forms.py:364
+msgid "You did not specify a locality"
+msgstr "Ви не вказали місто"
+
+#: .\objects\forms.py:367
+msgid "You did not specify a street"
+msgstr "Ви не вказали вулицю"
+
+#: .\objects\forms.py:369
+msgid "You did not specify a house"
+msgstr "Ви не вказали будинок"
+
+#: .\objects\forms.py:376
+msgid "You did not specify an apartment"
+msgstr "Ви не вказали квартиру"
+
+#: .\objects\forms.py:384
+msgid "You did not specify a premises"
+msgstr "Ви не вказали приміщення"
+
+#: .\objects\forms.py:392
+msgid "You did not specify a housing"
+msgstr "Ви не вказали житло"
+
+#: .\objects\forms.py:401
+msgid "Period from"
+msgstr "Ціна від"
+
+#: .\objects\forms.py:409
+msgid "to"
+msgstr ""
+
+#: .\objects\models.py:27
+#: .\objects\templates\objects\office_report_list.html:190
+#: .\objects\templates\objects\report_list.html:161
+msgid "Creation date"
+msgstr "Дата створення"
+
+#: .\objects\models.py:30
+msgid "Deposit date"
+msgstr "Дата депозита"
+
+#: .\objects\models.py:92
+msgid "Material"
+msgstr "Матеріал"
+
+#: .\objects\models.py:100
+msgid "Agency"
+msgstr "Агентство"
+
+#: .\objects\models.py:106
+msgid "House type"
+msgstr "Тип дома"
+
+#: .\objects\models.py:114
+msgid "Layout"
+msgstr "Макет"
+
+#: .\objects\models.py:122
+msgid "Stair"
+msgstr "Драбина"
+
+#: .\objects\models.py:143
+#: .\objects\templates\objects\office_report_list.html:193
+#: .\objects\templates\objects\report_list.html:164
+msgid "Owner"
+msgstr "Власник"
+
+#: .\objects\models.py:164
+msgid "Parking"
+msgstr "Парковка"
+
+#: .\objects\models.py:165
+msgid "Generator"
+msgstr "Генератор"
+
+#: .\objects\models.py:166
+msgid "EHome"
+msgstr "ЄОселя"
+
+#: .\objects\models.py:169
+#: .\objects\templates\objects\office_report_list.html:191
+#: .\objects\templates\objects\report_list.html:162
+msgid "Price"
+msgstr "Ціна"
+
+#: .\objects\models.py:172
+msgid "Square"
+msgstr "Квадратний"
+
+#: .\objects\models.py:173
+msgid "Kitchen square"
+msgstr "Площа кухні"
+
+#: .\objects\models.py:174
+msgid "Height"
+msgstr "Висота"
+
+#: .\objects\models.py:176
+#: .\objects\templates\objects\office_report_list.html:189
+#: .\objects\templates\objects\report_list.html:160
+msgid "Floor"
+msgstr "Підлога"
+
+#: .\objects\models.py:177
+msgid "Number of storeys"
+msgstr "Кількість поверхів"
+
+#: .\objects\models.py:183
+msgid "Document"
+msgstr "Документ"
+
+#: .\objects\models.py:190
+msgid "Sale terms"
+msgstr "Умови продажу"
+
+#: .\objects\models.py:193
+msgid "Realtor notes"
+msgstr "Примітки ріелтора"
+
+#: .\objects\models.py:195
+msgid "Comment"
+msgstr "Коментар"
+
+#: .\objects\models.py:238 .\objects\models.py:301 .\objects\models.py:343
+#: .\objects\models.py:377
+msgid "Rubric"
+msgstr "Рубріка"
+
+#: .\objects\models.py:241
+msgid "Living square"
+msgstr "Житлова площа"
+
+#: .\objects\models.py:242 .\objects\models.py:307
+msgid "Balcony"
+msgstr "Балкон"
+
+#: .\objects\models.py:244 .\objects\models.py:309
+msgid "Number of balconies"
+msgstr "Кількість балконів"
+
+#: .\objects\models.py:250 .\objects\models.py:327
+msgid "Complex"
+msgstr "Комплекс"
+
+#: .\objects\models.py:303
+msgid "Premises"
+msgstr "Кімната"
+
+#: .\objects\models.py:305 .\objects\models.py:349
+msgid "Useful square"
+msgstr "Корисна площа"
+
+#: .\objects\models.py:312
+msgid "Ground floor"
+msgstr "Наземний поверх"
+
+#: .\objects\models.py:315 .\objects\models.py:360 .\objects\models.py:394
 msgid "Own parking"
-msgstr "Власний паркінг"
+msgstr "Власна парковка"
 
-#: .\objects\models.py:271
+#: .\objects\models.py:317
 msgid "Own courtyard"
-msgstr "Власне подвір'я"
+msgstr "Власний двір"
 
-#: .\objects\models.py:272
+#: .\objects\models.py:320
 msgid "Separate building"
 msgstr "Окрема будівля"
 
-#: .\objects\models.py:290
+#: .\objects\models.py:346 .\objects\models.py:380
 msgid "Housing"
-msgstr "Корпус"
+msgstr "Комплекс"
 
-#: .\objects\models.py:292
+#: .\objects\models.py:352 .\objects\models.py:383
 msgid "Land's square"
 msgstr "Площа ділянки"
 
-#: .\objects\models.py:293
+#: .\objects\models.py:355
 msgid "Number of rooms"
 msgstr "Кількість кімнат"
 
-#: .\objects\models.py:294
+#: .\objects\models.py:357 .\objects\models.py:386
 msgid "Communications"
-msgstr "Комунікації"
+msgstr "Комунікація"
 
-#: .\objects\models.py:295
+#: .\objects\models.py:358
 msgid "Terrace"
 msgstr "Тераса"
 
-#: .\objects\models.py:311
-#: .\objects\templates\objects\changes_report_list.html:53
-#: .\objects\templates\objects\contract_list.html:54
-#: .\objects\templates\objects\real_estate_list.html:54
-#: .\objects\templates\objects\report_list.html:53
+#: .\objects\models.py:389
+msgid "Target"
+msgstr "Ціль"
+
+#: .\objects\models.py:392
+msgid "Disposition"
+msgstr "Розпорядження"
+
+#: .\objects\models.py:401
 msgid "Client"
 msgstr "Клієнт"
 
-#: .\objects\models.py:315
-#: .\objects\templates\objects\changes_report_list.html:147
-#: .\objects\templates\objects\office_changes_report_list.html:142
+#: .\objects\models.py:402
+#: .\objects\templates\objects\changes_report_list.html:149
+#: .\objects\templates\objects\office_changes_report_list.html:151
 msgid "Date"
 msgstr "Дата"
 
-#: .\objects\models.py:320
-#: .\objects\templates\objects\changes_report_list.html:148
-#: .\objects\templates\objects\office_changes_report_list.html:143
+#: .\objects\models.py:403
+#: .\objects\templates\objects\changes_report_list.html:150
+#: .\objects\templates\objects\office_changes_report_list.html:152
 msgid "User"
 msgstr "Користувач"
 
 #: .\objects\templates\objects\_apartment_form.html:63
 #: .\objects\templates\objects\_commerce_form.html:63
 #: .\objects\templates\objects\_house_form.html:63
+#: .\objects\templates\objects\_land_form.html:63
 #: .\objects\templates\objects\details.html:103
 msgid "Fill address"
 msgstr "Заповнити адресу"
@@ -1055,20 +1286,23 @@ msgstr "Заповнити адресу"
 #: .\objects\templates\objects\_apartment_form.html:67
 #: .\objects\templates\objects\_commerce_form.html:67
 #: .\objects\templates\objects\_house_form.html:67
+#: .\objects\templates\objects\_land_form.html:67
 #: .\objects\templates\objects\details.html:107
 msgid "Verify"
-msgstr "Перевірити"
+msgstr "Перевіряти"
 
 #: .\objects\templates\objects\_apartment_form.html:142
 #: .\objects\templates\objects\_commerce_form.html:142
 #: .\objects\templates\objects\_house_form.html:159
+#: .\objects\templates\objects\_land_form.html:127
 #: .\objects\templates\objects\details.html:180
 msgid "Add Photo"
-msgstr "Додати фото"
+msgstr "Додати фотографію"
 
-#: .\objects\templates\objects\_apartment_form.html:239
+#: .\objects\templates\objects\_apartment_form.html:240
 #: .\objects\templates\objects\_commerce_form.html:256
 #: .\objects\templates\objects\_house_form.html:258
+#: .\objects\templates\objects\_land_form.html:181
 #: .\objects\templates\objects\details.html:275
 msgid "Edit owner"
 msgstr "Редагувати власника"
@@ -1076,187 +1310,176 @@ msgstr "Редагувати власника"
 #: .\objects\templates\objects\catalog.html:6
 #: .\objects\templates\objects\catalog.html:11
 #: .\objects\templates\objects\catalog.html:14
-#: .\objects\templates\objects\details.html:4 .\templates\main.html:61
-#: .\templates\main.html:64
+#: .\objects\templates\objects\details.html:4
 msgid "Catalog"
 msgstr "Каталог"
 
-#: .\objects\templates\objects\catalog.html:59
-#: .\objects\templates\objects\selection_list.html:74
-#: .\objects\templates\objects\showing_act.html:31
-msgid "id"
-msgstr "Ідентифікатор"
-
 #: .\objects\templates\objects\catalog.html:60
 #: .\objects\templates\objects\selection_list.html:75
-#: .\objects\templates\objects\showing_act.html:32
-#, fuzzy
+#: .\objects\templates\objects\showing_act.html:80
 msgid "house_type"
 msgstr "Тип будинку"
 
 #: .\objects\templates\objects\catalog.html:61
 #: .\objects\templates\objects\selection_list.html:76
-#: .\objects\templates\objects\showing_act.html:33
-#, fuzzy
+#: .\objects\templates\objects\showing_act.html:81
 msgid "house"
-msgstr "Будинок"
+msgstr "будинок"
 
 #: .\objects\templates\objects\catalog.html:61
 #: .\objects\templates\objects\selection_list.html:76
-#: .\objects\templates\objects\showing_act.html:33
-#, fuzzy
+#: .\objects\templates\objects\showing_act.html:81
 msgid "floor"
-msgstr "Поверх"
+msgstr "поверх"
 
 #: .\objects\templates\objects\catalog.html:71
 #: .\objects\templates\objects\selection_list.html:86
-#: .\objects\templates\objects\showing_act.html:43
+#: .\objects\templates\objects\showing_act.html:91
 msgid "See details"
-msgstr "Деталі"
+msgstr "Переглянути деталі"
 
 #: .\objects\templates\objects\changes_report_list.html:11
-#: .\objects\templates\objects\contract_list.html:11
-#: .\objects\templates\objects\contract_list.html:15
-#, fuzzy
-#| msgid "History of changes"
 msgid "Report of changes"
 msgstr "Історія змін"
 
 #: .\objects\templates\objects\changes_report_list.html:14
-#, fuzzy
+#: .\objects\templates\objects\changes_report_list.html:68
+#: .\objects\templates\objects\contract_list.html:68
+#: .\objects\templates\objects\real_estate_list.html:65
+#: .\objects\templates\objects\report_list.html:11
+#: .\objects\templates\objects\report_list.html:14
+#: .\objects\templates\objects\report_list.html:79
 msgid "Reports"
 msgstr "Звіти"
 
-#: .\objects\templates\objects\changes_report_list.html:80
-#: .\objects\templates\objects\contract_list.html:81
-#: .\objects\templates\objects\office_changes_report_list.html:83
-#: .\objects\templates\objects\office_report_list.html:83
-#: .\objects\templates\objects\report_list.html:80
+#: .\objects\templates\objects\changes_report_list.html:78
+#: .\objects\templates\objects\contract_list.html:76
+#: .\objects\templates\objects\office_changes_report_list.html:89
+#: .\objects\templates\objects\office_report_list.html:125
+#: .\objects\templates\objects\report_list.html:88
 msgid "New apartments"
 msgstr "Нові квартири"
 
-#: .\objects\templates\objects\changes_report_list.html:86
-#: .\objects\templates\objects\contract_list.html:87
-#: .\objects\templates\objects\office_changes_report_list.html:89
-#: .\objects\templates\objects\office_report_list.html:89
-#: .\objects\templates\objects\report_list.html:86
-msgid "New commerces"
-msgstr "Нові комерції"
-
-#: .\objects\templates\objects\changes_report_list.html:92
-#: .\objects\templates\objects\contract_list.html:93
+#: .\objects\templates\objects\changes_report_list.html:84
+#: .\objects\templates\objects\contract_list.html:82
 #: .\objects\templates\objects\office_changes_report_list.html:95
-#: .\objects\templates\objects\office_report_list.html:95
-#: .\objects\templates\objects\report_list.html:92
+#: .\objects\templates\objects\office_report_list.html:131
+#: .\objects\templates\objects\report_list.html:94
+msgid "New commerces"
+msgstr "Нова комерція"
+
+#: .\objects\templates\objects\changes_report_list.html:90
+#: .\objects\templates\objects\contract_list.html:88
+#: .\objects\templates\objects\office_changes_report_list.html:101
+#: .\objects\templates\objects\office_report_list.html:137
+#: .\objects\templates\objects\report_list.html:100
 msgid "New houses"
 msgstr "Нові будинки"
 
-#: .\objects\templates\objects\changes_report_list.html:98
-#: .\objects\templates\objects\contract_list.html:99
-#: .\objects\templates\objects\office_changes_report_list.html:101
-#: .\objects\templates\objects\office_report_list.html:101
-#: .\objects\templates\objects\report_list.html:98
+#: .\objects\templates\objects\changes_report_list.html:96
+#: .\objects\templates\objects\contract_list.html:94
+#: .\objects\templates\objects\office_changes_report_list.html:107
+#: .\objects\templates\objects\office_report_list.html:143
+#: .\objects\templates\objects\report_list.html:106
 msgid "New lands"
 msgstr "Нові ділянки"
 
-#: .\objects\templates\objects\changes_report_list.html:104
-#: .\objects\templates\objects\contract_list.html:105
-#: .\objects\templates\objects\office_changes_report_list.html:107
-#: .\objects\templates\objects\office_report_list.html:107
-#: .\objects\templates\objects\report_list.html:104
+#: .\objects\templates\objects\changes_report_list.html:102
+#: .\objects\templates\objects\contract_list.html:100
+#: .\objects\templates\objects\office_changes_report_list.html:113
+#: .\objects\templates\objects\office_report_list.html:149
+#: .\objects\templates\objects\report_list.html:112
 msgid "New rooms"
 msgstr "Нові кімнати"
 
 #: .\objects\templates\objects\changes_report_list.html:110
-#: .\objects\templates\objects\contract_list.html:111
-#: .\objects\templates\objects\office_changes_report_list.html:113
-#: .\objects\templates\objects\office_report_list.html:113
-#: .\objects\templates\objects\report_list.html:110
+#: .\objects\templates\objects\contract_list.html:106
+#: .\objects\templates\objects\office_changes_report_list.html:120
+#: .\objects\templates\objects\office_report_list.html:156
+#: .\objects\templates\objects\report_list.html:119
 msgid "All apartments"
-msgstr "Всі квартири"
+msgstr "Усі квартири"
 
-#: .\objects\templates\objects\changes_report_list.html:116
-#: .\objects\templates\objects\contract_list.html:117
-#: .\objects\templates\objects\office_changes_report_list.html:119
-#: .\objects\templates\objects\office_report_list.html:119
-#: .\objects\templates\objects\report_list.html:116
+#: .\objects\templates\objects\changes_report_list.html:118
+#: .\objects\templates\objects\contract_list.html:112
+#: .\objects\templates\objects\office_changes_report_list.html:128
+#: .\objects\templates\objects\office_report_list.html:164
+#: .\objects\templates\objects\report_list.html:127
 msgid "My apartments"
 msgstr "Мої квартири"
 
-#: .\objects\templates\objects\changes_report_list.html:122
-#: .\objects\templates\objects\contract_list.html:123
-#: .\objects\templates\objects\office_changes_report_list.html:125
-#: .\objects\templates\objects\office_report_list.html:125
-#: .\objects\templates\objects\report_list.html:122
-#, fuzzy
+#: .\objects\templates\objects\changes_report_list.html:125
+#: .\objects\templates\objects\contract_list.html:118
+#: .\objects\templates\objects\office_changes_report_list.html:135
+#: .\objects\templates\objects\office_report_list.html:171
+#: .\objects\templates\objects\report_list.html:134
 msgid "Changes report"
-msgstr "Звіти"
+msgstr "Зміни звітів"
 
-#: .\objects\templates\objects\changes_report_list.html:129
-#: .\objects\templates\objects\contract_list.html:130
-#: .\objects\templates\objects\report_list.html:129
-msgid "Contract"
-msgstr "Контракт"
+#: .\objects\templates\objects\changes_report_list.html:132
+#: .\objects\templates\objects\contract_list.html:11
+#: .\objects\templates\objects\contract_list.html:14
+#: .\objects\templates\objects\contract_list.html:124
+#: .\objects\templates\objects\report_list.html:141
+msgid "Contracts"
+msgstr "Договори"
 
-#: .\objects\templates\objects\changes_report_list.html:146
-#: .\objects\templates\objects\office_changes_report_list.html:141
-#, fuzzy
+#: .\objects\templates\objects\changes_report_list.html:148
+#: .\objects\templates\objects\office_changes_report_list.html:150
 msgid "Object type"
-msgstr "Тип об'єкту"
+msgstr "Тип об'єкта"
 
-#: .\objects\templates\objects\changes_report_list.html:149
-#: .\objects\templates\objects\office_changes_report_list.html:144
-#, fuzzy
+#: .\objects\templates\objects\changes_report_list.html:151
+#: .\objects\templates\objects\office_changes_report_list.html:153
 msgid "Field"
 msgstr "Поле"
 
-#: .\objects\templates\objects\changes_report_list.html:150
-#: .\objects\templates\objects\office_changes_report_list.html:145
+#: .\objects\templates\objects\changes_report_list.html:152
+#: .\objects\templates\objects\office_changes_report_list.html:154
 msgid "Old value"
 msgstr "Старе значення"
 
-#: .\objects\templates\objects\changes_report_list.html:151
-#: .\objects\templates\objects\office_changes_report_list.html:146
-#, fuzzy
+#: .\objects\templates\objects\changes_report_list.html:153
+#: .\objects\templates\objects\office_changes_report_list.html:155
 msgid "New value"
 msgstr "Нове значення"
 
-#: .\objects\templates\objects\contract_list.html:141
-#: .\objects\templates\objects\office_filial_real_estate_list.html:111
-#: .\objects\templates\objects\office_real_estate_list.html:111
-#: .\objects\templates\objects\real_estate_list.html:80
+#: .\objects\templates\objects\contract_list.html:133
+#: .\objects\templates\objects\office_filial_real_estate_list.html:120
+#: .\objects\templates\objects\office_real_estate_list.html:118
+#: .\objects\templates\objects\real_estate_list.html:76
 msgid "Apartments"
 msgstr "Квартири"
 
-#: .\objects\templates\objects\contract_list.html:147
-#: .\objects\templates\objects\office_filial_real_estate_list.html:117
-#: .\objects\templates\objects\office_real_estate_list.html:117
-#: .\objects\templates\objects\real_estate_list.html:88
+#: .\objects\templates\objects\contract_list.html:139
+#: .\objects\templates\objects\office_filial_real_estate_list.html:126
+#: .\objects\templates\objects\office_real_estate_list.html:124
+#: .\objects\templates\objects\real_estate_list.html:84
 msgid "Commerces"
-msgstr "Комерції"
+msgstr "Комерція"
 
-#: .\objects\templates\objects\contract_list.html:153
-#: .\objects\templates\objects\office_filial_real_estate_list.html:123
-#: .\objects\templates\objects\office_real_estate_list.html:123
-#: .\objects\templates\objects\real_estate_list.html:96
+#: .\objects\templates\objects\contract_list.html:145
+#: .\objects\templates\objects\office_filial_real_estate_list.html:132
+#: .\objects\templates\objects\office_real_estate_list.html:130
+#: .\objects\templates\objects\real_estate_list.html:92
 msgid "Houses"
-msgstr "Будинки"
+msgstr "Дома"
 
-#: .\objects\templates\objects\contract_list.html:159
+#: .\objects\templates\objects\contract_list.html:151
 msgid "Lands"
 msgstr "Земельні ділянки"
 
-#: .\objects\templates\objects\contract_list.html:165
+#: .\objects\templates\objects\contract_list.html:157
 msgid "Rooms"
 msgstr "Кімнати"
 
 #: .\objects\templates\objects\details.html:10
-#, fuzzy
-#| msgid "See details"
 msgid "Object details"
-msgstr "Деталі"
+msgstr "Переглянути деталі"
 
 #: .\objects\templates\objects\details.html:13
+#: .\objects\templates\objects\real_estate_details_form.html:5
+#: .\objects\templates\objects\real_estate_details_form.html:27
 msgid "Details"
 msgstr "Деталі"
 
@@ -1264,59 +1487,62 @@ msgstr "Деталі"
 msgid "Realtors"
 msgstr "Ріелтори"
 
-#: .\objects\templates\objects\office_filial_real_estate_list.html:191
-#: .\objects\templates\objects\office_real_estate_list.html:192
-#: .\objects\templates\objects\real_estate_list.html:166
+#: .\objects\templates\objects\office_filial_real_estate_list.html:206
+#: .\objects\templates\objects\office_real_estate_list.html:205
+#: .\objects\templates\objects\real_estate_list.html:172
 msgid "Mark as sold"
-msgstr "Позначити як 'Продано'"
+msgstr "Відмітити як продане"
 
 #: .\objects\templates\objects\real_estate_create_form.html:23
-#, fuzzy
-#| msgid "Real estate type"
 msgid "Real estate create form"
-msgstr "Тип нерухомості"
+msgstr "Форма додавання нерухомості"
 
 #: .\objects\templates\objects\real_estate_create_form.html:27
-#, fuzzy
 msgid "Create form"
-msgstr "Форма створення"
+msgstr "Форма додавання"
 
 #: .\objects\templates\objects\real_estate_create_form.html:35
 msgid "Add"
 msgstr "Додати"
 
+#: .\objects\templates\objects\real_estate_details_form.html:23
+msgid "Real estate details"
+msgstr "Деталі нерухомості"
+
 #: .\objects\templates\objects\real_estate_update_form.html:23
-#, fuzzy
 msgid "Real estate update form"
 msgstr "Форма редагування нерухомості"
 
 #: .\objects\templates\objects\real_estate_update_form.html:27
-#, fuzzy
 msgid "Update form"
 msgstr "Форма редагування"
 
 #: .\objects\templates\objects\selection_history_list.html:23
 msgid "selection"
-msgstr "Вибірка"
+msgstr "виборка"
+
+#: .\objects\templates\objects\selection_list.html:12
+msgid "Selection for"
+msgstr "Виборка для"
 
 #: .\objects\templates\objects\selection_list.html:94
 msgid "PDF"
 msgstr "PDF"
 
-#: .\objects\templates\objects\showing_act.html:6
+#: .\objects\templates\objects\showing_act.html:15
 msgid "Showing act"
 msgstr "Акт показу"
 
-#: .\objects\views.py:80 .\objects\views.py:95 .\objects\views.py:159
-#: .\objects\views.py:174
+#: .\objects\views.py:122 .\objects\views.py:139 .\objects\views.py:211
+#: .\objects\views.py:220
 msgid "Invalid real estate type"
 msgstr "Неправильний тип нерухомості"
 
-#: .\objects\views.py:116
+#: .\objects\views.py:157
 msgid "Doesn't exist"
 msgstr "Не існує"
 
-#: .\objects\views.py:120
+#: .\objects\views.py:164
 #, python-brace-format
 msgid "Exists (id {id})"
 msgstr "Існує (id {id})"
@@ -1327,7 +1553,7 @@ msgstr "Мова"
 
 #: .\templates\base.html:56
 msgid "English"
-msgstr "Англійська"
+msgstr "Англійська "
 
 #: .\templates\base.html:57
 msgid "Russian"
@@ -1339,7 +1565,7 @@ msgstr "Українська"
 
 #: .\templates\base.html:92
 msgid "Logout"
-msgstr "Вийти"
+msgstr "Вихід"
 
 #: .\templates\delete_form.html:5
 msgid "Delete form"
@@ -1354,1428 +1580,5 @@ msgid "Want delete?"
 msgstr "Хочете видалити?"
 
 #: .\templates\main.html:13 .\templates\main.html:16
-msgid "Rent"
-msgstr "Оренда"
-
-#: .\templates\main.html:25 .\templates\main.html:28
 msgid "Sale"
-msgstr "Продаж"
-
-#: .\utils\const.py:12 .\utils\const.py:25
-msgid "region"
-msgstr "Області"
-
-#: .\utils\const.py:12 .\utils\const.py:25
-msgid "district"
-msgstr "Райони"
-
-#: .\utils\const.py:13 .\utils\const.py:26
-msgid "locality"
-msgstr "Населені пункти"
-
-#: .\utils\const.py:14 .\utils\const.py:27
-msgid "localitydistrict"
-msgstr "Райони населеного пункту"
-
-#: .\utils\const.py:15 .\utils\const.py:28
-msgid "street"
-msgstr "Вулиці"
-
-#: .\utils\const.py:15 .\utils\const.py:37
-msgid "client"
-msgstr "Клієнти"
-
-#: .\utils\const.py:16 .\utils\const.py:29
-msgid "withdrawalreason"
-msgstr "Причини вилучення"
-
-#: .\utils\const.py:17 .\utils\const.py:30
-msgid "condition"
-msgstr "Стани"
-
-#: .\utils\const.py:17 .\utils\const.py:30
-msgid "material"
-msgstr "Матеріали"
-
-#: .\utils\const.py:18 .\utils\const.py:31
-msgid "separation"
-msgstr "Поділи"
-
-#: .\utils\const.py:18 .\utils\const.py:31
-msgid "agency"
-msgstr "Агенства"
-
-#: .\utils\const.py:19 .\utils\const.py:32
-msgid "agencysales"
-msgstr "Продаж агентства"
-
-#: .\utils\const.py:20 .\utils\const.py:33
-msgid "newbuildingname"
-msgstr "Назви новостою"
-
-#: .\utils\const.py:21 .\utils\const.py:34
-msgid "stair"
-msgstr "Сходи"
-
-#: .\utils\const.py:21 .\utils\const.py:34
-msgid "heating"
-msgstr "Опалення"
-
-#: .\utils\const.py:21 .\utils\const.py:34
-msgid "layout"
-msgstr "Планування"
-
-#: .\utils\const.py:22 .\utils\const.py:35
-msgid "housetype"
-msgstr "Типи будинку"
-
-#: .\utils\const.py:22 .\utils\const.py:35
-msgid "filialagency"
-msgstr "Агенства філіалу"
-
-#: .\utils\const.py:23 .\utils\const.py:36
-msgid "filialreport"
-msgstr "Звіти філіалу"
-
-#: .\utils\const.py:24
-msgid "apartment"
-msgstr "Квартири"
-
-#: .\utils\const.py:24 .\utils\const.py:38
-msgid "report"
-msgstr "Звіти"
-
-#: .\utils\const.py:24 .\utils\const.py:36
-msgid "complex"
-msgstr "Комплекси"
-
-#: .\utils\const.py:37
-msgid "realestate"
-msgstr "Нерухомість"
-
-#: .\utils\const.py:39
-msgid "group"
-msgstr "Групи"
-
-#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
-msgid "Messages"
-msgstr "Повідомлення"
-
-#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
-msgid "Site Maps"
-msgstr "Карти сайту"
-
-#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
-msgid "Static Files"
-msgstr "Статичні файли"
-
-#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
-msgid "Syndication"
-msgstr ""
-
-#. Translators: String used to replace omitted page numbers in elided page
-#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
-#: .\venv\Lib\site-packages\django\core\paginator.py:30
-msgid "…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:32
-msgid "That page number is not an integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:33
-msgid "That page number is less than 1"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:34
-msgid "That page contains no results"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:22
-msgid "Enter a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:104
-#: .\venv\Lib\site-packages\django\forms\fields.py:760
-msgid "Enter a valid URL."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:165
-msgid "Enter a valid integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:176
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: .\venv\Lib\site-packages\django\core\validators.py:259
-msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:267
-msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:279
-#: .\venv\Lib\site-packages\django\core\validators.py:306
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:286
-#: .\venv\Lib\site-packages\django\core\validators.py:307
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:298
-#: .\venv\Lib\site-packages\django\core\validators.py:305
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:341
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:347
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:382
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:391
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:400
-#, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:407
-#, python-format
-msgid ""
-"Ensure this value is a multiple of step size %(limit_value)s, starting from "
-"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:439
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:457
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:480
-#: .\venv\Lib\site-packages\django\forms\fields.py:355
-#: .\venv\Lib\site-packages\django\forms\fields.py:394
-msgid "Enter a number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:482
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:487
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:492
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:563
-#, python-format
-msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:624
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1477
-#: .\venv\Lib\site-packages\django\forms\models.py:906
-msgid "and"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1479
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\constraints.py:20
-#, python-format
-msgid "Constraint “%(name)s” is violated."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:133
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
-msgid "This field cannot be null."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
-msgid "This field cannot be blank."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or
-#. 'month'. Eg: "Title must be unique for pub_date year"
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:140
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:179
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1155
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1156
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1158
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1208
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1210
-msgid "String (unlimited)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1314
-msgid "Comma-separated integers"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1415
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1419
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1554
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1423
-msgid "Date (without time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1550
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD "
-"HH:MM[:ss[.uuuuuu]][TZ] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1558
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1563
-msgid "Date (with time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1690
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1692
-msgid "Decimal number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1853
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] "
-"[[HH:]MM:]ss[.uuuuuu] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1857
-msgid "Duration"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1909
-msgid "Email address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1934
-msgid "File path"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2012
-#, python-format
-msgid "“%(value)s” value must be a float."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2014
-msgid "Floating point number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2054
-#, python-format
-msgid "“%(value)s” value must be an integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2056
-msgid "Integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2152
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2169
-msgid "Small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2177
-msgid "IPv4 address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2208
-msgid "IP address"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2301
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2302
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2304
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2355
-msgid "Positive big integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2370
-msgid "Positive integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2385
-msgid "Positive small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2401
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2437
-msgid "Text"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2512
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2516
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2520
-msgid "Time"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2628
-msgid "URL"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2652
-msgid "Raw binary data"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2717
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2719
-msgid "Universally unique identifier"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
-msgid "File"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
-msgid "A JSON object"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:28
-msgid "Value must be valid JSON."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:939
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:941
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1235
-msgid "One-to-one relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1292
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1294
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1342
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
-msgid ":?.!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:95
-msgid "This field is required."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:304
-msgid "Enter a whole number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:475
-#: .\venv\Lib\site-packages\django\forms\fields.py:1252
-msgid "Enter a valid date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:498
-#: .\venv\Lib\site-packages\django\forms\fields.py:1253
-msgid "Enter a valid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:525
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:559
-msgid "Enter a valid duration."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:560
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:629
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:630
-msgid "No file was submitted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:631
-msgid "The submitted file is empty."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:633
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:638
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:702
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:874
-#: .\venv\Lib\site-packages\django\forms\fields.py:960
-#: .\venv\Lib\site-packages\django\forms\models.py:1585
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:962
-#: .\venv\Lib\site-packages\django\forms\fields.py:1081
-#: .\venv\Lib\site-packages\django\forms\models.py:1583
-msgid "Enter a list of values."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1082
-msgid "Enter a complete value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1321
-msgid "Enter a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1351
-msgid "Enter a valid JSON."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: .\venv\Lib\site-packages\django\forms\forms.py:94
-msgid ":"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\forms.py:231
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:61
-#, python-format
-msgid ""
-"ManagementForm data is missing or has been tampered with. Missing fields: "
-"%(field_names)s. You may need to file a bug report if the issue persists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:65
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:70
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:484
-#: .\venv\Lib\site-packages\django\forms\formsets.py:491
-msgid "Order"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:899
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:904
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:911
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:920
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1357
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1448
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1587
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\utils.py:227
-#, python-format
-msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:461
-msgid "Clear"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:462
-msgid "Currently"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:463
-msgid "Change"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:800
-msgid "Unknown"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:801
-msgid "Yes"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:802
-msgid "No"
-msgstr ""
-
-#. Translators: Please do not add spaces around commas.
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:876
-msgid "yes,no,maybe"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:906
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:923
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:925
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:927
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:929
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:931
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:933
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
-msgid "p.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
-msgid "a.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
-msgid "PM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
-msgid "AM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
-msgid "midnight"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
-msgid "noon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:7
-msgid "Monday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:8
-msgid "Tuesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:9
-msgid "Wednesday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:10
-msgid "Thursday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:11
-msgid "Friday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:12
-msgid "Saturday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:13
-msgid "Sunday"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:16
-msgid "Mon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:17
-msgid "Tue"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:18
-msgid "Wed"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:19
-msgid "Thu"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:20
-msgid "Fri"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:21
-msgid "Sat"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:22
-msgid "Sun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:25
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:26
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:27
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:28
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:29
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:30
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:31
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:32
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:33
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:34
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:35
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:36
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:39
-msgid "jan"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:40
-msgid "feb"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:41
-msgid "mar"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:42
-msgid "apr"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:43
-msgid "may"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:44
-msgid "jun"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:45
-msgid "jul"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:46
-msgid "aug"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:47
-msgid "sep"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:48
-msgid "oct"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:49
-msgid "nov"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:50
-msgid "dec"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:53
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:54
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:55
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:56
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:57
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:58
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:59
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:60
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:61
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:62
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:63
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:64
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:67
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:68
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:69
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:70
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:71
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:72
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:73
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:74
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:75
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:76
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:77
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:78
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:123
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:323
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: .\venv\Lib\site-packages\django\utils\text.py:342
-#: .\venv\Lib\site-packages\django\utils\timesince.py:135
-msgid ", "
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:8
-#, python-format
-msgid "%(num)d year"
-msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:9
-#, python-format
-msgid "%(num)d month"
-msgid_plural "%(num)d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:10
-#, python-format
-msgid "%(num)d week"
-msgid_plural "%(num)d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:11
-#, python-format
-msgid "%(num)d day"
-msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:12
-#, python-format
-msgid "%(num)d hour"
-msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:13
-#, python-format
-msgid "%(num)d minute"
-msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:29
-msgid "Forbidden"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:30
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:34
-msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:40
-msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:45
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the “Referrer-Policy: no-referrer” header, please remove them. The "
-"CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:54
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:60
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:66
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
-msgid "No year specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
-msgid "Date out of range"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
-msgid "No month specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
-msgid "No day specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
-msgid "No week specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:349
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:380
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:652
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because "
-"%(class_name)s.allow_future is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:692
-#, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:70
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:77
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:169
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:49
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:51
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:68
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:220
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" "
-"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
-"configured any URLs."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
-msgid "Django Documentation"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:230
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:238
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:239
-msgid "Get started with Django"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:247
-msgid "Django Community"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:248
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#~ msgid "Base"
-#~ msgstr "База"
-
-#~ msgid "Sq. M."
-#~ msgstr "кв. м."
-
-#~ msgid "Characteristics"
-#~ msgstr "Характеристики"
-
-#~ msgid "Yes,No"
-#~ msgstr "Так,Ні"
-
-#~ msgid "Withdrawal reason"
-#~ msgstr "Причина вилучення"
-
-#~ msgid "Land square"
-#~ msgstr "Площа ділянки"
-
-#~ msgid "Selection list for"
-#~ msgstr "Список вибірки для"
-
-#~ msgid "Selection list"
-#~ msgstr "Список вибірки"
-
-#~ msgid "See Details"
-#~ msgstr "Переглянути деталі"
-
-#~ msgid "contract"
-#~ msgstr "Контракти"
-
-#~ msgid "Date before temporarily removed"
-#~ msgstr "Дата до тимчасового видалення"
-
-#~ msgid "Purchase date"
-#~ msgstr "Дата покупки"
-
-#~ msgid "Sale date"
-#~ msgstr "Дата продажу"
-
-#~ msgid "Date of next call"
-#~ msgstr "Дата наступного прозвону"
-
-#~ msgid "Inspection form"
-#~ msgstr "Інспекційна форма"
-
-#~ msgid "Exclusive date"
-#~ msgstr "Дата ексклюзиву"
-
-#~ msgid "Inspection flag"
-#~ msgstr "Інспекційний флаг"
-
-#~ msgid "Paid exclusive flag"
-#~ msgstr "Платний ексклюзивний флаг"
-
-#~ msgid "Terrace flag"
-#~ msgstr "Флаг тераси"
-
-#~ msgid "Sea flag"
-#~ msgstr "Флаг моря"
-
-#~ msgid "vip"
-#~ msgstr "ВІП"
-
-#~ msgid "Independent"
-#~ msgstr "Незалежний"
-
-#~ msgid "Special"
-#~ msgstr "Спеціальний"
-
-#~ msgid "Urgently"
-#~ msgstr "Терміново"
-
-#~ msgid "Trade"
-#~ msgstr "Торг"
-
-#~ msgid "Site price"
-#~ msgstr "Ціна на сайті"
-
-#~ msgid "Square meter price"
-#~ msgstr "Ціна за кв. м."
-
-#~ msgid "For trainee"
-#~ msgstr "Для практиканта"
-
-#~ msgid "Reference point"
-#~ msgstr "Точка відліку"
-
-#~ msgid "Author"
-#~ msgstr "Автор"
-
-#~ msgid "Owners number"
-#~ msgstr "Число власників"
-
-#~ msgid "Separation"
-#~ msgstr "Вилучення"
-
-#~ msgid "Agency sales"
-#~ msgstr "Агентський продаж"
-
-#~ msgid "Filename of exclusive agreement"
-#~ msgstr "Ім'я файлу ексклюзивної угоди"
-
-#~ msgid "Inspection file name"
-#~ msgstr "Ім'я файлу перевірки"
-
-#~ msgid "Filename forbid sale"
-#~ msgstr "Назва файлу заборонити продаж"
-
-#~ msgid "New building type"
-#~ msgstr "Тип новобудови"
-
-#~ msgid "Site realtor 1"
-#~ msgstr "Ріелтор сайту 1"
-
-#~ msgid "Site realtor 2"
-#~ msgstr "Ріелтор сайту 2"
+msgstr "Продажа"
