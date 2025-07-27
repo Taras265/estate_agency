@@ -93,7 +93,10 @@ LANGUAGE_CODE = "en-us"
 
 LANGUAGES = [("en", "English"), ("ru", "Russian"), ("uk", "Ukrainian")]
 
-LOCALE_PATHS = [BASE_DIR.joinpath("locale")]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locale"),
+]
 
 TIME_ZONE = "UTC"
 

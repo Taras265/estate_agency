@@ -56,7 +56,7 @@ class ApartmentForm(BaseRealEstateForm):
     class Meta:
         model = Apartment
         fields = (
-            "room_types",
+            "rubric",
             "realtor",
             "deposit_date",
             "status",
@@ -121,7 +121,7 @@ class CommerceForm(BaseRealEstateForm):
     class Meta:
         model = Commerce
         fields = (
-            "room_types",
+            "rubric",
             "realtor",
             "deposit_date",
             "status",
@@ -187,7 +187,7 @@ class HouseForm(BaseRealEstateForm):
     class Meta:
         model = House
         fields = (
-            "room_types",
+            "rubric",
             "realtor",
             "deposit_date",
             "status",
@@ -274,7 +274,7 @@ class LandForm(BaseRealEstateForm):
                 "e_home",
                 "price",
                 "status",
-                "room_types",
+                "rubric",
                 "document",
                 "sale_terms",
                 "realtor_notes",

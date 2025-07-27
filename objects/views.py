@@ -36,10 +36,10 @@ from .utils import (
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
 )
-from utils.pdf import showing_act_pdf
+from utils.pdf import generate_pdf
 from utils.views import HistoryView
 
-from .choices import RealEstateStatus, RealEstateType, ShowingActType
+from .choices import RealEstateStatus, RealEstateType
 from .forms import (
     ApartmentForm,
     ApartmentVerifyAddressForm,
@@ -69,7 +69,7 @@ from .services import (
     contracts_accessible_for_user,
     real_estate_model_from_type,
     has_any_perm_from_list,
-    selection_add_selected_objects,
+    selection_add_selected,
     user_can_create_apartment,
     user_can_create_commerce,
     user_can_create_house,
@@ -265,13 +265,26 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
         form.is_valid()
 
         obj_type = int(form.cleaned_data.get("object_type"))
-        model_class = real_estate_model_from_type(obj_type)
-        if not model_class:
-            raise BadRequest()
-        
-        queryset = model_class.objects.filter(
-            on_delete=False, status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT)
-        )
+        if obj_type == RealEstateType.APARTMENT:
+            queryset = Apartment.objects.filter(
+                on_delete=False,
+                status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
+            )
+        elif obj_type == RealEstateType.COMMERCE:
+            queryset = Commerce.objects.filter(
+                on_delete=False,
+                status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
+            )
+        elif obj_type == RealEstateType.HOUSE:
+            queryset = House.objects.filter(
+                on_delete=False,
+                status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
+            )
+        else:
+            queryset = Land.objects.filter(
+                on_delete=False,
+                status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT),
+            )
 
         # if form.cleaned_data.get('rooms_number') is not None:
         #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
@@ -376,43 +389,86 @@ class SelectionHistoryView(
 
 
 def showing_act_redirect(request, lang):
-    """
-    Створення вибірки для клієнта та переадресація на сторінку з актом показу.
-    Необхідні query параметри:
-    - object_type: int # тип об'єкта нерухомості
-    - objects: list[int] # список з id об'єктів
-    - client: int # id клієнта
-    """
-    if request.user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
-
+    selected_ids = request.GET.getlist("objects")
     object_type = int(request.GET.get("object_type"))
+
     model_class = real_estate_model_from_type(object_type)
     if not model_class:
         raise BadRequest()
-
-    selected_ids = request.GET.getlist("objects")
+    
     objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+
     for obj in objects:
         obj.in_selection = True
         obj.save()
 
     client_id = int(request.GET.get("client"))
     client = Client.objects.filter(on_delete=False, id=client_id).first()
-    if not client:
-        raise BadRequest()
 
     selection = Selection.objects.create(
         client=client,
         user=request.user,
     )
-    selection_add_selected_objects(selection, object_type, *objects)
+    for obj in objects:
+        selection_add_selected(object_type, selection, obj)
     selection.save()
 
     params = request.GET.copy()
     params["objects"] = selected_ids
-    url = reverse_lazy("objects:showing_act", kwargs={"lang": lang})
+
+    url = reverse_lazy("objects:showing_act", kwargs={"lang": "en"})
     return redirect(f"{url}?{urlencode(params, doseq=True)}")
+
+
+def pdf_redirect(request, lang):
+    selected_ids = request.GET.getlist("objects")
+    object_type = int(request.GET.get("object_type"))
+
+    model_class = real_estate_model_from_type(object_type)
+    if not model_class:
+        raise BadRequest()
+    
+    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+
+    for obj in objects:
+        obj.in_selection = True
+        obj.save()
+
+    client_id = int(request.GET.get("client"))
+    client = Client.objects.filter(on_delete=False, id=client_id).first()
+
+    selection = Selection.objects.create(
+        client=client,
+        user=request.user,
+    )
+    for obj in objects:
+        selection_add_selected(object_type, selection, obj)
+    selection.save()
+
+    params = request.GET.copy()
+    params["objects"] = selected_ids
+
+    url = reverse_lazy("objects:generate_pdf", kwargs={"lang": "en"})
+    return redirect(f"{url}?{urlencode(params, doseq=True)}")
+
+
+class PdfView(CustomLoginRequiredMixin, View):
+    def get(self, request, lang):
+        selected_ids = self.request.GET.getlist("objects")
+        object_type = int(self.request.GET.get("object_type"))
+
+        model_class = real_estate_model_from_type(object_type)
+        if not model_class:
+            raise BadRequest()
+        
+        objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+        pdf = generate_pdf(objects, request.user.get_full_name()[0])
+        return FileResponse(
+            io.BytesIO(pdf.output()),
+            as_attachment=True,
+            filename="document.pdf",
+            content_type="application/pdf",
+        )
 
 
 class ShowingActView(TemplateView):
@@ -420,17 +476,16 @@ class ShowingActView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
 
+        selected_ids = self.request.GET.getlist("objects")
         object_type = int(self.request.GET.get("object_type"))
+
+        context["lang"] = self.kwargs["lang"]
         model_class = real_estate_model_from_type(object_type)
         if not model_class:
             raise BadRequest()
-        
-        selected_ids = self.request.GET.getlist("objects")
-        qs = model_class.objects.filter(on_delete=False, id__in=selected_ids)
         objects = []
-        for obj in qs:
+        for obj in model_class.objects.filter(on_delete=False, id__in=selected_ids):
             objects.append(
                 {
                     "object": obj,
@@ -438,72 +493,8 @@ class ShowingActView(TemplateView):
                 }
             )
         context["objects"] = objects
+
         return context
-
-
-def pdf_redirect(request, lang):
-    """
-    Створення вибірки для клієнта та переадресація на сторінку
-    зі створенням pdf-файлу з актом показу.
-    Необхідні query параметри:
-    - object_type: int # тип об'єкта нерухомості
-    - objects: list[int] # список з id об'єктів
-    - client: int # id клієнта
-    """
-    if request.user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
-
-    object_type = int(request.GET.get("object_type"))
-    model_class = real_estate_model_from_type(object_type)
-    if not model_class:
-        raise BadRequest()
-    
-    selected_ids = request.GET.getlist("objects")
-    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
-    for obj in objects:
-        obj.in_selection = True
-        obj.save()
-
-    client_id = int(request.GET.get("client"))
-    client = Client.objects.filter(on_delete=False, id=client_id).first()
-    if not client:
-        raise BadRequest()
-
-    selection = Selection.objects.create(
-        client=client,
-        user=request.user,
-    )
-    selection_add_selected_objects(selection, object_type, *objects)
-    selection.save()
-
-    params = request.GET.copy()
-    params["objects"] = selected_ids
-    url = reverse_lazy("objects:generate_pdf", kwargs={"lang": lang})
-    return redirect(f"{url}?{urlencode(params, doseq=True)}")
-
-
-class ShowingActPdfView(CustomLoginRequiredMixin, View):
-    def get(self, request, lang):
-        activate(lang)
-        client_id = int(request.GET.get("client"))
-        client = Client.objects.filter(on_delete=False, id=client_id).first()
-        if not client:
-            raise BadRequest()
-
-        object_type = int(self.request.GET.get("object_type"))
-        model_class = real_estate_model_from_type(object_type)
-        if not model_class:
-            raise BadRequest()
-
-        selected_ids = self.request.GET.getlist("objects")
-        objects = model_class.objects.filter(on_delete=False, id__in=selected_ids).select_related()
-        pdf = showing_act_pdf(request.user, client, objects, ShowingActType.WITH_USER_INFO)
-        return FileResponse(
-            io.BytesIO(pdf.output()),
-            as_attachment=True,
-            filename="document.pdf",
-            content_type="application/pdf",
-        )
 
 
 class RealEstateListRedirect(CustomLoginRequiredMixin, View):
@@ -2306,10 +2297,10 @@ class HouseUpdateView(
                 if not post_data.get(field):
                     post_data[field] = getattr(o, field)
             f = self.form_class(post_data, instance=o)
-            for obj in House.objects.all():
+            """for obj in House.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
-                    obj.save()
+                    obj.save()"""
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())
@@ -2390,10 +2381,10 @@ class LandUpdateView(
                 if not post_data.get(field):
                     post_data[field] = getattr(o, field)
             f = self.form_class(post_data, instance=o)
-            for obj in Land.objects.all():
+            """for obj in Land.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
-                    obj.save()
+                    obj.save()"""
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())

@@ -118,7 +118,7 @@ urlpatterns = [
     path("pre/showing_act/", views.showing_act_redirect, name="showing_act_redirect"),
     path("showing_act/", views.ShowingActView.as_view(), name="showing_act"),
     path("pre/showing_act/pdf/", views.pdf_redirect, name="generate_pdf_redirect"),
-    path("showing_act/pdf/", views.ShowingActPdfView.as_view(), name="generate_pdf"),
+    path("showing_act/pdf/", views.PdfView.as_view(), name="generate_pdf"),
     path(
         "base/selection/history/<int:pk>/",
         views.SelectionHistoryView.as_view(),
