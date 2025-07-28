@@ -1012,19 +1012,19 @@ msgstr "Полностью снят"
 
 #: .\objects\choices.py:27
 msgid "1 room"
-msgstr "Новые комнаты"
+msgstr "1 комната"
 
 #: .\objects\choices.py:28
 msgid "2 rooms"
-msgstr "Новые комнаты"
+msgstr "2 комнаты"
 
 #: .\objects\choices.py:29
 msgid "3 rooms"
-msgstr "Новые комнаты"
+msgstr "3 комнаты"
 
 #: .\objects\choices.py:30
 msgid "Many rooms"
-msgstr "Новые комнаты"
+msgstr "Много комнат"
 
 #: .\objects\choices.py:35
 msgid "Residential"
