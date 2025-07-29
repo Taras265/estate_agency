@@ -11,7 +11,7 @@ from accounts.models import CustomUser
 from handbooks.models import Client
 
 
-def showing_act_pdf(
+def generate_showing_act_pdf(
     user: CustomUser,
     client: Client,
     qs: QuerySet[BaseRealEstate],
