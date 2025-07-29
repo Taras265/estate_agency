@@ -57,6 +57,7 @@ def office_redirect(request, lang):
     if user.is_anonymous:
         return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
+    """
     # клієнти
     if user.has_perm("handbooks.view_own_office_client"):
         return redirect(reverse_lazy("handbooks:office_client_list", kwargs=kwargs))
@@ -68,18 +69,19 @@ def office_redirect(request, lang):
         return redirect(reverse_lazy("objects:office_apartment_list", kwargs=kwargs))
     if user.has_perm("objects.view_filial_office_objects"):
         return redirect(reverse_lazy("objects:office_filial_apartment_list", kwargs=kwargs))
-    
+    """
+
     # користувачі
     if user.has_perm("accounts.view_office_user"):
         return redirect(reverse_lazy("accounts:office_user_list", kwargs=kwargs))
-    
+    """
     # звіти
     if user.has_perm("objects.view_office_report"):
         return redirect(reverse_lazy("objects:apartment_office_reports", kwargs=kwargs))
     if user.has_perm("objects.view_office_own_report"):
         url = reverse_lazy("objects:apartment_office_reports", kwargs=kwargs)
         return redirect(f"{url}?realtor_id={user.id}")
-
+    """
     return redirect(reverse_lazy("accounts:profile", kwargs=kwargs))
 
 

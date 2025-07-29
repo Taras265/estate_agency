@@ -67,32 +67,6 @@ urlpatterns = [
         views.AccessibleHouseContractListView.as_view(),
         name="house_contracts",
     ),
-    path(
-        "office/apartments/",
-        views.OfficeMyApartmentListView.as_view(),
-        name="office_apartment_list",
-    ),
-    path(
-        "office/commerces/",
-        views.OfficeMyCommerceListView.as_view(),
-        name="office_commerce_list",
-    ),
-    path("office/houses/", views.OfficeMyHouseListView.as_view(), name="office_house_list"),
-    path("office/lands/", views.OfficeMyLandListView.as_view(), name="office_land_list"),
-
-    path("office/filial/apartments/", views.OfficeFilialApartmentListView.as_view(), name="office_filial_apartment_list"),
-    path("office/filial/commerces/", views.OfficeFilialCommerceListView.as_view(), name="office_filial_commerce_list"),
-    path("office/filial/houses/", views.OfficeFilialHouseListView.as_view(), name="office_filial_house_list"),
-    path("office/filial/lands/", views.OfficeFilialLandListView.as_view(), name="office_filial_land_list"),
-    path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
-
-    path("office/apartments/reports/new/", views.OfficeNewAccessibleApartmentReportListView.as_view(), name="office_new_apartment_reports"),
-    path("office/apartments/reports/all/", views.OfficeAllApartmentReportListView.as_view(), name="office_all_apartment_reports"),
-    path("office/apartments/reports/my/", views.OfficeMyApartmentReportListView.as_view(), name="office_my_apartment_reports"),
-    path("office/commerces/reports/new/", views.OfficeNewAccessibleCommerceReportListView.as_view(), name="office_new_commerce_reports"),
-    path("office/houses/reports/new/", views.OfficeNewAccessibleHouseReportListView.as_view(), name="office_new_house_reports"),
-    path("office/lands/reports/new/", views.OfficeNewAccessibleLandReportListView.as_view(), name="office_new_land_reports"),
-
     path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
     path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),
     path("base/create/house/", views.HouseCreateView.as_view(), name="create_house"),
@@ -125,3 +99,31 @@ urlpatterns = [
         name="selection_history",
     ),
 ]
+
+"""
+path(
+    "office/apartments/",
+    views.OfficeMyApartmentListView.as_view(),
+    name="office_apartment_list",
+),
+path(
+    "office/commerces/",
+    views.OfficeMyCommerceListView.as_view(),
+    name="office_commerce_list",
+),
+path("office/houses/", views.OfficeMyHouseListView.as_view(), name="office_house_list"),
+path("office/lands/", views.OfficeMyLandListView.as_view(), name="office_land_list"),
+
+path("office/filial/apartments/", views.OfficeFilialApartmentListView.as_view(), name="office_filial_apartment_list"),
+path("office/filial/commerces/", views.OfficeFilialCommerceListView.as_view(), name="office_filial_commerce_list"),
+path("office/filial/houses/", views.OfficeFilialHouseListView.as_view(), name="office_filial_house_list"),
+path("office/filial/lands/", views.OfficeFilialLandListView.as_view(), name="office_filial_land_list"),
+path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
+
+path("office/apartments/reports/new/", views.OfficeNewAccessibleApartmentReportListView.as_view(), name="office_new_apartment_reports"),
+path("office/apartments/reports/all/", views.OfficeAllApartmentReportListView.as_view(), name="office_all_apartment_reports"),
+path("office/apartments/reports/my/", views.OfficeMyApartmentReportListView.as_view(), name="office_my_apartment_reports"),
+path("office/commerces/reports/new/", views.OfficeNewAccessibleCommerceReportListView.as_view(), name="office_new_commerce_reports"),
+path("office/houses/reports/new/", views.OfficeNewAccessibleHouseReportListView.as_view(), name="office_new_house_reports"),
+path("office/lands/reports/new/", views.OfficeNewAccessibleLandReportListView.as_view(), name="office_new_land_reports"),
+"""

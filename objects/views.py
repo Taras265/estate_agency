@@ -426,7 +426,7 @@ class ShowingActView(TemplateView):
         model_class = real_estate_model_from_type(object_type)
         if not model_class:
             raise BadRequest()
-        
+
         selected_ids = self.request.GET.getlist("objects")
         qs = model_class.objects.filter(on_delete=False, id__in=selected_ids)
         objects = []
@@ -457,7 +457,7 @@ def pdf_redirect(request, lang):
     model_class = real_estate_model_from_type(object_type)
     if not model_class:
         raise BadRequest()
-    
+
     selected_ids = request.GET.getlist("objects")
     objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
     for obj in objects:
@@ -771,6 +771,7 @@ class AccessibleLandListView(
         return context
 
 
+'''
 class OfficeMyApartmentListView(
     CustomLoginRequiredMixin,
     PermissionRequiredMixin,
@@ -1264,6 +1265,7 @@ class OfficeFilialLandListView(
             }
         )
         return context
+'''
 
 
 class NewAccessibleApartmentReportListView(CustomLoginRequiredMixin, ListView):
@@ -1468,6 +1470,7 @@ class MyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         return context
 
 
+'''
 class OfficeNewAccessibleApartmentReportListView(CustomLoginRequiredMixin, ListView):
     """Список нових, доступних користувачу для перегляду, звітів квартир в офісі"""
 
@@ -1674,6 +1677,7 @@ class OfficeMyApartmentReportListView(CustomLoginRequiredMixin, ListView):
         })
         context.update(get_office_context(self.request.user))
         return context
+'''
 
 
 class AccessibleApartmentContractListView(CustomLoginRequiredMixin, ListView):
@@ -1821,6 +1825,7 @@ class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListV
         return context
 
 
+'''
 class OfficeHistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Apartment.history.all().model
     template_name = "objects/office_changes_report_list.html"
@@ -1901,6 +1906,7 @@ class OfficeHistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin,
         else:
             context["object_values"] = None
         return context
+'''
 
 
 class ApartmentCreateView(
