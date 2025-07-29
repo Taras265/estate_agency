@@ -1210,6 +1210,7 @@ class DeferredDemandClientListView(
     choices = SALE_CHOICES
 
 
+'''
 class MyAllClientsListView(
     UserClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
 ):
@@ -1265,7 +1266,7 @@ class MyDeferredDemandClientListView(
     filter = "deferred_demand"
     perm = "view"
     choices = SALE_CHOICES
-
+'''
 
 class FilialAllClientsListView(
     FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
