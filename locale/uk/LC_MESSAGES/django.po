@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-26 15:54+0000\n"
+"POT-Creation-Date: 2025-07-29 11:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -711,11 +711,11 @@ msgstr "Тип рієлтора"
 msgid "Status"
 msgstr "Статус"
 
-#: handbooks/forms.py:186 handbooks/forms.py:362 utils/pdf.py:92
+#: handbooks/forms.py:186 handbooks/forms.py:362
 msgid "Rooms number"
 msgstr "К-сть кімнат"
 
-#: handbooks/forms.py:209 handbooks/forms.py:385 objects/choices.py:10
+#: handbooks/forms.py:209 handbooks/forms.py:385 objects/choices.py:12
 #: objects/models.py:59
 #: objects/templates/objects/real_estate_create_form.html:44
 #: objects/templates/objects/selection_history_list.html:34
@@ -992,19 +992,19 @@ msgstr "Вулиці"
 msgid "Images"
 msgstr "Зображення"
 
-#: objects/choices.py:8 objects/models.py:239
+#: objects/choices.py:10 objects/models.py:239
 #: objects/templates/objects/real_estate_create_form.html:38
 #: objects/templates/objects/selection_history_list.html:31
 msgid "Apartment"
 msgstr "Квартира"
 
-#: objects/choices.py:9 objects/choices.py:37
+#: objects/choices.py:11 objects/choices.py:39
 #: objects/templates/objects/real_estate_create_form.html:41
 #: objects/templates/objects/selection_history_list.html:37
 msgid "Commerce"
 msgstr "Комерція"
 
-#: objects/choices.py:11
+#: objects/choices.py:13
 #: objects/templates/objects/office_filial_real_estate_list.html:138
 #: objects/templates/objects/office_real_estate_list.html:136
 #: objects/templates/objects/real_estate_create_form.html:47
@@ -1014,19 +1014,19 @@ msgstr "Комерція"
 msgid "Land"
 msgstr "Земельні ділянки"
 
-#: objects/choices.py:17
+#: objects/choices.py:19
 msgid "On sale"
 msgstr "У продажу"
 
-#: objects/choices.py:18
+#: objects/choices.py:20
 msgid "Advance"
 msgstr ""
 
-#: objects/choices.py:19
+#: objects/choices.py:21
 msgid "Withdrawn"
 msgstr "Вилучено"
 
-#: objects/choices.py:20
+#: objects/choices.py:22
 #: objects/templates/objects/office_filial_real_estate_list.html:200
 #: objects/templates/objects/office_filial_real_estate_list.html:208
 #: objects/templates/objects/office_real_estate_list.html:199
@@ -1036,39 +1036,39 @@ msgstr "Вилучено"
 msgid "Sold"
 msgstr "Продано"
 
-#: objects/choices.py:21
+#: objects/choices.py:23
 msgid "Completely withdrawn"
 msgstr "Повністю вилучено"
 
-#: objects/choices.py:27
+#: objects/choices.py:29
 msgid "Adjacent"
 msgstr "Суміжний"
 
-#: objects/choices.py:28
+#: objects/choices.py:30
 msgid "Separate"
 msgstr "Окремий"
 
-#: objects/choices.py:29
+#: objects/choices.py:31
 #, fuzzy
 #| msgid "Studio kitchen"
 msgid "Studio"
 msgstr "Студіо кухня"
 
-#: objects/choices.py:36
+#: objects/choices.py:38
 msgid "Dwelling"
 msgstr ""
 
-#: objects/choices.py:43 objects/models.py:310 objects/models.py:352
+#: objects/choices.py:45 objects/models.py:310 objects/models.py:352
 msgid "Facade"
 msgstr "Фасад"
 
-#: objects/choices.py:44
+#: objects/choices.py:46
 #, fuzzy
 #| msgid "Internet"
 msgid "Internal"
 msgstr "Інтернет"
 
-#: objects/choices.py:45
+#: objects/choices.py:47
 msgid "Corner"
 msgstr ""
 
@@ -1165,7 +1165,7 @@ msgid "EHome"
 msgstr "єОселя"
 
 #: objects/models.py:168 objects/templates/objects/office_report_list.html:191
-#: objects/templates/objects/report_list.html:162 utils/pdf.py:94
+#: objects/templates/objects/report_list.html:162 utils/pdf.py:97
 msgid "Price"
 msgstr "Ціна"
 
@@ -1190,7 +1190,7 @@ msgstr "Поверх"
 msgid "Number of storeys"
 msgstr "Кількість поверхів"
 
-#: objects/models.py:182
+#: objects/models.py:182 utils/pdf.py:95
 msgid "Rubric"
 msgstr "Рубрика"
 
@@ -1625,106 +1625,101 @@ msgstr "Хочете видалити?"
 msgid "Sale"
 msgstr "Продаж"
 
-#: utils/pdf.py:33
+#: utils/pdf.py:35
 msgid "SHOWING ACT"
 msgstr "АКТ ПОКАЗУ"
 
-#: utils/pdf.py:37
+#: utils/pdf.py:39
 msgid "(of apartment, house, land, new building)"
 msgstr "(квартири, домоволодіння, земельної ділянки, об'єкту новобудови)"
 
-#: utils/pdf.py:41
+#: utils/pdf.py:43
 msgid "I am,"
 msgstr "Я,"
 
-#: utils/pdf.py:55
+#: utils/pdf.py:57
 msgid ""
 "I confirm that I received the services provided to me by the branch employee"
 msgstr "підтверджую, що прийняв послуги, надані мені співробітником філії"
 
-#: utils/pdf.py:72
+#: utils/pdf.py:74
 msgid "202_ y."
 msgstr "202_ р."
 
-#: utils/pdf.py:75
+#: utils/pdf.py:77
 msgid "S. N. P. of user / filial"
 msgstr "П. І. П. представника / філіал"
 
-#: utils/pdf.py:92
+#: utils/pdf.py:95
 msgid "N"
 msgstr "№ п/п"
 
-#: utils/pdf.py:92
+#: utils/pdf.py:95
 msgid "ID"
 msgstr "ID"
 
-#: utils/pdf.py:92
+#: utils/pdf.py:95
 #, fuzzy
 msgid "Object's address"
 msgstr "Адреса об'єкта"
 
-#: utils/pdf.py:93
+#: utils/pdf.py:96
 msgid "Brief description of the technical condition of the display object"
 msgstr "Короткий опис технічного стану об'єкту показу"
 
-#: utils/pdf.py:94
-#, fuzzy
-msgid "Price per sq. m."
-msgstr "Ціна за 1 кв. м."
-
-#: utils/pdf.py:94
+#: utils/pdf.py:97
 msgid "Customer reviews and recommendations"
 msgstr "Відгуки і рекомендації клієнта"
 
-#: utils/pdf.py:95
+#: utils/pdf.py:98
 msgid "Customer signature"
 msgstr "Підпис клієнта"
 
-#: utils/pdf.py:130
+#: utils/pdf.py:138
 msgid "The show was conducted by a real estate representative from the agency"
 msgstr "Показ провів представник з роботи нерухомості агенства"
 
-#: utils/pdf.py:132
+#: utils/pdf.py:140
 msgid "(Surname, name, signature)"
 msgstr "(Прізвище, ім'я, підпис)"
 
-#: utils/pdf.py:148
+#: utils/pdf.py:156
 msgid ""
 "This document is given to the branch director (after the transaction is "
 "completed)"
 msgstr "Даний документ віддається директору філіалу (після укладення угоди)"
 
-#: utils/pdf.py:169 utils/pdf.py:188 utils/pdf.py:207 utils/pdf.py:226
+#: utils/pdf.py:177 utils/pdf.py:196 utils/pdf.py:215 utils/pdf.py:234
 #, fuzzy, python-brace-format
 msgid "Floor: {current}/{total}. "
 msgstr "Поверх: {current}/{total}. "
 
-#: utils/pdf.py:171
+#: utils/pdf.py:179
 #, python-brace-format
 msgid "Area (total/living/kitchen): {total}/{living}/{kitchen}. "
 msgstr "Площа (заг/житл/кухня): {total}/{living}/{kitchen}. "
 
-#: utils/pdf.py:177 utils/pdf.py:196 utils/pdf.py:215 utils/pdf.py:234
+#: utils/pdf.py:185 utils/pdf.py:204 utils/pdf.py:223 utils/pdf.py:242
 #, fuzzy, python-brace-format
 msgid "House type: {house_type}. "
 msgstr "Тип дому: {house_type}. "
 
-#: utils/pdf.py:179 utils/pdf.py:198 utils/pdf.py:217 utils/pdf.py:236
+#: utils/pdf.py:187 utils/pdf.py:206 utils/pdf.py:225 utils/pdf.py:244
 #, fuzzy, python-brace-format
 msgid "Layout: {layout}. "
 msgstr "Планування: {layout}. "
 
-#: utils/pdf.py:181 utils/pdf.py:200 utils/pdf.py:219 utils/pdf.py:238
+#: utils/pdf.py:189 utils/pdf.py:208 utils/pdf.py:227 utils/pdf.py:246
 #, fuzzy, python-brace-format
 msgid "Condition: {condition}. "
 msgstr "Стан: {condition}. "
 
-#: utils/pdf.py:190
+#: utils/pdf.py:198
 #, python-brace-format
 msgid "Area (total/useful/kitchen): {total}/{useful}/{kitchen}. "
 msgstr "Площа (заг/кор/кухня): {total}/{useful}/{kitchen}. "
 
-#: utils/pdf.py:209 utils/pdf.py:228
+#: utils/pdf.py:217 utils/pdf.py:236
 #, python-brace-format
 msgid "Area (total/land/kitchen): {total}/{land}/{kitchen}. "
 msgstr "Площа (заг/діл/кухня): {total}/{land}/{kitchen}. "
@@ -2934,6 +2929,10 @@ msgstr ""
 #: venv/lib/python3.11/site-packages/django/views/templates/default_urlconf.html:248
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Price per sq. m."
+#~ msgstr "Ціна за 1 кв. м."
 
 #~ msgid "Room"
 #~ msgstr "Кімната"
