@@ -3,7 +3,6 @@ from typing import Sequence
 from django.db.models.query import QuerySet
 from django.utils.translation import gettext as _
 from fpdf import FPDF, FontFace
-from fpdf.table import Table
 from fpdf.enums import Align, VAlign
 
 from objects.models import BaseRealEstate, Apartment, Commerce, House, Land
@@ -33,7 +32,7 @@ def showing_act_pdf(
 
     # вміст файлу
     TABLE_WIDTH = pdf.w - pdf.l_margin - pdf.r_margin
-    COLUMN_WIDTHS = (12, 15, 19, 53, 62, 17, 53, 25)
+    COLUMN_WIDTHS = (13, 15, 23, 53, 62, 17, 53, 23)
 
     pdf.set_font(FONT_FAMILY, "B", size=14)
     pdf.cell(text=_("SHOWING ACT"))
@@ -174,6 +173,7 @@ def _get_table_column_x_pos(pdf: FPDF, column_widths: Sequence[int], column_inde
 
 
 def _get_real_estate_description(obj: BaseRealEstate) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для об'єкту нерухомості."""
     if isinstance(obj, Apartment):
         return _get_apartment_description(obj)
     if isinstance(obj, Commerce):
@@ -185,6 +185,7 @@ def _get_real_estate_description(obj: BaseRealEstate) -> str:
 
 
 def _get_apartment_description(obj: Apartment) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для квартири."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -204,6 +205,7 @@ def _get_apartment_description(obj: Apartment) -> str:
 
 
 def _get_commerce_description(obj: Commerce) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для комерції."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -223,6 +225,7 @@ def _get_commerce_description(obj: Commerce) -> str:
 
 
 def _get_house_description(obj: House) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для будинку."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -242,6 +245,9 @@ def _get_house_description(obj: House) -> str:
 
 
 def _get_land_description(obj: Land) -> str:
+    """
+    Повертає короткий опис технічного стану об'єкту показу для земельної ділянки.
+    """
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
