@@ -29,7 +29,7 @@ class ApartmentRubric(models.IntegerChoices):
     ONE_ROOM = 1, _("1 room")  # 1 кімнатна
     TWO_ROOM = 2, _("2 rooms")  # 2 кімнатна
     THREE_ROOM = 3, _("3 rooms")  # 3 кімнатна
-    MANY_ROOMS = 4, _("Many rooms")  # багато кімнат
+    MANY_ROOMS = 4, _("4 and more")  # 4 та більше
 
 
 class CommerceRubric(models.IntegerChoices):
