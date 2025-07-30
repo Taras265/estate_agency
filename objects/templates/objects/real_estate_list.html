@@ -113,9 +113,26 @@
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
-                                        <th scope="col">{% translate 'Id' %}</th>
-                                        <th scope="col">{% translate 'Locality' %}</th>
-                                        <th scope="col">{% translate 'Street' %}</th>
+                                        <th scope="col">
+                                            <a href="?sort=id&direction={% if sort == "id" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
+                                                    {% translate 'Id' %}{% if sort == "id" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            </a>
+                                        </th>
+                                        <th scope="col">
+                                            <a href="?sort=locality&direction={% if sort == "locality" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
+                                                    {% translate 'Locality' %}{% if sort == "locality" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            </a>
+                                        </th>
+                                        <th scope="col">
+                                            <a href="?sort=street&direction={% if sort == "street" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
+                                                    {% translate 'Street' %}{% if sort == "street" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            </a>
+                                        </th>
+                                        <th scope="col">
+                                            <a href="?sort=price&direction={% if sort == "price" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
+                                                    {% translate 'Price' %}{% if sort == "price" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            </a>
+                                        </th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
@@ -129,6 +146,7 @@
                                         <td>{{object.id}}</td>
                                         <td>{{object.locality}}</td>
                                         <td>{{object.street}}</td>
+                                        <td>{{object.price}}</td>
                                         {% if can_update and can_update|get_dict_value:object.id %}
                                             <td>
                                                 <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
@@ -197,13 +215,13 @@
                 <div class="btn-group" role="group">
                     {% if page_obj.has_previous %}
                         <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+                           href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
                     {% endif %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                       href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.number }}">{{ page_obj.number }}</a>
                     {% if page_obj.has_next %}
                         <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+                           href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
                     {% endif %}
                 </div>
             </nav>

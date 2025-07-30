@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-27 08:24+0300\n"
+"POT-Creation-Date: 2025-07-30 11:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,7 +108,7 @@ msgstr "Назва"
 #: .\objects\templates\objects\report_list.html:6 .\templates\main.html:27
 #: .\templates\main.html:30
 msgid "Handbooks"
-msgstr "Каталог"
+msgstr "Довідник"
 
 #: .\accounts\templates\accounts\group_list.html:10
 #: .\accounts\templates\accounts\group_list.html:13
@@ -189,13 +189,13 @@ msgstr "Пошук"
 #: .\handbooks\templates\handbooks\street_list.html:69
 #: .\objects\templates\objects\catalog.html:59
 #: .\objects\templates\objects\selection_list.html:74
-#: .\objects\templates\objects\showing_act.html:79
+#: .\objects\templates\objects\showing_act.html:78
 msgid "id"
 msgstr "id"
 
 #: .\accounts\templates\accounts\group_list.html:70
 msgid "name"
-msgstr "прізвище"
+msgstr "назва"
 
 #: .\accounts\templates\accounts\group_list.html:88
 #: .\accounts\templates\accounts\office_user_list.html:132
@@ -214,7 +214,7 @@ msgstr "прізвище"
 #: .\handbooks\templates\handbooks\street_list.html:90
 #: .\objects\templates\objects\office_filial_real_estate_list.html:173
 #: .\objects\templates\objects\office_real_estate_list.html:172
-#: .\objects\templates\objects\real_estate_list.html:137
+#: .\objects\templates\objects\real_estate_list.html:155
 msgid "Update"
 msgstr "Оновити"
 
@@ -236,7 +236,7 @@ msgstr "Оновити"
 #: .\images\templates\images\list.html:21
 #: .\objects\templates\objects\office_filial_real_estate_list.html:180
 #: .\objects\templates\objects\office_real_estate_list.html:179
-#: .\objects\templates\objects\real_estate_list.html:144
+#: .\objects\templates\objects\real_estate_list.html:162
 #: .\templates\delete_form.html:25
 msgid "Delete"
 msgstr "Видалити"
@@ -260,7 +260,7 @@ msgstr "Видалити"
 #: .\handbooks\templates\handbooks\street_list.html:101
 #: .\objects\templates\objects\office_filial_real_estate_list.html:192
 #: .\objects\templates\objects\office_real_estate_list.html:191
-#: .\objects\templates\objects\real_estate_list.html:157
+#: .\objects\templates\objects\real_estate_list.html:175
 msgid "History"
 msgstr "Історія"
 
@@ -281,7 +281,7 @@ msgstr "Історія"
 #: .\handbooks\templates\handbooks\street_list.html:113
 #: .\objects\templates\objects\office_filial_real_estate_list.html:225
 #: .\objects\templates\objects\office_real_estate_list.html:224
-#: .\objects\templates\objects\real_estate_list.html:191
+#: .\objects\templates\objects\real_estate_list.html:209
 msgid "Create"
 msgstr "Додавання"
 
@@ -306,7 +306,7 @@ msgstr "Додавання"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:234
 #: .\objects\templates\objects\office_real_estate_list.html:233
 #: .\objects\templates\objects\office_report_list.html:223
-#: .\objects\templates\objects\real_estate_list.html:200
+#: .\objects\templates\objects\real_estate_list.html:218
 #: .\objects\templates\objects\report_list.html:194
 msgid "Previous"
 msgstr "Попередній"
@@ -332,7 +332,7 @@ msgstr "Попередній"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:240
 #: .\objects\templates\objects\office_real_estate_list.html:239
 #: .\objects\templates\objects\office_report_list.html:229
-#: .\objects\templates\objects\real_estate_list.html:206
+#: .\objects\templates\objects\real_estate_list.html:224
 #: .\objects\templates\objects\report_list.html:200
 msgid "Next"
 msgstr "Наступний"
@@ -454,7 +454,7 @@ msgstr "Профіль"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:153
 #: .\objects\templates\objects\office_real_estate_list.html:151
 #: .\objects\templates\objects\office_report_list.html:186
-#: .\objects\templates\objects\real_estate_list.html:116
+#: .\objects\templates\objects\real_estate_list.html:118
 #: .\objects\templates\objects\report_list.html:157
 msgid "Id"
 msgstr "Id"
@@ -469,7 +469,7 @@ msgstr "Номери телефонів"
 #: .\objects\templates\objects\contract_list.html:191
 #: .\objects\templates\objects\office_filial_real_estate_list.html:218
 #: .\objects\templates\objects\office_real_estate_list.html:217
-#: .\objects\templates\objects\real_estate_list.html:184
+#: .\objects\templates\objects\real_estate_list.html:202
 msgid "Not found"
 msgstr "Не знайдено"
 
@@ -615,7 +615,7 @@ msgstr "Район"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:154
 #: .\objects\templates\objects\office_real_estate_list.html:152
 #: .\objects\templates\objects\office_report_list.html:187
-#: .\objects\templates\objects\real_estate_list.html:117
+#: .\objects\templates\objects\real_estate_list.html:123
 #: .\objects\templates\objects\report_list.html:158
 msgid "Locality"
 msgstr "Місто"
@@ -660,7 +660,7 @@ msgstr "Район новострой"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:155
 #: .\objects\templates\objects\office_real_estate_list.html:153
 #: .\objects\templates\objects\office_report_list.html:188
-#: .\objects\templates\objects\real_estate_list.html:118
+#: .\objects\templates\objects\real_estate_list.html:128
 #: .\objects\templates\objects\report_list.html:159
 msgid "Street"
 msgstr "Вулиця"
@@ -708,12 +708,12 @@ msgstr "Тип ріелтора"
 msgid "Status"
 msgstr "Статус"
 
-#: .\handbooks\forms.py:186 .\handbooks\forms.py:362
+#: .\handbooks\forms.py:186 .\handbooks\forms.py:362 .\utils\pdf.py:95
 msgid "Rooms number"
 msgstr "Кількість номерів"
 
-#: .\handbooks\forms.py:209 .\handbooks\forms.py:385 .\objects\choices.py:10
-#: .\objects\choices.py:41 .\objects\choices.py:46 .\objects\models.py:60
+#: .\handbooks\forms.py:209 .\handbooks\forms.py:385 .\objects\choices.py:12
+#: .\objects\choices.py:43 .\objects\choices.py:48 .\objects\models.py:60
 #: .\objects\templates\objects\real_estate_create_form.html:44
 #: .\objects\templates\objects\selection_history_list.html:34
 msgid "House"
@@ -753,7 +753,7 @@ msgstr "Стан"
 
 #: .\handbooks\forms.py:262
 msgid "Handbook"
-msgstr "Каталог"
+msgstr "Довідник"
 
 #: .\handbooks\forms.py:273 .\handbooks\forms.py:281 .\handbooks\forms.py:346
 #: .\handbooks\templates\handbooks\filial_list.html:10
@@ -964,19 +964,19 @@ msgstr "вулиці"
 msgid "Images"
 msgstr "Зображення"
 
-#: .\objects\choices.py:8 .\objects\models.py:240
+#: .\objects\choices.py:10 .\objects\models.py:240
 #: .\objects\templates\objects\real_estate_create_form.html:38
 #: .\objects\templates\objects\selection_history_list.html:31
 msgid "Apartment"
 msgstr "Квартира"
 
-#: .\objects\choices.py:9 .\objects\choices.py:54
+#: .\objects\choices.py:11 .\objects\choices.py:56
 #: .\objects\templates\objects\real_estate_create_form.html:41
 #: .\objects\templates\objects\selection_history_list.html:37
 msgid "Commerce"
 msgstr "Комерція"
 
-#: .\objects\choices.py:11 .\objects\choices.py:47
+#: .\objects\choices.py:13 .\objects\choices.py:49
 #: .\objects\templates\objects\office_filial_real_estate_list.html:138
 #: .\objects\templates\objects\office_real_estate_list.html:136
 #: .\objects\templates\objects\real_estate_create_form.html:47
@@ -984,69 +984,69 @@ msgstr "Комерція"
 msgid "Land"
 msgstr "Земельні ділянки"
 
-#: .\objects\choices.py:17
+#: .\objects\choices.py:19
 msgid "On sale"
 msgstr "На продаж"
 
-#: .\objects\choices.py:18
+#: .\objects\choices.py:20
 msgid "Advance"
 msgstr "Аванс"
 
-#: .\objects\choices.py:19
+#: .\objects\choices.py:21
 msgid "Withdrawn"
 msgstr "Знято з продажу"
 
-#: .\objects\choices.py:20
+#: .\objects\choices.py:22
 #: .\objects\templates\objects\office_filial_real_estate_list.html:200
 #: .\objects\templates\objects\office_filial_real_estate_list.html:208
 #: .\objects\templates\objects\office_real_estate_list.html:199
 #: .\objects\templates\objects\office_real_estate_list.html:207
-#: .\objects\templates\objects\real_estate_list.html:166
-#: .\objects\templates\objects\real_estate_list.html:174
+#: .\objects\templates\objects\real_estate_list.html:184
+#: .\objects\templates\objects\real_estate_list.html:192
 msgid "Sold"
 msgstr "Проданий"
 
-#: .\objects\choices.py:21
+#: .\objects\choices.py:23
 msgid "Completely withdrawn"
 msgstr "Повністю знятий з продажу"
 
-#: .\objects\choices.py:27
+#: .\objects\choices.py:29
 msgid "1 room"
 msgstr "1 кімната"
 
-#: .\objects\choices.py:28
+#: .\objects\choices.py:30
 msgid "2 rooms"
 msgstr "2 кімнати"
 
-#: .\objects\choices.py:29
+#: .\objects\choices.py:31
 msgid "3 rooms"
 msgstr "3 кімнати"
 
-#: .\objects\choices.py:30
-msgid "Many rooms"
-msgstr "Багато кімнат"
+#: .\objects\choices.py:32
+msgid "4 and more"
+msgstr ""
 
-#: .\objects\choices.py:35
+#: .\objects\choices.py:37
 msgid "Residential"
 msgstr "Житловий"
 
-#: .\objects\choices.py:36
+#: .\objects\choices.py:38
 msgid "Not residential"
 msgstr "Не житловий"
 
-#: .\objects\choices.py:53
+#: .\objects\choices.py:55
 msgid "Dwelling"
 msgstr "Корпус"
 
-#: .\objects\choices.py:60 .\objects\models.py:314 .\objects\models.py:359
+#: .\objects\choices.py:62 .\objects\models.py:314 .\objects\models.py:359
 msgid "Facade"
 msgstr "Фасад"
 
-#: .\objects\choices.py:61
+#: .\objects\choices.py:63
 msgid "Internal"
 msgstr "Внутрішній"
 
-#: .\objects\choices.py:62
+#: .\objects\choices.py:64
 msgid "Corner"
 msgstr "Куточок"
 
@@ -1144,7 +1144,8 @@ msgstr "ЄОселя"
 
 #: .\objects\models.py:169
 #: .\objects\templates\objects\office_report_list.html:191
-#: .\objects\templates\objects\report_list.html:162
+#: .\objects\templates\objects\real_estate_list.html:133
+#: .\objects\templates\objects\report_list.html:162 .\utils\pdf.py:97
 msgid "Price"
 msgstr "Ціна"
 
@@ -1316,25 +1317,25 @@ msgstr "Каталог"
 
 #: .\objects\templates\objects\catalog.html:60
 #: .\objects\templates\objects\selection_list.html:75
-#: .\objects\templates\objects\showing_act.html:80
+#: .\objects\templates\objects\showing_act.html:79
 msgid "house_type"
 msgstr "Тип будинку"
 
 #: .\objects\templates\objects\catalog.html:61
 #: .\objects\templates\objects\selection_list.html:76
-#: .\objects\templates\objects\showing_act.html:81
+#: .\objects\templates\objects\showing_act.html:80
 msgid "house"
 msgstr "будинок"
 
 #: .\objects\templates\objects\catalog.html:61
 #: .\objects\templates\objects\selection_list.html:76
-#: .\objects\templates\objects\showing_act.html:81
+#: .\objects\templates\objects\showing_act.html:80
 msgid "floor"
 msgstr "поверх"
 
 #: .\objects\templates\objects\catalog.html:71
 #: .\objects\templates\objects\selection_list.html:86
-#: .\objects\templates\objects\showing_act.html:91
+#: .\objects\templates\objects\showing_act.html:90
 msgid "See details"
 msgstr "Переглянути деталі"
 
@@ -1489,7 +1490,7 @@ msgstr "Ріелтори"
 
 #: .\objects\templates\objects\office_filial_real_estate_list.html:206
 #: .\objects\templates\objects\office_real_estate_list.html:205
-#: .\objects\templates\objects\real_estate_list.html:172
+#: .\objects\templates\objects\real_estate_list.html:190
 msgid "Mark as sold"
 msgstr "Відмітити як продане"
 
@@ -1529,7 +1530,7 @@ msgstr "Виборка для"
 msgid "PDF"
 msgstr "PDF"
 
-#: .\objects\templates\objects\showing_act.html:15
+#: .\objects\templates\objects\showing_act.html:14
 msgid "Showing act"
 msgstr "Акт показу"
 
@@ -1582,3 +1583,105 @@ msgstr "Хочете видалити?"
 #: .\templates\main.html:13 .\templates\main.html:16
 msgid "Sale"
 msgstr "Продажа"
+
+#: .\utils\pdf.py:36
+msgid "SHOWING ACT"
+msgstr ""
+
+#: .\utils\pdf.py:40
+msgid "(of apartment, house, land, new building)"
+msgstr ""
+
+#: .\utils\pdf.py:44
+msgid "I am,"
+msgstr ""
+
+#: .\utils\pdf.py:58
+msgid ""
+"I confirm that I received the services provided to me by the branch employee"
+msgstr ""
+
+#: .\utils\pdf.py:75
+msgid "202_ y."
+msgstr ""
+
+#: .\utils\pdf.py:78
+msgid "S. N. P. of user / filial"
+msgstr ""
+
+#: .\utils\pdf.py:95
+msgid "N"
+msgstr ""
+
+#: .\utils\pdf.py:95
+msgid "ID"
+msgstr ""
+
+#: .\utils\pdf.py:95
+msgid "Object's address"
+msgstr ""
+
+#: .\utils\pdf.py:96
+msgid "Brief description of the technical condition of the display object"
+msgstr ""
+
+#: .\utils\pdf.py:97
+msgid "Price per sq. m."
+msgstr ""
+
+#: .\utils\pdf.py:97
+msgid "Customer reviews and recommendations"
+msgstr ""
+
+#: .\utils\pdf.py:98
+msgid "Customer signature"
+msgstr ""
+
+#: .\utils\pdf.py:139
+msgid "The show was conducted by a real estate representative from the agency"
+msgstr ""
+
+#: .\utils\pdf.py:141
+msgid "(Surname, name, signature)"
+msgstr ""
+
+#: .\utils\pdf.py:157
+msgid ""
+"This document is given to the branch director (after the transaction is "
+"completed)"
+msgstr ""
+
+#: .\utils\pdf.py:178 .\utils\pdf.py:197 .\utils\pdf.py:216 .\utils\pdf.py:235
+#, python-brace-format
+msgid "Floor: {current}/{total}. "
+msgstr ""
+
+#: .\utils\pdf.py:180
+#, python-brace-format
+msgid "Area (total/living/kitchen): {total}/{living}/{kitchen}. "
+msgstr ""
+
+#: .\utils\pdf.py:186 .\utils\pdf.py:205 .\utils\pdf.py:224 .\utils\pdf.py:243
+#, python-brace-format
+msgid "House type: {house_type}. "
+msgstr ""
+
+#: .\utils\pdf.py:188 .\utils\pdf.py:207 .\utils\pdf.py:226 .\utils\pdf.py:245
+#, python-brace-format
+msgid "Layout: {layout}. "
+msgstr ""
+
+#: .\utils\pdf.py:190 .\utils\pdf.py:209 .\utils\pdf.py:228 .\utils\pdf.py:247
+#, python-brace-format
+msgid "Condition: {condition}. "
+msgstr ""
+
+#: .\utils\pdf.py:199
+#, python-brace-format
+msgid "Area (total/useful/kitchen): {total}/{useful}/{kitchen}. "
+msgstr ""
+
+#: .\utils\pdf.py:218 .\utils\pdf.py:237
+#, python-brace-format
+msgid "Area (total/land/kitchen): {total}/{land}/{kitchen}. "
+msgstr ""

@@ -543,6 +543,13 @@ class AccessibleApartmentListView(
     def test_func(self):
         return user_can_view_apartment_list(self.request.user)
 
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
     def get_queryset(self):
         filters = {}
         if "id" in self.request.GET:
@@ -561,6 +568,9 @@ class AccessibleApartmentListView(
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
 
         return apartment_accessible_for_user(self.request.user, qs)
 
@@ -584,6 +594,8 @@ class AccessibleApartmentListView(
                 "update_url_name": "objects:update_apartment",
                 "delete_url_name": "objects:delete_apartment",
                 "real_estate_type": RealEstateType.APARTMENT,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
             }
         )
         return context
@@ -601,6 +613,13 @@ class AccessibleCommerceListView(
 
     def test_func(self):
         return user_can_view_commerce_list(self.request.user)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
 
     def get_queryset(self):
         filters = {}
@@ -620,6 +639,9 @@ class AccessibleCommerceListView(
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
 
         return commerce_accessible_for_user(self.request.user, qs)
 
@@ -642,6 +664,8 @@ class AccessibleCommerceListView(
                 "update_url_name": "objects:update_commerce",
                 "delete_url_name": "objects:delete_commerce",
                 "real_estate_type": RealEstateType.COMMERCE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
             }
         )
         return context
@@ -659,6 +683,13 @@ class AccessibleHouseListView(
 
     def test_func(self):
         return user_can_view_house_list(self.request.user)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
 
     def get_queryset(self):
         filters = {}
@@ -678,6 +709,9 @@ class AccessibleHouseListView(
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
 
         return house_accessible_for_user(self.request.user, qs)
 
@@ -700,6 +734,8 @@ class AccessibleHouseListView(
                 "update_url_name": "objects:update_house",
                 "delete_url_name": "objects:delete_house",
                 "real_estate_type": RealEstateType.HOUSE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
             }
         )
         return context
@@ -723,6 +759,13 @@ class AccessibleLandListView(
             "objects.view_filial_land",
         )
 
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
     def get_queryset(self):
         filters = {}
         if "id" in self.request.GET:
@@ -741,6 +784,9 @@ class AccessibleLandListView(
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
 
         return land_accessible_for_user(self.request.user, qs)
 
@@ -766,6 +812,8 @@ class AccessibleLandListView(
                 "update_url_name": "objects:update_land",
                 "delete_url_name": "objects:delete_land",
                 "real_estate_type": RealEstateType.LAND,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
             }
         )
         return context
