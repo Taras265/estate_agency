@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from django.db.models.query import QuerySet
 from django.utils.translation import gettext as _
 from fpdf import FPDF, FontFace
@@ -9,7 +11,7 @@ from accounts.models import CustomUser
 from handbooks.models import Client
 
 
-def showing_act_pdf(
+def generate_showing_act_pdf(
     user: CustomUser,
     client: Client,
     qs: QuerySet[BaseRealEstate],
@@ -21,9 +23,6 @@ def showing_act_pdf(
     FONT_SIZE_TABLE_BODY = 9
     FPDF_FONT_DIR = "static/fonts"
 
-    COLUMN_WIDTHS = (12, 15, 19, 53, 62, 17, 20, 56, 22)
-    TABLE_WIDTH = sum(COLUMN_WIDTHS)
-
     pdf = FPDF(orientation="L", unit="mm", format="A4")
     pdf.add_page()
 
@@ -32,6 +31,9 @@ def showing_act_pdf(
     pdf.add_font(FONT_FAMILY, "I", fname=f"{FPDF_FONT_DIR}/{FONT_FAMILY}-Italic.ttf")
 
     # вміст файлу
+    TABLE_WIDTH = pdf.w - pdf.l_margin - pdf.r_margin
+    COLUMN_WIDTHS = (13, 15, 23, 53, 62, 17, 53, 23)
+
     pdf.set_font(FONT_FAMILY, "B", size=14)
     pdf.cell(text=_("SHOWING ACT"))
     pdf.ln(6)
@@ -45,7 +47,7 @@ def showing_act_pdf(
 
     pdf.set_line_width(0.4)
     pdf.set_draw_color(0, 0, 0)
-    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    line_x2 = pdf.l_margin + _get_table_column_x_pos(pdf, COLUMN_WIDTHS, 5)
     pdf.line(pdf.get_x() + 3, pdf.get_y() + 4, line_x2, pdf.get_y() + 4)
 
     # ім'я клієнта
@@ -55,10 +57,10 @@ def showing_act_pdf(
 
     pdf.ln(5)
     pdf.set_font(FONT_FAMILY, size=FONT_SIZE)
-    pdf.cell(text=str(_("I confirm that I received the services provided to me by the branch employee")))
+    pdf.cell(text=_("I confirm that I received the services provided to me by the branch employee"))
 
     # число
-    pdf.set_x(pdf.l_margin + sum(COLUMN_WIDTHS[0:7]))
+    pdf.set_x(pdf.l_margin + _get_table_column_x_pos(pdf, COLUMN_WIDTHS, 6) + 15)
     pdf.cell(text='"')
     pdf.set_line_width(0.1)
     line_x2 = pdf.get_x() + 10
@@ -72,13 +74,13 @@ def showing_act_pdf(
     pdf.set_x(line_x2)
 
     # рік
-    pdf.write(text=str(_("202_ y.")))
+    pdf.write(text=_("202_ y."))
     pdf.ln(5)
 
-    pdf.cell(text=str(_("S. N. P. of user / filial")))
+    pdf.cell(text=_("S. N. P. of user / filial"))
 
     pdf.set_line_width(0.5)
-    line_x2 = pdf.l_margin + sum(COLUMN_WIDTHS[0:5]) - 1
+    line_x2 = pdf.l_margin + _get_table_column_x_pos(pdf, COLUMN_WIDTHS, 5)
     pdf.line(pdf.get_x() + 3, pdf.get_y() + 4, line_x2, pdf.get_y() + 4)
 
     # дані про користувача та філіал
@@ -92,15 +94,14 @@ def showing_act_pdf(
         "CENTER", "CENTER", "CENTER", "LEFT", "LEFT", "CENTER", "CENTER", "CENTER", "CENTER"
     )
     TABLE_HEAD_DATA = (
-        str(_("N")), str(_("ID")), str(_("Rooms number")), str(_("Object's address")),
-        str(_("Brief description of the technical condition of the display object")),
-        str(_("Price")), str(_("Price per sq. m.")), str(_("Customer reviews and recommendations")),
-        str(_("Customer signature"))
+        _("N"), _("ID"), _("Rubric"), _("Object's address"),
+        _("Brief description of the technical condition of the display object"),
+        _("Price"), _("Customer reviews and recommendations"),
+        _("Customer signature")
     )
     pdf.set_font(FONT_FAMILY, size=FONT_SIZE)
 
     with pdf.table(
-        width=TABLE_WIDTH,
         col_widths=COLUMN_WIDTHS,
         text_align=TABLE_BODY_TEXT_ALIGN,
         v_align=VAlign.T,
@@ -124,21 +125,20 @@ def showing_act_pdf(
             row_data = (
                 str(index + 1),
                 str(obj.pk),
-                str(obj.rooms_number) if hasattr(obj, "rooms_number") else "",
+                str(obj.get_room_types_display()),
                 address_data,
                 _get_real_estate_description(obj),
                 str(obj.price),
                 "",
                 "",
-                ""
             )
             table.row(row_data, style=FontFace(size_pt=FONT_SIZE_TABLE_BODY))
     
     # футер
     pdf.ln(FONT_SIZE)
-    pdf.cell(text=str(_("The show was conducted by a real estate representative from the agency")))
+    pdf.cell(text=_("The show was conducted by a real estate representative from the agency"))
 
-    text = str(_("(Surname, name, signature)"))
+    text = _("(Surname, name, signature)")
     text_width = pdf.get_string_width(text)
     text_x1 = pdf.l_margin + TABLE_WIDTH - text_width
     pdf.set_x(text_x1)
@@ -161,7 +161,19 @@ def showing_act_pdf(
     return pdf
 
 
+def _get_table_column_x_pos(pdf: FPDF, column_widths: Sequence[int], column_index: int) -> float:
+    """
+    Повертає значення координати x для лівої межі стовпчика таблиці.
+    column_index починається з 0
+    """
+    TABLE_WIDTH = pdf.w - pdf.l_margin - pdf.r_margin
+    col_width_sum = sum(column_widths)
+    normalized_col_width = [col_width / col_width_sum for col_width in column_widths]
+    return sum(normalized_col_width[0:column_index]) * TABLE_WIDTH
+
+
 def _get_real_estate_description(obj: BaseRealEstate) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для об'єкту нерухомості."""
     if isinstance(obj, Apartment):
         return _get_apartment_description(obj)
     if isinstance(obj, Commerce):
@@ -173,6 +185,7 @@ def _get_real_estate_description(obj: BaseRealEstate) -> str:
 
 
 def _get_apartment_description(obj: Apartment) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для квартири."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -192,6 +205,7 @@ def _get_apartment_description(obj: Apartment) -> str:
 
 
 def _get_commerce_description(obj: Commerce) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для комерції."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -211,6 +225,7 @@ def _get_commerce_description(obj: Commerce) -> str:
 
 
 def _get_house_description(obj: House) -> str:
+    """Повертає короткий опис технічного стану об'єкту показу для будинку."""
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -230,6 +245,9 @@ def _get_house_description(obj: House) -> str:
 
 
 def _get_land_description(obj: Land) -> str:
+    """
+    Повертає короткий опис технічного стану об'єкту показу для земельної ділянки.
+    """
     result = ""
     if obj.floor and obj.storeys_number:
         result += _("Floor: {current}/{total}. ").format(current=obj.floor, total=obj.storeys_number)
@@ -246,4 +264,3 @@ def _get_land_description(obj: Land) -> str:
     if obj.condition:
         result += _("Condition: {condition}. ").format(condition=obj.condition.handbook)
     return result
-

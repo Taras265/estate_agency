@@ -25,7 +25,6 @@ from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from images.forms import RealEstateImageFormSet
 
-from utils.utils import get_office_context
 from .models import Apartment, Commerce, House, Land, Selection
 from .utils import (
     real_estate_form_save,
@@ -36,8 +35,9 @@ from .utils import (
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
 )
-from utils.pdf import showing_act_pdf
+from utils.showing_act_pdf_service import generate_showing_act_pdf
 from utils.views import HistoryView
+from utils.utils import get_office_context
 
 from .choices import RealEstateStatus, RealEstateType, ShowingActType
 from .forms import (
@@ -496,8 +496,16 @@ class ShowingActPdfView(CustomLoginRequiredMixin, View):
             raise BadRequest()
 
         selected_ids = self.request.GET.getlist("objects")
-        objects = model_class.objects.filter(on_delete=False, id__in=selected_ids).select_related()
-        pdf = showing_act_pdf(request.user, client, objects, ShowingActType.WITH_USER_INFO)
+        objects = (
+            model_class.objects.filter(on_delete=False, id__in=selected_ids)
+            .select_related()
+        )
+        pdf = generate_showing_act_pdf(
+            request.user,
+            client,
+            objects,
+            ShowingActType.WITH_USER_INFO
+        )
         return FileResponse(
             io.BytesIO(pdf.output()),
             as_attachment=True,
