@@ -125,7 +125,7 @@ def generate_showing_act_pdf(
             row_data = (
                 str(index + 1),
                 str(obj.pk),
-                str(obj.get_room_types_display()),
+                str(obj.get_rubric_display()),
                 address_data,
                 _get_real_estate_description(obj),
                 str(obj.price),
