@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-30 11:56+0300\n"
+"POT-Creation-Date: 2025-07-31 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -708,7 +708,7 @@ msgstr "Тип ріелтора"
 msgid "Status"
 msgstr "Статус"
 
-#: .\handbooks\forms.py:186 .\handbooks\forms.py:362 .\utils\pdf.py:95
+#: .\handbooks\forms.py:186 .\handbooks\forms.py:362
 msgid "Rooms number"
 msgstr "Кількість номерів"
 
@@ -1024,7 +1024,7 @@ msgstr "3 кімнати"
 
 #: .\objects\choices.py:32
 msgid "4 and more"
-msgstr ""
+msgstr "4 та більше"
 
 #: .\objects\choices.py:37
 msgid "Residential"
@@ -1145,7 +1145,8 @@ msgstr "ЄОселя"
 #: .\objects\models.py:169
 #: .\objects\templates\objects\office_report_list.html:191
 #: .\objects\templates\objects\real_estate_list.html:133
-#: .\objects\templates\objects\report_list.html:162 .\utils\pdf.py:97
+#: .\objects\templates\objects\report_list.html:162
+#: .\utils\showing_act_pdf_service.py:99
 msgid "Price"
 msgstr "Ціна"
 
@@ -1188,7 +1189,7 @@ msgid "Comment"
 msgstr "Коментар"
 
 #: .\objects\models.py:238 .\objects\models.py:301 .\objects\models.py:343
-#: .\objects\models.py:377
+#: .\objects\models.py:377 .\utils\showing_act_pdf_service.py:97
 msgid "Rubric"
 msgstr "Рубріка"
 
@@ -1584,104 +1585,114 @@ msgstr "Хочете видалити?"
 msgid "Sale"
 msgstr "Продажа"
 
-#: .\utils\pdf.py:36
+#: .\utils\showing_act_pdf_service.py:38
 msgid "SHOWING ACT"
-msgstr ""
+msgstr "АКТ ПОКАЗУ"
 
-#: .\utils\pdf.py:40
+#: .\utils\showing_act_pdf_service.py:42
 msgid "(of apartment, house, land, new building)"
-msgstr ""
+msgstr "(квартири, домоволодіння, земельної ділянки, об'єкту новобудови)"
 
-#: .\utils\pdf.py:44
+#: .\utils\showing_act_pdf_service.py:46
 msgid "I am,"
-msgstr ""
+msgstr "Я,"
 
-#: .\utils\pdf.py:58
+#: .\utils\showing_act_pdf_service.py:60
 msgid ""
 "I confirm that I received the services provided to me by the branch employee"
-msgstr ""
+msgstr "підтверджую, що прийняв послуги, надані мені співробітником філії"
 
-#: .\utils\pdf.py:75
+#: .\utils\showing_act_pdf_service.py:77
 msgid "202_ y."
-msgstr ""
+msgstr "202_ р."
 
-#: .\utils\pdf.py:78
+#: .\utils\showing_act_pdf_service.py:80
 msgid "S. N. P. of user / filial"
-msgstr ""
+msgstr "П. І. Б. представника / філіал"
 
-#: .\utils\pdf.py:95
+#: .\utils\showing_act_pdf_service.py:97
 msgid "N"
-msgstr ""
+msgstr "№ п/п"
 
-#: .\utils\pdf.py:95
+#: .\utils\showing_act_pdf_service.py:97
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
-#: .\utils\pdf.py:95
+#: .\utils\showing_act_pdf_service.py:97
 msgid "Object's address"
-msgstr ""
+msgstr "Адреса об'єкта"
 
-#: .\utils\pdf.py:96
+#: .\utils\showing_act_pdf_service.py:98
 msgid "Brief description of the technical condition of the display object"
-msgstr ""
+msgstr "Короткий опис технічного стану об'єкту показу"
 
-#: .\utils\pdf.py:97
-msgid "Price per sq. m."
-msgstr ""
-
-#: .\utils\pdf.py:97
+#: .\utils\showing_act_pdf_service.py:99
 msgid "Customer reviews and recommendations"
-msgstr ""
+msgstr "Відгуки і рекомендації клієнта"
 
-#: .\utils\pdf.py:98
+#: .\utils\showing_act_pdf_service.py:100
 msgid "Customer signature"
-msgstr ""
+msgstr "Підпис клієнта"
 
-#: .\utils\pdf.py:139
+#: .\utils\showing_act_pdf_service.py:139
 msgid "The show was conducted by a real estate representative from the agency"
-msgstr ""
+msgstr "Показ провів представник з роботи нерухомості агенства"
 
-#: .\utils\pdf.py:141
+#: .\utils\showing_act_pdf_service.py:141
 msgid "(Surname, name, signature)"
-msgstr ""
+msgstr "(Прізвище, ім'я, підпис)"
 
-#: .\utils\pdf.py:157
+#: .\utils\showing_act_pdf_service.py:157
 msgid ""
 "This document is given to the branch director (after the transaction is "
 "completed)"
-msgstr ""
+msgstr "Даний документ віддається директору філіалу (після укладення угоди)"
 
-#: .\utils\pdf.py:178 .\utils\pdf.py:197 .\utils\pdf.py:216 .\utils\pdf.py:235
+#: .\utils\showing_act_pdf_service.py:191
+#: .\utils\showing_act_pdf_service.py:211
+#: .\utils\showing_act_pdf_service.py:231
+#: .\utils\showing_act_pdf_service.py:253
 #, python-brace-format
 msgid "Floor: {current}/{total}. "
-msgstr ""
+msgstr "Поверх: {current}/{total}. "
 
-#: .\utils\pdf.py:180
+#: .\utils\showing_act_pdf_service.py:193
 #, python-brace-format
 msgid "Area (total/living/kitchen): {total}/{living}/{kitchen}. "
-msgstr ""
+msgstr "Площа (заг/житл/кухня): {total}/{living}/{kitchen}. "
 
-#: .\utils\pdf.py:186 .\utils\pdf.py:205 .\utils\pdf.py:224 .\utils\pdf.py:243
+#: .\utils\showing_act_pdf_service.py:199
+#: .\utils\showing_act_pdf_service.py:219
+#: .\utils\showing_act_pdf_service.py:239
+#: .\utils\showing_act_pdf_service.py:261
 #, python-brace-format
 msgid "House type: {house_type}. "
-msgstr ""
+msgstr "Тип дому: {house_type}. "
 
-#: .\utils\pdf.py:188 .\utils\pdf.py:207 .\utils\pdf.py:226 .\utils\pdf.py:245
+#: .\utils\showing_act_pdf_service.py:201
+#: .\utils\showing_act_pdf_service.py:221
+#: .\utils\showing_act_pdf_service.py:241
+#: .\utils\showing_act_pdf_service.py:263
 #, python-brace-format
 msgid "Layout: {layout}. "
-msgstr ""
+msgstr "Планування: {layout}. "
 
-#: .\utils\pdf.py:190 .\utils\pdf.py:209 .\utils\pdf.py:228 .\utils\pdf.py:247
+
+#: .\utils\showing_act_pdf_service.py:203
+#: .\utils\showing_act_pdf_service.py:223
+#: .\utils\showing_act_pdf_service.py:243
+#: .\utils\showing_act_pdf_service.py:265
 #, python-brace-format
 msgid "Condition: {condition}. "
-msgstr ""
+msgstr "Стан: {condition}. "
 
-#: .\utils\pdf.py:199
+#: .\utils\showing_act_pdf_service.py:213
 #, python-brace-format
 msgid "Area (total/useful/kitchen): {total}/{useful}/{kitchen}. "
-msgstr ""
+msgstr "Площа (заг/кор/кухня): {total}/{useful}/{kitchen}. "
 
-#: .\utils\pdf.py:218 .\utils\pdf.py:237
+#: .\utils\showing_act_pdf_service.py:233
+#: .\utils\showing_act_pdf_service.py:255
 #, python-brace-format
 msgid "Area (total/land/kitchen): {total}/{land}/{kitchen}. "
-msgstr ""
+msgstr "Площа (заг/діл/кухня): {total}/{land}/{kitchen}. "
