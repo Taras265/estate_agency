@@ -5,10 +5,10 @@
 #
 #, fuzzy
 msgid ""
-msgstr ""
+msgstr "Даний документ віддається директору філіалу (після укладення угоди)"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 11:53+0300\n"
+"POT-Creation-Date: 2025-08-18 12:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,6 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
-
 #: .\accounts\forms.py:11 .\accounts\forms.py:49 .\accounts\forms.py:79
 #: .\accounts\models.py:48
 #: .\accounts\templates\accounts\office_user_list.html:105
@@ -1591,10 +1590,8 @@ msgid "View"
 msgstr "Переглянути"
 
 #: .\templates\main.html:27
-#, fuzzy
-#| msgid "Selection history"
-msgid "Selection list"
-msgstr "Історія виборки"
+msgid "Selections list"
+msgstr "Виборка"
 
 #: .\utils\showing_act_pdf_service.py:38
 msgid "SHOWING ACT"
@@ -1611,7 +1608,7 @@ msgstr "Я,"
 #: .\utils\showing_act_pdf_service.py:60
 msgid ""
 "I confirm that I received the services provided to me by the branch employee"
-msgstr "підтверджую, що прийняв послуги, надані мені співробітником філії"
+msgstr "Даний документ віддається директору філіалу (після укладення угоди)"
 
 #: .\utils\showing_act_pdf_service.py:77
 msgid "202_ y."
