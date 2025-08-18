@@ -51,6 +51,7 @@ urlpatterns = [
     path("sale/apartments/reports/my/", views.MyApartmentReportListView.as_view(), name="my_apartment_reports"),
     path("sale/commerces/reports/new/", views.NewAccessibleCommerceReportListView.as_view(), name="new_commerce_reports"),
     path("sale/houses/reports/new/", views.NewAccessibleHouseReportListView.as_view(), name="new_house_reports"),
+    path("sale/houses/land/new/", views.NewAccessibleLandReportListView.as_view(), name="new_land_reports"),
 
     path(
         "sale/apartments/contracts/",

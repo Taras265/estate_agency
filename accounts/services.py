@@ -1,7 +1,7 @@
 from typing import List
 
 from accounts.models import CustomUser
-from objects.services import user_can_view_real_estate_list
+from objects.services import user_can_view_real_estate_list, user_can_view_report
 from utils.utils import table_to_app
 
 
@@ -12,6 +12,8 @@ def get_user_choices(
     for choice in choices:
         app: str = table_to_app(choice)
         if choice == "realestate" and user_can_view_real_estate_list(user):
+            available_choices.append(choice)
+        elif choice == "report" and user_can_view_report(user):
             available_choices.append(choice)
         elif (
             user.has_perm(f"{app}.view_{choice}")
