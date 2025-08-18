@@ -13,7 +13,21 @@
                     <h2>{% translate 'Sale' %}</h2>
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'handbooks:sale_redirect' lang=lang %}">
-                            {% translate 'Sale' %}
+                            {% translate 'View' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if selection %}
+        <div class="item">
+            <div class="featured_div">
+                <div class="featured_content">
+                    <h2>{% translate 'Selection list' %}</h2>
+                    <div class="explore_btn">
+                        <a class="custombtn" href="{% url 'handbooks:client_list' lang=lang %}">
+                            {% translate 'View' %}
                         </a>
                     </div>
                 </div>
@@ -27,7 +41,7 @@
                     <h2>{% translate 'Handbooks' %}</h2>
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'handbooks:handbook_redirect' lang=lang %}">
-                            {% translate 'Handbooks' %}
+                            {% translate 'View' %}
                         </a>
                     </div>
                 </div>
@@ -41,7 +55,7 @@
                     <h2>{% translate 'Users' %}</h2>
                     <div class="explore_btn">
                         <a class="custombtn" href="{% url 'accounts:users_list_redirect' lang=lang %}">
-                            {% translate 'Users' %}
+                            {% translate 'View' %}
                         </a>
                     </div>
                 </div>

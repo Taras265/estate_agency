@@ -37,7 +37,6 @@ from utils.mixins.mixins import (
 )
 from utils.showing_act_pdf_service import generate_showing_act_pdf
 from utils.views import HistoryView
-from utils.utils import get_office_context
 
 from .choices import RealEstateStatus, RealEstateType, ShowingActType
 from .forms import (
@@ -65,7 +64,6 @@ from .services import (
     house_accessible_for_user,
     land_accessible_for_user,
     reports_accessible_for_user,
-    reports_accessible_for_user_in_office,
     contracts_accessible_for_user,
     real_estate_model_from_type,
     has_any_perm_from_list,

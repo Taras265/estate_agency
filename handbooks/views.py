@@ -65,16 +65,16 @@ def handbook_redirect(request, lang):
 def sale_redirect(request, lang):
     kwargs = {"lang": lang}
     if request.user:
-        if (
+        if user_can_view_real_estate_list(request.user):
+            return redirect(
+                reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs)
+            )
+        elif (
             request.user.has_perm("handbooks.view_client")
             or request.user.has_perm("handbooks.view_own_client")
             or request.user.has_perm("handbooks.view_filial_client")
         ):
             return redirect(reverse_lazy("handbooks:client_list", kwargs=kwargs))
-        elif user_can_view_real_estate_list(request.user):
-            return redirect(
-                reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs)
-            )
         elif user_can_view_report(request.user):
             return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
         elif request.user.has_perm("objects.view_contract"):
@@ -1157,14 +1157,14 @@ class FilialReportDeleteView(
     handbook_type = "filialreport"
 
 
-class AllClientsListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class AllClientsListView(ClientListMixin, ByUserMixin, CustomListView):
     queryset = Client.objects.filter(on_delete=False)
     filter = "all"
     perm = "view"
     choices = SALE_CHOICES
 
 
-class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView):
+class NewClientListView(ClientListMixin, ByUserMixin, CustomListView):
     queryset = Client.objects.filter(
         on_delete=False,
         date_of_add__gte=timezone.now() - relativedelta(months=1)
@@ -1175,7 +1175,7 @@ class NewClientListView(ClientListMixin, ByUserMixin, SearchByIdMixin, CustomLis
 
 
 class InSelectionClientListView(
-    ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
+    ClientListMixin, ByUserMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.IN_SEARCH)
     filter = "in_selection"
@@ -1184,7 +1184,7 @@ class InSelectionClientListView(
 
 
 class WithShowClientListView(
-    ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
+    ClientListMixin, ByUserMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.WITH_SHOW)
     filter = "with_show"
@@ -1193,7 +1193,7 @@ class WithShowClientListView(
 
 
 class DecidedClientListView(
-    ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
+    ClientListMixin, ByUserMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DECIDED)
     filter = "decided"
@@ -1202,7 +1202,7 @@ class DecidedClientListView(
 
 
 class DeferredDemandClientListView(
-    ClientListMixin, ByUserMixin, SearchByIdMixin, CustomListView
+    ClientListMixin, ByUserMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
     filter = "deferred_demand"
@@ -1269,7 +1269,7 @@ class MyDeferredDemandClientListView(
 '''
 
 class FilialAllClientsListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False)
     filter = "all"
@@ -1278,7 +1278,7 @@ class FilialAllClientsListView(
 
 
 class FilialNewClientListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(
         on_delete=False,
@@ -1290,7 +1290,7 @@ class FilialNewClientListView(
 
 
 class FilialInSelectionClientListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.IN_SEARCH)
     filter = "in_selection"
@@ -1299,7 +1299,7 @@ class FilialInSelectionClientListView(
 
 
 class FilialWithShowClientListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.WITH_SHOW)
     filter = "with_show"
@@ -1308,7 +1308,7 @@ class FilialWithShowClientListView(
 
 
 class FilialDecidedClientListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DECIDED)
     filter = "decided"
@@ -1317,7 +1317,7 @@ class FilialDecidedClientListView(
 
 
 class FilialDeferredDemandClientListView(
-    FilialClientListMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+    FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
     queryset = Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
     filter = "deferred_demand"
