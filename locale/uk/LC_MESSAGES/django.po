@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 20:22+0300\n"
+"POT-Creation-Date: 2025-08-18 11:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,13 +20,14 @@ msgstr ""
 "11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
 #: .\accounts\forms.py:11 .\accounts\forms.py:49 .\accounts\forms.py:79
 #: .\accounts\models.py:48
 #: .\accounts\templates\accounts\office_user_list.html:105
 #: .\accounts\templates\accounts\profile.html:109
 #: .\accounts\templates\accounts\user_list.html:50 .\handbooks\forms.py:146
 #: .\handbooks\forms.py:286
-#: .\handbooks\templates\handbooks\client_list.html:108
+#: .\handbooks\templates\handbooks\client_list.html:110
 #: .\handbooks\templates\handbooks\office_client_list.html:159
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:158
 #: .\objects\templates\objects\details.html:310
@@ -63,7 +64,7 @@ msgstr "пошта"
 #: .\accounts\forms.py:55 .\accounts\forms.py:85 .\accounts\models.py:50
 #: .\accounts\templates\accounts\office_user_list.html:104
 #: .\accounts\templates\accounts\user_list.html:49 .\handbooks\forms.py:149
-#: .\handbooks\templates\handbooks\client_list.html:109
+#: .\handbooks\templates\handbooks\client_list.html:111
 #: .\handbooks\templates\handbooks\office_client_list.html:160
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:159
 msgid "First name"
@@ -105,8 +106,7 @@ msgstr "Назва"
 #: .\objects\templates\objects\office_real_estate_list.html:7
 #: .\objects\templates\objects\office_report_list.html:6
 #: .\objects\templates\objects\real_estate_list.html:7
-#: .\objects\templates\objects\report_list.html:6 .\templates\main.html:27
-#: .\templates\main.html:30
+#: .\objects\templates\objects\report_list.html:6 .\templates\main.html:41
 msgid "Handbooks"
 msgstr "Довідник"
 
@@ -155,7 +155,7 @@ msgid "Main"
 msgstr "Головна"
 
 #: .\accounts\templates\accounts\group_list.html:36
-#: .\handbooks\templates\handbooks\client_list.html:35
+#: .\handbooks\templates\handbooks\client_list.html:36
 #: .\handbooks\templates\handbooks\district_list.html:36
 #: .\handbooks\templates\handbooks\filial_list.html:36
 #: .\handbooks\templates\handbooks\filialreport_list.html:36
@@ -200,7 +200,7 @@ msgstr "назва"
 #: .\accounts\templates\accounts\group_list.html:88
 #: .\accounts\templates\accounts\office_user_list.html:132
 #: .\accounts\templates\accounts\user_list.html:77
-#: .\handbooks\templates\handbooks\client_list.html:144
+#: .\handbooks\templates\handbooks\client_list.html:146
 #: .\handbooks\templates\handbooks\district_list.html:90
 #: .\handbooks\templates\handbooks\filial_list.html:88
 #: .\handbooks\templates\handbooks\filialreport_list.html:92
@@ -221,7 +221,7 @@ msgstr "Оновити"
 #: .\accounts\templates\accounts\group_list.html:92
 #: .\accounts\templates\accounts\office_user_list.html:139
 #: .\accounts\templates\accounts\user_list.html:84
-#: .\handbooks\templates\handbooks\client_list.html:149
+#: .\handbooks\templates\handbooks\client_list.html:151
 #: .\handbooks\templates\handbooks\district_list.html:94
 #: .\handbooks\templates\handbooks\filial_list.html:92
 #: .\handbooks\templates\handbooks\filialreport_list.html:96
@@ -244,7 +244,7 @@ msgstr "Видалити"
 #: .\accounts\templates\accounts\group_list.html:99
 #: .\accounts\templates\accounts\office_user_list.html:151
 #: .\accounts\templates\accounts\user_list.html:96
-#: .\handbooks\templates\handbooks\client_list.html:157
+#: .\handbooks\templates\handbooks\client_list.html:159
 #: .\handbooks\templates\handbooks\district_list.html:101
 #: .\handbooks\templates\handbooks\filial_list.html:99
 #: .\handbooks\templates\handbooks\filialreport_list.html:103
@@ -267,7 +267,7 @@ msgstr "Історія"
 #: .\accounts\templates\accounts\group_list.html:111
 #: .\accounts\templates\accounts\office_user_list.html:170
 #: .\accounts\templates\accounts\user_list.html:115
-#: .\handbooks\templates\handbooks\client_list.html:168
+#: .\handbooks\templates\handbooks\client_list.html:170
 #: .\handbooks\templates\handbooks\district_list.html:113
 #: .\handbooks\templates\handbooks\filial_list.html:111
 #: .\handbooks\templates\handbooks\filialreport_list.html:115
@@ -288,7 +288,7 @@ msgstr "Додавання"
 #: .\accounts\templates\accounts\group_list.html:119
 #: .\accounts\templates\accounts\office_user_list.html:180
 #: .\accounts\templates\accounts\user_list.html:125
-#: .\handbooks\templates\handbooks\client_list.html:176
+#: .\handbooks\templates\handbooks\client_list.html:178
 #: .\handbooks\templates\handbooks\district_list.html:121
 #: .\handbooks\templates\handbooks\filial_list.html:119
 #: .\handbooks\templates\handbooks\filialreport_list.html:123
@@ -314,7 +314,7 @@ msgstr "Попередній"
 #: .\accounts\templates\accounts\group_list.html:125
 #: .\accounts\templates\accounts\office_user_list.html:190
 #: .\accounts\templates\accounts\user_list.html:135
-#: .\handbooks\templates\handbooks\client_list.html:182
+#: .\handbooks\templates\handbooks\client_list.html:184
 #: .\handbooks\templates\handbooks\district_list.html:127
 #: .\handbooks\templates\handbooks\filial_list.html:125
 #: .\handbooks\templates\handbooks\filialreport_list.html:129
@@ -366,7 +366,7 @@ msgstr "Підтвердити"
 #: .\objects\templates\objects\office_filial_real_estate_list.html:69
 #: .\objects\templates\objects\office_real_estate_list.html:69
 #: .\objects\templates\objects\office_report_list.html:104
-#: .\templates\main.html:41 .\templates\main.html:44
+#: .\templates\main.html:55
 msgid "Users"
 msgstr "Користувачі"
 
@@ -444,7 +444,7 @@ msgstr "Профіль"
 
 #: .\accounts\templates\accounts\office_user_list.html:102
 #: .\accounts\templates\accounts\user_list.html:47 .\handbooks\forms.py:435
-#: .\handbooks\templates\handbooks\client_list.html:107
+#: .\handbooks\templates\handbooks\client_list.html:109
 #: .\handbooks\templates\handbooks\office_client_list.html:158
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:157
 #: .\objects\forms.py:337
@@ -575,21 +575,21 @@ msgid "In search"
 msgstr "У пошуку"
 
 #: .\handbooks\choices.py:40
-#: .\handbooks\templates\handbooks\client_list.html:81
+#: .\handbooks\templates\handbooks\client_list.html:83
 #: .\handbooks\templates\handbooks\office_client_list.html:132
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:131
 msgid "With a show"
 msgstr "З показом"
 
 #: .\handbooks\choices.py:41
-#: .\handbooks\templates\handbooks\client_list.html:87
+#: .\handbooks\templates\handbooks\client_list.html:89
 #: .\handbooks\templates\handbooks\office_client_list.html:138
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:137
 msgid "Decided"
 msgstr "Визначений"
 
 #: .\handbooks\choices.py:42
-#: .\handbooks\templates\handbooks\client_list.html:93
+#: .\handbooks\templates\handbooks\client_list.html:95
 #: .\handbooks\templates\handbooks\office_client_list.html:144
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:143
 msgid "Deferred demand"
@@ -673,7 +673,7 @@ msgid "Locality district"
 msgstr "Район міста"
 
 #: .\handbooks\forms.py:155 .\handbooks\forms.py:443
-#: .\handbooks\templates\handbooks\client_list.html:111
+#: .\handbooks\templates\handbooks\client_list.html:113
 #: .\handbooks\templates\handbooks\office_client_list.html:162
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:161
 msgid "Phone number"
@@ -688,7 +688,7 @@ msgid "Income source"
 msgstr "Джерело доходу"
 
 #: .\handbooks\forms.py:167 .\handbooks\forms.py:428
-#: .\handbooks\templates\handbooks\client_list.html:110
+#: .\handbooks\templates\handbooks\client_list.html:112
 #: .\handbooks\templates\handbooks\office_client_list.html:161
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:160
 msgid "Real estate type"
@@ -699,7 +699,7 @@ msgid "Realtor type"
 msgstr "Тип ріелтора"
 
 #: .\handbooks\forms.py:182
-#: .\handbooks\templates\handbooks\client_list.html:112
+#: .\handbooks\templates\handbooks\client_list.html:114
 #: .\handbooks\templates\handbooks\office_client_list.html:163
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:162
 #: .\objects\models.py:180
@@ -799,7 +799,7 @@ msgstr "Форма клієнта"
 msgid "Clients"
 msgstr "Клієнти"
 
-#: .\handbooks\templates\handbooks\client_list.html:53
+#: .\handbooks\templates\handbooks\client_list.html:55
 #: .\objects\templates\objects\changes_report_list.html:60
 #: .\objects\templates\objects\contract_list.html:61
 #: .\objects\templates\objects\real_estate_create_form.html:26
@@ -812,26 +812,26 @@ msgstr "Клієнти"
 msgid "Real estate"
 msgstr "Нерухомість"
 
-#: .\handbooks\templates\handbooks\client_list.html:63
+#: .\handbooks\templates\handbooks\client_list.html:65
 #: .\handbooks\templates\handbooks\office_client_list.html:114
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:113
 msgid "All"
 msgstr "Всі"
 
-#: .\handbooks\templates\handbooks\client_list.html:69
+#: .\handbooks\templates\handbooks\client_list.html:71
 #: .\handbooks\templates\handbooks\office_client_list.html:120
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:119
 msgid "New"
 msgstr "Новий"
 
-#: .\handbooks\templates\handbooks\client_list.html:75
+#: .\handbooks\templates\handbooks\client_list.html:77
 #: .\handbooks\templates\handbooks\office_client_list.html:126
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:125
 #: .\objects\forms.py:349 .\objects\models.py:197
 msgid "In selection"
 msgstr "У виборці"
 
-#: .\handbooks\templates\handbooks\client_list.html:133
+#: .\handbooks\templates\handbooks\client_list.html:135
 #: .\handbooks\templates\handbooks\list.html:109
 #: .\handbooks\templates\handbooks\office_client_list.html:184
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:183
@@ -841,7 +841,7 @@ msgstr "У виборці"
 msgid "Selection"
 msgstr "Виборка"
 
-#: .\handbooks\templates\handbooks\client_list.html:138
+#: .\handbooks\templates\handbooks\client_list.html:140
 #: .\handbooks\templates\handbooks\office_client_list.html:189
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:188
 #: .\objects\templates\objects\selection_history_list.html:4
@@ -1535,16 +1535,16 @@ msgstr "PDF"
 msgid "Showing act"
 msgstr "Акт показу"
 
-#: .\objects\views.py:122 .\objects\views.py:139 .\objects\views.py:211
-#: .\objects\views.py:220
+#: .\objects\views.py:120 .\objects\views.py:137 .\objects\views.py:209
+#: .\objects\views.py:218
 msgid "Invalid real estate type"
 msgstr "Неправильний тип нерухомості"
 
-#: .\objects\views.py:157
+#: .\objects\views.py:155
 msgid "Doesn't exist"
 msgstr "Не існує"
 
-#: .\objects\views.py:164
+#: .\objects\views.py:162
 #, python-brace-format
 msgid "Exists (id {id})"
 msgstr "Існує (id {id})"
@@ -1581,9 +1581,20 @@ msgstr "Видалення"
 msgid "Want delete?"
 msgstr "Хочете видалити?"
 
-#: .\templates\main.html:13 .\templates\main.html:16
+#: .\templates\main.html:13
 msgid "Sale"
 msgstr "Продажа"
+
+#: .\templates\main.html:16 .\templates\main.html:30 .\templates\main.html:44
+#: .\templates\main.html:58
+msgid "View"
+msgstr "Переглянути"
+
+#: .\templates\main.html:27
+#, fuzzy
+#| msgid "Selection history"
+msgid "Selection list"
+msgstr "Історія виборки"
 
 #: .\utils\showing_act_pdf_service.py:38
 msgid "SHOWING ACT"
@@ -1676,7 +1687,6 @@ msgstr "Тип дому: {house_type}. "
 #, python-brace-format
 msgid "Layout: {layout}. "
 msgstr "Планування: {layout}. "
-
 
 #: .\utils\showing_act_pdf_service.py:203
 #: .\utils\showing_act_pdf_service.py:223
