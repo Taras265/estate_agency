@@ -147,6 +147,8 @@ class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Search
 
 
 class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список районів міст"""
+
     queryset = LocalityDistrict.objects.filter(on_delete=False).select_related()
     template_name = "handbooks/localitydistrict_list.html"
     permission_required = "handbooks.view_localitydistrict"
@@ -164,16 +166,24 @@ class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin
         return context
 
 
-class StreetListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = Street.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_street"
-    template_name = "handbooks/street_list.html"
+class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список вулиць"""
 
-    app = "handbooks"
-    handbook_type = "street"
+    queryset = Street.objects.filter(on_delete=False).select_related()
+    template_name = "handbooks/street_list.html"
+    permission_required = "handbooks.view_street"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_street": user.has_perm("handbooks.change_street"),
+        })
+        return context
 
 
 class WithdrawalReasonListView(
