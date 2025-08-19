@@ -146,30 +146,21 @@ class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Search
         return context
 
 
-class LocalityDistrictListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = LocalityDistrict.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_localitydistrict"
+class LocalityDistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    queryset = LocalityDistrict.objects.filter(on_delete=False).select_related()
     template_name = "handbooks/localitydistrict_list.html"
+    permission_required = "handbooks.view_localitydistrict"
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "localitydistrict"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-
-        if not context["object_list"]:
-            return context
-
-        # у полі new_building_district замінюємо число на відповідний йому текст
-        for index, obj in enumerate(context["object_values"]):
-            locality_district: LocalityDistrict = context["object_list"][index]
-            obj["new_building_district"] = (
-                locality_district.get_new_building_district_display()
-            )
-
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_localitydistrict": user.has_perm("handbooks.change_localitydistrict"),
+        })
         return context
 
 
