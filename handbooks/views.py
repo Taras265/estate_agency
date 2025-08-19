@@ -366,16 +366,24 @@ class ComplexListView(
     handbook_type = "complex"
 
 
-class FilialAgencyListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = FilialAgency.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_filialagency"
-    template_name = "handbooks/filial_list.html"
+class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список філіалів"""
 
-    app = "handbooks"
-    handbook_type = "filialagency"
+    queryset = FilialAgency.objects.filter(on_delete=False).select_related()
+    template_name = "handbooks/filial_list.html"
+    permission_required = "handbooks.view_filialagency"
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_filial": user.has_perm("handbooks.change_filialagency"),
+        })
+        return context
 
 
 class FilialReportListView(
