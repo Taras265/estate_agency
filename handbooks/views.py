@@ -86,19 +86,9 @@ def sale_redirect(request, lang):
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
-# class RegionListView(
-#     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-# ):
-#     queryset = Region.objects.filter(on_delete=False)
-#     choices = BASE_CHOICES
-#     permission_required = "handbooks.view_region"
-#     template_name = "handbooks/region_list.html"
-
-#     app = "handbooks"
-#     handbook_type = "region"
-
-
 class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список областей"""
+
     queryset = Region.objects.filter(on_delete=False)
     template_name = "handbooks/region_list.html"
     permission_required = "handbooks.view_region"
@@ -116,19 +106,9 @@ class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchBy
         return context
 
 
-# class DistrictListView(
-#     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-# ):
-#     queryset = District.objects.filter(on_delete=False)
-#     choices = BASE_CHOICES
-#     permission_required = "handbooks.view_district"
-#     template_name = "handbooks/district_list.html"
-
-#     app = "handbooks"
-#     handbook_type = "district"
-
-
 class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список обласних районів"""
+
     queryset = District.objects.filter(on_delete=False).select_related()
     template_name = "handbooks/district_list.html"
     permission_required = "handbooks.view_district"
@@ -146,29 +126,23 @@ class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Search
         return context
 
 
-class LocalityListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = Locality.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_locality"
+class LocalityListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список міст"""
+
+    queryset = Locality.objects.filter(on_delete=False).select_related()
     template_name = "handbooks/locality_list.html"
+    permission_required = "handbooks.view_locality"
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "locality"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-
-        if not context["object_list"]:
-            return context
-
-        # у полях city_type і center_type замінюємо число на відповідний їм текст
-        for index, obj in enumerate(context["object_values"]):
-            locality: Locality = context["object_list"][index]
-            obj["city_type"] = locality.get_city_type_display()
-            obj["center_type"] = locality.get_center_type_display()
-
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_locality": user.has_perm("handbooks.change_locality"),
+        })
         return context
 
 
