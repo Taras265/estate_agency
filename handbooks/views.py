@@ -1,8 +1,10 @@
 from dateutil.relativedelta import relativedelta
+from django.views.generic import ListView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.translation import activate
 
 from handbooks.forms import (
     ClientForm,
@@ -14,6 +16,7 @@ from handbooks.forms import (
     LocalityForm,
     RegionForm,
     StreetForm,
+    IdSearchForm,
 )
 from handbooks.models import (
     Region,
@@ -83,28 +86,64 @@ def sale_redirect(request, lang):
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 
 
-class RegionListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
+# class RegionListView(
+#     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+# ):
+#     queryset = Region.objects.filter(on_delete=False)
+#     choices = BASE_CHOICES
+#     permission_required = "handbooks.view_region"
+#     template_name = "handbooks/region_list.html"
+
+#     app = "handbooks"
+#     handbook_type = "region"
+
+
+class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Region.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_region"
     template_name = "handbooks/region_list.html"
+    permission_required = "handbooks.view_region"
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "region"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_region": user.has_perm("handbooks.change_region"),
+        })
+        return context
 
 
-class DistrictListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = District.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_district"
+# class DistrictListView(
+#     CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
+# ):
+#     queryset = District.objects.filter(on_delete=False)
+#     choices = BASE_CHOICES
+#     permission_required = "handbooks.view_district"
+#     template_name = "handbooks/district_list.html"
+
+#     app = "handbooks"
+#     handbook_type = "district"
+
+
+class DistrictListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    queryset = District.objects.filter(on_delete=False).select_related()
     template_name = "handbooks/district_list.html"
+    permission_required = "handbooks.view_district"
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "district"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_district": user.has_perm("handbooks.change_district"),
+        })
+        return context
 
 
 class LocalityListView(

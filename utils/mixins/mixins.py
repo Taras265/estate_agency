@@ -25,19 +25,16 @@ class SearchByIdMixin:
     def get_queryset(self):
         form = self.form(self.request.GET)
         queryset = super().get_queryset()
-        # далі перевіряємо формочку і змінюємо в залежності від неї кверісет
-        if form.is_valid():
-            for field in form.cleaned_data.keys():
-                if form.cleaned_data.get(field):
-                    queryset = queryset.filter(**{field: form.cleaned_data.get(field)})
+        if not form.is_valid():
+            return queryset.none()
+        
+        if (id := form.cleaned_data.get("id")):
+            queryset = queryset.filter(id=id)
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
-
         context.update({"form": self.form(self.request.GET)})
-
         return context
 
 
