@@ -386,16 +386,24 @@ class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, Se
         return context
 
 
-class FilialReportListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, CustomListView
-):
-    queryset = FilialReport.objects.filter(on_delete=False)
-    choices = BASE_CHOICES
-    permission_required = "handbooks.view_filialreport"
-    template_name = "handbooks/filialreport_list.html"
+class FilialReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
+    """Список філіальних звітів"""
 
-    app = "handbooks"
-    handbook_type = "filialreport"
+    queryset = FilialReport.objects.filter(on_delete=False).select_related()
+    template_name = "handbooks/filialreport_list.html"
+    permission_required = "handbooks.view_filialreport"
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_change_filialreport": user.has_perm("handbooks.change_filialreport"),
+        })
+        return context
 
 
 class RegionCreateView(
