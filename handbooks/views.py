@@ -186,184 +186,292 @@ class StreetListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchBy
         return context
 
 
-class WithdrawalReasonListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class WithdrawalReasonListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=1)
+    template_name = "handbooks/handbook_list.html"
     permission_required = "handbooks.view_withdrawalreason"
-    template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "withdrawalreason"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_withdrawalreason"),
+            "can_change_handbook": user.has_perm("handbooks.change_withdrawalreason"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalwithdrawalreason"),
+            "create_url_name": "handbooks:withdrawalreason_create",
+            "update_url_name": "handbooks:withdrawalreason_update",
+            "delete_url_name": "handbooks:withdrawalreason_delete",
+            "history_url_name": "handbooks:withdrawalreason_history"
+        })
+        return context
 
 
-class ConditionListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class ConditionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=2)
+    template_name = "handbooks/handbook_list.html"
     permission_required = "handbooks.view_condition"
-    template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "condition"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_condition"),
+            "can_change_handbook": user.has_perm("handbooks.change_condition"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalcondition"),
+            "create_url_name": "handbooks:condition_create",
+            "update_url_name": "handbooks:condition_update",
+            "delete_url_name": "handbooks:condition_delete",
+            "history_url_name": "handbooks:condition_history"
+        })
+        return context
 
 
-class MaterialListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class MaterialListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=3)
-    permission_required = "handbooks.view_material"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    permission_required = "handbooks.view_material"
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "material"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_material"),
+            "can_change_handbook": user.has_perm("handbooks.change_material"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalmaterial"),
+            "create_url_name": "handbooks:material_create",
+            "update_url_name": "handbooks:material_update",
+            "delete_url_name": "handbooks:material_delete",
+            "history_url_name": "handbooks:material_history"
+        })
+        return context
 
 
-class SeparationListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class SeparationListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=4)
     permission_required = "handbooks.view_separation"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "separation"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_separation"),
+            "can_change_handbook": user.has_perm("handbooks.change_separation"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalseparation"),
+            "create_url_name": "handbooks:separation_create",
+            "update_url_name": "handbooks:separation_update",
+            "delete_url_name": "handbooks:separation_delete",
+            "history_url_name": "handbooks:separation_history"
+        })
+        return context
 
 
-class AgencyListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class AgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=5)
     permission_required = "handbooks.view_agency"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "agency"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_agency"),
+            "can_change_handbook": user.has_perm("handbooks.change_agency"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalagency"),
+            "create_url_name": "handbooks:agency_create",
+            "update_url_name": "handbooks:agency_update",
+            "delete_url_name": "handbooks:agency_delete",
+            "history_url_name": "handbooks:agency_history"
+        })
+        return context
 
 
-class AgencySalesListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class AgencySalesListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=6)
     permission_required = "handbooks.view_agencysales"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "agencysales"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_agencysales"),
+            "can_change_handbook": user.has_perm("handbooks.change_agencysales"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalagencysales"),
+            "create_url_name": "handbooks:agencysales_create",
+            "update_url_name": "handbooks:agencysales_update",
+            "delete_url_name": "handbooks:agencysales_delete",
+            "history_url_name": "handbooks:agencysales_history"
+        })
+        return context
 
 
-class NewBuildingNameListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class NewBuildingNameListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=7)
     permission_required = "handbooks.view_newbuildingname"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "newbuildingname"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_newbuildingname"),
+            "can_change_handbook": user.has_perm("handbooks.change_newbuildingname"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalnewbuildingname"),
+            "create_url_name": "handbooks:newbuildingname_create",
+            "update_url_name": "handbooks:newbuildingname_update",
+            "delete_url_name": "handbooks:newbuildingname_delete",
+            "history_url_name": "handbooks:newbuildingname_history"
+        })
+        return context
 
 
-class StairListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class StairListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=8)
     permission_required = "handbooks.view_stair"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "stair"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_stair"),
+            "can_change_handbook": user.has_perm("handbooks.change_stair"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalstair"),
+            "create_url_name": "handbooks:stair_create",
+            "update_url_name": "handbooks:stair_update",
+            "delete_url_name": "handbooks:stair_delete",
+            "history_url_name": "handbooks:stair_history"
+        })
+        return context
 
 
-class HeatingListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class HeatingListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=9)
     permission_required = "handbooks.view_heating"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "heating"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_heating"),
+            "can_change_handbook": user.has_perm("handbooks.change_heating"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalheating"),
+            "create_url_name": "handbooks:heating_create",
+            "update_url_name": "handbooks:heating_update",
+            "delete_url_name": "handbooks:heating_delete",
+            "history_url_name": "handbooks:heating_history"
+        })
+        return context
 
 
-class LayoutListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class LayoutListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=10)
     permission_required = "handbooks.view_layout"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "layout"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_layout"),
+            "can_change_handbook": user.has_perm("handbooks.change_layout"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicallayout"),
+            "create_url_name": "handbooks:layout_create",
+            "update_url_name": "handbooks:layout_update",
+            "delete_url_name": "handbooks:layout_delete",
+            "history_url_name": "handbooks:layout_history"
+        })
+        return context
 
 
-class HouseTypeListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class HouseTypeListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=11)
     permission_required = "handbooks.view_housetype"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "housetype"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": user.has_perm("handbooks.add_housetype"),
+            "can_change_handbook": user.has_perm("handbooks.change_housetype"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_historicalhousetype"),
+            "create_url_name": "handbooks:housetype_create",
+            "update_url_name": "handbooks:housetype_update",
+            "delete_url_name": "handbooks:housetype_delete",
+            "history_url_name": "handbooks:housetype_history"
+        })
+        return context
 
 
-class ComplexListView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    SearchByIdMixin,
-    NewCustomHandbookListView,
-):
+class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
     queryset = Handbook.objects.filter(on_delete=False, type=12)
     permission_required = "handbooks.view_complex"
     template_name = "handbooks/handbook_list.html"
-    choices = BASE_CHOICES
+    paginate_by = 10
 
-    app = "handbooks"
-    handbook_type = "complex"
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form": IdSearchForm(self.request.GET),
+            "can_create_handbook": False,
+            "can_change_handbook": False,
+            "can_view_handbook_history": False,
+            "create_url_name": "handbooks:complex_create",
+            "update_url_name": "handbooks:complex_update",
+            "delete_url_name": "handbooks:complex_delete",
+            "history_url_name": "handbooks:complex_history"
+        })
+        return context
 
 
 class FilialAgencyListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
