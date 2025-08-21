@@ -46,7 +46,6 @@ from utils.views import (
     CustomUpdateView,
     HistoryView,
     CustomListView,
-    NewCustomHandbookListView,
 )
 
 
