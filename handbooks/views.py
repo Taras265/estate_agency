@@ -1,5 +1,5 @@
 from dateutil.relativedelta import relativedelta
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -1503,7 +1503,7 @@ class MyDeferredDemandClientListView(
     perm = "view"
     choices = SALE_CHOICES
 '''
-
+'''
 class FilialAllClientsListView(
     FilialClientListMixin, PermissionRequiredMixin, CustomListView
 ):
@@ -1559,17 +1559,24 @@ class FilialDeferredDemandClientListView(
     filter = "deferred_demand"
     perm = "view"
     choices = SALE_CHOICES
+'''
 
 
-class ClientCreateView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView
-):
+class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Client
     form_class = ClientForm
     template_name = "handbooks/client_form.html"
     permission_required = "handbooks.add_client"
 
-    app = "handbooks"
-    handbook_type = "client"
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
+
+    def get_success_url(self):
+        kwargs = {"lang": self.kwargs["lang"]}
+        return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
 
 
 class ClientUpdateView(ByUserMixin, CustomUpdateView):
