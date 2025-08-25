@@ -1,5 +1,8 @@
 from dateutil.relativedelta import relativedelta
-from django.views.generic import ListView, CreateView
+
+from django.views.generic import ListView, CreateView, UpdateView
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -30,7 +33,7 @@ from handbooks.models import (
     Handbook,
 )
 from handbooks.choices import ClientStatusType
-from .services import clients_accessible_for_user
+from .services import clients_accessible_for_user, user_can_update_client
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from .utils import get_sale_client_list_context
 from utils.const import BASE_CHOICES, SALE_CHOICES
@@ -1579,18 +1582,36 @@ class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, Create
         return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
 
 
-class ClientUpdateView(ByUserMixin, CustomUpdateView):
-    queryset = Client.objects.filter(on_delete=False)
+class ClientUpdateView(CustomLoginRequiredMixin, UpdateView):
     form_class = ClientForm
     template_name = "handbooks/client_form.html"
-    perm = "change"
 
-    app = "handbooks"
-    handbook_type = "client"
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        if not pk:
+            raise AttributeError(
+                "Generic detail view %s must be called with an object "
+                "pk in the URLconf." % self.__class__.__name__
+            )
+
+        # перевірка, чи існує клієнт з id=pk
+        try:
+            client = Client.objects.select_related().get(id=pk, on_delete=False)
+        except Client.DoesNotExist:
+            raise Http404()
+
+        # перевірка, чи може користувач редагувати даного клієнта
+        if not user_can_update_client(self.request.user, client):
+            raise PermissionDenied()
+        return client
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
 
     def get_success_url(self):
-        # тимчасове рішення,
-        # оскільки "handbooks:client_list" було перейменовано на "handbooks:all_client_list"
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
 

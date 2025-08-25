@@ -22,6 +22,22 @@ def clients_accessible_for_user(user: CustomUser, qs: QuerySet[Client]) -> Query
     return qs.none()
 
 
+def user_can_update_client(user: CustomUser, client: Client) -> bool:
+    """Перевіряє, чи може користувач <user> редагувати клієнта <client>"""
+
+    if user.has_perm("handbooks.change_client"):
+        return True
+    
+    if user.has_perm("handbooks.change_filial_client"):
+        user_filials = user.filials.all()
+        return client.realtor.filials.all() in user_filials
+    
+    if user.has_perm("handbooks.change_own_client"):
+        return client.realtor == user
+    
+    return False
+
+
 def user_can_update_client_list(user: CustomUser, clients: QuerySet[Client]) -> dict[int, bool]:
     """
     Перевіряє для кожного клієнта з <clients> чи може користувач <user> його редагувати.
