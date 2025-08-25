@@ -96,7 +96,7 @@ class ClientListMixin:
 
         return context
 
-
+'''
 class UserClientListMixin(ClientListMixin):
     """
     Міксін використувуємо для випадків коли ми показумємо список клієнтів, але нам треба що список залежав від того,
@@ -114,7 +114,7 @@ class UserClientListMixin(ClientListMixin):
         context.update(get_office_context(self.request.user))
 
         return context
-
+'''
 
 class FilialClientListMixin(ClientListMixin):
     """
