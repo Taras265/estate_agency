@@ -1,10 +1,9 @@
 from dateutil.relativedelta import relativedelta
 
-from django.views.generic import ListView, CreateView, UpdateView
-from django.http import Http404
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.translation import activate
@@ -1593,14 +1592,8 @@ class ClientUpdateView(CustomLoginRequiredMixin, UpdateView):
                 "Generic detail view %s must be called with an object "
                 "pk in the URLconf." % self.__class__.__name__
             )
+        client = get_object_or_404(Client.objects.select_related(), id=pk, on_delete=False)
 
-        # перевірка, чи існує клієнт з id=pk
-        try:
-            client = Client.objects.select_related().get(id=pk, on_delete=False)
-        except Client.DoesNotExist:
-            raise Http404()
-
-        # перевірка, чи може користувач редагувати даного клієнта
         if not user_can_update_client(self.request.user, client):
             raise PermissionDenied()
         return client
@@ -1616,17 +1609,29 @@ class ClientUpdateView(CustomLoginRequiredMixin, UpdateView):
         return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
 
 
-class ClientDeleteView(ByUserMixin, CustomDeleteView):
-    queryset = Client.objects.filter(on_delete=False)
+class ClientDeleteView(CustomLoginRequiredMixin, DeleteView):
     template_name = "delete_form.html"
-    success_message = "Success"
-    handbook_type = "client"
-    perm = "change"
-    app = "handbooks"
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        if not pk:
+            raise AttributeError(
+                "Generic detail view %s must be called with an object "
+                "pk in the URLconf." % self.__class__.__name__
+            )
+        client = get_object_or_404(Client, id=pk, on_delete=False)
+
+        if not user_can_update_client(self.request.user, client):
+            raise PermissionDenied()
+        return client
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        return context
 
     def get_success_url(self):
-        # тимчасове рішення,
-        # оскільки "handbooks:client_list" було перейменовано на "handbooks:all_client_list"
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
 
