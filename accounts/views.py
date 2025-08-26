@@ -14,7 +14,6 @@ from accounts.services import (
     user_can_view_user_history,
 )
 from handbooks.forms import PhoneNumberFormSet
-from utils.const import USER_CHOICES
 from utils.mixins.mixins import CustomLoginRequiredMixin
 
 
@@ -24,7 +23,6 @@ from utils.views import (
     CustomDeleteView,
     CustomUpdateView,
     HistoryView,
-    CustomListView,
 )
 
 
@@ -98,12 +96,10 @@ class ProfileView(CustomLoginRequiredMixin, UpdateView):
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
-
         return context
 
 
@@ -177,13 +173,20 @@ class MyUserListView(UserListView):
         return context
 
 
-class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     queryset = CustomGroup.objects.all()
-    choices = USER_CHOICES
     permission_required = "accounts.view_group"
-
-    handbook_type = "group"
     template_name = "accounts/group_list.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "can_update_group": self.request.user.has_perm("accounts.change_group"),
+        })
+        return context
 
 
 class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
