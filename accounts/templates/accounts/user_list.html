@@ -19,15 +19,15 @@
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link {% if url_name == 'user_list' %}active{% endif %}"
-                       href={% url 'accounts:user_list' lang=lang %}>
+                    <a class="nav-link active"
+                       href="{% url 'accounts:user_list' lang=lang %}">
                         {% translate "Users" %}
                     </a>
                 </li>
-                {% if can_view_customgroup %}
+                {% if perms.accounts.view_customgroup %}
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {% if url_name == 'group_list' %}active{% endif %}"
-                           href={% url 'accounts:group_list' lang=lang %}>
+                        <a class="nav-link"
+                           href="{% url 'accounts:group_list' lang=lang %}">
                             {% translate "Groups" %}
                         </a>
                     </li>
@@ -108,7 +108,7 @@
                     {% else %}
                         <div style="text-align: center">{% translate 'Not found' %}</div>
                     {% endif %}
-                    {% if can_create %}
+                    {% if perms.accounts.add_customuser %}
                         <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                            href="{% url 'accounts:user_create' lang=lang %}"
                            type="button" style="max-width: 120px">
@@ -120,20 +120,20 @@
             <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
                 <div class="btn-group" role="group">
                     {% if page_obj.has_previous %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        {% translate 'Previous' %}
-                    </a>
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            {% translate 'Previous' %}
+                        </a>
                     {% endif %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
                        href="?page={{ page_obj.number }}">
                         {{ page_obj.number }}
                     </a>
                     {% if page_obj.has_next %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                        {% translate 'Next' %}
-                    </a>
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            {% translate 'Next' %}
+                        </a>
                     {% endif %}
                 </div>
             </nav>

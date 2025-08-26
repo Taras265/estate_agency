@@ -23,17 +23,9 @@ def get_user_choices(
     return available_choices
 
 
-def user_can_create_user(user: CustomUser) -> bool:
-    return user.has_perm("accounts.add_customuser")
-
-
 def user_can_update_user(user: CustomUser) -> bool:
     return user.has_perm("accounts.change_customuser")
 
 
 def user_can_view_user_history(user: CustomUser) -> bool:
     return user.has_perm("accounts.view_historicalcustomuser")
-
-
-def user_can_view_custom_group(user: CustomUser) -> bool:
-    return user.has_perm("accounts.view_customgroup")
