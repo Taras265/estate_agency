@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from accounts.services import get_user_choices
-from handbooks.models import Handbook
 from utils.utils import new_model_to_dict, table_to_app
 from django.utils.translation import activate
 
@@ -62,25 +61,6 @@ class CustomListView(ListView):
                     )
                 }
             )
-
-        return context
-
-
-class NewCustomHandbookListView(CustomListView):
-    """
-    Вьюшка для списку з бд Handbook
-    """
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
-
-        if not context["object_list"]:
-            return context
-
-        # у полі new_building_district замінюємо число на відповідний йому текст
-        for index, obj in enumerate(context["object_values"]):
-            handbook: Handbook = context["object_list"][index]
-            obj["type"] = handbook.get_type_display()
 
         return context
 

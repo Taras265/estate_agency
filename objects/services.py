@@ -1,7 +1,6 @@
 from collections.abc import Iterable
 from typing import List, Optional, TypeVar
 
-
 from django.db.models import QuerySet
 
 from .choices import RealEstateType, RealEstateStatus

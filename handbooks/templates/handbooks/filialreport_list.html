@@ -46,14 +46,156 @@
 <div class="container">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            {% for i in choices %}
+            {% if perms.handbooks.view_region %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:region_list' lang=lang %}">
+                        {% translate "Region" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_district %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:district_list' lang=lang %}">
+                        {% translate "District" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_locality %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:locality_list' lang=lang %}">
+                        {% translate "Locality" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_localitydistrict %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:localitydistrict_list' lang=lang %}">
+                        {% translate "Locality district" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_street %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:street_list' lang=lang %}">
+                        {% translate "Street" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_withdrawalreason %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:withdrawalreason_list' lang=lang %}">
+                        {% translate "Withdrawal reason" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_condition %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:condition_list' lang=lang %}">
+                        {% translate "Condition" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_material %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:material_list' lang=lang %}">
+                        {% translate "Material" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_separation %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:separation_list' lang=lang %}">
+                        {% translate "Separation" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_agency %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:agency_list' lang=lang %}">
+                        {% translate "Agency" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_agencysales %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:agencysales_list' lang=lang %}">
+                        {% translate "Agency sales" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_newbuildingname %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:newbuildingname_list' lang=lang %}">
+                        {% translate "New building name" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_stair %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:stair_list' lang=lang %}">
+                        {% translate "Stair" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_heating %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:heating_list' lang=lang %}">
+                        {% translate "Heating" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_layout %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:layout_list' lang=lang %}">
+                        {% translate "Layout" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_housetype %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:housetype_list' lang=lang %}">
+                        {% translate "House type" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if perms.handbooks.view_filialagency %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:filialagency_list' lang=lang %}">
+                        {% translate "Filial agency" %}
+                    </a>
+                </li>
+            {% endif %}
             <li class="nav-item" role="presentation">
-                <a class="nav-link {% if i == choice %}active{% endif %}"
-                   href='/{{lang}}/{% url_app i %}/{% choices_url i %}/{{i}}/'>
-                    {% translate i %}
+                <a class="nav-link active"
+                    href="{% url 'handbooks:filialreport_list' lang=lang %}">
+                    {% translate "Filial report" %}
                 </a>
             </li>
-            {% endfor %}
+            {% if perms.handbooks.view_complex %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:complex_list' lang=lang %}">
+                        {% translate "Complex" %}
+                    </a>
+                </li>
+            {% endif %}
         </ul>
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
@@ -78,29 +220,39 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for object in object_values %}
+                                {% for object in object_list %}
                                 <tr>
                                     <td></td>
                                     <td>{{object.id}}</td>
                                     <td>{{object.report}}</td>
-                                    <td>{{object.filial_agency__filial_agency}}</td>
-                                    <td>{{object.user__email}}</td>
-                                    {% if object.user_permissions.can_update %}
+                                    <td>{{object.filial_agency}}</td>
+                                    <td>{{object.user}}</td>
+                                    {% if can_change_filialreport %}
+                                        <td>
+                                            <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                               href="{% url 'handbooks:filialreport_update' lang=lang pk=object.id %}"
+                                               type="button" style="max-width: 120px">
+                                                {% translate 'Update' %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                               href="{% url 'handbooks:filialreport_delete' lang=lang pk=object.id %}"
+                                               type="button" style="max-width: 120px">
+                                                {% translate 'Delete' %}
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                        <td></td>
+                                    {% endif %}
                                     <td>
                                         <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/update{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                                           type="button" style="max-width: 120px">{% translate 'Update' %}</a></td>
-                                    <td>
-                                        <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
-                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/delete{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                                           type="button" style="max-width: 120px">{% translate 'Delete' %}</a></td>
-                                    {% else %}
-                                    <td></td>
-                                    <td></td>
-                                    {% endif %}
-                                    <td><a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                           href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/history{% if choice != 'apartment' %}/{{ choice }}{% endif %}/{{ object.id }}/"
-                                           type="button" style="max-width: 120px">{% translate 'History' %}</a></td>
+                                           href="{% url 'handbooks:filialreport_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">
+                                            {% translate 'History' %}
+                                        </a>
+                                    </td>
                                     <td></td>
                                 </tr>
                                 {% endfor %}
@@ -109,24 +261,30 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if can_create %}
-                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                       href="/{{ lang }}/{% url_app choice %}/{% choices_url choice %}/create{% if choice != 'apartment' %}/{{ choice }}{% endif %}/"
-                             type="button" style="max-width: 120px">{% translate 'Create' %}</a>
+                    {% if perms.handbooks.add_filialreport %}
+                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                           href="{% url 'handbooks:filialreport_create' lang=lang %}"
+                           type="button" style="max-width: 120px">{% translate 'Create' %}</a>
                     {% endif %}
                 </div>
             </div>
             <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
                 <div class="btn-group" role="group">
                     {% if page_obj.has_previous %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            {% translate 'Previous' %}
+                        </a>
                     {% endif %}
                     <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                       href="?page={{ page_obj.number }}">
+                        {{ page_obj.number }}
+                    </a>
                     {% if page_obj.has_next %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            {% translate 'Next' %}
+                        </a>
                     {% endif %}
                 </div>
             </nav>
