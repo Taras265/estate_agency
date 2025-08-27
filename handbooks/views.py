@@ -1,9 +1,11 @@
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 
+from accounts.models import CustomUser
 from handbooks.forms import (
     ClientForm,
     DistrictForm,
@@ -1493,3 +1495,8 @@ class ClientHistoryView(HistoryView):
     perm = "view"
     app = "handbooks"
     queryset = Client.objects.filter(on_delete=False)
+
+
+def load_filials(request, lang):
+    filials = CustomUser.objects.get(id=request.GET.get('realtor')).filials.all()
+    return JsonResponse(list(filials.values('id', 'filial_agency')), safe=False)

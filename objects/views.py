@@ -2190,6 +2190,8 @@ class ApartmentUpdateView(
             self.request.FILES,
             instance=self.get_object(),
         )
+        if not is_saved:
+            return self.form_invalid(form)
 
         return redirect(self.get_success_url())
 
@@ -2268,6 +2270,9 @@ class CommerceUpdateView(
             self.request.FILES,
             instance=self.get_object(),
         )
+
+        if not is_saved:
+            return self.form_invalid(form)
 
         return redirect(self.get_success_url())
 
@@ -2352,6 +2357,9 @@ class HouseUpdateView(
             instance=self.get_object(),
         )
 
+        if not is_saved:
+            return self.form_invalid(form)
+
         return redirect(self.get_success_url())
 
     def form_invalid(self, form):
@@ -2435,6 +2443,9 @@ class LandUpdateView(
             self.request.FILES,
             instance=self.get_object(),
         )
+
+        if not is_saved:
+            return self.form_invalid(form)
 
         return redirect(self.get_success_url())
 

@@ -1,5 +1,6 @@
 from django.urls import path
 
+from handbooks import views
 from handbooks.views import (
     AgencyCreateView,
     AgencyDeleteView,
@@ -495,6 +496,7 @@ urlpatterns = [
         FilialReportHistoryView.as_view(),
         name="filialreport_history",
     ),
+    path("load_filials/", views.load_filials, name="load_filials"),
 ]
 """
     path("office/client/", MyAllClientsListView.as_view(), name="office_client_list"),
