@@ -2,12 +2,14 @@ from dateutil.relativedelta import relativedelta
 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.mixins import PermissionRequiredMixin=
+from django.http import JsonResponse=
+from django.shortcuts import redirect, render, get_object_or_404=
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.translation import activate
 
+from accounts.models import CustomUser
 from handbooks.forms import (
     ClientForm,
     DistrictForm,
@@ -1781,3 +1783,8 @@ class ClientHistoryView(HistoryView):
         context = super().get_context_data(object_list=object_list, **kwargs)
         context["list_url"] = "handbooks:all_client_list"
         return context
+
+def load_filials(request, lang):
+    filials = CustomUser.objects.get(id=request.GET.get('realtor')).filials.all()
+    return JsonResponse(list(filials.values('id', 'filial_agency')), safe=False)
+

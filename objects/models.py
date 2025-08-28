@@ -99,6 +99,12 @@ class BaseRealEstate(models.Model):
         related_name="agency_%(app_label)s_%(class)ss",
         verbose_name=_("Agency"),
     )
+    filial = models.ForeignKey(
+        "handbooks.FilialAgency",
+        on_delete=models.CASCADE,
+        related_name="filial_%(app_label)s_%(class)ss",
+        verbose_name=_("Filial agency"),
+    )
     house_type = models.ForeignKey(
         Handbook,
         on_delete=models.CASCADE,

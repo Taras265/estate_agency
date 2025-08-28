@@ -1,7 +1,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from handbooks.models import Handbook
+from accounts.models import CustomUser
+from handbooks.models import Handbook, FilialAgency
 from objects.models import Apartment, Commerce, House, Land
 from objects.choices import RealEstateStatus
 
@@ -15,6 +16,9 @@ class BaseRealEstateForm(forms.ModelForm):
 
     agency = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=5, on_delete=False),
+    )
+    filial = forms.ModelChoiceField(
+        queryset=FilialAgency.objects.none(),
     )
     house_type = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=11, on_delete=False),
@@ -43,6 +47,25 @@ class BaseRealEstateForm(forms.ModelForm):
         if user:
             self.fields["realtor"].initial = user
 
+        if self.data.get("realtor"):
+            self.fields["filial"].queryset = CustomUser.objects.get(id=self.data.get("realtor")).filials.all()
+        elif self.instance:
+            self.fields["filial"].queryset = self.instance.realtor.filials.all()
+
+    def is_valid(self):
+        valid = super().is_valid()
+        if not valid:
+            return False
+
+        cleaned_data = super().clean()
+        realtor = cleaned_data.get("realtor")
+        filial = cleaned_data.get("filial")
+
+        if not filial in realtor.filials.all():
+            self.add_error("filial", "Realtor dont have this filial")
+            return False
+        return True
+
 
 class ApartmentForm(BaseRealEstateForm):
     """Форма для створення або редагування квартири."""
@@ -65,6 +88,7 @@ class ApartmentForm(BaseRealEstateForm):
             "house",
             "apartment",
             "agency",
+            "filial",
             "square",
             "living_square",
             "kitchen_square",

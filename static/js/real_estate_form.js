@@ -22,6 +22,8 @@ const apartmentInput = document.getElementById("id_apartment");
 const premisesInput = document.getElementById("id_premises");
 const housingInput = document.getElementById("id_housing");
 const ownerSelect = document.getElementById("id_owner");
+const realtorSelect = document.getElementById("id_realtor");
+const filialSelect = document.getElementById("id_filial");
 
 document.addEventListener('DOMContentLoaded', () => {
     const formsetContainer = document.getElementById('photo-formset');
@@ -58,6 +60,36 @@ btnVerifyAddress.addEventListener("click", async e => {
 ownerSelect.addEventListener("change", async e => {
     setOwnerEditFormUrl(e.target.value);
 });
+
+    realtorSelect.addEventListener("change", async function() {
+        const realtorId = this.value;
+        const url = "http://127.0.0.1:8000/ru/handbooks/load_filials/?realtor=" + realtorId;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data)
+
+            // очищаємо селект повністю
+            console.log(filialSelect.innerHTML)
+            $(filialSelect).empty();
+            $("#id_filial").selectpicker('destroy');
+            $("#id_filial").selectpicker();
+
+            filialSelect.appendChild(new Option("---------", ""));
+            data.forEach(filial => {
+                const option = document.createElement("option");
+                option.value = filial.id;
+                option.textContent = filial.filial_agency;
+                filialSelect.appendChild(option);
+            });
+            $("#id_filial").selectpicker('destroy');
+            $("#id_filial").selectpicker();
+
+        } catch (error) {
+            console.error("Помилка завантаження:", error);
+        }
+    });
 
 btnFillAddress.addEventListener("click", async e => {
     fillApartmentAddress();
