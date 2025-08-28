@@ -175,10 +175,12 @@ class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
+        user = self.request.user
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],
-            "can_update_group": self.request.user.has_perm("accounts.change_group"),
+            "can_update_group": user.has_perm("accounts.change_group"),
+            "can_view_history": user.has_perm("accounts.view_historicalgroup")
         })
         return context
 
