@@ -37,12 +37,9 @@ from handbooks.choices import ClientStatusType
 from .services import clients_accessible_for_user, user_can_update_client
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from .utils import get_sale_client_list_context
-from utils.const import BASE_CHOICES, SALE_CHOICES
+from utils.const import BASE_CHOICES
 from utils.mixins.mixins import (
-    ByUserMixin,
-    ClientListMixin,
     CustomLoginRequiredMixin,
-    FilialClientListMixin,
     SearchByIdMixin,
 )
 from utils.views import (
@@ -50,7 +47,6 @@ from utils.views import (
     CustomDeleteView,
     CustomUpdateView,
     HistoryView,
-    CustomListView,
 )
 
 

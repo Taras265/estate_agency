@@ -8,23 +8,17 @@ from django.views.generic import ListView, UpdateView
 from accounts.forms import AvatarForm, GroupForm, LoginForm, RegisterForm, UserForm
 from accounts.models import CustomUser, CustomGroup
 from accounts.services import (
-    user_can_create_user,
     user_can_update_user,
-    user_can_view_custom_group,
     user_can_view_user_history,
 )
 from handbooks.forms import PhoneNumberFormSet
-from utils.const import USER_CHOICES
 from utils.mixins.mixins import CustomLoginRequiredMixin
-
-
 from utils.utils import get_office_context
 from utils.views import (
     CustomCreateView,
     CustomDeleteView,
     CustomUpdateView,
     HistoryView,
-    CustomListView,
 )
 
 
@@ -44,7 +38,7 @@ def login_view(request, lang):
 
 def logout_view(request, lang):
     logout(request)
-    return redirect(f"/{lang}/accounts/login/", {"lang": lang})
+    return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
 
 
 def office_redirect(request, lang):
@@ -98,25 +92,24 @@ class ProfileView(CustomLoginRequiredMixin, UpdateView):
         return CustomUser.objects.prefetch_related("filials").get(email=self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(get_office_context(self.request.user))
-
         return context
 
 
 def users_list_redirect(request, lang):
     kwargs = {"lang": lang}
 
-    if request.user:
-        if request.user.has_perm("accounts.view_customuser"):
-            return redirect(reverse_lazy("accounts:user_list", kwargs=kwargs))
-        if request.user.has_perm("accounts.view_group"):
-            return redirect(reverse_lazy("accounts:group_list", kwargs=kwargs))
-        return render(request, "403.html", kwargs)
-    return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+    if request.user.is_anonymous:
+        return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+
+    if request.user.has_perm("accounts.view_customuser"):
+        return redirect(reverse_lazy("accounts:user_list", kwargs=kwargs))
+    if request.user.has_perm("accounts.view_group"):
+        return redirect(reverse_lazy("accounts:group_list", kwargs=kwargs))
+    return render(request, "403.html", kwargs)
 
 
 class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -138,8 +131,6 @@ class UserListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
         context.update(
             {
                 "lang": self.kwargs["lang"],
-                "can_view_customgroup": user_can_view_custom_group(self.request.user),
-                "can_create": user_can_create_user(self.request.user),
                 "can_update": user_can_update_user(self.request.user),
                 "can_view_history": user_can_view_user_history(self.request.user),
             }
@@ -167,7 +158,6 @@ class MyUserListView(UserListView):
         context.update(
             {
                 "lang": self.kwargs["lang"],
-                "can_create": user_can_create_user(self.request.user),
                 "can_update": user_can_update_user(self.request.user),
                 "can_view_history": user_can_view_user_history(self.request.user),
                 "groups": CustomGroup.objects.all(),
@@ -177,13 +167,22 @@ class MyUserListView(UserListView):
         return context
 
 
-class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomListView):
+class GroupListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     queryset = CustomGroup.objects.all()
-    choices = USER_CHOICES
     permission_required = "accounts.view_group"
-
-    handbook_type = "group"
     template_name = "accounts/group_list.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        activate(self.kwargs["lang"])
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        context.update({
+            "lang": self.kwargs["lang"],
+            "can_update_group": user.has_perm("accounts.change_group"),
+            "can_view_history": user.has_perm("accounts.view_historicalgroup")
+        })
+        return context
 
 
 class UserCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CustomCreateView):
