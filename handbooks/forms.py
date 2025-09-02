@@ -149,7 +149,9 @@ class ClientForm(forms.ModelForm):
         label=_("First name"), widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
-        label=_("Last name"), widget=forms.TextInput(attrs={"class": "form-control"})
+        label=_("Last name"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     phone = forms.CharField(
         label=_("Phone number"), widget=forms.TextInput(attrs={"class": "form-control"})
