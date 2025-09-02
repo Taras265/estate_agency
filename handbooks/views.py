@@ -1636,10 +1636,10 @@ class ClientUpdateView(CustomLoginRequiredMixin, UpdateView):
                 self.request.user.has_perm("handbooks.change_filial_client") or
                 self.request.user.has_perm("handbooks.change_client")
         ):
-            post_data = self.request.POST.copy()
             o = self.get_object()
-            post_data["realtor"] = o.realtor
-            f = self.form_class(post_data)
+            post_data = self.request.POST.copy()
+            post_data["realtor"] = self.request.user
+            f = self.form_class(post_data, instance=o)
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())

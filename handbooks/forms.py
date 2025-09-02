@@ -155,8 +155,18 @@ class ClientForm(forms.ModelForm):
         label=_("Phone number"), widget=forms.TextInput(attrs={"class": "form-control"})
     )
     messenger = forms.CharField(
-        label=_("Messenger"), widget=forms.TextInput(attrs={"class": "form-control"})
+        required=False,
+        label=_("Messenger"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
+
+    telegram = forms.BooleanField(
+        label=_("Telegram"), widget=forms.CheckboxInput(), required=False, initial=False
+    )
+    viber = forms.BooleanField(
+        label=_("Viber"), widget=forms.CheckboxInput(), required=False, initial=False
+    )
+
     income_source = forms.ChoiceField(
         choices=IncomeSourceType.choices,
         label=_("Income source"),
