@@ -252,6 +252,12 @@ class ClientForm(forms.ModelForm):
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
     )
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["realtor"].initial = user
+
     class Meta:
         model = Client
         exclude = ("date_of_add", "on_delete")
