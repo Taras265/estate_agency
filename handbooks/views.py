@@ -2,9 +2,9 @@ from dateutil.relativedelta import relativedelta
 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.mixins import PermissionRequiredMixin=
-from django.http import JsonResponse=
-from django.shortcuts import redirect, render, get_object_or_404=
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import JsonResponse
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.translation import activate
