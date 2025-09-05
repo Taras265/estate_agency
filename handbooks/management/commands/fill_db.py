@@ -18,7 +18,8 @@ from handbooks.models import (
     Region,
     Street,
 )
-from objects.choices import RealEstateStatus, RoomType
+from objects.choices import RealEstateStatus
+# from objects.choices import RoomType
 from objects.models import Apartment, Commerce, House
 
 LOCALITY_TYPE_MAP = {
@@ -42,12 +43,12 @@ STATUS_MAP = {
 }
 
 
-ROOMS_TYPE_MAP = {
-    "Смежные": RoomType.ADJACENT,
-    "Раздельные": RoomType.SEPARATE,
-    "Кухня-студия": RoomType.STUDIO_KITCHEN,
-    "1 комната ": RoomType.ROOM,
-}
+# ROOMS_TYPE_MAP = {
+#     "Смежные": RoomType.ADJACENT,
+#     "Раздельные": RoomType.SEPARATE,
+#     "Кухня-студия": RoomType.STUDIO_KITCHEN,
+#     "1 комната ": RoomType.ROOM,
+# }
 
 
 class Command(BaseCommand):
@@ -308,9 +309,9 @@ class Command(BaseCommand):
                 "floor": int(obj.find("floor").text),
                 "storeys_number": int(obj.find("storeys_number").text),
                 "status": STATUS_MAP[obj.find("status").text],
-                "room_types": ROOMS_TYPE_MAP[obj.find("room_types").text]
-                if obj.find("room_types") is not None
-                else RoomType.NONE,
+                # "room_types": ROOMS_TYPE_MAP[obj.find("room_types").text]
+                # if obj.find("room_types") is not None
+                # else RoomType.NONE,
                 "document": obj.find("document").text,
                 "sale_terms": obj.find("sale_terms").text
                 if obj.find("sale_terms") is not None
@@ -324,6 +325,9 @@ class Command(BaseCommand):
             }
             if obj.find("creation_date"):
                 obj_data["creation_date"] = get_date(obj, "creation_date", "%d.%m.%Y")
+            
+            if not obj_data["creation_date"]:
+                obj_data["creation_date"] = datetime.now()
 
             if obj.find("object_type").text == "квартира":
                 print(obj.find("living_square").text)
