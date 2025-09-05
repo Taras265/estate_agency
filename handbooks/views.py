@@ -34,6 +34,7 @@ from handbooks.models import (
     Handbook,
 )
 from handbooks.choices import ClientStatusType
+from objects.mixins import DefaultUserInCreateViewMixin
 from .services import clients_accessible_for_user, user_can_update_client
 from objects.services import user_can_view_real_estate_list, user_can_view_report
 from .utils import get_sale_client_list_context
@@ -1562,7 +1563,7 @@ class FilialDeferredDemandClientListView(
 '''
 
 
-class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, DefaultUserInCreateViewMixin, CreateView):
     model = Client
     form_class = ClientForm
     template_name = "handbooks/client_form.html"
@@ -1572,7 +1573,28 @@ class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, Create
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
+
+        if self.request.user.has_perm("handbooks.change_own_client") and not (
+            self.request.user.has_perm("handbooks.change_filial_client") or
+            self.request.user.has_perm("handbooks.change_client")
+        ):
+            context["form"].fields["realtor"].widget.attrs["disabled"] = True
+            context["form"].fields["realtor"].widget.attrs["readonly"] = True
+
         return context
+
+    def form_invalid(self, form):
+        if self.request.user.has_perm("handbooks.change_own_client") and not (
+                self.request.user.has_perm("handbooks.change_filial_client") or
+                self.request.user.has_perm("handbooks.change_client")
+        ):
+            post_data = self.request.POST.copy()
+            post_data["realtor"] = self.request.user
+            f = self.form_class(post_data)
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
 
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
@@ -1600,7 +1622,28 @@ class ClientUpdateView(CustomLoginRequiredMixin, UpdateView):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
+
+        if self.request.user.has_perm("handbooks.change_own_client") and not (
+            self.request.user.has_perm("handbooks.change_filial_client") or
+            self.request.user.has_perm("handbooks.change_client")
+        ):
+            context["form"].fields["realtor"].widget.attrs["disabled"] = True
+            context["form"].fields["realtor"].widget.attrs["readonly"] = True
         return context
+
+    def form_invalid(self, form):
+        if self.request.user.has_perm("handbooks.change_own_client") and not (
+                self.request.user.has_perm("handbooks.change_filial_client") or
+                self.request.user.has_perm("handbooks.change_client")
+        ):
+            o = self.get_object()
+            post_data = self.request.POST.copy()
+            post_data["realtor"] = self.request.user
+            f = self.form_class(post_data, instance=o)
+            if f.is_valid():
+                f.save()
+                return redirect(self.get_success_url())
+        return super().form_invalid(form)
 
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}

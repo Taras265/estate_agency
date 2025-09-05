@@ -49,7 +49,7 @@ class BaseRealEstateForm(forms.ModelForm):
 
         if self.data.get("realtor"):
             self.fields["filial"].queryset = CustomUser.objects.get(id=self.data.get("realtor")).filials.all()
-        elif self.instance:
+        elif hasattr(self.instance, "realtor"):
             self.fields["filial"].queryset = self.instance.realtor.filials.all()
 
     def is_valid(self):

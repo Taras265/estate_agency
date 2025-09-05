@@ -68,14 +68,30 @@
                 </div>
                 {{ form.phone.errors }}
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    {{ form.messenger.label_tag }} {{ form.messenger }}
-                </div>
-                {{ form.messenger.errors }}
-                <div class="d-flex align-items-center gap-2 mb-2">
                     {{ form.email.label_tag }} {{ form.email }}
                 </div>
                 {{ form.email.errors }}
             </div>
+            <div class="row mb-5">
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.messenger.label_tag }} {{ form.messenger }}
+                </div>
+                {{ form.messenger.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.telegram.label_tag }} {{ form.telegram }}
+                </div>
+                {{ form.telegram.errors }}
+            </div>
+            <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    {{ form.viber.label_tag }} {{ form.viber }}
+                </div>
+                {{ form.viber.errors }}
+            </div>
+        </div>
             <div class="col">
                 <div class="d-flex align-items-center gap-2 mb-2">
                     {{ form.income_source.label_tag }} {{ form.income_source }}

@@ -194,9 +194,13 @@ class Client(BaseModel):
 
     email = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=100)
-    messenger = models.CharField(max_length=200)
+    messenger = models.CharField(max_length=200, null=True, blank=True)
+
+    viber = models.BooleanField(default=False)
+    telegram = models.BooleanField(default=False)
+
     income_source = models.PositiveSmallIntegerField(
         choices=IncomeSourceType.choices, default=1
     )
