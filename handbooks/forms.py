@@ -149,14 +149,26 @@ class ClientForm(forms.ModelForm):
         label=_("First name"), widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
-        label=_("Last name"), widget=forms.TextInput(attrs={"class": "form-control"})
+        label=_("Last name"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     phone = forms.CharField(
         label=_("Phone number"), widget=forms.TextInput(attrs={"class": "form-control"})
     )
     messenger = forms.CharField(
-        label=_("Messenger"), widget=forms.TextInput(attrs={"class": "form-control"})
+        required=False,
+        label=_("Messenger"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
+
+    telegram = forms.BooleanField(
+        label=_("Telegram"), widget=forms.CheckboxInput(), required=False, initial=False
+    )
+    viber = forms.BooleanField(
+        label=_("Viber"), widget=forms.CheckboxInput(), required=False, initial=False
+    )
+
     income_source = forms.ChoiceField(
         choices=IncomeSourceType.choices,
         label=_("Income source"),
@@ -251,6 +263,12 @@ class ClientForm(forms.ModelForm):
         label=_("Condition"),
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
     )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields["realtor"].initial = user
 
     class Meta:
         model = Client
