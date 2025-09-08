@@ -46,9 +46,10 @@ class BaseRealEstateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields["realtor"].initial = user
+            self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
 
-        if self.data.get("realtor"):
-            self.fields["filial"].queryset = CustomUser.objects.get(id=self.data.get("realtor")).filials.all()
+        if (realtor_id := self.data.get("realtor")):
+            self.fields["filial"].queryset = CustomUser.objects.get(id=realtor_id).filials.all()
         elif hasattr(self.instance, "realtor"):
             self.fields["filial"].queryset = self.instance.realtor.filials.all()
 
@@ -62,7 +63,7 @@ class BaseRealEstateForm(forms.ModelForm):
         filial = cleaned_data.get("filial")
 
         if not filial in realtor.filials.all():
-            self.add_error("filial", "Realtor dont have this filial")
+            self.add_error("filial", "Realtor doesn't have filial " + filial)
             return False
         return True
 

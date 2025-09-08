@@ -4,10 +4,12 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import JsonResponse
+from django.views.decorators.http import require_GET
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.translation import activate
+from django.forms.fields import IntegerField
 
 from accounts.models import CustomUser
 from handbooks.forms import (
@@ -1823,7 +1825,38 @@ class ClientHistoryView(HistoryView):
         context["list_url"] = "handbooks:all_client_list"
         return context
 
-def load_filials(request, lang):
-    filials = CustomUser.objects.get(id=request.GET.get('realtor')).filials.all()
-    return JsonResponse(list(filials.values('id', 'filial_agency')), safe=False)
 
+@require_GET
+def load_filials(request, lang):
+    filials = CustomUser.objects.get(id=request.GET.get("realtor")).filials.all()
+    return JsonResponse(list(filials.values("id", "filial_agency")), safe=False)
+
+
+@require_GET
+def load_streets(request, lang):
+    """
+    Повертає список вулиць (id, street).
+    Якщо вказано query параметр locality, то буде повернуто
+    список вулиць для міста з id=locality.
+    Query параметри:
+    - locality: int > 0
+    """
+    int_field = IntegerField(
+        required=False,
+        min_value=1,
+        error_messages={"invalid": "Enter a positive integer."}
+    )
+    try:
+        locality_id = int_field.clean(request.GET.get("locality"))
+    except:
+        return JsonResponse(
+            {"success": False, "errors": int_field.error_messages}
+        )
+    streets = Street.objects.filter(on_delete=False)
+    if locality_id:
+        streets = streets.filter(locality=locality_id)
+
+    return JsonResponse(
+        {"success": True, "streets": list(streets.values("id", "street"))},
+        safe=False
+    )

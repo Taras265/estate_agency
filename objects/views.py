@@ -6,7 +6,6 @@ from urllib.parse import urlencode
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
-
 from django.db.models import Q
 from django.http import FileResponse, JsonResponse
 from django.urls import reverse_lazy
@@ -32,9 +31,7 @@ from .utils import (
     get_sale_contract_list_context,
     real_estate_form_filter
 )
-from utils.mixins.mixins import (
-    CustomLoginRequiredMixin,
-)
+from utils.mixins.mixins import CustomLoginRequiredMixin
 from utils.showing_act_pdf_service import generate_showing_act_pdf
 from utils.views import HistoryView
 
@@ -92,8 +89,7 @@ from .services import (
     user_can_view_house_list_history,
     user_can_view_land_list_history,
     user_can_view_real_estate_list,
-    user_can_view_report,
-    user_can_view_office_report
+    user_can_view_report
 )
 
 
