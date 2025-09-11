@@ -827,7 +827,7 @@ msgstr "Новый"
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:125
 #: .\objects\forms.py:349 .\objects\models.py:197
 msgid "In selection"
-msgstr "В выборке"
+msgstr "В подборе"
 
 #: .\handbooks\templates\handbooks\client_list.html:135
 #: .\handbooks\templates\handbooks\list.html:109
@@ -837,7 +837,7 @@ msgstr "В выборке"
 #: .\objects\templates\objects\selection_list.html:16
 #: .\objects\templates\objects\selection_list.html:93
 msgid "Selection"
-msgstr "В выборке"
+msgstr "Подбор"
 
 #: .\handbooks\templates\handbooks\client_list.html:140
 #: .\handbooks\templates\handbooks\office_client_list.html:189
@@ -846,7 +846,7 @@ msgstr "В выборке"
 #: .\objects\templates\objects\selection_history_list.html:9
 #: .\objects\templates\objects\selection_history_list.html:13
 msgid "Selection history"
-msgstr "История выборки"
+msgstr "История подоба"
 
 #: .\handbooks\templates\handbooks\district_list.html:70
 #: .\handbooks\templates\handbooks\locality_list.html:71
@@ -1519,11 +1519,11 @@ msgstr "Форма редактирования"
 
 #: .\objects\templates\objects\selection_history_list.html:23
 msgid "selection"
-msgstr "Выборка"
+msgstr "подбор"
 
 #: .\objects\templates\objects\selection_list.html:12
 msgid "Selection for"
-msgstr "Выборка для"
+msgstr "Подбор для"
 
 #: .\objects\templates\objects\selection_list.html:94
 msgid "PDF"
@@ -1590,7 +1590,7 @@ msgstr "Просмотреть"
 
 #: .\templates\main.html:27
 msgid "Selections list"
-msgstr "Выборка"
+msgstr "Подбор"
 
 #: .\utils\showing_act_pdf_service.py:38
 msgid "SHOWING ACT"
