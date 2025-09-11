@@ -46,6 +46,8 @@ class BaseRealEstateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             self.fields["realtor"].initial = user
+            self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
+
 
         if self.data.get("realtor"):
             self.fields["filial"].queryset = CustomUser.objects.get(id=self.data.get("realtor")).filials.all()
