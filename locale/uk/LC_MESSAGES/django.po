@@ -709,7 +709,7 @@ msgstr "Статус"
 
 #: .\handbooks\forms.py:186 .\handbooks\forms.py:362
 msgid "Rooms number"
-msgstr "Кількість номерів"
+msgstr "Кількість кімнат"
 
 #: .\handbooks\forms.py:209 .\handbooks\forms.py:385 .\objects\choices.py:12
 #: .\objects\choices.py:43 .\objects\choices.py:48 .\objects\models.py:60
@@ -720,11 +720,11 @@ msgstr "Будинок"
 
 #: .\handbooks\forms.py:214 .\handbooks\forms.py:390
 msgid "Min floor"
-msgstr "Мінімальний етаж"
+msgstr "Мінімальний поверх"
 
 #: .\handbooks\forms.py:219 .\handbooks\forms.py:395
 msgid "Max floor"
-msgstr "Максимальний етаж"
+msgstr "Максимальний поверх"
 
 #: .\handbooks\forms.py:224 .\handbooks\forms.py:400
 msgid "Not first"
@@ -828,7 +828,7 @@ msgstr "Новий"
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:125
 #: .\objects\forms.py:349 .\objects\models.py:197
 msgid "In selection"
-msgstr "У виборці"
+msgstr "У підборі"
 
 #: .\handbooks\templates\handbooks\client_list.html:135
 #: .\handbooks\templates\handbooks\list.html:109
@@ -838,7 +838,7 @@ msgstr "У виборці"
 #: .\objects\templates\objects\selection_list.html:16
 #: .\objects\templates\objects\selection_list.html:93
 msgid "Selection"
-msgstr "Виборка"
+msgstr "Підбір"
 
 #: .\handbooks\templates\handbooks\client_list.html:140
 #: .\handbooks\templates\handbooks\office_client_list.html:189
@@ -847,7 +847,7 @@ msgstr "Виборка"
 #: .\objects\templates\objects\selection_history_list.html:9
 #: .\objects\templates\objects\selection_history_list.html:13
 msgid "Selection history"
-msgstr "Історія виборки"
+msgstr "Історія підбору"
 
 #: .\handbooks\templates\handbooks\district_list.html:70
 #: .\handbooks\templates\handbooks\locality_list.html:71
@@ -1520,11 +1520,11 @@ msgstr "Форма редагування"
 
 #: .\objects\templates\objects\selection_history_list.html:23
 msgid "selection"
-msgstr "виборка"
+msgstr "підбір"
 
 #: .\objects\templates\objects\selection_list.html:12
 msgid "Selection for"
-msgstr "Виборка для"
+msgstr "Підбір для"
 
 #: .\objects\templates\objects\selection_list.html:94
 msgid "PDF"
@@ -1591,7 +1591,7 @@ msgstr "Переглянути"
 
 #: .\templates\main.html:27
 msgid "Selections list"
-msgstr "Виборка"
+msgstr "Підбір"
 
 #: .\utils\showing_act_pdf_service.py:38
 msgid "SHOWING ACT"
