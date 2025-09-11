@@ -118,6 +118,8 @@ class ApartmentForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "apartment": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -188,6 +190,8 @@ class CommerceForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "premises": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -253,6 +257,8 @@ class HouseForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "housing": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -315,6 +321,8 @@ class LandForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "housing": forms.TextInput(attrs={"class": "form-control"}),
             "useful_square": forms.TextInput(attrs={"class": "form-control"}),
