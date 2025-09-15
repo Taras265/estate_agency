@@ -61,35 +61,56 @@ ownerSelect.addEventListener("change", async e => {
     setOwnerEditFormUrl(e.target.value);
 });
 
-    realtorSelect.addEventListener("change", async function() {
-        const realtorId = this.value;
-        const url = "http://127.0.0.1:8000/ru/handbooks/load_filials/?realtor=" + realtorId;
+localitySelect.addEventListener("change", async e => {
+    /* Фільтрує список вулиць в залежності від обраного міста */
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
+    const localityId = e.currentTarget.value;
+    const url = `${dataset.mainUrl}handbooks/load_streets/?locality=${localityId}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
             console.log(data)
+            if (data.success === true) {
+                $(streetSelect).empty();
+                $("#id_street").selectpicker('destroy');
+                $("#id_street").selectpicker();
 
-            // очищаємо селект повністю
-            console.log(filialSelect.innerHTML)
-            $(filialSelect).empty();
-            $("#id_filial").selectpicker('destroy');
-            $("#id_filial").selectpicker();
+                streetSelect.appendChild(new Option("---------", ""));
+                data.streets.forEach(street => {
+                    streetSelect.appendChild(new Option(street.street, street.id))
+                });
+                $("#id_street").selectpicker("refresh");
+            }
+        })
+})
 
-            filialSelect.appendChild(new Option("---------", ""));
-            data.forEach(filial => {
-                const option = document.createElement("option");
-                option.value = filial.id;
-                option.textContent = filial.filial_agency;
-                filialSelect.appendChild(option);
-            });
-            $("#id_filial").selectpicker('destroy');
-            $("#id_filial").selectpicker();
+realtorSelect.addEventListener("change", async function () {
+    /* Фільтрує список філіалів в залежності від обраного ріелтора */
 
-        } catch (error) {
-            console.error("Помилка завантаження:", error);
-        }
-    });
+    const realtorId = this.value;
+    const url = "/ru/handbooks/load_filials/?realtor=" + realtorId;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data)
+
+        // очищаємо селект повністю
+        $(filialSelect).empty();
+        $("#id_filial").selectpicker('destroy');
+        $("#id_filial").selectpicker();
+
+        filialSelect.appendChild(new Option("---------", ""));
+        data.forEach(filial => {
+            filialSelect.appendChild(new Option(filial.filial_agency, filial.id));
+        });
+        $("#id_filial").selectpicker('destroy');
+        $("#id_filial").selectpicker();
+
+    } catch (error) {
+        console.error("Помилка завантаження:", error);
+    }
+});
 
 btnFillAddress.addEventListener("click", async e => {
     fillApartmentAddress();

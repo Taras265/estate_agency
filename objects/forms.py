@@ -48,9 +48,8 @@ class BaseRealEstateForm(forms.ModelForm):
             self.fields["realtor"].initial = user
             self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
 
-
-        if self.data.get("realtor"):
-            self.fields["filial"].queryset = CustomUser.objects.get(id=self.data.get("realtor")).filials.all()
+        if (realtor_id := self.data.get("realtor")):
+            self.fields["filial"].queryset = CustomUser.objects.get(id=realtor_id).filials.all()
         elif hasattr(self.instance, "realtor"):
             self.fields["filial"].queryset = self.instance.realtor.filials.all()
 
@@ -64,7 +63,7 @@ class BaseRealEstateForm(forms.ModelForm):
         filial = cleaned_data.get("filial")
 
         if not filial in realtor.filials.all():
-            self.add_error("filial", "Realtor dont have this filial")
+            self.add_error("filial", "Realtor doesn't have filial " + filial)
             return False
         return True
 
@@ -119,6 +118,8 @@ class ApartmentForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "apartment": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -189,6 +190,8 @@ class CommerceForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "premises": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -254,6 +257,8 @@ class HouseForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "housing": forms.TextInput(attrs={"class": "form-control"}),
             "square": forms.TextInput(attrs={"class": "form-control"}),
@@ -316,6 +321,8 @@ class LandForm(BaseRealEstateForm):
         widgets = {
             "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
             "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "locality": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "housing": forms.TextInput(attrs={"class": "form-control"}),
             "useful_square": forms.TextInput(attrs={"class": "form-control"}),
