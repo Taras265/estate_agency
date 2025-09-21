@@ -203,19 +203,25 @@ class ClientForm(forms.ModelForm):
         queryset=Locality.objects.filter(on_delete=False),
         label=_("Locality"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control", "data-live-search": "true"}
+        ),
     )
     locality_district = forms.ModelMultipleChoiceField(
         queryset=LocalityDistrict.objects.filter(on_delete=False),
         label=_("Locality district"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control", "data-live-search": "true"}
+        ),
     )
     street = forms.ModelMultipleChoiceField(
         queryset=Street.objects.filter(on_delete=False),
         label=_("Street"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(
+            attrs={"class": "form-control", "data-live-search": "true"}
+        ),
     )
     house = forms.CharField(
         label=_("House"),
