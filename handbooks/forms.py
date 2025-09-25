@@ -276,6 +276,18 @@ class ClientForm(forms.ModelForm):
         if user:
             self.fields["realtor"].initial = user
 
+        if self.instance and self.instance.pk and self.instance.locality.exists():
+            self.fields["locality_district"].queryset = LocalityDistrict.objects.filter(
+                locality__in=self.instance.locality.all()
+            )
+            self.fields["street"].queryset = Street.objects.filter(
+                locality_district__in=self.fields["locality_district"].queryset
+            )
+        if self.instance and self.instance.pk and self.instance.locality_district.exists():
+            self.fields["street"].queryset = Street.objects.filter(
+                locality_district__in=self.instance.locality_district.all()
+            )
+
     class Meta:
         model = Client
         exclude = ("date_of_add", "on_delete")
@@ -391,19 +403,19 @@ class SelectionForm(forms.Form):
         queryset=Locality.objects.filter(on_delete=False),
         label=_("Locality"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(attrs={"class": "form-control", "data-live-search": "true"}),
     )
     locality_district = forms.ModelMultipleChoiceField(
         queryset=LocalityDistrict.objects.filter(on_delete=False),
         label=_("Locality district"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(attrs={"class": "form-control", "data-live-search": "true"}),
     )
     street = forms.ModelMultipleChoiceField(
         queryset=Street.objects.filter(on_delete=False),
         label=_("Street"),
         required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
+        widget=forms.SelectMultiple(attrs={"class": "form-control", "data-live-search": "true"}),
     )
     house = forms.CharField(
         label=_("House"),
@@ -452,6 +464,32 @@ class SelectionForm(forms.Form):
         label=_("Real estate type"),
         widget=forms.Select(attrs={"class": "form-control"}),
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if "locality" in self.data:
+            locality_ids = self.data.get("locality")
+            self.fields["locality_district"].queryset = LocalityDistrict.objects.filter(
+                locality_id__in=locality_ids
+            )
+        elif "locality" in self.initial:
+            locality_ids = self.initial.get("locality", [])
+            self.fields["locality_district"].queryset = LocalityDistrict.objects.filter(
+                locality_id__in=locality_ids
+            )
+
+            # ----- для улиц -----
+        if "locality_district" in self.data:
+            district_ids = self.data.get("locality_district")
+            self.fields["street"].queryset = Street.objects.filter(
+                locality_district_id__in=district_ids
+            )
+        elif "locality_district" in self.initial:
+            district_ids = self.initial.get("locality_district", [])
+            self.fields["street"].queryset = Street.objects.filter(
+                locality_district_id__in=district_ids
+            )
 
 
 class IdSearchForm(forms.Form):
