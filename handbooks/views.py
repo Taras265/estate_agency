@@ -1833,30 +1833,81 @@ def load_filials(request, lang):
 
 
 @require_GET
-def load_streets(request, lang):
+def load_locality_districts(request, lang):
     """
-    Повертає список вулиць (id, street).
-    Якщо вказано query параметр locality, то буде повернуто
-    список вулиць для міста з id=locality.
+    Повертає список районів міст (поля id, district).
+    Якщо вказано query параметр locality (можна вказати декілька locality),
+    то буде повернуто список районів для міста з id=locality.
     Query параметри:
-    - locality: int > 0
+    - locality: list[int]
     """
+    # валідація query параметрів
     int_field = IntegerField(
         required=False,
         min_value=1,
         error_messages={"invalid": "Enter a positive integer."}
     )
+
+    localities = request.GET.getlist("locality")
     try:
-        locality_id = int_field.clean(request.GET.get("locality"))
+        locality_ids = list(map(int_field.clean, localities))
     except:
         return JsonResponse(
-            {"success": False, "errors": int_field.error_messages}
+            {"success": False, "districts": [], "errors": int_field.error_messages}
         )
+
+    locality_districts = LocalityDistrict.objects.filter(on_delete=False)
+    if locality_ids:
+        locality_districts = locality_districts.filter(locality__in=locality_ids)
+    
+    return JsonResponse(
+        {
+            "success": True,
+            "districts": list(locality_districts.values("id", "district")),
+            "errors": []
+        },
+        safe=False
+    )
+
+
+@require_GET
+def load_streets(request, lang):
+    """
+    Повертає список вулиць (поля id, street).
+    Якщо вказано query параметр locality_district (можна вказати
+    декілька locality_district), то буде повернуто список вулиць для району
+    міста з id=locality_district.
+    Якщо query параметр locality_district не вказано, проте вказано 
+    query параметр locality (можна вказати декілька locality),
+    то буде повернуто список вулиць для міста з id=locality.
+    Query параметри:
+    - locality: list[int]
+    - locality_district: list[int]
+    """
+    # валідація query параметрів
+    int_field = IntegerField(
+        required=False,
+        min_value=1,
+        error_messages={"invalid": "Enter a positive integer."}
+    )
+
+    locality_districts = request.GET.getlist("locality_district")
+    localities = request.GET.getlist("locality")
+    try:
+        locality_district_ids = list(map(int_field.clean, locality_districts))
+        locality_ids = list(map(int_field.clean, localities))
+    except:
+        return JsonResponse(
+            {"success": False, "streets": [], "errors": int_field.error_messages}
+        )
+
     streets = Street.objects.filter(on_delete=False)
-    if locality_id:
-        streets = streets.filter(locality=locality_id)
+    if locality_district_ids:
+        streets = streets.filter(locality_district__in=locality_district_ids)
+    elif locality_ids:
+        streets = streets.filter(locality__in=locality_ids)
 
     return JsonResponse(
-        {"success": True, "streets": list(streets.values("id", "street"))},
+        {"success": True, "streets": list(streets.values("id", "street")), "errors": []},
         safe=False
     )

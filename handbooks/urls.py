@@ -490,6 +490,7 @@ urlpatterns = [
         name="filialreport_history",
     ),
     path("load_filials/", views.load_filials, name="load_filials"),
+    path("load_locality_districts/", views.load_locality_districts, name="load_locality_districts"),
     path("load_streets/", views.load_streets, name="load_streets"),
 ]
 """
