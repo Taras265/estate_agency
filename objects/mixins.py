@@ -80,10 +80,6 @@ class SaleListContextMixin(ContextMixin):
         context.update({
             "lang": self.kwargs["lang"],
             "form": self.form_class(self.request.GET),
-            "can_view_client": has_any_perm_from_list(
-                user, "handbooks.view_client", "handbooks.view_own_client",
-                "handbooks.view_filial_client"
-            ),
             "can_view_real_estate": user_can_view_real_estate_list(user),
             "can_view_report": user_can_view_report(user),
             "can_view_contract": user.has_perm("objects.view_contract"),

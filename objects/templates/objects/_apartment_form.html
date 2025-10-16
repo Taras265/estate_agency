@@ -68,13 +68,13 @@
                 <label></label>
             </div>
         </div>
+        <div class="col"  style="margin-top: -20px;">
+            {{ form.agency.label_tag }} {{ form.agency }}
+        {{ form.agency.errors }}
+        </div>
     </div>
     {% endif %}
     <div class="row mb-5">
-        <div class="col">
-            {{ form.agency.label_tag }} {{ form.agency }}
-        </div>
-        {{ form.agency.errors }}
         <div class="col">
             {{ form.filial.label_tag }} {{ form.filial }}
             {{ form.filial.errors }}

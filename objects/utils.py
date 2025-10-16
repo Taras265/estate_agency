@@ -42,12 +42,6 @@ def get_sale_report_list_context(lang: str, user: CustomUser, form) -> dict[str,
     context = {
         "lang": lang,
         "form": form,
-        "can_view_client": has_any_perm_from_list(
-            user,
-            "handbooks.view_client",
-            "handbooks.view_own_client",
-            "handbooks.view_filial_client",
-        ),
         "can_view_real_estate": user_can_view_real_estate_list(user),
         "can_view_contract": has_any_perm_from_list(
             user,
