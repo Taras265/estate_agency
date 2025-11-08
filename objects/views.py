@@ -2108,7 +2108,6 @@ class LandCreateView(
         return context
 
     def form_valid(self, form):
-
         _, is_saved = real_estate_form_save(
             form,
             RealEstateImageFormSet,
