@@ -49,7 +49,10 @@ class BaseRealEstateForm(forms.ModelForm):
             self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
 
         if (realtor_id := self.data.get("realtor")):
-            self.fields["filial"].queryset = CustomUser.objects.get(id=realtor_id).filials.all()
+            if isinstance(realtor_id, CustomUser):
+                self.fields["filial"].queryset = realtor_id.filials.all()
+            else:
+                self.fields["filial"].queryset = CustomUser.objects.get(id=realtor_id).filials.all()
         elif hasattr(self.instance, "realtor"):
             self.fields["filial"].queryset = self.instance.realtor.filials.all()
 
@@ -157,6 +160,7 @@ class CommerceForm(BaseRealEstateForm):
             "house",
             "premises",
             "agency",
+            "filial",
             "square",
             "useful_square",
             "kitchen_square",
@@ -225,6 +229,7 @@ class HouseForm(BaseRealEstateForm):
             "house",
             "housing",
             "agency",
+            "filial",
             "square",
             "useful_square",
             "kitchen_square",
@@ -295,6 +300,7 @@ class LandForm(BaseRealEstateForm):
                 "condition",
                 "material",
                 "agency",
+                "filial",
                 "house_type",
                 "layout",
                 "stair",
