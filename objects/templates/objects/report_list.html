@@ -79,6 +79,14 @@
                     {% translate "Reports" %}
                 </a>
             </li>
+            {% if can_view_my_filial %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:my_filial' lang=lang %}">
+                        {% translate "My Filial" %}
+                    </a>
+                </li>
+            {% endif %}
         </ul>
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">

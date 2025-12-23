@@ -99,6 +99,28 @@ urlpatterns = [
         views.SelectionHistoryView.as_view(),
         name="selection_history",
     ),
+
+    path("sale/my_filial/", views.MyFilialListView.as_view(), name="my_filial"),
+    path("sale/my_filial/clients/<int:realtor_id>/",
+         views.FilialRealtorsClientsListView.as_view(),
+         name="my_filial_realtor_clients"
+    ),
+    path("sale/my_filial/apartments/<int:realtor_id>/",
+         views.FilialRealtorsApartmentListView.as_view(),
+         name="my_filial_realtor_apartments"
+    ),
+    path("sale/my_filial/commerces/<int:realtor_id>/",
+         views.FilialRealtorsCommerceListView.as_view(),
+         name="my_filial_realtor_commerces"
+    ),
+    path("sale/my_filial/houses/<int:realtor_id>/",
+         views.FilialRealtorsHouseListView.as_view(),
+         name="my_filial_realtor_houses"
+    ),
+    path("sale/my_filial/lands/<int:realtor_id>/",
+         views.FilialRealtorsLandListView.as_view(),
+         name="my_filial_realtor_lands"
+    ),
 ]
 
 """

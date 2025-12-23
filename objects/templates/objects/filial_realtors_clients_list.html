@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load handbooks %}
+{% load objects_tags %}
+{% load i18n %}
+
+{% block title %}{% translate "My Filial" %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid page_heading_banner">
+  <div class="banner_caption">
+    <h1>{{ realtor.first_name }} {% translate 'clients' %}</h1>
+    <ul>
+      <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
+        <li><a href="{% url 'objects:my_filial' lang=lang %}">{% translate 'My filial' %}</a></li>
+      <li> / {% translate 'Clients' %}</li>
+    </ul>
+  </div>
+</div>
+<!-- Properties Search -->
+<div class="container">
+    <div class="property_search propertylist_search_section">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% if can_view_client %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'handbooks:all_client_list' lang=lang %}">
+                        {% translate "Clients" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if can_view_real_estate %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
+                        {% translate "Real estate" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if can_view_report %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                    href="{% url 'objects:new_apartment_reports' lang=lang %}">
+                    {% translate "Reports" %}
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active"
+                    href="{% url 'objects:my_filial' lang=lang %}">
+                    {% translate "My filial" %}
+                </a>
+            </li>
+        </ul>
+
+        <div class="row">
+            <div class="responsive-tabs" data-type="horizontal">
+                <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+                    {% if page_obj %}
+                    <div>
+                        <div class="offset-top-66 text-center">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">{% translate 'Id' %}</th>
+                                    <th scope="col">{% translate 'Email' %}</th>
+                                    <th scope="col">{% translate 'First name' %}</th>
+                                    <th scope="col">{% translate 'Real estate type' %}</th>
+                                    <th scope="col">{% translate 'Phone number' %}</th>
+                                    <th scope="col">{% translate 'Status' %}</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in object_list %}
+                                <tr>
+                                    <td></td>
+                                    <td>{{object.id}}</td>
+                                    <td>{{object.email}}</td>
+                                    <td>{{object.first_name}}</td>
+                                    <td>{{object.get_object_type_display}}</td>
+                                    <td>{{object.phone}}</td>
+                                    <td>{{object.get_status_display}}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection' lang=lang client_id=object.id %}"
+                                           type="button" style="max-width: 120px">
+                                            {% translate 'Selection' %}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                           href="{% url 'objects:selection_history' lang=lang pk=object.id %}"
+                                           type="button" style="max-width: 120px">
+                                            {% translate 'Selection history' %}
+                                        </a>
+                                    </td>
+                                    {% if can_update_clients and can_update_clients|get_dict_value:object.id %}
+                                        <td>
+                                            <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                               href="{% url 'handbooks:client_update' lang=lang pk=object.id %}"
+                                               type="button" style="max-width: 120px">
+                                                {% translate 'Update' %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
+                                               href="{% url 'handbooks:client_delete' lang=lang pk=object.id %}"
+                                               type="button" style="max-width: 120px">
+                                                {% translate 'Delete' %}
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                        <td></td>
+                                    {% endif %}
+                                    {% if can_view_client_history %}
+                                        <td>
+                                            <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                               href="{% url 'handbooks:client_history' lang=lang pk=object.id %}"
+                                               type="button" style="max-width: 120px">
+                                                {% translate 'History' %}
+                                            </a>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
+                <div class="btn-group" role="group">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            {% translate 'Previous' %}
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-primary btn-warning element-fullwidth"
+                       href="?page={{ page_obj.number }}">
+                        {{ page_obj.number }}
+                    </a>
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary btn-warning element-fullwidth"
+                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            {% translate 'Next' %}
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
