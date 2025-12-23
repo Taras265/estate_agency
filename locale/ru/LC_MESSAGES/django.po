@@ -5,10 +5,9 @@
 #
 #, fuzzy
 msgid ""
-msgstr "Данный документ сдается директору филиала (после проведения сделки)"
-"Project-Id-Version: PACKAGE VERSION\n"
+msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-18 12:05+0300\n"
+"POT-Creation-Date: 2025-12-23 15:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +15,27 @@ msgstr "Данный документ сдается директору фили
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Данный документ сдается директору филиала (после проведения сделки)Project-"
+"Id-Version: PACKAGE VERSION\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
 #: .\accounts\forms.py:11 .\accounts\forms.py:49 .\accounts\forms.py:79
 #: .\accounts\models.py:48
 #: .\accounts\templates\accounts\office_user_list.html:105
 #: .\accounts\templates\accounts\profile.html:109
 #: .\accounts\templates\accounts\user_list.html:50 .\handbooks\forms.py:146
-#: .\handbooks\forms.py:286
-#: .\handbooks\templates\handbooks\client_list.html:110
+#: .\handbooks\forms.py:322
+#: .\handbooks\templates\handbooks\client_list.html:123
 #: .\handbooks\templates\handbooks\office_client_list.html:159
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:158
 #: .\objects\templates\objects\details.html:310
 #: .\objects\templates\objects\details.html:330
 #: .\objects\templates\objects\details.html:351
 #: .\objects\templates\objects\details.html:372
+#: .\objects\templates\objects\filial_realtors_clients_list.html:66
+#: .\objects\templates\objects\my_filial_list.html:68
 msgid "Email"
 msgstr "Електронная почта"
 
@@ -62,15 +66,18 @@ msgstr "Електронная почта"
 #: .\accounts\forms.py:55 .\accounts\forms.py:85 .\accounts\models.py:50
 #: .\accounts\templates\accounts\office_user_list.html:104
 #: .\accounts\templates\accounts\user_list.html:49 .\handbooks\forms.py:149
-#: .\handbooks\templates\handbooks\client_list.html:111
+#: .\handbooks\templates\handbooks\client_list.html:124
 #: .\handbooks\templates\handbooks\office_client_list.html:160
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:159
+#: .\objects\templates\objects\filial_realtors_clients_list.html:67
+#: .\objects\templates\objects\my_filial_list.html:67
 msgid "First name"
 msgstr "Имя"
 
 #: .\accounts\forms.py:58 .\accounts\forms.py:88 .\accounts\models.py:53
 #: .\accounts\templates\accounts\office_user_list.html:103
 #: .\accounts\templates\accounts\user_list.html:48 .\handbooks\forms.py:152
+#: .\objects\templates\objects\my_filial_list.html:66
 msgid "Last name"
 msgstr "Фамилия"
 
@@ -136,6 +143,9 @@ msgstr "Группы"
 #: .\objects\templates\objects\changes_report_list.html:13
 #: .\objects\templates\objects\contract_list.html:13
 #: .\objects\templates\objects\details.html:12
+#: .\objects\templates\objects\filial_realtors_clients_list.html:13
+#: .\objects\templates\objects\filial_realtors_list.html:13
+#: .\objects\templates\objects\my_filial_list.html:13
 #: .\objects\templates\objects\office_changes_report_list.html:13
 #: .\objects\templates\objects\office_filial_real_estate_list.html:14
 #: .\objects\templates\objects\office_real_estate_list.html:14
@@ -167,6 +177,7 @@ msgstr "Главная"
 #: .\handbooks\templates\handbooks\street_list.html:36
 #: .\objects\templates\objects\catalog.html:30
 #: .\objects\templates\objects\changes_report_list.html:36
+#: .\objects\templates\objects\filial_realtors_list.html:37
 #: .\objects\templates\objects\office_filial_real_estate_list.html:104
 #: .\objects\templates\objects\office_real_estate_list.html:102
 #: .\objects\templates\objects\office_report_list.html:51
@@ -176,180 +187,7 @@ msgstr "Главная"
 msgid "Search"
 msgstr "Поиск"
 
-#: .\accounts\templates\accounts\group_list.html:69
-#: .\handbooks\templates\handbooks\district_list.html:69
-#: .\handbooks\templates\handbooks\filial_list.html:69
-#: .\handbooks\templates\handbooks\filialreport_list.html:69
-#: .\handbooks\templates\handbooks\handbook_list.html:69
-#: .\handbooks\templates\handbooks\locality_list.html:69
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:69
-#: .\handbooks\templates\handbooks\region_list.html:69
-#: .\handbooks\templates\handbooks\street_list.html:69
-#: .\objects\templates\objects\catalog.html:59
-#: .\objects\templates\objects\selection_list.html:74
-#: .\objects\templates\objects\showing_act.html:78
-msgid "id"
-msgstr "Идентификатор"
-
-#: .\accounts\templates\accounts\group_list.html:70
-msgid "name"
-msgstr "Фамилия"
-
-#: .\accounts\templates\accounts\group_list.html:88
-#: .\accounts\templates\accounts\office_user_list.html:132
-#: .\accounts\templates\accounts\user_list.html:77
-#: .\handbooks\templates\handbooks\client_list.html:146
-#: .\handbooks\templates\handbooks\district_list.html:90
-#: .\handbooks\templates\handbooks\filial_list.html:88
-#: .\handbooks\templates\handbooks\filialreport_list.html:92
-#: .\handbooks\templates\handbooks\handbook_list.html:90
-#: .\handbooks\templates\handbooks\list.html:116
-#: .\handbooks\templates\handbooks\locality_list.html:94
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:98
-#: .\handbooks\templates\handbooks\office_client_list.html:195
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:194
-#: .\handbooks\templates\handbooks\region_list.html:88
-#: .\handbooks\templates\handbooks\street_list.html:90
-#: .\objects\templates\objects\office_filial_real_estate_list.html:173
-#: .\objects\templates\objects\office_real_estate_list.html:172
-#: .\objects\templates\objects\real_estate_list.html:155
-msgid "Update"
-msgstr "Обновить"
-
-#: .\accounts\templates\accounts\group_list.html:92
-#: .\accounts\templates\accounts\office_user_list.html:139
-#: .\accounts\templates\accounts\user_list.html:84
-#: .\handbooks\templates\handbooks\client_list.html:151
-#: .\handbooks\templates\handbooks\district_list.html:94
-#: .\handbooks\templates\handbooks\filial_list.html:92
-#: .\handbooks\templates\handbooks\filialreport_list.html:96
-#: .\handbooks\templates\handbooks\handbook_list.html:94
-#: .\handbooks\templates\handbooks\list.html:120
-#: .\handbooks\templates\handbooks\locality_list.html:98
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:102
-#: .\handbooks\templates\handbooks\office_client_list.html:200
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:199
-#: .\handbooks\templates\handbooks\region_list.html:92
-#: .\handbooks\templates\handbooks\street_list.html:94
-#: .\images\templates\images\list.html:21
-#: .\objects\templates\objects\office_filial_real_estate_list.html:180
-#: .\objects\templates\objects\office_real_estate_list.html:179
-#: .\objects\templates\objects\real_estate_list.html:162
-#: .\templates\delete_form.html:25
-msgid "Delete"
-msgstr "Удалить"
-
-#: .\accounts\templates\accounts\group_list.html:99
-#: .\accounts\templates\accounts\office_user_list.html:151
-#: .\accounts\templates\accounts\user_list.html:96
-#: .\handbooks\templates\handbooks\client_list.html:159
-#: .\handbooks\templates\handbooks\district_list.html:101
-#: .\handbooks\templates\handbooks\filial_list.html:99
-#: .\handbooks\templates\handbooks\filialreport_list.html:103
-#: .\handbooks\templates\handbooks\handbook_list.html:101
-#: .\handbooks\templates\handbooks\history_list.html:5
-#: .\handbooks\templates\handbooks\history_list.html:15
-#: .\handbooks\templates\handbooks\list.html:127
-#: .\handbooks\templates\handbooks\locality_list.html:105
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:109
-#: .\handbooks\templates\handbooks\office_client_list.html:208
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:207
-#: .\handbooks\templates\handbooks\region_list.html:99
-#: .\handbooks\templates\handbooks\street_list.html:101
-#: .\objects\templates\objects\office_filial_real_estate_list.html:192
-#: .\objects\templates\objects\office_real_estate_list.html:191
-#: .\objects\templates\objects\real_estate_list.html:175
-msgid "History"
-msgstr "История"
-
-#: .\accounts\templates\accounts\group_list.html:111
-#: .\accounts\templates\accounts\office_user_list.html:170
-#: .\accounts\templates\accounts\user_list.html:115
-#: .\handbooks\templates\handbooks\client_list.html:170
-#: .\handbooks\templates\handbooks\district_list.html:113
-#: .\handbooks\templates\handbooks\filial_list.html:111
-#: .\handbooks\templates\handbooks\filialreport_list.html:115
-#: .\handbooks\templates\handbooks\handbook_list.html:113
-#: .\handbooks\templates\handbooks\list.html:139
-#: .\handbooks\templates\handbooks\locality_list.html:117
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:121
-#: .\handbooks\templates\handbooks\office_client_list.html:219
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:218
-#: .\handbooks\templates\handbooks\region_list.html:111
-#: .\handbooks\templates\handbooks\street_list.html:113
-#: .\objects\templates\objects\office_filial_real_estate_list.html:225
-#: .\objects\templates\objects\office_real_estate_list.html:224
-#: .\objects\templates\objects\real_estate_list.html:209
-msgid "Create"
-msgstr "Добавить"
-
-#: .\accounts\templates\accounts\group_list.html:119
-#: .\accounts\templates\accounts\office_user_list.html:180
-#: .\accounts\templates\accounts\user_list.html:125
-#: .\handbooks\templates\handbooks\client_list.html:178
-#: .\handbooks\templates\handbooks\district_list.html:121
-#: .\handbooks\templates\handbooks\filial_list.html:119
-#: .\handbooks\templates\handbooks\filialreport_list.html:123
-#: .\handbooks\templates\handbooks\handbook_list.html:121
-#: .\handbooks\templates\handbooks\list.html:147
-#: .\handbooks\templates\handbooks\locality_list.html:125
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:129
-#: .\handbooks\templates\handbooks\office_client_list.html:227
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:226
-#: .\handbooks\templates\handbooks\region_list.html:119
-#: .\handbooks\templates\handbooks\street_list.html:121
-#: .\objects\templates\objects\changes_report_list.html:182
-#: .\objects\templates\objects\contract_list.html:199
-#: .\objects\templates\objects\office_changes_report_list.html:184
-#: .\objects\templates\objects\office_filial_real_estate_list.html:234
-#: .\objects\templates\objects\office_real_estate_list.html:233
-#: .\objects\templates\objects\office_report_list.html:223
-#: .\objects\templates\objects\real_estate_list.html:218
-#: .\objects\templates\objects\report_list.html:194
-msgid "Previous"
-msgstr "Предыдущая"
-
-#: .\accounts\templates\accounts\group_list.html:125
-#: .\accounts\templates\accounts\office_user_list.html:190
-#: .\accounts\templates\accounts\user_list.html:135
-#: .\handbooks\templates\handbooks\client_list.html:184
-#: .\handbooks\templates\handbooks\district_list.html:127
-#: .\handbooks\templates\handbooks\filial_list.html:125
-#: .\handbooks\templates\handbooks\filialreport_list.html:129
-#: .\handbooks\templates\handbooks\handbook_list.html:127
-#: .\handbooks\templates\handbooks\list.html:153
-#: .\handbooks\templates\handbooks\locality_list.html:131
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:135
-#: .\handbooks\templates\handbooks\office_client_list.html:233
-#: .\handbooks\templates\handbooks\office_filial_client_list.html:232
-#: .\handbooks\templates\handbooks\region_list.html:125
-#: .\handbooks\templates\handbooks\street_list.html:127
-#: .\objects\templates\objects\changes_report_list.html:188
-#: .\objects\templates\objects\contract_list.html:205
-#: .\objects\templates\objects\office_changes_report_list.html:190
-#: .\objects\templates\objects\office_filial_real_estate_list.html:240
-#: .\objects\templates\objects\office_real_estate_list.html:239
-#: .\objects\templates\objects\office_report_list.html:229
-#: .\objects\templates\objects\real_estate_list.html:224
-#: .\objects\templates\objects\report_list.html:200
-msgid "Next"
-msgstr "Следующая"
-
-#: .\accounts\templates\accounts\login.html:4
-#: .\accounts\templates\accounts\login.html:10 .\templates\base.html:82
-msgid "Login"
-msgstr "Войти"
-
-#: .\accounts\templates\accounts\login.html:15
-#: .\accounts\templates\accounts\user_form.html:62
-#: .\handbooks\templates\handbooks\client_form.html:183
-#: .\objects\templates\objects\real_estate_create_form.html:56
-#: .\objects\templates\objects\real_estate_details_form.html:38
-#: .\objects\templates\objects\real_estate_update_form.html:38
-#: .\templates\form.html:29
-msgid "Submit"
-msgstr "Сохранить"
-
+#: .\accounts\templates\accounts\group_list.html:52
 #: .\accounts\templates\accounts\office_user_list.html:9
 #: .\accounts\templates\accounts\office_user_list.html:12
 #: .\accounts\templates\accounts\office_user_list.html:62
@@ -367,6 +205,197 @@ msgstr "Сохранить"
 #: .\templates\main.html:55
 msgid "Users"
 msgstr "Пользователи"
+
+#: .\accounts\templates\accounts\group_list.html:59
+#: .\accounts\templates\accounts\user_list.html:31
+msgid "Groups"
+msgstr "Группы"
+
+#: .\accounts\templates\accounts\group_list.html:74
+#: .\handbooks\templates\handbooks\district_list.html:211
+#: .\handbooks\templates\handbooks\filial_list.html:211
+#: .\handbooks\templates\handbooks\filialreport_list.html:211
+#: .\handbooks\templates\handbooks\handbook_list.html:223
+#: .\handbooks\templates\handbooks\locality_list.html:211
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:211
+#: .\handbooks\templates\handbooks\region_list.html:211
+#: .\handbooks\templates\handbooks\street_list.html:211
+#: .\objects\templates\objects\catalog.html:59
+#: .\objects\templates\objects\selection_list.html:74
+#: .\objects\templates\objects\showing_act.html:78
+msgid "id"
+msgstr "Идентификатор"
+
+#: .\accounts\templates\accounts\group_list.html:75
+msgid "name"
+msgstr "Фамилия"
+
+#: .\accounts\templates\accounts\group_list.html:94
+#: .\accounts\templates\accounts\office_user_list.html:132
+#: .\accounts\templates\accounts\user_list.html:77
+#: .\handbooks\templates\handbooks\client_list.html:164
+#: .\handbooks\templates\handbooks\district_list.html:233
+#: .\handbooks\templates\handbooks\filial_list.html:231
+#: .\handbooks\templates\handbooks\filialreport_list.html:235
+#: .\handbooks\templates\handbooks\handbook_list.html:245
+#: .\handbooks\templates\handbooks\list.html:116
+#: .\handbooks\templates\handbooks\locality_list.html:237
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:241
+#: .\handbooks\templates\handbooks\office_client_list.html:195
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:194
+#: .\handbooks\templates\handbooks\region_list.html:231
+#: .\handbooks\templates\handbooks\street_list.html:233
+#: .\objects\templates\objects\filial_realtors_clients_list.html:107
+#: .\objects\templates\objects\filial_realtors_list.html:158
+#: .\objects\templates\objects\office_filial_real_estate_list.html:173
+#: .\objects\templates\objects\office_real_estate_list.html:172
+#: .\objects\templates\objects\real_estate_list.html:165
+msgid "Update"
+msgstr "Обновить"
+
+#: .\accounts\templates\accounts\group_list.html:101
+#: .\accounts\templates\accounts\office_user_list.html:139
+#: .\accounts\templates\accounts\user_list.html:84
+#: .\handbooks\templates\handbooks\client_list.html:171
+#: .\handbooks\templates\handbooks\district_list.html:240
+#: .\handbooks\templates\handbooks\filial_list.html:238
+#: .\handbooks\templates\handbooks\filialreport_list.html:242
+#: .\handbooks\templates\handbooks\handbook_list.html:252
+#: .\handbooks\templates\handbooks\list.html:120
+#: .\handbooks\templates\handbooks\locality_list.html:244
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:248
+#: .\handbooks\templates\handbooks\office_client_list.html:200
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:199
+#: .\handbooks\templates\handbooks\region_list.html:238
+#: .\handbooks\templates\handbooks\street_list.html:240
+#: .\images\templates\images\list.html:21
+#: .\objects\templates\objects\filial_realtors_clients_list.html:114
+#: .\objects\templates\objects\filial_realtors_list.html:165
+#: .\objects\templates\objects\office_filial_real_estate_list.html:180
+#: .\objects\templates\objects\office_real_estate_list.html:179
+#: .\objects\templates\objects\real_estate_list.html:172
+#: .\templates\delete_form.html:25
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\accounts\templates\accounts\group_list.html:113
+#: .\accounts\templates\accounts\office_user_list.html:151
+#: .\accounts\templates\accounts\user_list.html:96
+#: .\handbooks\templates\handbooks\client_list.html:183
+#: .\handbooks\templates\handbooks\district_list.html:251
+#: .\handbooks\templates\handbooks\filial_list.html:249
+#: .\handbooks\templates\handbooks\filialreport_list.html:253
+#: .\handbooks\templates\handbooks\handbook_list.html:264
+#: .\handbooks\templates\handbooks\history_list.html:5
+#: .\handbooks\templates\handbooks\history_list.html:15
+#: .\handbooks\templates\handbooks\list.html:127
+#: .\handbooks\templates\handbooks\locality_list.html:255
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:258
+#: .\handbooks\templates\handbooks\office_client_list.html:208
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:207
+#: .\handbooks\templates\handbooks\region_list.html:249
+#: .\handbooks\templates\handbooks\street_list.html:251
+#: .\objects\templates\objects\filial_realtors_clients_list.html:126
+#: .\objects\templates\objects\filial_realtors_list.html:178
+#: .\objects\templates\objects\office_filial_real_estate_list.html:192
+#: .\objects\templates\objects\office_real_estate_list.html:191
+#: .\objects\templates\objects\real_estate_list.html:185
+msgid "History"
+msgstr "История"
+
+#: .\accounts\templates\accounts\group_list.html:131
+#: .\accounts\templates\accounts\office_user_list.html:170
+#: .\accounts\templates\accounts\user_list.html:115
+#: .\handbooks\templates\handbooks\client_list.html:198
+#: .\handbooks\templates\handbooks\district_list.html:266
+#: .\handbooks\templates\handbooks\filial_list.html:264
+#: .\handbooks\templates\handbooks\filialreport_list.html:267
+#: .\handbooks\templates\handbooks\handbook_list.html:280
+#: .\handbooks\templates\handbooks\list.html:139
+#: .\handbooks\templates\handbooks\locality_list.html:270
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:273
+#: .\handbooks\templates\handbooks\office_client_list.html:219
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:218
+#: .\handbooks\templates\handbooks\region_list.html:264
+#: .\handbooks\templates\handbooks\street_list.html:265
+#: .\objects\templates\objects\office_filial_real_estate_list.html:225
+#: .\objects\templates\objects\office_real_estate_list.html:224
+#: .\objects\templates\objects\real_estate_list.html:219
+msgid "Create"
+msgstr "Добавить"
+
+#: .\accounts\templates\accounts\group_list.html:141
+#: .\accounts\templates\accounts\office_user_list.html:180
+#: .\accounts\templates\accounts\user_list.html:125
+#: .\handbooks\templates\handbooks\client_list.html:208
+#: .\handbooks\templates\handbooks\district_list.html:276
+#: .\handbooks\templates\handbooks\filial_list.html:274
+#: .\handbooks\templates\handbooks\filialreport_list.html:276
+#: .\handbooks\templates\handbooks\handbook_list.html:290
+#: .\handbooks\templates\handbooks\list.html:147
+#: .\handbooks\templates\handbooks\locality_list.html:280
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:283
+#: .\handbooks\templates\handbooks\office_client_list.html:227
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:226
+#: .\handbooks\templates\handbooks\region_list.html:274
+#: .\handbooks\templates\handbooks\street_list.html:274
+#: .\objects\templates\objects\changes_report_list.html:182
+#: .\objects\templates\objects\contract_list.html:199
+#: .\objects\templates\objects\filial_realtors_clients_list.html:144
+#: .\objects\templates\objects\filial_realtors_list.html:213
+#: .\objects\templates\objects\my_filial_list.html:119
+#: .\objects\templates\objects\office_changes_report_list.html:184
+#: .\objects\templates\objects\office_filial_real_estate_list.html:234
+#: .\objects\templates\objects\office_real_estate_list.html:233
+#: .\objects\templates\objects\office_report_list.html:223
+#: .\objects\templates\objects\real_estate_list.html:228
+#: .\objects\templates\objects\report_list.html:202
+msgid "Previous"
+msgstr "Предыдущая"
+
+#: .\accounts\templates\accounts\group_list.html:151
+#: .\accounts\templates\accounts\office_user_list.html:190
+#: .\accounts\templates\accounts\user_list.html:135
+#: .\handbooks\templates\handbooks\client_list.html:218
+#: .\handbooks\templates\handbooks\district_list.html:286
+#: .\handbooks\templates\handbooks\filial_list.html:284
+#: .\handbooks\templates\handbooks\filialreport_list.html:286
+#: .\handbooks\templates\handbooks\handbook_list.html:300
+#: .\handbooks\templates\handbooks\list.html:153
+#: .\handbooks\templates\handbooks\locality_list.html:290
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:293
+#: .\handbooks\templates\handbooks\office_client_list.html:233
+#: .\handbooks\templates\handbooks\office_filial_client_list.html:232
+#: .\handbooks\templates\handbooks\region_list.html:284
+#: .\handbooks\templates\handbooks\street_list.html:284
+#: .\objects\templates\objects\changes_report_list.html:188
+#: .\objects\templates\objects\contract_list.html:205
+#: .\objects\templates\objects\filial_realtors_clients_list.html:154
+#: .\objects\templates\objects\filial_realtors_list.html:219
+#: .\objects\templates\objects\my_filial_list.html:129
+#: .\objects\templates\objects\office_changes_report_list.html:190
+#: .\objects\templates\objects\office_filial_real_estate_list.html:240
+#: .\objects\templates\objects\office_real_estate_list.html:239
+#: .\objects\templates\objects\office_report_list.html:229
+#: .\objects\templates\objects\real_estate_list.html:234
+#: .\objects\templates\objects\report_list.html:208
+msgid "Next"
+msgstr "Следующая"
+
+#: .\accounts\templates\accounts\login.html:4
+#: .\accounts\templates\accounts\login.html:10 .\templates\base.html:82
+msgid "Login"
+msgstr "Войти"
+
+#: .\accounts\templates\accounts\login.html:15
+#: .\accounts\templates\accounts\user_form.html:62
+#: .\handbooks\templates\handbooks\client_form.html:199
+#: .\objects\templates\objects\real_estate_create_form.html:56
+#: .\objects\templates\objects\real_estate_details_form.html:38
+#: .\objects\templates\objects\real_estate_update_form.html:38
+#: .\templates\form.html:29
+msgid "Submit"
+msgstr "Сохранить"
 
 #: .\accounts\templates\accounts\office_user_list.html:23
 #: .\accounts\templates\accounts\profile.html:24
@@ -413,7 +442,7 @@ msgid "Filial objects"
 msgstr "Объекты филиала"
 
 #: .\accounts\templates\accounts\office_user_list.html:55
-#: .\accounts\templates\accounts\profile.html:56 .\handbooks\forms.py:342
+#: .\accounts\templates\accounts\profile.html:56 .\handbooks\forms.py:378
 #: .\handbooks\templates\handbooks\office_client_list.html:57
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:57
 #: .\objects\templates\objects\office_changes_report_list.html:60
@@ -441,33 +470,39 @@ msgid "Profile"
 msgstr "Профиль"
 
 #: .\accounts\templates\accounts\office_user_list.html:102
-#: .\accounts\templates\accounts\user_list.html:47 .\handbooks\forms.py:435
-#: .\handbooks\templates\handbooks\client_list.html:109
+#: .\accounts\templates\accounts\user_list.html:47 .\handbooks\forms.py:497
+#: .\handbooks\templates\handbooks\client_list.html:122
 #: .\handbooks\templates\handbooks\office_client_list.html:158
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:157
-#: .\objects\forms.py:337
+#: .\objects\forms.py:376
 #: .\objects\templates\objects\changes_report_list.html:147
 #: .\objects\templates\objects\contract_list.html:172
+#: .\objects\templates\objects\filial_realtors_clients_list.html:65
+#: .\objects\templates\objects\filial_realtors_list.html:121
+#: .\objects\templates\objects\my_filial_list.html:65
 #: .\objects\templates\objects\office_changes_report_list.html:149
 #: .\objects\templates\objects\office_filial_real_estate_list.html:153
 #: .\objects\templates\objects\office_real_estate_list.html:151
 #: .\objects\templates\objects\office_report_list.html:186
-#: .\objects\templates\objects\real_estate_list.html:118
-#: .\objects\templates\objects\report_list.html:157
+#: .\objects\templates\objects\real_estate_list.html:128
+#: .\objects\templates\objects\report_list.html:165
 msgid "Id"
 msgstr "Идентификатор"
 
 #: .\accounts\templates\accounts\office_user_list.html:106
 #: .\accounts\templates\accounts\user_list.html:51
+#: .\objects\templates\objects\my_filial_list.html:69
 msgid "Phone numbers"
 msgstr "Номера телефона"
 
 #: .\accounts\templates\accounts\office_user_list.html:164
 #: .\accounts\templates\accounts\user_list.html:109
 #: .\objects\templates\objects\contract_list.html:191
+#: .\objects\templates\objects\filial_realtors_list.html:205
+#: .\objects\templates\objects\my_filial_list.html:110
 #: .\objects\templates\objects\office_filial_real_estate_list.html:218
 #: .\objects\templates\objects\office_real_estate_list.html:217
-#: .\objects\templates\objects\real_estate_list.html:202
+#: .\objects\templates\objects\real_estate_list.html:212
 msgid "Not found"
 msgstr "Не найдено"
 
@@ -499,10 +534,6 @@ msgstr "Форма пользователя"
 #: .\accounts\templates\accounts\user_form.html:59
 msgid "Add phone number"
 msgstr "Добавить номер телефона"
-
-#: .\accounts\templates\accounts\user_list.html:31
-msgid "Groups"
-msgstr "Группы"
 
 #: .\handbooks\choices.py:6
 msgid "Village"
@@ -560,7 +591,7 @@ msgstr "Баннер"
 msgid "Posting"
 msgstr "Публикации"
 
-#: .\handbooks\choices.py:34 .\handbooks\forms.py:177 .\objects\models.py:66
+#: .\handbooks\choices.py:34 .\handbooks\forms.py:189 .\objects\models.py:66
 msgid "Realtor"
 msgstr "Риелтор"
 
@@ -573,48 +604,73 @@ msgid "In search"
 msgstr "В поиске"
 
 #: .\handbooks\choices.py:40
-#: .\handbooks\templates\handbooks\client_list.html:83
+#: .\handbooks\templates\handbooks\client_list.html:95
 #: .\handbooks\templates\handbooks\office_client_list.html:132
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:131
 msgid "With a show"
 msgstr "С показом"
 
 #: .\handbooks\choices.py:41
-#: .\handbooks\templates\handbooks\client_list.html:89
+#: .\handbooks\templates\handbooks\client_list.html:101
 #: .\handbooks\templates\handbooks\office_client_list.html:138
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:137
 msgid "Decided"
 msgstr "Определившийся"
 
 #: .\handbooks\choices.py:42
-#: .\handbooks\templates\handbooks\client_list.html:95
+#: .\handbooks\templates\handbooks\client_list.html:107
 #: .\handbooks\templates\handbooks\office_client_list.html:144
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:143
 msgid "Deferred demand"
 msgstr "Отложенный спрос"
 
 #: .\handbooks\forms.py:32 .\handbooks\forms.py:46
+#: .\handbooks\templates\handbooks\district_list.html:53
+#: .\handbooks\templates\handbooks\filial_list.html:53
+#: .\handbooks\templates\handbooks\filialreport_list.html:53
+#: .\handbooks\templates\handbooks\handbook_list.html:62
+#: .\handbooks\templates\handbooks\locality_list.html:53
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:53
 #: .\handbooks\templates\handbooks\region_list.html:10
+#: .\handbooks\templates\handbooks\region_list.html:52
+#: .\handbooks\templates\handbooks\street_list.html:53
 msgid "Region"
 msgstr "Область"
 
 #: .\handbooks\forms.py:42 .\handbooks\forms.py:61 .\handbooks\forms.py:83
 #: .\handbooks\templates\handbooks\district_list.html:10
 #: .\handbooks\templates\handbooks\district_list.html:13
+#: .\handbooks\templates\handbooks\district_list.html:60
+#: .\handbooks\templates\handbooks\filial_list.html:61
+#: .\handbooks\templates\handbooks\filialreport_list.html:61
+#: .\handbooks\templates\handbooks\handbook_list.html:70
+#: .\handbooks\templates\handbooks\locality_list.html:61
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:61
+#: .\handbooks\templates\handbooks\region_list.html:59
+#: .\handbooks\templates\handbooks\street_list.html:61
 msgid "District"
 msgstr "Район"
 
 #: .\handbooks\forms.py:57 .\handbooks\forms.py:87 .\handbooks\forms.py:130
-#: .\handbooks\forms.py:192 .\handbooks\forms.py:368
+#: .\handbooks\forms.py:204 .\handbooks\forms.py:404
+#: .\handbooks\templates\handbooks\district_list.html:67
+#: .\handbooks\templates\handbooks\filial_list.html:69
+#: .\handbooks\templates\handbooks\filialreport_list.html:69
+#: .\handbooks\templates\handbooks\handbook_list.html:78
 #: .\handbooks\templates\handbooks\locality_list.html:10
-#: .\handbooks\templates\handbooks\locality_list.html:13 .\objects\forms.py:308
-#: .\objects\forms.py:311 .\objects\models.py:53
+#: .\handbooks\templates\handbooks\locality_list.html:13
+#: .\handbooks\templates\handbooks\locality_list.html:68
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:69
+#: .\handbooks\templates\handbooks\region_list.html:67
+#: .\handbooks\templates\handbooks\street_list.html:69 .\objects\forms.py:347
+#: .\objects\forms.py:350 .\objects\models.py:53
 #: .\objects\templates\objects\contract_list.html:173
+#: .\objects\templates\objects\filial_realtors_list.html:126
 #: .\objects\templates\objects\office_filial_real_estate_list.html:154
 #: .\objects\templates\objects\office_real_estate_list.html:152
 #: .\objects\templates\objects\office_report_list.html:187
-#: .\objects\templates\objects\real_estate_list.html:123
-#: .\objects\templates\objects\report_list.html:158
+#: .\objects\templates\objects\real_estate_list.html:133
+#: .\objects\templates\objects\report_list.html:166
 msgid "Locality"
 msgstr "Город"
 
@@ -650,132 +706,176 @@ msgstr "Подрайон"
 msgid "New building district"
 msgstr "Район новостроя"
 
-#: .\handbooks\forms.py:126 .\handbooks\forms.py:204 .\handbooks\forms.py:380
+#: .\handbooks\forms.py:126 .\handbooks\forms.py:220 .\handbooks\forms.py:416
+#: .\handbooks\templates\handbooks\district_list.html:83
+#: .\handbooks\templates\handbooks\filial_list.html:85
+#: .\handbooks\templates\handbooks\filialreport_list.html:85
+#: .\handbooks\templates\handbooks\handbook_list.html:94
+#: .\handbooks\templates\handbooks\locality_list.html:83
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:83
+#: .\handbooks\templates\handbooks\region_list.html:83
 #: .\handbooks\templates\handbooks\street_list.html:10
-#: .\handbooks\templates\handbooks\street_list.html:13 .\objects\forms.py:315
-#: .\objects\forms.py:317 .\objects\models.py:59
+#: .\handbooks\templates\handbooks\street_list.html:13
+#: .\handbooks\templates\handbooks\street_list.html:84 .\objects\forms.py:354
+#: .\objects\forms.py:356 .\objects\models.py:59
 #: .\objects\templates\objects\contract_list.html:174
+#: .\objects\templates\objects\filial_realtors_list.html:131
 #: .\objects\templates\objects\office_filial_real_estate_list.html:155
 #: .\objects\templates\objects\office_real_estate_list.html:153
 #: .\objects\templates\objects\office_report_list.html:188
-#: .\objects\templates\objects\real_estate_list.html:128
-#: .\objects\templates\objects\report_list.html:159
+#: .\objects\templates\objects\real_estate_list.html:138
+#: .\objects\templates\objects\report_list.html:167
 msgid "Street"
 msgstr "Улица"
 
-#: .\handbooks\forms.py:135 .\handbooks\forms.py:198 .\handbooks\forms.py:277
-#: .\handbooks\forms.py:374
+#: .\handbooks\forms.py:135 .\handbooks\forms.py:212 .\handbooks\forms.py:313
+#: .\handbooks\forms.py:410
+#: .\handbooks\templates\handbooks\district_list.html:75
+#: .\handbooks\templates\handbooks\filial_list.html:77
+#: .\handbooks\templates\handbooks\filialreport_list.html:77
+#: .\handbooks\templates\handbooks\handbook_list.html:86
+#: .\handbooks\templates\handbooks\locality_list.html:75
 #: .\handbooks\templates\handbooks\localitydistrict_list.html:10
 #: .\handbooks\templates\handbooks\localitydistrict_list.html:13
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:76
+#: .\handbooks\templates\handbooks\region_list.html:75
+#: .\handbooks\templates\handbooks\street_list.html:77
 msgid "Locality district"
 msgstr "Район города"
 
-#: .\handbooks\forms.py:155 .\handbooks\forms.py:443
-#: .\handbooks\templates\handbooks\client_list.html:113
+#: .\handbooks\forms.py:157 .\handbooks\forms.py:505
+#: .\handbooks\templates\handbooks\client_list.html:126
 #: .\handbooks\templates\handbooks\office_client_list.html:162
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:161
+#: .\objects\templates\objects\filial_realtors_clients_list.html:69
 msgid "Phone number"
 msgstr "Номер телефона"
 
-#: .\handbooks\forms.py:158
+#: .\handbooks\forms.py:161
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: .\handbooks\forms.py:162
+#: .\handbooks\forms.py:166
+msgid "Telegram"
+msgstr "Телеграм"
+
+#: .\handbooks\forms.py:169
+msgid "Viber"
+msgstr "Вайбер"
+
+#: .\handbooks\forms.py:174
 msgid "Income source"
 msgstr "Источник дохода"
 
-#: .\handbooks\forms.py:167 .\handbooks\forms.py:428
-#: .\handbooks\templates\handbooks\client_list.html:112
+#: .\handbooks\forms.py:179 .\handbooks\forms.py:464
+#: .\handbooks\templates\handbooks\client_list.html:125
 #: .\handbooks\templates\handbooks\office_client_list.html:161
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:160
+#: .\objects\templates\objects\filial_realtors_clients_list.html:68
 msgid "Real estate type"
 msgstr "Тип недвижимости"
 
-#: .\handbooks\forms.py:172
+#: .\handbooks\forms.py:184
 msgid "Realtor type"
 msgstr "Тип риелтора"
 
-#: .\handbooks\forms.py:182
-#: .\handbooks\templates\handbooks\client_list.html:114
+#: .\handbooks\forms.py:194
+#: .\handbooks\templates\handbooks\client_list.html:127
 #: .\handbooks\templates\handbooks\office_client_list.html:163
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:162
-#: .\objects\models.py:180
+#: .\objects\models.py:186
+#: .\objects\templates\objects\filial_realtors_clients_list.html:70
 #: .\objects\templates\objects\office_report_list.html:192
-#: .\objects\templates\objects\report_list.html:163
+#: .\objects\templates\objects\report_list.html:171
 msgid "Status"
 msgstr "Статус"
 
-#: .\handbooks\forms.py:186 .\handbooks\forms.py:362
+#: .\handbooks\forms.py:198 .\handbooks\forms.py:398
 msgid "Rooms number"
 msgstr "Количество комнат"
 
-#: .\handbooks\forms.py:209 .\handbooks\forms.py:385 .\objects\choices.py:12
+#: .\handbooks\forms.py:227 .\handbooks\forms.py:421 .\objects\choices.py:12
 #: .\objects\choices.py:43 .\objects\choices.py:48 .\objects\models.py:60
 #: .\objects\templates\objects\real_estate_create_form.html:44
 #: .\objects\templates\objects\selection_history_list.html:34
 msgid "House"
 msgstr "Дом"
 
-#: .\handbooks\forms.py:214 .\handbooks\forms.py:390
+#: .\handbooks\forms.py:232 .\handbooks\forms.py:426
 msgid "Min floor"
 msgstr "Минимальный этаж"
 
-#: .\handbooks\forms.py:219 .\handbooks\forms.py:395
+#: .\handbooks\forms.py:237 .\handbooks\forms.py:431
 msgid "Max floor"
 msgstr "Максимальный этаж"
 
-#: .\handbooks\forms.py:224 .\handbooks\forms.py:400
+#: .\handbooks\forms.py:242 .\handbooks\forms.py:436
 msgid "Not first"
 msgstr "Не первый"
 
-#: .\handbooks\forms.py:229 .\handbooks\forms.py:403
+#: .\handbooks\forms.py:247 .\handbooks\forms.py:439
 msgid "Not last"
 msgstr "Не последний"
 
-#: .\handbooks\forms.py:234 .\handbooks\forms.py:406
+#: .\handbooks\forms.py:252 .\handbooks\forms.py:442
 msgid "Price from"
 msgstr "Цена от"
 
-#: .\handbooks\forms.py:239 .\handbooks\forms.py:411
+#: .\handbooks\forms.py:257 .\handbooks\forms.py:447
 msgid "Price to"
 msgstr "Цена до"
 
-#: .\handbooks\forms.py:244 .\handbooks\forms.py:416
+#: .\handbooks\forms.py:262 .\handbooks\forms.py:452
 msgid "Square meter max price"
 msgstr "Максимальная цена за кв. м."
 
-#: .\handbooks\forms.py:251 .\handbooks\forms.py:423 .\objects\models.py:84
+#: .\handbooks\forms.py:269 .\handbooks\forms.py:459
+#: .\handbooks\templates\handbooks\district_list.html:99
+#: .\handbooks\templates\handbooks\filial_list.html:101
+#: .\handbooks\templates\handbooks\filialreport_list.html:101
+#: .\handbooks\templates\handbooks\handbook_list.html:110
+#: .\handbooks\templates\handbooks\locality_list.html:99
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:99
+#: .\handbooks\templates\handbooks\region_list.html:99
+#: .\handbooks\templates\handbooks\street_list.html:99 .\objects\models.py:84
 msgid "Condition"
 msgstr "Состояние"
 
-#: .\handbooks\forms.py:262
+#: .\handbooks\forms.py:298
 msgid "Handbook"
 msgstr "Справочник"
 
-#: .\handbooks\forms.py:273 .\handbooks\forms.py:281 .\handbooks\forms.py:346
+#: .\handbooks\forms.py:309 .\handbooks\forms.py:317 .\handbooks\forms.py:382
+#: .\handbooks\templates\handbooks\district_list.html:179
 #: .\handbooks\templates\handbooks\filial_list.html:10
 #: .\handbooks\templates\handbooks\filial_list.html:13
+#: .\handbooks\templates\handbooks\filial_list.html:180
+#: .\handbooks\templates\handbooks\filialreport_list.html:181
+#: .\handbooks\templates\handbooks\handbook_list.html:190
+#: .\handbooks\templates\handbooks\locality_list.html:179
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:179
+#: .\handbooks\templates\handbooks\region_list.html:179
+#: .\handbooks\templates\handbooks\street_list.html:179 .\objects\models.py:106
 msgid "Filial agency"
 msgstr "Агенство"
 
-#: .\handbooks\forms.py:291
+#: .\handbooks\forms.py:327
 msgid "Address"
 msgstr "Адрес"
 
-#: .\handbooks\forms.py:296
+#: .\handbooks\forms.py:332
 msgid "Type"
 msgstr "Тип"
 
-#: .\handbooks\forms.py:301
+#: .\handbooks\forms.py:337
 msgid "New build area"
 msgstr "Площадь новостроя"
 
-#: .\handbooks\forms.py:357
+#: .\handbooks\forms.py:393
 msgid "Key word"
 msgstr "Ключевое слово"
 
-#: .\handbooks\forms.py:449
+#: .\handbooks\forms.py:511
 msgid "Phone number must contain 9 to 15 digits without spaces."
 msgstr "Номер телефона должен содержать от 9 до 15 символов без пробелов"
 
@@ -787,103 +887,267 @@ msgstr "Форма клиента"
 #: .\handbooks\templates\handbooks\client_form.html:26
 #: .\handbooks\templates\handbooks\client_list.html:10
 #: .\handbooks\templates\handbooks\client_list.html:13
+#: .\handbooks\templates\handbooks\client_list.html:52
 #: .\handbooks\templates\handbooks\history_list.html:10
 #: .\objects\templates\objects\changes_report_list.html:52
 #: .\objects\templates\objects\contract_list.html:53
-#: .\objects\templates\objects\real_estate_list.html:52
+#: .\objects\templates\objects\filial_realtors_clients_list.html:15
+#: .\objects\templates\objects\filial_realtors_clients_list.html:27
+#: .\objects\templates\objects\filial_realtors_list.html:53
+#: .\objects\templates\objects\my_filial_list.html:26
+#: .\objects\templates\objects\my_filial_list.html:93
+#: .\objects\templates\objects\real_estate_list.html:53
 #: .\objects\templates\objects\report_list.html:64
 #: .\objects\templates\objects\selection_history_list.html:12
 #: .\objects\templates\objects\selection_list.html:15
 msgid "Clients"
 msgstr "Клиенты"
 
-#: .\handbooks\templates\handbooks\client_list.html:55
+#: .\handbooks\templates\handbooks\client_list.html:59
 #: .\objects\templates\objects\changes_report_list.html:60
 #: .\objects\templates\objects\contract_list.html:61
+#: .\objects\templates\objects\filial_realtors_clients_list.html:35
+#: .\objects\templates\objects\filial_realtors_list.html:61
+#: .\objects\templates\objects\my_filial_list.html:34
+#: .\objects\templates\objects\my_filial_list.html:100
 #: .\objects\templates\objects\real_estate_create_form.html:26
 #: .\objects\templates\objects\real_estate_details_form.html:26
 #: .\objects\templates\objects\real_estate_list.html:12
 #: .\objects\templates\objects\real_estate_list.html:15
-#: .\objects\templates\objects\real_estate_list.html:58
+#: .\objects\templates\objects\real_estate_list.html:60
 #: .\objects\templates\objects\real_estate_update_form.html:26
 #: .\objects\templates\objects\report_list.html:72
 msgid "Real estate"
 msgstr "Недвижимость"
 
-#: .\handbooks\templates\handbooks\client_list.html:65
+#: .\handbooks\templates\handbooks\client_list.html:67
+#: .\objects\templates\objects\changes_report_list.html:14
+#: .\objects\templates\objects\changes_report_list.html:68
+#: .\objects\templates\objects\contract_list.html:68
+#: .\objects\templates\objects\filial_realtors_clients_list.html:43
+#: .\objects\templates\objects\filial_realtors_list.html:69
+#: .\objects\templates\objects\my_filial_list.html:42
+#: .\objects\templates\objects\real_estate_list.html:67
+#: .\objects\templates\objects\report_list.html:11
+#: .\objects\templates\objects\report_list.html:14
+#: .\objects\templates\objects\report_list.html:79
+msgid "Reports"
+msgstr "Отчеты"
+
+#: .\handbooks\templates\handbooks\client_list.html:77
 #: .\handbooks\templates\handbooks\office_client_list.html:114
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:113
 msgid "All"
 msgstr "Все"
 
-#: .\handbooks\templates\handbooks\client_list.html:71
+#: .\handbooks\templates\handbooks\client_list.html:83
 #: .\handbooks\templates\handbooks\office_client_list.html:120
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:119
 msgid "New"
 msgstr "Новый"
 
-#: .\handbooks\templates\handbooks\client_list.html:77
+#: .\handbooks\templates\handbooks\client_list.html:89
 #: .\handbooks\templates\handbooks\office_client_list.html:126
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:125
-#: .\objects\forms.py:349 .\objects\models.py:197
+#: .\objects\forms.py:388 .\objects\models.py:203
 msgid "In selection"
 msgstr "В подборе"
 
-#: .\handbooks\templates\handbooks\client_list.html:135
+#: .\handbooks\templates\handbooks\client_list.html:149
 #: .\handbooks\templates\handbooks\list.html:109
 #: .\handbooks\templates\handbooks\office_client_list.html:184
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:183
+#: .\objects\templates\objects\filial_realtors_clients_list.html:92
 #: .\objects\templates\objects\selection_list.html:7
 #: .\objects\templates\objects\selection_list.html:16
 #: .\objects\templates\objects\selection_list.html:93
 msgid "Selection"
 msgstr "Подбор"
 
-#: .\handbooks\templates\handbooks\client_list.html:140
+#: .\handbooks\templates\handbooks\client_list.html:156
 #: .\handbooks\templates\handbooks\office_client_list.html:189
 #: .\handbooks\templates\handbooks\office_filial_client_list.html:188
+#: .\objects\templates\objects\filial_realtors_clients_list.html:99
 #: .\objects\templates\objects\selection_history_list.html:4
 #: .\objects\templates\objects\selection_history_list.html:9
 #: .\objects\templates\objects\selection_history_list.html:13
 msgid "Selection history"
 msgstr "История подоба"
 
-#: .\handbooks\templates\handbooks\district_list.html:70
-#: .\handbooks\templates\handbooks\locality_list.html:71
-msgid "district"
-msgstr "Районы"
+#: .\handbooks\templates\handbooks\district_list.html:91
+#: .\handbooks\templates\handbooks\filial_list.html:93
+#: .\handbooks\templates\handbooks\filialreport_list.html:93
+#: .\handbooks\templates\handbooks\handbook_list.html:102
+#: .\handbooks\templates\handbooks\locality_list.html:91
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:91
+#: .\handbooks\templates\handbooks\region_list.html:91
+#: .\handbooks\templates\handbooks\street_list.html:91
+#, fuzzy
+#| msgid "Withdrawn"
+msgid "Withdrawal reason"
+msgstr "Снято с продажи"
 
-#: .\handbooks\templates\handbooks\district_list.html:71
-#: .\handbooks\templates\handbooks\region_list.html:13
-#: .\handbooks\templates\handbooks\region_list.html:70
-msgid "region"
-msgstr "Области"
+#: .\handbooks\templates\handbooks\district_list.html:107
+#: .\handbooks\templates\handbooks\filial_list.html:109
+#: .\handbooks\templates\handbooks\filialreport_list.html:109
+#: .\handbooks\templates\handbooks\handbook_list.html:118
+#: .\handbooks\templates\handbooks\locality_list.html:107
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:107
+#: .\handbooks\templates\handbooks\region_list.html:107
+#: .\handbooks\templates\handbooks\street_list.html:107 .\objects\models.py:92
+msgid "Material"
+msgstr "Материал"
 
-#: .\handbooks\templates\handbooks\filial_list.html:70
-#: .\handbooks\templates\handbooks\filialreport_list.html:71
-msgid "filial agency"
-msgstr "Агенства"
+#: .\handbooks\templates\handbooks\district_list.html:115
+#: .\handbooks\templates\handbooks\filial_list.html:117
+#: .\handbooks\templates\handbooks\filialreport_list.html:117
+#: .\handbooks\templates\handbooks\handbook_list.html:126
+#: .\handbooks\templates\handbooks\locality_list.html:115
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:115
+#: .\handbooks\templates\handbooks\region_list.html:115
+#: .\handbooks\templates\handbooks\street_list.html:115
+#, fuzzy
+#| msgid "Separate building"
+msgid "Separation"
+msgstr "Отдельное здание"
 
+#: .\handbooks\templates\handbooks\district_list.html:123
+#: .\handbooks\templates\handbooks\filial_list.html:125
+#: .\handbooks\templates\handbooks\filialreport_list.html:125
+#: .\handbooks\templates\handbooks\handbook_list.html:134
+#: .\handbooks\templates\handbooks\locality_list.html:123
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:123
+#: .\handbooks\templates\handbooks\region_list.html:123
+#: .\handbooks\templates\handbooks\street_list.html:123 .\objects\models.py:100
+msgid "Agency"
+msgstr "Агенство"
+
+#: .\handbooks\templates\handbooks\district_list.html:131
+#: .\handbooks\templates\handbooks\filial_list.html:133
+#: .\handbooks\templates\handbooks\filialreport_list.html:133
+#: .\handbooks\templates\handbooks\handbook_list.html:142
+#: .\handbooks\templates\handbooks\locality_list.html:131
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:131
+#: .\handbooks\templates\handbooks\region_list.html:131
+#: .\handbooks\templates\handbooks\street_list.html:131
+#, fuzzy
+#| msgid "Agency"
+msgid "Agency sales"
+msgstr "Агенство"
+
+#: .\handbooks\templates\handbooks\district_list.html:139
+#: .\handbooks\templates\handbooks\filial_list.html:141
+#: .\handbooks\templates\handbooks\filialreport_list.html:141
+#: .\handbooks\templates\handbooks\handbook_list.html:150
+#: .\handbooks\templates\handbooks\locality_list.html:139
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:139
+#: .\handbooks\templates\handbooks\region_list.html:139
+#: .\handbooks\templates\handbooks\street_list.html:139
+#, fuzzy
+#| msgid "New build area"
+msgid "New building name"
+msgstr "Площадь новостроя"
+
+#: .\handbooks\templates\handbooks\district_list.html:147
+#: .\handbooks\templates\handbooks\filial_list.html:149
+#: .\handbooks\templates\handbooks\filialreport_list.html:149
+#: .\handbooks\templates\handbooks\handbook_list.html:158
+#: .\handbooks\templates\handbooks\locality_list.html:147
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:147
+#: .\handbooks\templates\handbooks\region_list.html:147
+#: .\handbooks\templates\handbooks\street_list.html:147 .\objects\models.py:128
+msgid "Stair"
+msgstr "Лестница"
+
+#: .\handbooks\templates\handbooks\district_list.html:155
+#: .\handbooks\templates\handbooks\filial_list.html:157
+#: .\handbooks\templates\handbooks\filialreport_list.html:157
+#: .\handbooks\templates\handbooks\handbook_list.html:166
+#: .\handbooks\templates\handbooks\locality_list.html:155
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:155
+#: .\handbooks\templates\handbooks\region_list.html:155
+#: .\handbooks\templates\handbooks\street_list.html:155
+msgid "Heating"
+msgstr "Отопление"
+
+#: .\handbooks\templates\handbooks\district_list.html:163
+#: .\handbooks\templates\handbooks\filial_list.html:165
+#: .\handbooks\templates\handbooks\filialreport_list.html:165
+#: .\handbooks\templates\handbooks\handbook_list.html:174
+#: .\handbooks\templates\handbooks\locality_list.html:163
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:163
+#: .\handbooks\templates\handbooks\region_list.html:163
+#: .\handbooks\templates\handbooks\street_list.html:163 .\objects\models.py:120
+msgid "Layout"
+msgstr "Макет"
+
+#: .\handbooks\templates\handbooks\district_list.html:171
+#: .\handbooks\templates\handbooks\filial_list.html:173
+#: .\handbooks\templates\handbooks\filialreport_list.html:173
+#: .\handbooks\templates\handbooks\handbook_list.html:182
+#: .\handbooks\templates\handbooks\locality_list.html:171
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:171
+#: .\handbooks\templates\handbooks\region_list.html:171
+#: .\handbooks\templates\handbooks\street_list.html:171 .\objects\models.py:112
+msgid "House type"
+msgstr "Тип дома"
+
+#: .\handbooks\templates\handbooks\district_list.html:187
+#: .\handbooks\templates\handbooks\filial_list.html:187
 #: .\handbooks\templates\handbooks\filialreport_list.html:10
 #: .\handbooks\templates\handbooks\filialreport_list.html:13
+#: .\handbooks\templates\handbooks\filialreport_list.html:188
+#: .\handbooks\templates\handbooks\handbook_list.html:198
+#: .\handbooks\templates\handbooks\locality_list.html:187
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:187
+#: .\handbooks\templates\handbooks\region_list.html:187
+#: .\handbooks\templates\handbooks\street_list.html:187
 msgid "Filial report"
 msgstr "Отчеты филиала"
 
-#: .\handbooks\templates\handbooks\filialreport_list.html:70
+#: .\handbooks\templates\handbooks\district_list.html:195
+#: .\handbooks\templates\handbooks\filial_list.html:195
+#: .\handbooks\templates\handbooks\filialreport_list.html:195
+#: .\handbooks\templates\handbooks\handbook_list.html:206
+#: .\handbooks\templates\handbooks\locality_list.html:195
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:195
+#: .\handbooks\templates\handbooks\region_list.html:195
+#: .\handbooks\templates\handbooks\street_list.html:195 .\objects\models.py:256
+#: .\objects\models.py:333
+msgid "Complex"
+msgstr "Комплекс"
+
+#: .\handbooks\templates\handbooks\district_list.html:212
+#: .\handbooks\templates\handbooks\locality_list.html:213
+msgid "district"
+msgstr "Районы"
+
+#: .\handbooks\templates\handbooks\district_list.html:213
+#: .\handbooks\templates\handbooks\region_list.html:13
+#: .\handbooks\templates\handbooks\region_list.html:212
+msgid "region"
+msgstr "Области"
+
+#: .\handbooks\templates\handbooks\filial_list.html:212
+#: .\handbooks\templates\handbooks\filialreport_list.html:213
+msgid "filial agency"
+msgstr "Агенства"
+
+#: .\handbooks\templates\handbooks\filialreport_list.html:212
 msgid "report"
 msgstr "Отчеты"
 
-#: .\handbooks\templates\handbooks\filialreport_list.html:72
+#: .\handbooks\templates\handbooks\filialreport_list.html:214
 #: .\handbooks\templates\handbooks\history_list.html:24
 #: .\objects\templates\objects\selection_history_list.html:22
 msgid "user"
 msgstr "Пользователь"
 
-#: .\handbooks\templates\handbooks\handbook_list.html:70
+#: .\handbooks\templates\handbooks\handbook_list.html:224
 msgid "handbook"
 msgstr "Справочник"
 
-#: .\handbooks\templates\handbooks\handbook_list.html:71
+#: .\handbooks\templates\handbooks\handbook_list.html:225
 msgid "type"
 msgstr "Тип города"
 
@@ -904,37 +1168,37 @@ msgstr "Старое"
 msgid "new"
 msgstr "Новое"
 
-#: .\handbooks\templates\handbooks\locality_list.html:70
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:71
+#: .\handbooks\templates\handbooks\locality_list.html:212
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:213
 msgid "locality"
 msgstr "Населенные пункты"
 
-#: .\handbooks\templates\handbooks\locality_list.html:72
+#: .\handbooks\templates\handbooks\locality_list.html:214
 msgid "locality_type"
 msgstr "Населенные пункты"
 
-#: .\handbooks\templates\handbooks\locality_list.html:73
+#: .\handbooks\templates\handbooks\locality_list.html:215
 msgid "center_type"
 msgstr "Тип центра"
 
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:70
-#: .\handbooks\templates\handbooks\street_list.html:71
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:212
+#: .\handbooks\templates\handbooks\street_list.html:213
 msgid "locality district"
 msgstr "Районы населенных пунктов"
 
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:72
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:214
 msgid "group on site"
 msgstr "Группа на сайт"
 
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:73
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:215
 msgid "hot deals limit"
 msgstr "Лимит горячих предложений"
 
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:74
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:216
 msgid "prefix to site"
 msgstr "Префикс на сайт"
 
-#: .\handbooks\templates\handbooks\localitydistrict_list.html:75
+#: .\handbooks\templates\handbooks\localitydistrict_list.html:217
 msgid "new building district"
 msgstr "Район новостроя"
 
@@ -954,7 +1218,7 @@ msgstr "Район новостроя"
 msgid "Office"
 msgstr "Офис"
 
-#: .\handbooks\templates\handbooks\street_list.html:70
+#: .\handbooks\templates\handbooks\street_list.html:212
 msgid "street"
 msgstr "Улицы"
 
@@ -962,7 +1226,7 @@ msgstr "Улицы"
 msgid "Images"
 msgstr "Изображения"
 
-#: .\objects\choices.py:10 .\objects\models.py:240
+#: .\objects\choices.py:10 .\objects\models.py:246
 #: .\objects\templates\objects\real_estate_create_form.html:38
 #: .\objects\templates\objects\selection_history_list.html:31
 msgid "Apartment"
@@ -975,10 +1239,11 @@ msgid "Commerce"
 msgstr "Комерция"
 
 #: .\objects\choices.py:13 .\objects\choices.py:49
+#: .\objects\templates\objects\filial_realtors_list.html:103
 #: .\objects\templates\objects\office_filial_real_estate_list.html:138
 #: .\objects\templates\objects\office_real_estate_list.html:136
 #: .\objects\templates\objects\real_estate_create_form.html:47
-#: .\objects\templates\objects\real_estate_list.html:100
+#: .\objects\templates\objects\real_estate_list.html:110
 msgid "Land"
 msgstr "Земельные участки"
 
@@ -995,12 +1260,14 @@ msgid "Withdrawn"
 msgstr "Снято с продажи"
 
 #: .\objects\choices.py:22
+#: .\objects\templates\objects\filial_realtors_list.html:187
+#: .\objects\templates\objects\filial_realtors_list.html:195
 #: .\objects\templates\objects\office_filial_real_estate_list.html:200
 #: .\objects\templates\objects\office_filial_real_estate_list.html:208
 #: .\objects\templates\objects\office_real_estate_list.html:199
 #: .\objects\templates\objects\office_real_estate_list.html:207
-#: .\objects\templates\objects\real_estate_list.html:184
-#: .\objects\templates\objects\real_estate_list.html:192
+#: .\objects\templates\objects\real_estate_list.html:194
+#: .\objects\templates\objects\real_estate_list.html:202
 msgid "Sold"
 msgstr "Продано"
 
@@ -1036,7 +1303,7 @@ msgstr "Не жилой"
 msgid "Dwelling"
 msgstr "Жилье"
 
-#: .\objects\choices.py:62 .\objects\models.py:314 .\objects\models.py:359
+#: .\objects\choices.py:62 .\objects\models.py:320 .\objects\models.py:365
 msgid "Facade"
 msgstr "Фасад"
 
@@ -1048,53 +1315,53 @@ msgstr "Интернет"
 msgid "Corner"
 msgstr "Угол"
 
-#: .\objects\forms.py:320 .\objects\forms.py:322
+#: .\objects\forms.py:359 .\objects\forms.py:361
 msgid "Min price"
 msgstr "Минимальная цена"
 
-#: .\objects\forms.py:327 .\objects\forms.py:329
+#: .\objects\forms.py:366 .\objects\forms.py:368
 msgid "Max price"
 msgstr "Максимальная цена"
 
-#: .\objects\forms.py:346 .\objects\models.py:38
+#: .\objects\forms.py:385 .\objects\models.py:38
 msgid "Exclusive"
 msgstr "Ексклюзив"
 
-#: .\objects\forms.py:364
+#: .\objects\forms.py:403
 msgid "You did not specify a locality"
 msgstr "Вы не указали город"
 
-#: .\objects\forms.py:367
+#: .\objects\forms.py:406
 msgid "You did not specify a street"
 msgstr "Вы не указали улицу"
 
-#: .\objects\forms.py:369
+#: .\objects\forms.py:408
 msgid "You did not specify a house"
 msgstr "Вы не указали дом"
 
-#: .\objects\forms.py:376
+#: .\objects\forms.py:415
 msgid "You did not specify an apartment"
 msgstr "Вы не указали квартиру"
 
-#: .\objects\forms.py:384
+#: .\objects\forms.py:423
 msgid "You did not specify a premises"
 msgstr "Вы не указали помещение"
 
-#: .\objects\forms.py:392
+#: .\objects\forms.py:431
 msgid "You did not specify a housing"
 msgstr "Вы не указали корпус"
 
-#: .\objects\forms.py:401
+#: .\objects\forms.py:440
 msgid "Period from"
 msgstr "Цена от"
 
-#: .\objects\forms.py:409
+#: .\objects\forms.py:448
 msgid "to"
 msgstr ""
 
 #: .\objects\models.py:27
 #: .\objects\templates\objects\office_report_list.html:190
-#: .\objects\templates\objects\report_list.html:161
+#: .\objects\templates\objects\report_list.html:169
 msgid "Creation date"
 msgstr "Дата создания"
 
@@ -1102,174 +1369,151 @@ msgstr "Дата создания"
 msgid "Deposit date"
 msgstr "Дата депозита"
 
-#: .\objects\models.py:92
-msgid "Material"
-msgstr "Материал"
-
-#: .\objects\models.py:100
-msgid "Agency"
-msgstr "Агенство"
-
-#: .\objects\models.py:106
-msgid "House type"
-msgstr "Тип дома"
-
-#: .\objects\models.py:114
-msgid "Layout"
-msgstr "Макет"
-
-#: .\objects\models.py:122
-msgid "Stair"
-msgstr "Лестница"
-
-#: .\objects\models.py:143
+#: .\objects\models.py:149
 #: .\objects\templates\objects\office_report_list.html:193
-#: .\objects\templates\objects\report_list.html:164
+#: .\objects\templates\objects\report_list.html:172
 msgid "Owner"
 msgstr "Владелец"
 
-#: .\objects\models.py:164
+#: .\objects\models.py:170
 msgid "Parking"
 msgstr "Паркинг"
 
-#: .\objects\models.py:165
+#: .\objects\models.py:171
 msgid "Generator"
 msgstr "Генератор"
 
-#: .\objects\models.py:166
+#: .\objects\models.py:172
 msgid "EHome"
 msgstr "єОселя"
 
-#: .\objects\models.py:169
+#: .\objects\models.py:175
+#: .\objects\templates\objects\filial_realtors_list.html:136
 #: .\objects\templates\objects\office_report_list.html:191
-#: .\objects\templates\objects\real_estate_list.html:133
-#: .\objects\templates\objects\report_list.html:162
+#: .\objects\templates\objects\real_estate_list.html:143
+#: .\objects\templates\objects\report_list.html:170
 #: .\utils\showing_act_pdf_service.py:99
 msgid "Price"
 msgstr "Цена"
 
-#: .\objects\models.py:172
+#: .\objects\models.py:178
 msgid "Square"
 msgstr "Площадь"
 
-#: .\objects\models.py:173
+#: .\objects\models.py:179
 msgid "Kitchen square"
 msgstr "Площадь кухни"
 
-#: .\objects\models.py:174
+#: .\objects\models.py:180
 msgid "Height"
 msgstr "Высота"
 
-#: .\objects\models.py:176
+#: .\objects\models.py:182
 #: .\objects\templates\objects\office_report_list.html:189
-#: .\objects\templates\objects\report_list.html:160
+#: .\objects\templates\objects\report_list.html:168
 msgid "Floor"
 msgstr "Этаж"
 
-#: .\objects\models.py:177
+#: .\objects\models.py:183
 msgid "Number of storeys"
 msgstr "Количество этажей"
 
-#: .\objects\models.py:183
+#: .\objects\models.py:189
 msgid "Document"
 msgstr "Документ"
 
-#: .\objects\models.py:190
+#: .\objects\models.py:196
 msgid "Sale terms"
 msgstr "Условия продажи"
 
-#: .\objects\models.py:193
+#: .\objects\models.py:199
 msgid "Realtor notes"
 msgstr "Заметки риелтора"
 
-#: .\objects\models.py:195
+#: .\objects\models.py:201
 msgid "Comment"
 msgstr "Коментарий"
 
-#: .\objects\models.py:238 .\objects\models.py:301 .\objects\models.py:343
-#: .\objects\models.py:377 .\utils\showing_act_pdf_service.py:97
+#: .\objects\models.py:244 .\objects\models.py:307 .\objects\models.py:349
+#: .\objects\models.py:383 .\utils\showing_act_pdf_service.py:97
 msgid "Rubric"
 msgstr "Рубрика"
 
-#: .\objects\models.py:241
+#: .\objects\models.py:247
 msgid "Living square"
 msgstr "Жилая площадь"
 
-#: .\objects\models.py:242 .\objects\models.py:307
+#: .\objects\models.py:248 .\objects\models.py:313
 msgid "Balcony"
 msgstr "Балкон"
 
-#: .\objects\models.py:244 .\objects\models.py:309
+#: .\objects\models.py:250 .\objects\models.py:315
 msgid "Number of balconies"
 msgstr "Количество балконов"
 
-#: .\objects\models.py:250 .\objects\models.py:327
-msgid "Complex"
-msgstr "Комплекс"
-
-#: .\objects\models.py:303
+#: .\objects\models.py:309
 msgid "Premises"
 msgstr "Помещение"
 
-#: .\objects\models.py:305 .\objects\models.py:349
+#: .\objects\models.py:311 .\objects\models.py:355
 msgid "Useful square"
 msgstr "Полезная площадь"
 
-#: .\objects\models.py:312
+#: .\objects\models.py:318
 msgid "Ground floor"
 msgstr "Цоколь"
 
-#: .\objects\models.py:315 .\objects\models.py:360 .\objects\models.py:394
+#: .\objects\models.py:321 .\objects\models.py:366 .\objects\models.py:400
 msgid "Own parking"
 msgstr "Свой паркинг"
 
-#: .\objects\models.py:317
+#: .\objects\models.py:323
 msgid "Own courtyard"
 msgstr "Свой двор"
 
-#: .\objects\models.py:320
+#: .\objects\models.py:326
 msgid "Separate building"
 msgstr "Отдельное здание"
 
-#: .\objects\models.py:346 .\objects\models.py:380
+#: .\objects\models.py:352 .\objects\models.py:386
 msgid "Housing"
 msgstr "Комплекс"
 
-#: .\objects\models.py:352 .\objects\models.py:383
+#: .\objects\models.py:358 .\objects\models.py:389
 msgid "Land's square"
 msgstr "Площадь участка"
 
-#: .\objects\models.py:355
+#: .\objects\models.py:361
 msgid "Number of rooms"
 msgstr "Количество комнат"
 
-#: .\objects\models.py:357 .\objects\models.py:386
+#: .\objects\models.py:363 .\objects\models.py:392
 msgid "Communications"
 msgstr "Комуникация"
 
-#: .\objects\models.py:358
+#: .\objects\models.py:364
 msgid "Terrace"
 msgstr "Терраса"
 
-#: .\objects\models.py:389
+#: .\objects\models.py:395
 msgid "Target"
 msgstr "Цель"
 
-#: .\objects\models.py:392
+#: .\objects\models.py:398
 msgid "Disposition"
 msgstr "Аванс"
 
-#: .\objects\models.py:401
+#: .\objects\models.py:407
 msgid "Client"
 msgstr "Клиент"
 
-#: .\objects\models.py:402
+#: .\objects\models.py:408
 #: .\objects\templates\objects\changes_report_list.html:149
 #: .\objects\templates\objects\office_changes_report_list.html:151
 msgid "Date"
 msgstr "Дата"
 
-#: .\objects\models.py:403
+#: .\objects\models.py:409
 #: .\objects\templates\objects\changes_report_list.html:150
 #: .\objects\templates\objects\office_changes_report_list.html:152
 msgid "User"
@@ -1291,18 +1535,18 @@ msgstr "Заполнить адрес"
 msgid "Verify"
 msgstr "Проверить"
 
-#: .\objects\templates\objects\_apartment_form.html:142
-#: .\objects\templates\objects\_commerce_form.html:142
-#: .\objects\templates\objects\_house_form.html:159
-#: .\objects\templates\objects\_land_form.html:127
+#: .\objects\templates\objects\_apartment_form.html:146
+#: .\objects\templates\objects\_commerce_form.html:146
+#: .\objects\templates\objects\_house_form.html:163
+#: .\objects\templates\objects\_land_form.html:131
 #: .\objects\templates\objects\details.html:180
 msgid "Add Photo"
 msgstr "Добавить фото"
 
-#: .\objects\templates\objects\_apartment_form.html:240
-#: .\objects\templates\objects\_commerce_form.html:256
-#: .\objects\templates\objects\_house_form.html:258
-#: .\objects\templates\objects\_land_form.html:181
+#: .\objects\templates\objects\_apartment_form.html:244
+#: .\objects\templates\objects\_commerce_form.html:260
+#: .\objects\templates\objects\_house_form.html:262
+#: .\objects\templates\objects\_land_form.html:185
 #: .\objects\templates\objects\details.html:275
 msgid "Edit owner"
 msgstr "Редактировать владельца"
@@ -1342,21 +1586,11 @@ msgstr "Посмотреть детали"
 msgid "Report of changes"
 msgstr "История изменений"
 
-#: .\objects\templates\objects\changes_report_list.html:14
-#: .\objects\templates\objects\changes_report_list.html:68
-#: .\objects\templates\objects\contract_list.html:68
-#: .\objects\templates\objects\real_estate_list.html:65
-#: .\objects\templates\objects\report_list.html:11
-#: .\objects\templates\objects\report_list.html:14
-#: .\objects\templates\objects\report_list.html:79
-msgid "Reports"
-msgstr "Отчеты"
-
 #: .\objects\templates\objects\changes_report_list.html:78
 #: .\objects\templates\objects\contract_list.html:76
 #: .\objects\templates\objects\office_changes_report_list.html:89
 #: .\objects\templates\objects\office_report_list.html:125
-#: .\objects\templates\objects\report_list.html:88
+#: .\objects\templates\objects\report_list.html:96
 msgid "New apartments"
 msgstr "Новые квартиры"
 
@@ -1364,7 +1598,7 @@ msgstr "Новые квартиры"
 #: .\objects\templates\objects\contract_list.html:82
 #: .\objects\templates\objects\office_changes_report_list.html:95
 #: .\objects\templates\objects\office_report_list.html:131
-#: .\objects\templates\objects\report_list.html:94
+#: .\objects\templates\objects\report_list.html:102
 msgid "New commerces"
 msgstr "Новые комерции"
 
@@ -1372,7 +1606,7 @@ msgstr "Новые комерции"
 #: .\objects\templates\objects\contract_list.html:88
 #: .\objects\templates\objects\office_changes_report_list.html:101
 #: .\objects\templates\objects\office_report_list.html:137
-#: .\objects\templates\objects\report_list.html:100
+#: .\objects\templates\objects\report_list.html:108
 msgid "New houses"
 msgstr "Новые дома"
 
@@ -1380,7 +1614,7 @@ msgstr "Новые дома"
 #: .\objects\templates\objects\contract_list.html:94
 #: .\objects\templates\objects\office_changes_report_list.html:107
 #: .\objects\templates\objects\office_report_list.html:143
-#: .\objects\templates\objects\report_list.html:106
+#: .\objects\templates\objects\report_list.html:114
 msgid "New lands"
 msgstr "Новые участки"
 
@@ -1388,7 +1622,7 @@ msgstr "Новые участки"
 #: .\objects\templates\objects\contract_list.html:100
 #: .\objects\templates\objects\office_changes_report_list.html:113
 #: .\objects\templates\objects\office_report_list.html:149
-#: .\objects\templates\objects\report_list.html:112
+#: .\objects\templates\objects\report_list.html:120
 msgid "New rooms"
 msgstr "Новые комнаты"
 
@@ -1396,7 +1630,7 @@ msgstr "Новые комнаты"
 #: .\objects\templates\objects\contract_list.html:106
 #: .\objects\templates\objects\office_changes_report_list.html:120
 #: .\objects\templates\objects\office_report_list.html:156
-#: .\objects\templates\objects\report_list.html:119
+#: .\objects\templates\objects\report_list.html:127
 msgid "All apartments"
 msgstr "Все квартиры"
 
@@ -1404,7 +1638,7 @@ msgstr "Все квартиры"
 #: .\objects\templates\objects\contract_list.html:112
 #: .\objects\templates\objects\office_changes_report_list.html:128
 #: .\objects\templates\objects\office_report_list.html:164
-#: .\objects\templates\objects\report_list.html:127
+#: .\objects\templates\objects\report_list.html:135
 msgid "My apartments"
 msgstr "Мои квартиры"
 
@@ -1412,7 +1646,7 @@ msgstr "Мои квартиры"
 #: .\objects\templates\objects\contract_list.html:118
 #: .\objects\templates\objects\office_changes_report_list.html:135
 #: .\objects\templates\objects\office_report_list.html:171
-#: .\objects\templates\objects\report_list.html:134
+#: .\objects\templates\objects\report_list.html:142
 msgid "Changes report"
 msgstr "Отчеты"
 
@@ -1420,7 +1654,7 @@ msgstr "Отчеты"
 #: .\objects\templates\objects\contract_list.html:11
 #: .\objects\templates\objects\contract_list.html:14
 #: .\objects\templates\objects\contract_list.html:124
-#: .\objects\templates\objects\report_list.html:141
+#: .\objects\templates\objects\report_list.html:149
 msgid "Contracts"
 msgstr "Контракты"
 
@@ -1445,23 +1679,26 @@ msgid "New value"
 msgstr "Новое значение"
 
 #: .\objects\templates\objects\contract_list.html:133
+#: .\objects\templates\objects\filial_realtors_list.html:85
 #: .\objects\templates\objects\office_filial_real_estate_list.html:120
 #: .\objects\templates\objects\office_real_estate_list.html:118
-#: .\objects\templates\objects\real_estate_list.html:76
+#: .\objects\templates\objects\real_estate_list.html:86
 msgid "Apartments"
 msgstr "Квартиры"
 
 #: .\objects\templates\objects\contract_list.html:139
+#: .\objects\templates\objects\filial_realtors_list.html:91
 #: .\objects\templates\objects\office_filial_real_estate_list.html:126
 #: .\objects\templates\objects\office_real_estate_list.html:124
-#: .\objects\templates\objects\real_estate_list.html:84
+#: .\objects\templates\objects\real_estate_list.html:94
 msgid "Commerces"
 msgstr "Комерции"
 
 #: .\objects\templates\objects\contract_list.html:145
+#: .\objects\templates\objects\filial_realtors_list.html:97
 #: .\objects\templates\objects\office_filial_real_estate_list.html:132
 #: .\objects\templates\objects\office_real_estate_list.html:130
-#: .\objects\templates\objects\real_estate_list.html:92
+#: .\objects\templates\objects\real_estate_list.html:102
 msgid "Houses"
 msgstr "Дома"
 
@@ -1487,9 +1724,46 @@ msgstr "Детали"
 msgid "Realtors"
 msgstr "Риелторы"
 
+#: .\objects\templates\objects\filial_realtors_clients_list.html:6
+#: .\objects\templates\objects\filial_realtors_list.html:6
+#: .\objects\templates\objects\my_filial_list.html:6
+#: .\objects\templates\objects\real_estate_list.html:75
+#: .\objects\templates\objects\report_list.html:86
+msgid "My Filial"
+msgstr "Мой Филиал"
+
+#: .\objects\templates\objects\filial_realtors_clients_list.html:11
+#, fuzzy
+#| msgid "Clients"
+msgid "clients"
+msgstr "Клиенты"
+
+#: .\objects\templates\objects\filial_realtors_clients_list.html:14
+#: .\objects\templates\objects\filial_realtors_clients_list.html:50
+#: .\objects\templates\objects\filial_realtors_list.html:14
+#: .\objects\templates\objects\filial_realtors_list.html:76
+#: .\objects\templates\objects\my_filial_list.html:11
+#: .\objects\templates\objects\my_filial_list.html:14
+#: .\objects\templates\objects\my_filial_list.html:49
+msgid "My filial"
+msgstr "Мой филиал"
+
+#: .\objects\templates\objects\filial_realtors_list.html:11
+#, fuzzy
+#| msgid "Real estate"
+msgid "real estate"
+msgstr "Недвижимость"
+
+#: .\objects\templates\objects\filial_realtors_list.html:15
+#, fuzzy
+#| msgid "Real estate"
+msgid "Real Estate"
+msgstr "Недвижимость"
+
+#: .\objects\templates\objects\filial_realtors_list.html:193
 #: .\objects\templates\objects\office_filial_real_estate_list.html:206
 #: .\objects\templates\objects\office_real_estate_list.html:205
-#: .\objects\templates\objects\real_estate_list.html:190
+#: .\objects\templates\objects\real_estate_list.html:200
 msgid "Mark as sold"
 msgstr "Отметить как 'Продано'"
 
@@ -1533,16 +1807,16 @@ msgstr "PDF"
 msgid "Showing act"
 msgstr "Акт показа"
 
-#: .\objects\views.py:120 .\objects\views.py:137 .\objects\views.py:209
-#: .\objects\views.py:218
+#: .\objects\views.py:118 .\objects\views.py:135 .\objects\views.py:207
+#: .\objects\views.py:216
 msgid "Invalid real estate type"
 msgstr "Неверный тип недвижимости"
 
-#: .\objects\views.py:155
+#: .\objects\views.py:153
 msgid "Doesn't exist"
 msgstr "Не существует"
 
-#: .\objects\views.py:162
+#: .\objects\views.py:160
 #, python-brace-format
 msgid "Exists (id {id})"
 msgstr "Существует (id {id})"
