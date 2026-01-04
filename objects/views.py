@@ -1,4 +1,3 @@
-import io
 import datetime
 from itertools import chain
 from urllib.parse import urlencode
@@ -7,7 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMi
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
-from django.http import FileResponse, JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
 from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
@@ -34,10 +33,10 @@ from .utils import (
     real_estate_form_filter
 )
 from utils.mixins.mixins import CustomLoginRequiredMixin
-from utils.showing_act_pdf_service import generate_showing_act_pdf
+from utils.showing_act_pdf_service import ShowingActPDFService, ShowingActPDFType
 from utils.views import HistoryView
 
-from .choices import RealEstateStatus, RealEstateType, ShowingActType
+from .choices import RealEstateStatus, RealEstateType
 from .forms import (
     ApartmentForm,
     ApartmentVerifyAddressForm,
@@ -478,9 +477,11 @@ def pdf_redirect(request, lang):
     return redirect(f"{url}?{urlencode(params, doseq=True)}")
 
 
-class ShowingActPdfView(CustomLoginRequiredMixin, View):
+class ShowingActPDFView(CustomLoginRequiredMixin, View):
     def get(self, request, lang):
+        """Повертає pdf файл акту показу нерухомості"""
         activate(lang)
+
         client_id = int(request.GET.get("client"))
         client = Client.objects.filter(on_delete=False, id=client_id).first()
         if not client:
@@ -496,18 +497,12 @@ class ShowingActPdfView(CustomLoginRequiredMixin, View):
             model_class.objects.filter(on_delete=False, id__in=selected_ids)
             .select_related()
         )
-        pdf = generate_showing_act_pdf(
-            request.user,
-            client,
-            objects,
-            ShowingActType.WITH_USER_INFO
-        )
-        return FileResponse(
-            io.BytesIO(pdf.output()),
-            as_attachment=True,
-            filename="document.pdf",
-            content_type="application/pdf",
-        )
+
+        service = ShowingActPDFService()
+        buffer = service.generate(ShowingActPDFType.SIMPLE, request.user, client, objects)
+        response = HttpResponse(buffer.read(), content_type="application/pdf")
+        response["Content-Disposition"] = f"attachment; filename=showing_act.pdf"
+        return response
 
 
 class RealEstateListRedirect(CustomLoginRequiredMixin, View):

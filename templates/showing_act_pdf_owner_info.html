@@ -1,0 +1,93 @@
+{% load static %}
+{% load i18n %}
+{% load objects_tags %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static '/css/showing_act_pdf.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>{% translate 'SHOWING ACT' %}</h1>
+        <p>{% translate '(of apartment, house, land, new building)' %}</p>
+        <div class="client-box">
+            <p class="iam">{% translate 'I,' %}</p>
+            <div class="client-name-field">
+                <p class="client-name">{{ client.first_name }}</p>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="confirm-and-date-box">
+            <p class="confirm-text">
+                {% translate 'I confirm that I received the services provided to me by the branch employee' %}
+            </p>
+            <p class="date">{% translate '"____"________________202_ y' %}</p>
+        </div>
+        <div class="realtor-name-filial-box">
+            <p>{% translate "Representative's full name / filial" %}</p>
+            <div class="realtor-name-filial-field">
+                <p>{{ realtor.first_name }} / {{ realtor.filials.first.filial_agency }}</p>
+                <div class="line"></div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <table>
+            <colgroup>
+                <col style="width: 5.3%;">
+                <col style="width: 6.8%;">
+                <col style="width: 7.52%;">
+                <col style="width: 21.75%;">
+                <col style="width: 23.31%;">
+                <col style="width: 6.8%;">
+                <col style="width: 21.0%;">
+                <col style="width: 7.52%;">
+            </colgroup>
+            <tr class="table-header">
+                <th scope="col">{% translate 'N' %}</th>
+                <th scope="col">{% translate 'ID' %}</th>
+                <th scope="col">{% translate 'Rubric' %}</th>
+                <th scope="col">{% translate "Object's address" %}</th>
+                <th scope="col">{% translate 'Brief description of the technical condition of the display object' %}
+                </th>
+                <th scope="col">{% translate 'Price' %}</th>
+                <th scope="col">{% translate 'Customer reviews and recommendations' %}</th>
+                <th scope="col">{% translate 'Customer signature' %}</th>
+            </tr>
+            {% for obj in objects %}
+            <tr class="table-body">
+                <td scope="row" style="text-align: center;">{{ forloop.counter }}</td>
+                <td scope="row" style="text-align: center;">{{ obj.id }}</td>
+                <td scope="row" style="text-align: center;">{{ obj.get_rubric_display }}</td>
+                <td scope="row">{{ obj.locality }} {{ obj.street }} {{ obj.owner.first_name }} {{ obj.owner.last_name }}
+                    {{ obj.owner.phone }}</td>
+                <td scope="row">{{ real_estate_descriptions|get_dict_value:obj.id }}</td>
+                <td scope="row" style="text-align: center;">{{ obj.price }}</td>
+                <td scope="row"></td>
+                <td scope="row"></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+    <footer>
+        <div class="realtor-name-signature-box">
+            <p>{% translate 'The show was conducted by a real estate representative from the agency' %}</p>
+            <div class="realtor-name-signature-form">
+                <div class="realtor-name-signature-field">
+                    <p>{{ realtor.last_name }} {{ realtor.first_name }}</p>
+                    <div class="line"></div>
+                </div>
+                <p>{% translate '(Surname, name, signature)' %}</p>
+            </div>
+        </div>
+        <div class="notes">
+            <p>{% translate 'This document is given to the branch director (after the transaction is completed)' %}</p>
+            <p>(098)7546898, e-mail: reklama@evropa.od.ua</p>
+        </div>
+    </footer>
+</body>
+
+</html>

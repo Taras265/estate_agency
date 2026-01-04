@@ -1,0 +1,127 @@
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 15px;
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.client-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.iam {
+    flex: 0 0 5.3%;
+    text-align: right;
+}
+
+.client-name-field {
+    flex: 0 0 59.38%;
+}
+
+.client-name {
+    margin-left: 30px;
+}
+
+.line {
+    height: 2px;
+    background-color: #000;
+}
+
+.confirm-and-date-box {
+    display: flex;
+}
+
+.confirm-text {
+    flex: 0 0 71.48%;
+}
+
+.realtor-name-filial-box {
+    width: 64.68%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.realtor-name-filial-field {
+    flex: 1;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+
+.table-header {
+    vertical-align: bottom;
+    text-align: center;
+}
+
+.table-header th {
+    border: 2px solid #000;
+    padding: 3px;
+}
+
+.table-body {
+    font-size: 14px;
+    vertical-align: top;
+}
+
+.table-body td {
+    border: 1px solid #000;
+    padding: 3px;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+.realtor-name-signature-box {
+    display: flex;
+    gap: 40px;
+}
+
+.realtor-name-signature-form {
+    display: flex;
+    gap: 10px;
+}
+
+.realtor-name-signature-form p {
+    flex: 1 0 100%;
+}
+
+.realtor-name-signature-field {
+    flex: 300px 0 0;
+}
+
+.realtor-name-signature-field p {
+    text-align: right;
+}
+
+.realtor-name-signature-field .line {
+    width: 100%;
+}
+
+.notes {
+    display: flex;
+    gap: 20px;
+}
