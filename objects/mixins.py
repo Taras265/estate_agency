@@ -79,10 +79,11 @@ class SaleListContextMixin(ContextMixin):
 
         context.update({
             "lang": self.kwargs["lang"],
-            "form": self.form_class(self.request.GET),
+            "form": self.form_class(self.request.GET) if self.form_class else None,
             "can_view_real_estate": user_can_view_real_estate_list(user),
             "can_view_report": user_can_view_report(user),
             "can_view_contract": user.has_perm("objects.view_contract"),
+            "can_view_my_filial": user.has_perm("objects.view_my_filial"),
         })
         return context
 
