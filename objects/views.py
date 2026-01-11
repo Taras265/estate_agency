@@ -2,12 +2,14 @@ import datetime
 from itertools import chain
 from urllib.parse import urlencode
 
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
@@ -20,6 +22,7 @@ from django.views.generic import (
 )
 
 from accounts.models import CustomUser
+from handbooks.choices import ClientStatusType
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
 from handbooks.utils import get_sale_client_list_context
@@ -572,6 +575,202 @@ class FilialRealtorsClientsListView(
 
     def get_queryset(self):
         qs = Client.objects.filter(realtor=self.realtor)
+
+        user = self.request.user
+
+        if user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return qs
+
+        return Client.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["realtor"] = self.realtor
+        extra_context = get_sale_client_list_context(
+            self.kwargs["lang"], self.request.user, self.object_list
+        )
+        context.update(extra_context)
+        return context
+
+
+class FilialRealtorsNewClientsListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Client
+    template_name = "objects/filial_realtors_clients_list.html"
+    context_object_name = "objects"
+    form_class = None
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        date_off_add_min = timezone.now() - relativedelta(months=1)
+        qs = Client.objects.filter(realtor=self.realtor, on_delete=False, date_of_add__gte=date_off_add_min)
+
+        user = self.request.user
+
+        if user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return qs
+
+        return Client.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["realtor"] = self.realtor
+        extra_context = get_sale_client_list_context(
+            self.kwargs["lang"], self.request.user, self.object_list
+        )
+        context.update(extra_context)
+        return context
+
+
+class FilialRealtorsInSelectionClientsListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Client
+    template_name = "objects/filial_realtors_clients_list.html"
+    context_object_name = "objects"
+    form_class = None
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Client.objects.filter(realtor=self.realtor, on_delete=False, status=ClientStatusType.IN_SEARCH)
+
+        user = self.request.user
+
+        if user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return qs
+
+        return Client.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["realtor"] = self.realtor
+        extra_context = get_sale_client_list_context(
+            self.kwargs["lang"], self.request.user, self.object_list
+        )
+        context.update(extra_context)
+        return context
+
+
+class FilialRealtorsWithShowClientsListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Client
+    template_name = "objects/filial_realtors_clients_list.html"
+    context_object_name = "objects"
+    form_class = None
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Client.objects.filter(realtor=self.realtor, on_delete=False, status=ClientStatusType.WITH_SHOW)
+
+        user = self.request.user
+
+        if user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return qs
+
+        return Client.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["realtor"] = self.realtor
+        extra_context = get_sale_client_list_context(
+            self.kwargs["lang"], self.request.user, self.object_list
+        )
+        context.update(extra_context)
+        return context
+
+
+class FilialRealtorsDecidedClientsListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Client
+    template_name = "objects/filial_realtors_clients_list.html"
+    context_object_name = "objects"
+    form_class = None
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Client.objects.filter(realtor=self.realtor, on_delete=False, status=ClientStatusType.DECIDED)
+
+        user = self.request.user
+
+        if user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return qs
+
+        return Client.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["realtor"] = self.realtor
+        extra_context = get_sale_client_list_context(
+            self.kwargs["lang"], self.request.user, self.object_list
+        )
+        context.update(extra_context)
+        return context
+
+
+class FilialRealtorsDeferredDemandClientsListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Client
+    template_name = "objects/filial_realtors_clients_list.html"
+    context_object_name = "objects"
+    form_class = None
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Client.objects.filter(realtor=self.realtor, on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
 
         user = self.request.user
 
