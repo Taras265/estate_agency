@@ -101,10 +101,32 @@ urlpatterns = [
     ),
 
     path("sale/my_filial/", views.MyFilialListView.as_view(), name="my_filial"),
+
     path("sale/my_filial/clients/<int:realtor_id>/",
          views.FilialRealtorsClientsListView.as_view(),
          name="my_filial_realtor_clients"
     ),
+    path("sale/my_filial/clients/<int:realtor_id>/new/",
+         views.FilialRealtorsNewClientsListView.as_view(),
+         name="my_filial_realtor_new_clients"
+    ),
+    path("sale/my_filial/clients/<int:realtor_id>/in_selection/",
+         views.FilialRealtorsInSelectionClientsListView.as_view(),
+         name="my_filial_realtor_in_selection_clients"
+    ),
+    path("sale/my_filial/clients/<int:realtor_id>/with_show/",
+         views.FilialRealtorsWithShowClientsListView.as_view(),
+         name="my_filial_realtor_with_show_clients"
+    ),
+    path("sale/my_filial/clients/<int:realtor_id>/decided/",
+         views.FilialRealtorsDecidedClientsListView.as_view(),
+         name="my_filial_realtor_decided_clients"
+    ),
+    path("sale/my_filial/clients/<int:realtor_id>/deferred_demand/",
+         views.FilialRealtorsDeferredDemandClientsListView.as_view(),
+         name="my_filial_realtor_deferred_demand_clients"
+    ),
+
     path("sale/my_filial/apartments/<int:realtor_id>/",
          views.FilialRealtorsApartmentListView.as_view(),
          name="my_filial_realtor_apartments"

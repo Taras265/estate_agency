@@ -51,7 +51,46 @@
                 </a>
             </li>
         </ul>
-
+        {% with url_name=request.resolver_match.url_name %}
+        <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'All' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_new_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_new_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'New' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_in_selection_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_in_selection_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'In selection' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_with_show_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_with_show_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'With a show' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_decided_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_decided_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'Decided' %}
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {% if url_name == 'my_filial_realtor_deferred_demand_clients' %}active{% endif %}"
+                   href="{% url 'objects:my_filial_realtor_deferred_demand_clients' realtor_id=realtor.id lang=lang %}">
+                    {% translate 'Deferred demand' %}
+                </a>
+            </li>
+        </ul>
+    {% endwith %}
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
