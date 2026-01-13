@@ -240,8 +240,8 @@ class Apartment(BaseRealEstate):
             ("change_object_price", "Can change price field in object"),
             ("view_my_filial", "Can view realtors filial and their client/real estate"),
 
-            ("can_view_filial_deposit", "Can view filial deposit real estate"),
-            ("can_view_agency_deposit", "Can view agency deposit real estate"),
+            ("view_filial_deposit", "Can view filial deposit real estate"),
+            ("view_agency_deposit", "Can view agency deposit real estate"),
         )
 
     rubric = models.PositiveSmallIntegerField(
