@@ -53,6 +53,8 @@ def get_sale_report_list_context(lang: str, user: CustomUser, form) -> dict[str,
         "can_view_own_report": user.has_perm("objects.view_own_report"),
         "can_view_filial_report": user.has_perm("objects.view_filial_report"),
         "can_view_my_filial": user.has_perm("objects.view_my_filial"),
+        "can_view_filial_deposit": user.has_perm("objects.view_filial_deposit"),
+        "can_view_agency_deposit": user.has_perm("objects.view_agency_deposit"),
     }
     return context
 

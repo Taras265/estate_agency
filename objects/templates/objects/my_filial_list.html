@@ -49,6 +49,22 @@
                     {% translate "My filial" %}
                 </a>
             </li>
+            {% if can_view_filial_deposit %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:filial_deposit_apartments' lang=lang %}">
+                        {% translate "Filial Deposit" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if can_view_agency_deposit %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:agency_deposit_apartments' lang=lang %}">
+                        {% translate "Agency Deposit" %}
+                    </a>
+                </li>
+            {% endif %}
         </ul>
 
 
@@ -67,6 +83,7 @@
                                         <th scope="col">{% translate 'First name' %}</th>
                                         <th scope="col">{% translate 'Email' %}</th>
                                         <th scope="col">{% translate 'Phone numbers' %}</th>
+                                        <th scope="col"></th>
                                         <th scope="col"></th>
                                         <th scope="col"></th>
                                     </tr>
@@ -98,6 +115,13 @@
                                                        href="{% url 'objects:my_filial_realtor_apartments' lang=lang realtor_id=user.id %}"
                                                        type="button" style="max-width: 120px">
                                                         {% translate 'Real estate' %}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                                       href="{% url 'objects:my_filial_realtor_deposit_apartments' lang=lang realtor_id=user.id %}"
+                                                       type="button" style="max-width: 120px">
+                                                        {% translate 'Deposit Real estate' %}
                                                     </a>
                                                 </td>
                                         </tr>

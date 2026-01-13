@@ -54,12 +54,14 @@
                     </a>
                 </li>
             {% endif %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active"
-                    href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
-                    {% translate "Real estate" %}
-                </a>
-            </li>
+            {% if can_view_real_estate %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
+                        {% translate "Real estate" %}
+                    </a>
+                </li>
+            {% endif %}
             {% if can_view_report %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
@@ -84,49 +86,39 @@
                     </a>
                 </li>
             {% endif %}
-            {% if can_view_agency_deposit %}
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link"
+                    <a class="nav-link active"
                         href="{% url 'objects:agency_deposit_apartments' lang=lang %}">
                         {% translate "Agency Deposit" %}
                     </a>
                 </li>
-            {% endif %}
         </ul>
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">
-                    {% if can_view_apartment %}
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {% if url_name == 'apartment_list' %}active{% endif %}"
-                               href="{% url 'objects:apartment_list' lang=lang %}">
+                            <a class="nav-link {% if url_name == 'agency_deposit_apartments' %}active{% endif %}"
+                               href="{% url 'objects:agency_deposit_apartments' lang=lang %}">
                                 {% translate "Apartments" %}
                             </a>
                         </li>
-                    {% endif %}
-                    {% if can_view_commerce %}
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {% if url_name == 'commerce_list' %}active{% endif %}"
-                               href="{% url 'objects:commerce_list' lang=lang %}">
+                            <a class="nav-link {% if url_name == 'agency_deposit_commerces' %}active{% endif %}"
+                               href="{% url 'objects:agency_deposit_commerces' lang=lang %}">
                                 {% translate "Commerces" %}
                             </a>
                         </li>
-                    {% endif %}
-                    {% if can_view_house %}
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {% if url_name == 'house_list' %}active{% endif %}"
-                               href="{% url 'objects:house_list' lang=lang %}">
+                            <a class="nav-link {% if url_name == 'agency_deposit_houses' %}active{% endif %}"
+                               href="{% url 'objects:agency_deposit_houses' lang=lang %}">
                                 {% translate "Houses" %}
                             </a>
                         </li>
-                    {% endif %}
-                    {% if can_view_land %}
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link {% if url_name == 'land_list' %}active{% endif %}"
-                               href="{% url 'objects:land_list' lang=lang %}">
+                            <a class="nav-link {% if url_name == 'agency_deposit_lands' %}active{% endif %}"
+                               href="{% url 'objects:agency_deposit_lands' lang=lang %}">
                                 {% translate "Land" %}
                             </a>
                         </li>
-                    {% endif %}
             </ul>
         {% endwith %}
         <div class="row">

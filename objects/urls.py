@@ -143,6 +143,57 @@ urlpatterns = [
          views.FilialRealtorsLandListView.as_view(),
          name="my_filial_realtor_lands"
     ),
+
+    path("sale/my_filial/apartments/deposit/<int:realtor_id>/",
+         views.FilialRealtorsDepositApartmentListView.as_view(),
+         name="my_filial_realtor_deposit_apartments"
+         ),
+    path("sale/my_filial/commerces/deposit/<int:realtor_id>/",
+         views.FilialRealtorsDepositCommerceListView.as_view(),
+         name="my_filial_realtor_deposit_commerces"
+         ),
+    path("sale/my_filial/houses/deposit/<int:realtor_id>/",
+         views.FilialRealtorsDepositHouseListView.as_view(),
+         name="my_filial_realtor_deposit_houses"
+         ),
+    path("sale/my_filial/lands/deposit/<int:realtor_id>/",
+         views.FilialRealtorsDepositLandListView.as_view(),
+         name="my_filial_realtor_deposit_lands"
+         ),
+
+    path("sale/filial_deposit/apartments/",
+         views.FilialDepositApartmentListView.as_view(),
+         name="filial_deposit_apartments"
+    ),
+    path("sale/filial_deposit/commerces/",
+         views.FilialDepositCommerceListView.as_view(),
+         name="filial_deposit_commerces"
+    ),
+    path("sale/filial_deposit/houses/",
+         views.FilialDepositHouseListView.as_view(),
+         name="filial_deposit_houses"
+    ),
+    path("sale/filial_deposit/lands/",
+         views.FilialDepositLandListView.as_view(),
+         name="filial_deposit_lands"
+    ),
+
+    path("sale/agency_deposit/apartments/",
+         views.AgencyDepositApartmentListView.as_view(),
+         name="agency_deposit_apartments"
+    ),
+    path("sale/agency_deposit/commerces/",
+         views.AgencyDepositCommerceListView.as_view(),
+         name="agency_deposit_commerces"
+    ),
+    path("sale/agency_deposit/houses/",
+         views.AgencyDepositHouseListView.as_view(),
+         name="agency_deposit_houses"
+    ),
+    path("sale/agency_deposit/lands/",
+         views.AgencyDepositLandListView.as_view(),
+         name="agency_deposit_lands"
+    ),
 ]
 
 """

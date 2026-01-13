@@ -87,6 +87,22 @@
                     </a>
                 </li>
             {% endif %}
+            {% if can_view_filial_deposit %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:filial_deposit_apartments' lang=lang %}">
+                        {% translate "Filial Deposit" %}
+                    </a>
+                </li>
+            {% endif %}
+            {% if can_view_agency_deposit %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link"
+                        href="{% url 'objects:agency_deposit_apartments' lang=lang %}">
+                        {% translate "Agency Deposit" %}
+                    </a>
+                </li>
+            {% endif %}
         </ul>
         {% with url_name=request.resolver_match.url_name %}
             <ul class="nav nav-tabs" id="myTab1" role="tablist">

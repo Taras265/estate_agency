@@ -1079,6 +1079,770 @@ class FilialRealtorsLandListView(
         return context
 
 
+class FilialRealtorsDepositApartmentListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Apartment
+    template_name = "objects/filial_realtors_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters)
+            .filter(realtor=self.realtor, deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        user = self.request.user
+        if not user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return Apartment.objects.none()
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_apartment"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_apartment"),
+                "update_url_name": "objects:update_apartment",
+                "delete_url_name": "objects:delete_apartment",
+                "real_estate_type": RealEstateType.APARTMENT,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+                "realtor": self.realtor,
+            }
+        )
+        return context
+
+
+class FilialRealtorsDepositCommerceListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Commerce
+    template_name = "objects/filial_realtors_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters)
+            .filter(realtor=self.realtor, deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        user = self.request.user
+        if not user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return Commerce.objects.none()
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_commerce"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_commerce"),
+                "update_url_name": "objects:update_commerce",
+                "delete_url_name": "objects:delete_commerce",
+                "real_estate_type": RealEstateType.COMMERCE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+                "realtor": self.realtor,
+            }
+        )
+        return context
+
+
+class FilialRealtorsDepositHouseListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = House
+    template_name = "objects/filial_realtors_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+
+        qs = (
+            House.objects.filter(on_delete=False, **filters)
+            .filter(realtor=self.realtor, deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        user = self.request.user
+        if not user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return House.objects.none()
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_house"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_house"),
+                "update_url_name": "objects:update_house",
+                "delete_url_name": "objects:delete_house",
+                "real_estate_type": RealEstateType.HOUSE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+                "realtor": self.realtor,
+            }
+        )
+        return context
+
+
+class FilialRealtorsDepositLandListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Land
+    template_name = "objects/filial_realtors_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_my_filial"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.realtor = get_object_or_404(
+            CustomUser,
+            id=kwargs["realtor_id"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+
+        qs = (
+            Land.objects.filter(on_delete=False, **filters)
+            .filter(realtor=self.realtor, deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        user = self.request.user
+        if not user.filials.filter(
+                id__in=self.realtor.filials.values_list("id", flat=True)
+        ).exists():
+            return Land.objects.none()
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_land"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_land"),
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+                "realtor": self.realtor,
+            }
+        )
+        return context
+
+
+class FilialDepositApartmentListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Apartment
+    template_name = "objects/filial_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_filial_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        user = self.request.user
+
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,
+                                     realtor__filials__in=user.filials.all())
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_apartment"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_apartment"),
+                "update_url_name": "objects:update_apartment",
+                "delete_url_name": "objects:delete_apartment",
+                "real_estate_type": RealEstateType.APARTMENT,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class FilialDepositCommerceListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Commerce
+    template_name = "objects/filial_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_filial_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        user = self.request.user
+
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,
+                                     realtor__filials__in=user.filials.all())
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_commerce"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_commerce"),
+                "update_url_name": "objects:update_commerce",
+                "delete_url_name": "objects:delete_commerce",
+                "real_estate_type": RealEstateType.COMMERCE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class FilialDepositHouseListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = House
+    template_name = "objects/filial_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_filial_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        user = self.request.user
+
+        qs = (
+            House.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,
+                                     realtor__filials__in=user.filials.all())
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_house"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_house"),
+                "update_url_name": "objects:update_house",
+                "delete_url_name": "objects:delete_house",
+                "real_estate_type": RealEstateType.HOUSE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class FilialDepositLandListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Land
+    template_name = "objects/filial_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_filial_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        user = self.request.user
+
+        qs = (
+            Land.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,
+                                     realtor__filials__in=user.filials.all())
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_land"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_land"),
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class AgencyDepositApartmentListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Apartment
+    template_name = "objects/agency_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_agency_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        qs = (
+            Apartment.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_apartment"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_apartment"),
+                "update_url_name": "objects:update_apartment",
+                "delete_url_name": "objects:delete_apartment",
+                "real_estate_type": RealEstateType.APARTMENT,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class AgencyDepositCommerceListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Commerce
+    template_name = "objects/agency_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_agency_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        qs = (
+            Commerce.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_commerce"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_commerce"),
+                "update_url_name": "objects:update_commerce",
+                "delete_url_name": "objects:delete_commerce",
+                "real_estate_type": RealEstateType.COMMERCE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class AgencyDepositHouseListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = House
+    template_name = "objects/agency_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_agency_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        qs = (
+            House.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False,)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_house"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_house"),
+                "update_url_name": "objects:update_house",
+                "delete_url_name": "objects:delete_house",
+                "real_estate_type": RealEstateType.HOUSE,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
+class AgencyDepositLandListView(
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+):
+    model = Land
+    template_name = "objects/agency_deposit_list.html"
+    context_object_name = "objects"
+    form_class = HandbooksSearchForm
+    paginate_by = 5
+    permission_required = "objects.view_agency_deposit"
+
+    def get_ordering(self):
+        sort = self.request.GET.get("sort")
+        direction = self.request.GET.get("direction")
+        if sort and direction in ["s", "d"]:
+            return sort if direction == "s" else f"-{sort}"
+        return None
+
+    def get_queryset(self):
+        filters = {}
+        if "id" in self.request.GET:
+            form = self.form_class(self.request.GET)
+            if not form.is_valid():
+                return []
+
+            filters = {
+                field: value
+                for field, value in form.cleaned_data.items()
+                if value is not None
+            }
+
+        qs = (
+            Land.objects.filter(on_delete=False, **filters,
+                                     deposit_date__isnull=False)
+            .select_related("locality", "street", "realtor")
+            .only("id", "locality__locality", "street__street", "realtor__email")
+        )
+        ordering = self.get_ordering()
+        if ordering:
+            qs = qs.order_by(ordering)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "can_update": self.request.user.has_perm("objects.change_filial_land"),
+                "can_view_history": self.request.user.has_perm("objects.view_filial_land"),
+                "update_url_name": "objects:update_land",
+                "delete_url_name": "objects:delete_land",
+                "real_estate_type": RealEstateType.LAND,
+                "sort": self.request.GET.get("sort"),
+                "direction": self.request.GET.get("direction"),
+            }
+        )
+        return context
+
+
 class AccessibleApartmentListView(
     CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
 ):
