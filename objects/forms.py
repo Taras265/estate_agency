@@ -14,6 +14,12 @@ class BaseRealEstateForm(forms.ModelForm):
     які потрібно перевизначити (наприклад, передати кастомний queryset).
     """
 
+    deposit_date = forms.DateField(
+        required=False,
+        widget=forms.SelectDateWidget(
+            empty_label=("-", "-", "-"),
+        ),
+    )
     agency = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=5, on_delete=False),
     )

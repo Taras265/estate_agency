@@ -84,6 +84,8 @@ class SaleListContextMixin(ContextMixin):
             "can_view_report": user_can_view_report(user),
             "can_view_contract": user.has_perm("objects.view_contract"),
             "can_view_my_filial": user.has_perm("objects.view_my_filial"),
+            "can_view_filial_deposit": user.has_perm("objects.view_filial_deposit"),
+            "can_view_agency_deposit": user.has_perm("objects.view_agency_deposit"),
         })
         return context
 
