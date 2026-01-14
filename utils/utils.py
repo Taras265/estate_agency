@@ -19,7 +19,6 @@ def get_office_context(user: CustomUser) -> dict[str, Any]:
 
 def table_to_app(table):
     for model in apps.get_models():
-        print(HandbookType.labels)
         if model.__name__.lower() == table.lower():
             return model._meta.app_label
         if table in ["".join(label.split("_")) for label in HandbookType.labels]:
