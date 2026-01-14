@@ -76,9 +76,7 @@ class CustomUser(AbstractUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = []
     history = HistoricalRecords()
 
     class Meta:
@@ -86,7 +84,7 @@ class CustomUser(AbstractUser):
         verbose_name_plural = "Users"
         default_permissions = ("add", "change", "view")
 
-        permissions = (("view_office_user", "Can view in office users"),)
+        permissions = (("view_office_user", "Can view in office users"),) # delete
 
     def get_full_name(self):
         return self.first_name, self.last_name, self.email

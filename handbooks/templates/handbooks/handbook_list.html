@@ -46,14 +46,7 @@
 <div class="container">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <!-- {% for i in choices %}
-            <li class="nav-item" role="presentation">
-                <a class="nav-link {% if i == choice %}active{% endif %}"
-                   href='/{{lang}}/{% url_app i %}/{% choices_url i %}/{{i}}/'>
-                    {% translate i %}
-                </a>
-            </li>
-            {% endfor %} -->
+
             {% with url_name=request.resolver_match.url_name %}
                 {% if perms.handbooks.view_region %}
                     <li class="nav-item" role="presentation">
