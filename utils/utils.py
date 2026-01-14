@@ -3,6 +3,7 @@ from typing import Any
 from django.apps import apps
 
 from accounts.models import CustomUser
+from handbooks.choices import HandbookType
 from handbooks.models import Handbook
 
 
@@ -20,7 +21,7 @@ def table_to_app(table):
     for model in apps.get_models():
         if model.__name__.lower() == table.lower():
             return model._meta.app_label
-        if table in ["".join(label.split("_")) for _, label in Handbook.HANDBOOKS_TYPE_CHOICE]:
+        if table in ["".join(label.split("_")) for _, label in HandbookType.labels]:
             return "handbooks"
         if table.lower() == "realestate":
             return "objects"

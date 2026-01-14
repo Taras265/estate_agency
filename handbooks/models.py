@@ -9,7 +9,7 @@ from handbooks.choices import (
     ClientStatusType,
     IncomeSourceType,
     NewBuildingDistrictType,
-    RealtorType,
+    RealtorType, HandbookType,
 )
 from objects.choices import RealEstateType
 
@@ -98,22 +98,7 @@ class Street(BaseModel):
 class Handbook(BaseModel):
     handbook = models.CharField(max_length=100)
 
-    HANDBOOKS_TYPE_CHOICE = (
-        (1, "withdrawal_reason"),
-        (2, "condition"),
-        (3, "material"),
-        (4, "separation"),
-        (5, "agency"),
-        (6, "agency_sales"),
-        (7, "new_building_name"),
-        (8, "stair"),
-        (9, "heating"),
-        (10, "layout"),
-        (11, "house_type"),
-        (12, "complex"),
-    )
-
-    type = models.PositiveSmallIntegerField(choices=HANDBOOKS_TYPE_CHOICE)
+    type = models.PositiveSmallIntegerField(choices=HandbookType.choices)
 
     class Meta:
         default_permissions = ()

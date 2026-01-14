@@ -40,3 +40,18 @@ class ClientStatusType(models.IntegerChoices):
     WITH_SHOW = 2, _("With a show")
     DECIDED = 3, _("Decided")
     DEFERRED_DEMAND = 4, _("Deferred demand")
+
+
+class HandbookType(models.IntegerChoices):
+    WITHDRAWAL_REASON = 1, "withdrawal_reason"
+    CONDITION = 2, "condition"
+    MATERIAL = 3, "material"
+    SEPARATION = 4, "separation"
+    AGENCY = 5, "agency"
+    AGENCY_SALES = 6, "agency_sales"
+    NEW_BUILDING_NAME = 7, "new_building_name"
+    STAIR = 8, "stair"
+    HEATING = 9, "heating"
+    LAYOUT = 10, "layout"
+    HOUSE_TYPE = 11, "house_type"
+    COMPLEX = 12, "complex"
