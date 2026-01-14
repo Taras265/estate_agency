@@ -238,6 +238,15 @@ class Client(BaseModel):
     )
 
     class Meta:
+        """
+        permissions = (
+            ("add_own_client", ""),
+            ("view_own_client", ""),
+            ("change_own_client", ""),
+            ("view_filial_client", ""),
+            ("change_filial_client", ""),
+        )
+        """
         default_permissions = ("add", "change", "view")
         permissions = (
             ("change_own_client", "Can change own client"),
