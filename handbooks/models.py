@@ -102,6 +102,11 @@ class Handbook(BaseModel):
 
     class Meta:
         default_permissions = ()
+        """permissions = (
+            ("view_handbooks", "Can view withdrawal reason"),
+            ("add_handbook", "Can add withdrawal reason"),
+            ("change_handbook", "Can change withdrawal reason"),
+        )"""
         permissions = (
             ("add_withdrawalreason", "Can add withdrawal reason"),
             ("change_withdrawalreason", "Can change withdrawal reason"),
@@ -228,8 +233,8 @@ class Client(BaseModel):
             ("add_own_client", ""),
             ("view_own_client", ""),
             ("change_own_client", ""),
-            ("view_filial_client", ""),
-            ("change_filial_client", ""),
+            # ("view_filial_client", ""),
+            # ("change_filial_client", ""),
         )
         """
         default_permissions = ("add", "change", "view")

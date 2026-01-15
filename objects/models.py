@@ -218,16 +218,16 @@ class Apartment(BaseRealEstate):
     class Meta(BaseRealEstate.Meta):
         """
         permissions = (
-            ("view_own_real_estate", ""),
+            ("view_real_estate", ""),
+
             ("add_own_real_estate", ""),
             ("change_own_real_estate", ""),
-            ("view_filial_real_estate", ""),
-            ("change_filial_real_estate", ""),
-
-            ("view_report", "Can view reports"),
-
-            ("change_real_estate_comment_price", "Can change comment field in object"), # comment and price
-            ("change_real_estate_image", "Can change price field in object"),
+            ("view_report_changes", "Can view report of changes"),
+            # ("change_real_estate", ""),
+            # ("view_filial_real_estate", ""),
+            # ("change_filial_real_estate", ""),
+            # ("change_real_estate_comment_price", "Can change comment field in object"), # comment and price
+            # ("change_real_estate_image", "Can change price field in object"),
         """
 
         permissions = (
