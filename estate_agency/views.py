@@ -3,7 +3,6 @@ from django.views.generic import TemplateView
 
 from accounts.models import CustomUser
 from objects.services import user_can_view_real_estate_list, user_can_view_report
-from utils.const import BASE_CHOICES
 from utils.mixins.mixins import CustomLoginRequiredMixin
 
 
@@ -42,9 +41,7 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                     ]
                 )
                         and self.request.user.has_perm("objects.selection"),
-                "handbooks": any(
-                    self.request.user.has_perm(f"handbooks.view_{perm}") for perm in BASE_CHOICES
-                ),
+                "handbooks": self.request.user.has_perm(f"handbooks.view_handbooks"),
             }
         )
 
