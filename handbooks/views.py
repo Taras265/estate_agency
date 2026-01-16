@@ -444,13 +444,14 @@ class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchB
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
+        user = self.request.user
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],
             "form": IdSearchForm(self.request.GET),
-            "can_create_handbook": False,
-            "can_change_handbook": False,
-            "can_view_handbook_history": False,
+            "can_create_handbook": user.has_perm("handbooks.add_handbook"),
+            "can_change_handbook": user.has_perm("handbooks.change_handbook"),
+            "can_view_handbook_history": user.has_perm("handbooks.view_handbooks"),
             "create_url_name": "handbooks:complex_create",
             "update_url_name": "handbooks:complex_update",
             "delete_url_name": "handbooks:complex_delete",
