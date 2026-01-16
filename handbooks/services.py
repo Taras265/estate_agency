@@ -43,7 +43,7 @@ def user_can_update_client_list(user: CustomUser, clients: QuerySet[Client]) -> 
     Перевіряє для кожного клієнта з <clients> чи може користувач <user> його редагувати.
     Повертає словник, в якому ключі - id клієнта, значення - True/False.
     """
-    if user.has_perm("handbooks.change_client"):
+    """if user.has_perm("handbooks.change_client"):
         return {client.id: True for client in clients}
     
     if user.has_perm("handbooks.change_filial_client"):
@@ -54,5 +54,9 @@ def user_can_update_client_list(user: CustomUser, clients: QuerySet[Client]) -> 
     if user.has_perm("handbooks.change_own_client"):
         return {client.id: user == client.realtor for client in clients}
     
+    return {client.id: False for client in clients}"""
+
+    if user.has_perm("handbooks.change_own_client"):
+        return {client.id: user == client.realtor for client in clients}
+
     return {client.id: False for client in clients}
-    

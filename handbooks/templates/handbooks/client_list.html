@@ -112,6 +112,14 @@
     <div class="row">
         <div class="responsive-tabs" data-type="horizontal">
             <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+
+                {% if can_add_client %}
+                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                       href="{% url 'handbooks:client_create' lang=lang %}"
+                       type="button" style="max-width: 120px">
+                        {% translate 'Create' %}
+                    </a>
+                {% endif %}
                 {% if page_obj %}
                 <div>
                     <div class="offset-top-66 text-center">
@@ -190,13 +198,6 @@
                         </table>
                     </div>
                 </div>
-                {% endif %}
-                {% if perms.handbooks.add_client %}
-                    <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                       href="{% url 'handbooks:client_create' lang=lang %}"
-                       type="button" style="max-width: 120px">
-                        {% translate 'Create' %}
-                    </a>
                 {% endif %}
             </div>
         </div>
