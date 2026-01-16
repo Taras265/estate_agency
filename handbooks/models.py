@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
 from estate_agency.models import BaseModel
@@ -18,7 +19,7 @@ class Region(BaseModel):
     region = models.CharField(max_length=100)
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.region
@@ -31,7 +32,7 @@ class District(BaseModel):
     )
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.district
@@ -50,7 +51,7 @@ class Locality(BaseModel):
     )
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.locality
@@ -71,7 +72,7 @@ class LocalityDistrict(BaseModel):
     )
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.district
@@ -89,7 +90,7 @@ class Street(BaseModel):
     )
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.street
@@ -102,12 +103,12 @@ class Handbook(BaseModel):
 
     class Meta:
         default_permissions = ()
-        """permissions = (
-            ("view_handbooks", "Can view withdrawal reason"),
-            ("add_handbook", "Can add withdrawal reason"),
-            ("change_handbook", "Can change withdrawal reason"),
-        )"""
         permissions = (
+            ("view_handbooks", "Can view handbooks"),
+            ("add_handbook", "Can add handbook"),
+            ("change_handbook", "Can change handbook"),
+        )
+        """permissions = (
             ("add_withdrawalreason", "Can add withdrawal reason"),
             ("change_withdrawalreason", "Can change withdrawal reason"),
             ("view_withdrawalreason", "Can view withdrawal reason"),
@@ -152,7 +153,7 @@ class Handbook(BaseModel):
             ("change_housetype", "Can change house type"),
             ("view_housetype", "Can view house type"),
             ("view_historicalhousetype", "Can view historical house type"),
-        )
+        )"""
 
     def __str__(self):
         return self.handbook
@@ -173,7 +174,7 @@ class FilialAgency(BaseModel):
     open_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.filial_agency
@@ -228,16 +229,15 @@ class Client(BaseModel):
     )
 
     class Meta:
-        """
         permissions = (
-            ("add_own_client", ""),
-            ("view_own_client", ""),
-            ("change_own_client", ""),
+            ("add_own_client", "Can add own clients"),
+            ("view_own_clients", "Can view own client"),
+            ("change_own_client", "Can change own client"),
             # ("view_filial_client", ""),
             # ("change_filial_client", ""),
         )
+        default_permissions = ()
         """
-        default_permissions = ("add", "change", "view")
         permissions = (
             ("change_own_client", "Can change own client"),
             ("view_own_client", "Can view own client"),
@@ -246,6 +246,7 @@ class Client(BaseModel):
             ("view_own_office_client", "Can view in office own clients"),
             ("view_filial_office_client", "Can view in office filial clients"),
         )
+        """
 
     def __str__(self):
         return f"{self.email} {self.first_name} {self.last_name}"
@@ -261,7 +262,7 @@ class FilialReport(BaseModel):
     )
 
     class Meta:
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     def __str__(self):
         return self.report

@@ -107,7 +107,6 @@ from handbooks.views import (
     WithdrawalReasonListView,
     WithdrawalReasonUpdateView,
     WithShowAccessibleClientListView,
-    handbook_redirect,
     sale_redirect,
 )
 
@@ -147,7 +146,6 @@ urlpatterns = [
         ClientHistoryView.as_view(),
         name="client_history",
     ),
-    path("base/", handbook_redirect, name="handbook_redirect"),
     path("base/region/", RegionListView.as_view(), name="region_list"),
     path("base/district/", DistrictListView.as_view(), name="district_list"),
     path("base/locality/", LocalityListView.as_view(), name="locality_list"),

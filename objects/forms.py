@@ -65,7 +65,7 @@ class BaseRealEstateForm(forms.ModelForm):
         realtor = cleaned_data.get("realtor")
         filial = cleaned_data.get("filial")
 
-        if not filial in realtor.filials.all():
+        if filial not in realtor.filials.all():
             self.add_error("filial", "Realtor doesn't have filial " + filial)
             return False
         return True
