@@ -17,7 +17,6 @@ from objects.choices import RealEstateType
 
 class Region(BaseModel):
     region = models.CharField(max_length=100)
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -31,7 +30,6 @@ class District(BaseModel):
     region = models.ForeignKey(
         Region, on_delete=models.CASCADE, related_name="region_related_name"
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -51,7 +49,6 @@ class Locality(BaseModel):
     center_type = models.PositiveSmallIntegerField(
         choices=CenterType.choices, null=True, blank=True
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -73,7 +70,6 @@ class LocalityDistrict(BaseModel):
     new_building_district = models.PositiveSmallIntegerField(
         choices=NewBuildingDistrictType.choices
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -92,7 +88,6 @@ class Street(BaseModel):
     locality = models.ForeignKey(
         Locality, on_delete=models.CASCADE, related_name="locality_related_name_street"
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -105,7 +100,6 @@ class Handbook(BaseModel):
     handbook = models.CharField(max_length=100)
 
     type = models.PositiveSmallIntegerField(choices=HandbookType.choices)
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -178,7 +172,6 @@ class FilialAgency(BaseModel):
     type = models.CharField(max_length=100, null=True, blank=True)
     new_build_area = models.CharField(max_length=100, null=True, blank=True)
     open_date = models.DateTimeField(default=timezone.now)
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -234,7 +227,6 @@ class Client(BaseModel):
     condition = models.ManyToManyField(
         Handbook, related_name="condition_client_related_name", null=True, blank=True
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         permissions = (
@@ -268,7 +260,6 @@ class FilialReport(BaseModel):
     user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="user_report_related_name"
     )
-    history = HistoricalRecords(inherit=False)
 
     class Meta:
         default_permissions = ()
@@ -287,7 +278,6 @@ class PhoneNumber(models.Model):
     user = models.ForeignKey(
         "accounts.CustomUser", related_name="phone_numbers", on_delete=models.CASCADE
     )
-    history = HistoricalRecords(inherit=False)
 
     def __str__(self):
         return self.number
