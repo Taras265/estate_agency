@@ -32,19 +32,10 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                 and any(
                     [user_can_view_real_estate_list(self.request.user), user_can_view_report(self.request.user)]
                 ),
-                "selection": any(
-                    self.request.user.has_perm(perm)
-                    for perm in [
-                        "handbooks.view_client",
-                        "handbooks.view_own_client",
-                        "handbooks.view_filial_client",
-                    ]
-                )
-                        and self.request.user.has_perm("objects.selection"),
+                "selection": self.request.user.has_perm("handbooks.view_own_clients"),
                 "handbooks": self.request.user.has_perm("handbooks.view_handbooks"),
             }
         )
-
         return context
 
 
