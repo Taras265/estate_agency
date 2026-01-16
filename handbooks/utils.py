@@ -2,10 +2,6 @@ from typing import Any
 
 from accounts.models import CustomUser
 from .services import user_can_update_client_list
-from objects.services import (
-    user_can_view_real_estate_list,
-    user_can_view_report
-)
 
 def get_sale_client_list_context(lang: str, user: CustomUser, object_list) -> dict[str, Any]:
     context = {

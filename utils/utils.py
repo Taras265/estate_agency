@@ -4,7 +4,6 @@ from django.apps import apps
 
 from accounts.models import CustomUser
 from handbooks.choices import HandbookType
-from handbooks.models import Handbook
 
 
 def get_office_context(user: CustomUser) -> dict[str, Any]:

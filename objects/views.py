@@ -2,14 +2,12 @@ import datetime
 from itertools import chain
 from urllib.parse import urlencode
 
-from dateutil.relativedelta import relativedelta
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
@@ -21,11 +19,8 @@ from django.views.generic import (
     View,
 )
 
-from accounts.models import CustomUser
-from handbooks.choices import ClientStatusType
 from handbooks.forms import SelectionForm
 from handbooks.models import Client, Street
-from handbooks.utils import get_sale_client_list_context
 from images.forms import RealEstateImageFormSet
 
 from .models import Apartment, Commerce, House, Land, Selection
@@ -504,7 +499,7 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
         service = ShowingActPDFService()
         buffer = service.generate(ShowingActPDFType.SIMPLE, request.user, client, objects)
         response = HttpResponse(buffer.read(), content_type="application/pdf")
-        response["Content-Disposition"] = f"attachment; filename=showing_act.pdf"
+        response["Content-Disposition"] = "attachment; filename=showing_act.pdf"
         return response
 
 

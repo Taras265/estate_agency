@@ -444,7 +444,6 @@ class ComplexListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchB
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
-        user = self.request.user
         context = super().get_context_data(**kwargs)
         context.update({
             "lang": self.kwargs["lang"],
@@ -1398,10 +1397,6 @@ class DeferredDemandAccessibleClientListView(CustomLoginRequiredMixin,
     permission_required = "handbooks.view_own_clients"
 
     def get_queryset(self):
-        qs = (
-            Client.objects.filter(on_delete=False, status=ClientStatusType.DEFERRED_DEMAND)
-            .select_related("realtor")
-        )
         return Client.objects.filter(
             on_delete=False,
             status=ClientStatusType.DEFERRED_DEMAND,

@@ -41,7 +41,7 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                     ]
                 )
                         and self.request.user.has_perm("objects.selection"),
-                "handbooks": self.request.user.has_perm(f"handbooks.view_handbooks"),
+                "handbooks": self.request.user.has_perm("handbooks.view_handbooks"),
             }
         )
 

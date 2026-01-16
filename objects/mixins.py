@@ -5,7 +5,7 @@ from images.forms import RealEstateImageFormSet
 from images.models import RealEstateImage
 
 from .choices import RealEstateType
-from .services import has_any_perm_from_list, user_can_view_real_estate_list
+from .services import user_can_view_real_estate_list
 from .services import (
     user_can_view_report
 )

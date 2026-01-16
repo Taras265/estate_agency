@@ -1,5 +1,4 @@
 from django.contrib import admin
-from simple_history import register
 from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
                               Client, Handbook, FilialAgency, FilialReport)
 
