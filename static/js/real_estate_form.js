@@ -14,7 +14,6 @@ const dataset = document.currentScript.dataset;
 
 const btnVerifyAddress = document.getElementById("btn-verify-address");
 const btnEditOwner = document.getElementById("btn-edit-owner");
-const btnFillAddress = document.getElementById("btn-fill-address");
 const localitySelect = document.getElementById("id_locality");
 const streetSelect = document.getElementById("id_street");
 const houseInput = document.getElementById("id_house");
@@ -110,10 +109,6 @@ realtorSelect.addEventListener("change", async function () {
     } catch (error) {
         console.error("Помилка завантаження:", error);
     }
-});
-
-btnFillAddress.addEventListener("click", async e => {
-    fillApartmentAddress();
 });
 
 
@@ -213,29 +208,4 @@ function setOwnerEditFormUrl(ownerId) {
         btnEditOwner.href = dataset.mainUrl + `handbooks/sale/create/client/`;
         btnEditOwner.style.pointerEvents = "auto";
     }
-}
-
-function fillApartmentAddress() {
-    /* 
-    Заповнює інші поля форми для адреси квартири, спираючись на 
-    вже заповнені поля адреси. Наприклад, якщо користувач обрав вулицю, 
-    то автоматично заповнює поле форми для міста.
-    */
-    const streetId = streetSelect.value;
-
-    if (!streetId) {
-        $("select[name=locality]").selectpicker("val", "");
-        return;
-    }
-
-    const url = dataset.mainUrl + `objects/fill-address?street=${streetId}`;
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                $("select[name=locality]").selectpicker("val", data.locality.toString());
-            }
-        })
-        .catch(console.error)
 }

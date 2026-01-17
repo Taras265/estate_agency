@@ -157,35 +157,6 @@ def verify_real_estate_address(request, lang):
     )
 
 
-@require_GET
-def fill_real_estate_address(request, lang):
-    """
-    Доповнює адресу обʼєкта нерухомості за вже введеними даними адреси.
-    Наприклад, якщо користувач ввів вулицю,
-    то шукає відповідний район міста, місто, район області та область.
-    Дані передаються через query параметри.
-    Список необхідних query параметрів:
-    - street: int
-    """
-    street_id = request.GET.get("street")
-    if not street_id:
-        return JsonResponse({"success": False, "locality": None})
-
-    try:
-        street = Street.objects.select_related("locality_district__locality").get(
-            pk=street_id, on_delete=False
-        )
-    except Street.DoesNotExist:
-        return JsonResponse({"success": False, "locality": -1})
-
-    return JsonResponse(
-        {
-            "success": True,
-            "locality": street.locality_district.locality.pk,
-        }
-    )
-
-
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "objects/selection_list.html"
     context_object_name = "objects"

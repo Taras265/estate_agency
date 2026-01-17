@@ -9,9 +9,6 @@ urlpatterns = [
         views.verify_real_estate_address,
         name="verify_real_estate_address",
     ),
-    path(
-        "fill-address/", views.fill_real_estate_address, name="fill_real_estate_address"
-    ),
     path("catalog/", views.CatalogListView.as_view(), name="catalog"),
     path(
         "catalog/apartments/<int:pk>/",
