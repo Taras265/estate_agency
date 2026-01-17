@@ -21,7 +21,7 @@ class BaseRealEstate(models.Model):
 
     class Meta:
         abstract = True
-        default_permissions = ("add", "change")
+        default_permissions = ()
 
     creation_date = models.DateField(
         verbose_name=_("Creation date"), default=datetime.date.today
@@ -229,14 +229,12 @@ class Apartment(BaseRealEstate):
             # ("change_real_estate_comment_price", "Can change comment field in object"), # comment and price
             # ("change_real_estate_image", "Can change price field in object"),
         """
-
         permissions = (
             ("view_real_estate", "Can view real estate"),
             ("add_own_real_estate", "Can add own real estate"),
+            ("change_real_estate", "Can change all real estate"),
+            ("change_own_real_estate", "Can change own real estate"),
             ("view_changes_report", "Can view report of changes"),
-
-            ("change_own_apartment", "Can change own apartment"),
-            ("change_filial_apartment", "Can change filial apartment"),
 
             ("change_object_comment", "Can change comment field in object"),
             ("change_object_price", "Can change price field in object"),
@@ -298,12 +296,6 @@ class Apartment(BaseRealEstate):
 class Commerce(BaseRealEstate):
     """Комерційна нерухомість"""
 
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_commerce", "Can change own commerce"),
-            ("change_filial_commerce", "Can change filial commerce"),
-        )
-
     rubric = models.PositiveSmallIntegerField(
         choices=CommerceRubric.choices, verbose_name=_("Rubric"), default=CommerceRubric.RESIDENTIAL
     )
@@ -338,12 +330,6 @@ class Commerce(BaseRealEstate):
 class House(BaseRealEstate):
     """Приватний будинок"""
 
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_house", "Can change own house"),
-            ("change_filial_house", "Can change filial house"),
-        )
-
     rubric = models.PositiveSmallIntegerField(
         choices=HouseRubric.choices, verbose_name=_("Rubric"), default=HouseRubric.HOUSE
     )
@@ -369,12 +355,6 @@ class House(BaseRealEstate):
 
 class Land(BaseRealEstate):
     """Приватна ділянка"""
-
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_land", "Can change own land"),
-            ("change_filial_land", "Can change filial land"),
-        )
 
     rubric = models.PositiveSmallIntegerField(
         choices=LandRubric.choices, verbose_name=_("Rubric"), default=LandRubric.LAND

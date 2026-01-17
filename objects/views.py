@@ -32,7 +32,7 @@ from utils.mixins.mixins import CustomLoginRequiredMixin
 from utils.showing_act_pdf_service import ShowingActPDFService, ShowingActPDFType
 from utils.views import HistoryView
 
-from .choices import RealEstateStatus, RealEstateType
+from .choices import RealEstateStatus, RealEstateType, PermissionUpdateLevel
 from .forms import (
     ApartmentForm,
     ApartmentVerifyAddressForm,
@@ -57,21 +57,11 @@ from .services import (
     commerce_accessible_for_user,
     house_accessible_for_user,
     land_accessible_for_user,
+    user_can_update_real_estate,
+    user_can_update_real_estate_list,
     real_estate_model_from_type,
     has_any_perm_from_list,
     selection_add_selected_objects,
-    user_can_update_apartment,
-    user_can_update_commerce,
-    user_can_update_house,
-    user_can_update_land,
-    user_can_update_apartment_list,
-    user_can_update_commerce_list,
-    user_can_update_house_list,
-    user_can_update_land_list,
-    user_can_update_full_apartment,
-    user_can_update_full_commerce,
-    user_can_update_full_house,
-    user_can_update_full_land,
 )
 
 
@@ -471,7 +461,7 @@ class AccessibleApartmentListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_update": user_can_update_apartment_list(
+                "can_update": user_can_update_real_estate_list(
                     self.request.user,
                     context["object_list"],
                 ),
@@ -530,7 +520,7 @@ class AccessibleCommerceListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_update": user_can_update_commerce_list(
+                "can_update": user_can_update_real_estate_list(
                     self.request.user, context["object_list"]
                 ),
                 "create_url_name": "objects:create_commerce",
@@ -588,7 +578,7 @@ class AccessibleHouseListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_update": user_can_update_house_list(
+                "can_update": user_can_update_real_estate_list(
                     self.request.user, context["object_list"]
                 ),
                 "create_url_name": "objects:create_house",
@@ -646,7 +636,7 @@ class AccessibleLandListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_update": user_can_update_land_list(
+                "can_update": user_can_update_real_estate_list(
                     self.request.user,
                     context["object_list"],
                 ),
@@ -860,7 +850,6 @@ class LandCreateView(
 
 class ApartmentUpdateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
     RealEstateUpdateContextMixin,
     UpdateView,
 ):
@@ -870,13 +859,21 @@ class ApartmentUpdateView(
     form_class = ApartmentForm
     template_name = "objects/real_estate_update_form.html"
 
-    def test_func(self):
-        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану квартиру;
+        якщо перевірка проходить, повертає її
+        """
+        apartment = get_object_or_404(Apartment, id=self.kwargs["pk"])
+        perm_update_level = user_can_update_real_estate(self.request.user, apartment)
+        if perm_update_level == PermissionUpdateLevel.NONE:
+            raise PermissionDenied(self.request.user.has_perm("objects.change_own_real_estate"))
+        return apartment
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.APARTMENT
-
+        """
         user = self.request.user
         if (
             user.has_perm("objects.change_object_comment")
@@ -900,7 +897,7 @@ class ApartmentUpdateView(
                 for name, field in form.fields.items():
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
-
+        """
         return context
 
     def form_valid(self, form):
@@ -918,16 +915,17 @@ class ApartmentUpdateView(
 
     def form_invalid(self, form):
         user = self.request.user
+        # замінити на
+        # if user_can_update_real_estate(user, self.object) == PermissionUpdateLevel.PARTIAL
         if (
             user.has_perm("objects.change_object_comment")
             or user.has_perm("objects.change_object_price")
-        ) and not user_can_update_full_apartment(user, self.kwargs["pk"]):
-            o = self.get_object()
+        ) and user_can_update_real_estate(user, self.object) != PermissionUpdateLevel.FULL:
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
                 if not post_data.get(field):
-                    post_data[field] = getattr(o, field)
-            f = self.form_class(post_data, instance=o)
+                    post_data[field] = getattr(self.object, field)
+            f = self.form_class(post_data, instance=self.object)
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())
@@ -940,7 +938,6 @@ class ApartmentUpdateView(
 
 class CommerceUpdateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
     RealEstateUpdateContextMixin,
     UpdateView,
 ):
@@ -950,13 +947,21 @@ class CommerceUpdateView(
     form_class = CommerceForm
     template_name = "objects/real_estate_update_form.html"
 
-    def test_func(self):
-        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану комерцію;
+        якщо перевірка проходить, повертає її
+        """
+        commerce = get_object_or_404(Commerce, id=self.kwargs["pk"])
+        perm_update_level = user_can_update_real_estate(self.request.user, commerce)
+        if perm_update_level == PermissionUpdateLevel.NONE:
+            raise PermissionDenied()
+        return commerce
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.COMMERCE
-
+        """
         user = self.request.user
         if (
             user.has_perm("objects.change_object_comment")
@@ -980,7 +985,7 @@ class CommerceUpdateView(
                 for name, field in form.fields.items():
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
-
+        """
         return context
 
     def form_valid(self, form):
@@ -999,16 +1004,17 @@ class CommerceUpdateView(
 
     def form_invalid(self, form):
         user = self.request.user
+        # замінити на
+        # if user_can_update_real_estate(user, self.object) == PermissionUpdateLevel.PARTIAL
         if (
             user.has_perm("objects.change_object_comment")
             or user.has_perm("objects.change_object_price")
-        ) and not user_can_update_full_commerce(user, self.kwargs["pk"]):
-            o = self.get_object()
+        ) and user_can_update_real_estate(user, self.object) != PermissionUpdateLevel.FULL:
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
                 if not post_data.get(field):
-                    post_data[field] = getattr(o, field)
-            f = self.form_class(post_data, instance=o)
+                    post_data[field] = getattr(self.object, field)
+            f = self.form_class(post_data, instance=self.object)
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())
@@ -1026,7 +1032,6 @@ class CommerceUpdateView(
 
 class HouseUpdateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
     RealEstateUpdateContextMixin,
     UpdateView,
 ):
@@ -1036,13 +1041,21 @@ class HouseUpdateView(
     form_class = HouseForm
     template_name = "objects/real_estate_update_form.html"
 
-    def test_func(self):
-        return user_can_update_house(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати даний будинок;
+        якщо перевірка проходить, повертає його
+        """
+        house = get_object_or_404(House, id=self.kwargs["pk"])
+        perm_update_level = user_can_update_real_estate(self.request.user, house)
+        if perm_update_level == PermissionUpdateLevel.NONE:
+            raise PermissionDenied()
+        return house
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.HOUSE
-
+        """
         user = self.request.user
         if (
             user.has_perm("objects.change_object_comment")
@@ -1066,7 +1079,7 @@ class HouseUpdateView(
                 for name, field in form.fields.items():
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
-
+        """
         return context
 
     def form_valid(self, form):
@@ -1085,16 +1098,17 @@ class HouseUpdateView(
 
     def form_invalid(self, form):
         user = self.request.user
+        # замінити на
+        # if user_can_update_real_estate(user, self.object) == PermissionUpdateLevel.PARTIAL
         if (
             user.has_perm("objects.change_object_comment")
             or user.has_perm("objects.change_object_price")
-        ) and not user_can_update_full_house(user, self.kwargs["pk"]):
-            o = self.get_object()
+        ) and user_can_update_real_estate(user, self.object) != PermissionUpdateLevel.FULL:
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
                 if not post_data.get(field):
-                    post_data[field] = getattr(o, field)
-            f = self.form_class(post_data, instance=o)
+                    post_data[field] = getattr(self.object, field)
+            f = self.form_class(post_data, instance=self.object)
             """for obj in House.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
@@ -1113,7 +1127,6 @@ class HouseUpdateView(
 
 class LandUpdateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
     RealEstateUpdateContextMixin,
     UpdateView,
 ):
@@ -1123,13 +1136,21 @@ class LandUpdateView(
     form_class = LandForm
     template_name = "objects/real_estate_update_form.html"
 
-    def test_func(self):
-        return user_can_update_land(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану земельну ділянку;
+        якщо перевірка проходить, повертає її
+        """
+        land = get_object_or_404(Land, id=self.kwargs["pk"])
+        perm_update_level = user_can_update_real_estate(self.request.user, land)
+        if perm_update_level == PermissionUpdateLevel.NONE:
+            raise PermissionDenied()
+        return land
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["type"] = RealEstateType.LAND
-
+        """
         user = self.request.user
         if (
             user.has_perm("objects.change_object_comment")
@@ -1153,7 +1174,7 @@ class LandUpdateView(
                 for name, field in form.fields.items():
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
-
+        """
         return context
 
     def form_valid(self, form):
@@ -1172,16 +1193,17 @@ class LandUpdateView(
 
     def form_invalid(self, form):
         user = self.request.user
+        # замінити на
+        # if user_can_update_real_estate(user, self.object) == PermissionUpdateLevel.PARTIAL
         if (
             user.has_perm("objects.change_object_comment")
             or user.has_perm("objects.change_object_price")
-        ) and not user_can_update_full_land(user, self.kwargs["pk"]):
-            o = self.get_object()
+        ) and user_can_update_real_estate(user, self.object) != PermissionUpdateLevel.FULL:
             post_data = self.request.POST.copy()
             for field in self.form_class().fields.keys():
                 if not post_data.get(field):
-                    post_data[field] = getattr(o, field)
-            f = self.form_class(post_data, instance=o)
+                    post_data[field] = getattr(self.object, field)
+            f = self.form_class(post_data, instance=self.object)
             """for obj in Land.objects.all():
                 if obj.room_types >= 5:
                     obj.room_types = 4
@@ -1197,15 +1219,22 @@ class LandUpdateView(
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:land_list", kwargs=kwargs)
 
-
-class ApartmentDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
+'''
+class ApartmentDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Видалення квартири."""
 
     template_name = "delete_form.html"
     model = Apartment
 
-    def test_func(self):
-        return user_can_update_apartment(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану квартиру;
+        якщо перевірка проходить, повертає її
+        """
+        apartment = get_object_or_404(Apartment, id=self.kwargs["pk"])
+        if not user_can_update_real_estate(self.request.user, apartment):
+            raise PermissionDenied(self.request.user.has_perm("objects.change_own_real_estate"))
+        return apartment
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1218,14 +1247,21 @@ class ApartmentDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteV
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
 
 
-class CommerceDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CommerceDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Видалення комерції."""
 
     template_name = "delete_form.html"
     model = Commerce
 
-    def test_func(self):
-        return user_can_update_commerce(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану комерцію;
+        якщо перевірка проходить, повертає її
+        """
+        commerce = get_object_or_404(Commerce, id=self.kwargs["pk"])
+        if not user_can_update_real_estate(self.request.user, commerce):
+            raise PermissionDenied()
+        return commerce
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1238,14 +1274,21 @@ class CommerceDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteVi
         return reverse_lazy("objects:commerce_list", kwargs=kwargs)
 
 
-class HouseDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class HouseDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Видалення будинку."""
 
     template_name = "delete_form.html"
     model = House
 
-    def test_func(self):
-        return user_can_update_house(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати даний будинок;
+        якщо перевірка проходить, повертає його
+        """
+        house = get_object_or_404(House, id=self.kwargs["pk"])
+        if not user_can_update_real_estate(self.request.user, house):
+            raise PermissionDenied()
+        return house
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1258,14 +1301,21 @@ class HouseDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView)
         return reverse_lazy("objects:house_list", kwargs=kwargs)
 
 
-class LandDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class LandDeleteView(CustomLoginRequiredMixin, DeleteView):
     """Видалення будинку."""
 
     template_name = "delete_form.html"
     model = Land
 
-    def test_func(self):
-        return user_can_update_land(self.request.user, self.kwargs["pk"])
+    def get_object(self, queryset=None):
+        """
+        Перевіряє, чи може користувач редагувати дану земельну ділянку;
+        якщо перевірка проходить, повертає її
+        """
+        land = get_object_or_404(Land, id=self.kwargs["pk"])
+        if not user_can_update_real_estate(land):
+            raise PermissionDenied()
+        return land
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1276,7 +1326,7 @@ class LandDeleteView(CustomLoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:land_list", kwargs=kwargs)
-
+'''
 
 class CatalogListView(ListView):
     paginate_by = 15

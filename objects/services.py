@@ -3,7 +3,7 @@ from typing import List, Optional, TypeVar
 
 from django.db.models import QuerySet
 
-from .choices import RealEstateType, RealEstateStatus
+from .choices import RealEstateType, RealEstateStatus, PermissionUpdateLevel
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
 
 from accounts.models import CustomUser
@@ -12,6 +12,43 @@ from accounts.models import CustomUser
 T = TypeVar("T", bound=BaseRealEstate)
 
 
+def user_can_update_real_estate(
+    user: CustomUser,
+    real_estate: BaseRealEstate
+) -> PermissionUpdateLevel:
+    if user.has_perm("objects.change_real_estate"):
+        return PermissionUpdateLevel.FULL
+    
+    if (
+        user.has_perm("objects.change_own_real_estate")
+        and real_estate.realtor == user
+    ):
+        return PermissionUpdateLevel.FULL
+    
+    # додати перевірку на можливість частково оновлювати об'єкт нерухомості
+    # return PermissionUpdateLevel.PARTIAL
+
+    return PermissionUpdateLevel.NONE
+
+
+def user_can_update_real_estate_list(
+    user: CustomUser,
+    real_estate_list: Iterable[BaseRealEstate]
+) -> dict[int, bool]:
+    # додати перевірку на можливість частково оновлювати об'єкти нерухомості
+
+    if user.has_perm("objects.change_real_estate"):
+        return {real_estate.id: PermissionUpdateLevel.FULL
+                for real_estate in real_estate_list}
+    
+    if user.has_perm("objects.change_own_real_estate"):
+        return {real_estate.id: PermissionUpdateLevel.FULL if user == real_estate.realtor else PermissionUpdateLevel.NONE
+                for real_estate in real_estate_list}
+    
+    return {real_estate.id: PermissionUpdateLevel.NONE
+            for real_estate in real_estate_list}
+
+'''
 def user_can_update_apartment(user: CustomUser, apartment_id: int) -> bool:
     try:
         apartment = Apartment.objects.only("realtor").get(
@@ -54,24 +91,6 @@ def user_can_update_full_apartment(user: CustomUser, apartment_id: int) -> bool:
     )
 
 
-def user_can_update_apartment_list(
-    user: CustomUser, apartment_list: Iterable[Apartment]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        apartment_list,
-        "objects.change_apartment",
-        "objects.change_own_apartment",
-        "objects.change_filial_apartment",
-        "realtor",
-        Apartment,
-        partial_edit_perm=[
-            "objects.change_object_comment",
-            "objects.change_object_price",
-        ],
-    )
-
-
 def user_can_update_full_commerce(user: CustomUser, commerce_id: int) -> bool:
     try:
         commerce = Commerce.objects.only("realtor").get(id=commerce_id, on_delete=False)
@@ -98,24 +117,6 @@ def user_can_update_commerce(user: CustomUser, commerce_id: int) -> bool:
     return can_interact_with_object(
         user,
         commerce,
-        "objects.change_commerce",
-        "objects.change_own_commerce",
-        "objects.change_filial_commerce",
-        "realtor",
-        Commerce,
-        partial_edit_perm=[
-            "objects.change_object_comment",
-            "objects.change_object_price",
-        ],
-    )
-
-
-def user_can_update_commerce_list(
-    user: CustomUser, commerce_list: Iterable[Commerce]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        commerce_list,
         "objects.change_commerce",
         "objects.change_own_commerce",
         "objects.change_filial_commerce",
@@ -202,43 +203,7 @@ def user_can_update_full_land(user: CustomUser, house_id: int) -> bool:
         "realtor",
         Land,
     )
-
-
-def user_can_update_house_list(
-    user: CustomUser, house_list: Iterable[House]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        house_list,
-        "objects.change_house",
-        "objects.change_own_house",
-        "objects.change_filial_house",
-        "realtor",
-        House,
-        partial_edit_perm=[
-            "objects.change_object_comment",
-            "objects.change_object_price",
-        ],
-    )
-
-
-def user_can_update_land_list(
-    user: CustomUser, land_list: Iterable[Land]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        land_list,
-        "objects.change_land",
-        "objects.change_own_land",
-        "objects.change_filial_land",
-        "realtor",
-        Land,
-        partial_edit_perm=[
-            "objects.change_object_comment",
-            "objects.change_object_price",
-        ],
-    )
-
+'''
 
 def real_estate_model_from_type(type: int) -> type[BaseRealEstate]:
     """
@@ -373,50 +338,6 @@ def can_interact_with_object(
         p = current_object.realtor == user or p
 
     return p
-
-
-def can_interact_with_object_list(
-    user: CustomUser,
-    object_list: Iterable[BaseRealEstate],
-    perm: str,
-    own_perm: str,
-    filial_perm: str,
-    user_field: str,
-    model,
-    partial_edit_perm: Optional[List[str]] = None,
-) -> dict[int, bool]:
-    """
-    Перевіряє, чи має користувач відповідне право для взаємодії
-    (наприклад, редагування, видалення, перегляду історії змін)
-    з переданим переліком обʼєктів.
-    perm - загальне право (наприклад, "objects.change_apartment"),
-    own_perm - право для взаємодії з власними обʼєктами
-    (наприклад, "objects.change_own_apartment").
-    Повертає хеш-таблицю, в якій ключі - id обʼєкта, значення - булеве значення.
-    """
-    if user.has_perm(perm):
-        return {item.id: True for item in object_list}
-
-    loc = {item.id: False for item in object_list}
-    if user.has_perm(filial_perm):
-        filials_obj = model.objects.filter(
-            **{f"{user_field}__filials__in": user.filials.all()}
-        ).distinct()
-        for item in object_list:
-            if not loc[item.id]:
-                loc[item.id] = item in filials_obj
-
-    if user.has_perm(own_perm):
-        for item in object_list:
-            if not loc[item.id]:
-                loc[item.id] = item.realtor == user
-
-    if partial_edit_perm:
-        for p in partial_edit_perm:
-            if user.has_perm(p):
-                return {item.id: True for item in object_list}
-
-    return loc
 
 
 def selection_add_selected_objects(

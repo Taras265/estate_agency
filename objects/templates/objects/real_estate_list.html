@@ -129,7 +129,7 @@
                                         <td>{{object.locality}}</td>
                                         <td>{{object.street}}</td>
                                         <td>{{object.price}}</td>
-                                        {% if can_update and can_update|get_dict_value:object.id %}
+                                        {% if can_update and can_update|get_dict_value:object.id != 3 %}
                                             <td>
                                                 <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
                                                    href="{% url update_url_name lang=lang pk=object.id %}"

@@ -43,10 +43,10 @@ urlpatterns = [
     path("base/update/house/<int:pk>/", views.HouseUpdateView.as_view(), name="update_house"),
     path("base/update/land/<int:pk>/", views.LandUpdateView.as_view(), name="update_land"),
 
-    path("base/delete/apartment/<int:pk>/", views.ApartmentDeleteView.as_view(), name="delete_apartment"),
-    path("base/delete/commerce/<int:pk>/", views.CommerceDeleteView.as_view(), name="delete_commerce"),
-    path("base/delete/house/<int:pk>/", views.HouseDeleteView.as_view(), name="delete_house"),
-    path("base/delete/land/<int:pk>/", views.LandDeleteView.as_view(), name="delete_land"),
+    # path("base/delete/apartment/<int:pk>/", views.ApartmentDeleteView.as_view(), name="delete_apartment"),
+    # path("base/delete/commerce/<int:pk>/", views.CommerceDeleteView.as_view(), name="delete_commerce"),
+    # path("base/delete/house/<int:pk>/", views.HouseDeleteView.as_view(), name="delete_house"),
+    # path("base/delete/land/<int:pk>/", views.LandDeleteView.as_view(), name="delete_land"),
 
     path("base/history/apartment/<int:pk>/", views.ApartmentHistoryView.as_view(), name="history_apartment"),
     path("base/history/commerce/<int:pk>/", views.CommerceHistoryView.as_view(), name="history_commerce"),
