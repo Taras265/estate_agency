@@ -37,7 +37,6 @@ from handbooks.models import (
 )
 from handbooks.choices import ClientStatusType
 from objects.mixins import DefaultUserInCreateViewMixin
-from objects.services import user_can_view_report
 from .utils import get_sale_client_list_context
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
@@ -59,7 +58,7 @@ def sale_redirect(request, lang):
     if request.user.has_perm("objects.view_real_estate"):
         return redirect(reverse_lazy("objects:apartment_list", kwargs=kwargs))
 
-    if user_can_view_report(request.user):
+    if request.user.has_perm("objects.view_changes_report"):
         return redirect(reverse_lazy("objects:changes_report_list", kwargs=kwargs))
 
     return render(request, "403.html", kwargs)

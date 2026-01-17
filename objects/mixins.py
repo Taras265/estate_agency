@@ -5,7 +5,6 @@ from images.forms import RealEstateImageFormSet
 from images.models import RealEstateImage
 
 from .choices import RealEstateType
-from .services import user_can_view_report
 
 
 class RealEstateCreateContextMixin(ContextMixin):
@@ -69,10 +68,11 @@ class SaleListContextMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
+        user = self.request.user
         context.update({
             "lang": self.kwargs["lang"],
             "form": self.form_class(self.request.GET) if self.form_class else None,
-            "can_view_report": user_can_view_report(self.request.user),
+            "can_view_report": user.has_perm("objects.view_changes_report"),
         })
         return context
 

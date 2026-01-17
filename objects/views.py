@@ -79,7 +79,6 @@ from .services import (
     user_can_view_commerce_list_history,
     user_can_view_house_list_history,
     user_can_view_land_list_history,
-    user_can_view_report
 )
 
 
@@ -673,14 +672,12 @@ class AccessibleLandListView(
         return context
 
 
-class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListView):
+class HistoryReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = "objects.view_changes_report"
     model = Apartment.history.all().model
     template_name = "objects/changes_report_list.html"
     handbook_type = "report"
     paginate_by = 5
-
-    def test_func(self):
-        return user_can_view_report(self.request.user)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])  # переклад

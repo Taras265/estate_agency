@@ -2,7 +2,6 @@ from django.utils.translation import activate
 from django.views.generic import TemplateView
 
 from accounts.models import CustomUser
-from objects.services import user_can_view_report
 from utils.mixins.mixins import CustomLoginRequiredMixin
 
 
@@ -22,8 +21,8 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                     for perm in ["accounts.view_customuser", "accounts.view_group"]
                 ),
                 "sale": (
-                    user.has_perm("objects.view_real_estate") or
-                    user_can_view_report(self.request.user)
+                    user.has_perm("objects.view_real_estate")
+                    or user.has_perm("objects.view_changes_report")
                 ),
                 "selection": user.has_perm("handbooks.view_own_clients"),
                 "handbooks": user.has_perm("handbooks.view_handbooks"),

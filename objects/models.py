@@ -232,13 +232,10 @@ class Apartment(BaseRealEstate):
 
         permissions = (
             ("view_real_estate", "Can view real estate"),
+            ("view_changes_report", "Can view report of changes"),
 
             ("change_own_apartment", "Can change own apartment"),
             ("change_filial_apartment", "Can change filial apartment"),
-
-            ("view_report", "Can view reports"),
-            ("view_own_report", "Can view own reports"),
-            ("view_filial_report", "Can view filial reports"),
 
             ("change_object_comment", "Can change comment field in object"),
             ("change_object_price", "Can change price field in object"),

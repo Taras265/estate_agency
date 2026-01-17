@@ -12,15 +12,6 @@ from accounts.models import CustomUser
 T = TypeVar("T", bound=BaseRealEstate)
 
 
-def user_can_view_report(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user,
-        "objects.view_report",
-        "objects.view_own_report",
-        "objects.view_filial_report"
-    )
-
-
 def user_can_create_apartment(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.add_apartment", "objects.add_own_apartment"
