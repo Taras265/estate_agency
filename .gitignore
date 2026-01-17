@@ -24,3 +24,6 @@ xml/Users.xml
 .DS_Store
 text.txt
 /xml/Users.xml
+
+Dockerfile
+.dockerignore

@@ -46,25 +46,17 @@
 <div class="container">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            {% if can_view_client %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                        href="{% url 'handbooks:all_client_list' lang=lang %}">
-                        {% translate "Clients" %}
-                    </a>
-                </li>
-            {% endif %}
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
-                    href="{% url 'objects:real_estate_list_redirect' lang=lang %}">
+                    href="{% url 'objects:apartment_list' lang=lang %}">
                     {% translate "Real estate" %}
                 </a>
             </li>
             {% if can_view_report %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
-                        href="{% url 'objects:new_apartment_reports' lang=lang %}">
-                        {% translate "Reports" %}
+                        href="{% url 'objects:changes_report_list' lang=lang %}">
+                        {% translate "Changes report" %}
                     </a>
                 </li>
             {% endif %}
