@@ -38,40 +38,6 @@ def real_estate_form_save(
     return (formset, True)
 
 
-def get_sale_report_list_context(lang: str, user: CustomUser, form) -> dict[str, Any]:
-    context = {
-        "lang": lang,
-        "form": form,
-        "can_view_real_estate": user_can_view_real_estate_list(user),
-        "can_view_contract": has_any_perm_from_list(
-            user,
-            "objects.view_contract",
-            "objects.view_own_contract",
-            "objects.view_filial_contract"
-        ),
-        "can_view_report": user.has_perm("objects.view_report"),
-        "can_view_own_report": user.has_perm("objects.view_own_report"),
-        "can_view_filial_report": user.has_perm("objects.view_filial_report"),
-    }
-    return context
-
-
-def get_sale_contract_list_context(lang: str, user: CustomUser) -> dict[str, Any]:
-    context = {
-        "lang": lang,
-        "can_view_client": has_any_perm_from_list(
-            user,
-            "handbooks.view_client",
-            "handbooks.view_own_client",
-        ),
-        "can_view_real_estate": user_can_view_real_estate_list(user),
-        "can_view_report": user.has_perm("objects.view_report"),
-        "can_view_filial_report": user.has_perm("objects.view_filial_report"),
-        "can_view_own_report": user.has_perm("objects.view_own_report"),
-    }
-    return context
-
-
 T = TypeVar("T", bound=BaseRealEstate)
 
 

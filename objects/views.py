@@ -26,8 +26,6 @@ from images.forms import RealEstateImageFormSet
 from .models import Apartment, Commerce, House, Land, Selection
 from .utils import (
     real_estate_form_save,
-    get_sale_report_list_context,
-    get_sale_contract_list_context,
     real_estate_form_filter
 )
 from utils.mixins.mixins import CustomLoginRequiredMixin
