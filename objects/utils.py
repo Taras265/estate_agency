@@ -10,7 +10,6 @@ from django.utils.datastructures import MultiValueDict
 
 from accounts.models import CustomUser
 from .models import BaseRealEstate
-from .services import has_any_perm_from_list, user_can_view_real_estate_list
 
 
 def real_estate_form_save(

@@ -5,10 +5,7 @@ from images.forms import RealEstateImageFormSet
 from images.models import RealEstateImage
 
 from .choices import RealEstateType
-from .services import user_can_view_real_estate_list
-from .services import (
-    user_can_view_report
-)
+from .services import user_can_view_report
 
 
 class RealEstateCreateContextMixin(ContextMixin):
@@ -20,22 +17,19 @@ class RealEstateCreateContextMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
+        user = self.request.user
         context.update(
             {
                 "lang": self.kwargs["lang"],
                 "real_estate_choices": RealEstateType.choices,
-                "can_add_apartment": self.request.user.has_perm("objects.add_apartment"),
-                "can_add_own_apartment": self.request.user.has_perm(
-                    "objects.add_own_apartment"
-                ),
-                "can_add_commerce": self.request.user.has_perm("objects.add_commerce"),
-                "can_add_own_commerce": self.request.user.has_perm(
-                    "objects.add_own_commerce"
-                ),
-                "can_add_house": self.request.user.has_perm("objects.add_house"),
-                "can_add_own_house": self.request.user.has_perm("objects.add_own_house"),
-                "can_add_land": self.request.user.has_perm("objects.add_land"),
-                "can_add_own_land": self.request.user.has_perm("objects.add_own_land"),
+                "can_add_apartment": user.has_perm("objects.add_apartment"),
+                "can_add_own_apartment": user.has_perm("objects.add_own_apartment"),
+                "can_add_commerce": user.has_perm("objects.add_commerce"),
+                "can_add_own_commerce": user.has_perm("objects.add_own_commerce"),
+                "can_add_house": user.has_perm("objects.add_house"),
+                "can_add_own_house": user.has_perm("objects.add_own_house"),
+                "can_add_land": user.has_perm("objects.add_land"),
+                "can_add_own_land": user.has_perm("objects.add_own_land"),
                 "formset": RealEstateImageFormSet(
                     queryset=RealEstateImage.objects.none(),
                     prefix="images",
@@ -69,20 +63,16 @@ class RealEstateUpdateContextMixin(ContextMixin):
 class SaleListContextMixin(ContextMixin):
     """
     Додає додаткові значеня до контексту для сторінок
-    зі списком (таблицею) клієнтів, обʼєктів, звітів та контрактів.
+    зі списком (таблицею) нерухомості.
     """
 
     def get_context_data(self, **kwargs):
-        user = self.request.user
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
-
         context.update({
             "lang": self.kwargs["lang"],
             "form": self.form_class(self.request.GET) if self.form_class else None,
-            "can_view_real_estate": user_can_view_real_estate_list(user),
-            "can_view_report": user_can_view_report(user),
-            "can_view_contract": user.has_perm("objects.view_contract"),
+            "can_view_report": user_can_view_report(self.request.user),
         })
         return context
 

@@ -21,7 +21,7 @@ class BaseRealEstate(models.Model):
 
     class Meta:
         abstract = True
-        default_permissions = ("add", "change", "view")
+        default_permissions = ("add", "change")
 
     creation_date = models.DateField(
         verbose_name=_("Creation date"), default=datetime.date.today
@@ -231,10 +231,10 @@ class Apartment(BaseRealEstate):
         """
 
         permissions = (
+            ("view_real_estate", "Can view real estate"),
+
             ("change_own_apartment", "Can change own apartment"),
-            ("view_own_apartment", "Can view own apartment"),
             ("change_filial_apartment", "Can change filial apartment"),
-            ("view_filial_apartment", "Can view filial apartment"),
 
             ("view_report", "Can view reports"),
             ("view_own_report", "Can view own reports"),
@@ -303,9 +303,7 @@ class Commerce(BaseRealEstate):
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_commerce", "Can change own commerce"),
-            ("view_own_commerce", "Can view own commerce"),
             ("change_filial_commerce", "Can change filial commerce"),
-            ("view_filial_commerce", "Can view filial commerce"),
         )
 
     rubric = models.PositiveSmallIntegerField(
@@ -345,9 +343,7 @@ class House(BaseRealEstate):
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_house", "Can change own house"),
-            ("view_own_house", "Can view own house"),
             ("change_filial_house", "Can change filial house"),
-            ("view_filial_house", "Can view filial house"),
         )
 
     rubric = models.PositiveSmallIntegerField(
@@ -379,9 +375,7 @@ class Land(BaseRealEstate):
     class Meta(BaseRealEstate.Meta):
         permissions = (
             ("change_own_land", "Can change own land"),
-            ("view_own_land", "Can view own land"),
             ("change_filial_land", "Can change filial land"),
-            ("view_filial_land", "Can view filial land"),
         )
 
     rubric = models.PositiveSmallIntegerField(

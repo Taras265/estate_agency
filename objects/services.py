@@ -12,47 +12,6 @@ from accounts.models import CustomUser
 T = TypeVar("T", bound=BaseRealEstate)
 
 
-def user_can_view_apartment_list(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user,
-        "objects.view_apartment",
-        "objects.view_own_apartment",
-        "objects.view_filial_apartment",
-    )
-
-
-def user_can_view_commerce_list(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user,
-        "objects.view_commerce",
-        "objects.view_own_commerce",
-        "objects.view_filial_commerce",
-    )
-
-
-def user_can_view_house_list(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user,
-        "objects.view_house",
-        "objects.view_own_house",
-        "objects.view_filial_house"
-    )
-
-
-def user_can_view_land_list(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user, "objects.view_land", "objects.view_own_land", "objects.view_filial_land"
-    )
-
-
-def user_can_view_real_estate_list(user: CustomUser) -> bool:
-    return (
-        user_can_view_apartment_list(user)
-        or user_can_view_commerce_list(user)
-        or user_can_view_house_list(user)
-    )
-
-
 def user_can_view_report(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user,

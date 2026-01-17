@@ -2,7 +2,7 @@ from django.utils.translation import activate
 from django.views.generic import TemplateView
 
 from accounts.models import CustomUser
-from objects.services import user_can_view_real_estate_list, user_can_view_report
+from objects.services import user_can_view_report
 from utils.mixins.mixins import CustomLoginRequiredMixin
 
 
@@ -10,30 +10,23 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
     template_name = "main.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # переклад
-        context = super().get_context_data(**kwargs)
+        activate(self.kwargs["lang"])
 
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
         context.update(
             {
                 "accounts": any(
-                    self.request.user.has_perm(perm)
+                    user.has_perm(perm)
                     for perm in ["accounts.view_customuser", "accounts.view_group"]
                 ),
-                "sale": any(
-                    self.request.user.has_perm(perm)
-                    for perm in [
-                        "handbooks.view_client",
-                        "handbooks.view_own_client",
-                        "handbooks.view_filial_client",
-                        "objects.view_contract",
-                    ]
-                )
-                and any(
-                    [user_can_view_real_estate_list(self.request.user), user_can_view_report(self.request.user)]
+                "sale": (
+                    user.has_perm("objects.view_real_estate") or
+                    user_can_view_report(self.request.user)
                 ),
-                "selection": self.request.user.has_perm("handbooks.view_own_clients"),
-                "handbooks": self.request.user.has_perm("handbooks.view_handbooks"),
+                "selection": user.has_perm("handbooks.view_own_clients"),
+                "handbooks": user.has_perm("handbooks.view_handbooks"),
             }
         )
         return context

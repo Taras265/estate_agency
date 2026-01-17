@@ -75,15 +75,10 @@ from .services import (
     user_can_update_full_commerce,
     user_can_update_full_house,
     user_can_update_full_land,
-    user_can_view_apartment_list,
-    user_can_view_commerce_list,
-    user_can_view_house_list,
-    user_can_view_land_list,
     user_can_view_apartment_list_history,
     user_can_view_commerce_list_history,
     user_can_view_house_list_history,
     user_can_view_land_list_history,
-    user_can_view_real_estate_list,
     user_can_view_report
 )
 
@@ -439,17 +434,15 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 
 
 class AccessibleApartmentListView(
-    CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
 ):
     """Список лише тих квартир, які доступні поточному користувачу для перегляду."""
 
+    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     model = Apartment
     paginate_by = 5
     form_class = HandbooksSearchForm
-
-    def test_func(self):
-        return user_can_view_apartment_list(self.request.user)
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -486,10 +479,6 @@ class AccessibleApartmentListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_view_apartment": True,
-                "can_view_commerce": user_can_view_commerce_list(self.request.user),
-                "can_view_house": user_can_view_house_list(self.request.user),
-                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_apartment(self.request.user),
                 "can_update": user_can_update_apartment_list(
                     self.request.user,
@@ -505,17 +494,15 @@ class AccessibleApartmentListView(
 
 
 class AccessibleCommerceListView(
-    CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
 ):
     """Список лише тих комерцій, які доступні поточному користувачу для перегляду."""
 
+    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     model = Commerce
     paginate_by = 5
     form_class = HandbooksSearchForm
-
-    def test_func(self):
-        return user_can_view_commerce_list(self.request.user)
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -552,10 +539,6 @@ class AccessibleCommerceListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_view_apartment": user_can_view_apartment_list(self.request.user),
-                "can_view_commerce": True,
-                "can_view_house": user_can_view_house_list(self.request.user),
-                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_commerce(self.request.user),
                 "can_update": user_can_update_commerce_list(
                     self.request.user, context["object_list"]
@@ -570,17 +553,15 @@ class AccessibleCommerceListView(
 
 
 class AccessibleHouseListView(
-    CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
 ):
     """Список лише тих будинків, які доступні поточному користувачу для перегляду."""
 
+    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     model = House
     paginate_by = 5
     form_class = HandbooksSearchForm
-
-    def test_func(self):
-        return user_can_view_house_list(self.request.user)
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -617,10 +598,6 @@ class AccessibleHouseListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_view_apartment": user_can_view_apartment_list(self.request.user),
-                "can_view_commerce": user_can_view_commerce_list(self.request.user),
-                "can_view_house": True,
-                "can_view_land": user_can_view_land_list(self.request.user),
                 "can_create": user_can_create_house(self.request.user),
                 "can_update": user_can_update_house_list(
                     self.request.user, context["object_list"]
@@ -635,22 +612,15 @@ class AccessibleHouseListView(
 
 
 class AccessibleLandListView(
-    CustomLoginRequiredMixin, UserPassesTestMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
 ):
     """Список квартир."""
 
+    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     model = Land
     paginate_by = 5
     form_class = HandbooksSearchForm
-
-    def test_func(self):
-        return has_any_perm_from_list(
-            self.request.user,
-            "objects.view_land",
-            "objects.view_own_land",
-            "objects.view_filial_land",
-        )
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -687,13 +657,9 @@ class AccessibleLandListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_view_apartment": user_can_view_apartment_list(self.request.user),
-                "can_view_commerce": user_can_view_commerce_list(self.request.user),
-                "can_view_house": user_can_view_house_list(self.request.user),
-                "can_view_land": True,
                 "can_create": has_any_perm_from_list(
-        self.request.user, "objects.add_land", "objects.add_own_land"
-    ),
+                    self.request.user, "objects.add_land", "objects.add_own_land"
+                ),
                 "can_update": user_can_update_land_list(
                     self.request.user,
                     context["object_list"],
@@ -722,13 +688,6 @@ class HistoryReportListView(CustomLoginRequiredMixin, UserPassesTestMixin, ListV
         # підгружаємо частину готової дати і додаємо що потрібно
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
-
-        context.update(
-            {
-                "can_view_real_estate": user_can_view_real_estate_list(self.request.user),
-            }
-        )
-
         context["choice"] = self.handbook_type
 
         apartments = Apartment.history.all().order_by("history_date")
