@@ -56,18 +56,8 @@ def sale_redirect(request, lang):
     if request.user:
         if user_can_view_real_estate_list(request.user):
             return redirect(
-                reverse_lazy("objects:real_estate_list_redirect", kwargs=kwargs)
+                reverse_lazy("objects:apartment_list", kwargs=kwargs)
             )
-        elif (
-            request.user.has_perm("handbooks.view_client")
-            or request.user.has_perm("handbooks.view_handbooks")
-            or request.user.has_perm("handbooks.view_handbooks")
-        ):
-            return redirect(reverse_lazy("handbooks:all_client_list", kwargs=kwargs))
-        elif user_can_view_report(request.user):
-            return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
-        elif request.user.has_perm("objects.view_contract"):
-            return redirect(reverse_lazy("objects:report_list", kwargs=kwargs))
         return render(request, "403.html", kwargs)
     return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
 

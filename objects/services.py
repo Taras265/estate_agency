@@ -62,15 +62,6 @@ def user_can_view_report(user: CustomUser) -> bool:
     )
 
 
-def user_can_view_office_report(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user,
-        "objects.view_office_report",
-        "objects.view_office_own_report",
-        "objects.view_office_filial_report"
-    )
-
-
 def user_can_create_apartment(user: CustomUser) -> bool:
     return has_any_perm_from_list(
         user, "objects.add_apartment", "objects.add_own_apartment"
@@ -457,63 +448,6 @@ def house_accessible_for_user(user: CustomUser, qs: QuerySet[Commerce]) -> Query
     if user.has_perm("objects.view_own_house"):
         return qs.filter(realtor=user)
 
-    return qs.none()
-
-
-def reports_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
-    """
-    Повертає лише ті звіти з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_report, view_filial_report, view_own_report.
-    """
-    if user.has_perm("objects.view_report"):
-        return qs
-
-    if user.has_perm("objects.view_filial_report"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-
-    if user.has_perm("objects.view_own_report"):
-        return qs.filter(realtor=user)
-
-    return qs.none()
-
-
-def reports_accessible_for_user_in_office(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
-    """
-    Повертає лише ті звіти з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_office_report, view_office_filial_report,
-    view_office_own_report.
-    """
-    if user.has_perm("objects.view_office_report"):
-        return qs
-
-    if user.has_perm("objects.view_office_filial_report"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-
-    if user.has_perm("objects.view_office_own_report"):
-        return qs.filter(realtor=user)
-
-    return qs.none()
-
-
-def contracts_accessible_for_user(user: CustomUser, qs: QuerySet[T]) -> QuerySet[T]:
-    """
-    Повертає лише ті контракти з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_contract, view_filial_contract, view_own_contract.
-    """
-    qs = qs.filter(status=RealEstateStatus.SOLD)
-
-    if user.has_perm("objects.view_contract"):
-        return qs
-    
-    if user.has_perm("objects.view_filial_contract"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-    
-    if user.has_perm("objects.view_own_contract"):
-        return qs.filter(realtor=user)
-    
     return qs.none()
 
 

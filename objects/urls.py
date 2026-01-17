@@ -9,14 +9,6 @@ urlpatterns = [
         views.verify_real_estate_address,
         name="verify_real_estate_address",
     ),
-    path(
-        "fill-address/", views.fill_real_estate_address, name="fill_real_estate_address"
-    ),
-    path(
-        "set-status-sold/<int:id>",
-        views.set_real_estate_status_sold,
-        name="set_status_sold",
-    ),
     path("catalog/", views.CatalogListView.as_view(), name="catalog"),
     path(
         "catalog/apartments/<int:pk>/",
@@ -34,11 +26,6 @@ urlpatterns = [
     path(
         "catalog/lands/<int:pk>/", views.LandDetailView.as_view(), name="land_detail"
     ),
-    path(
-        "sale/real-estate/",
-        views.RealEstateListRedirect.as_view(),
-        name="real_estate_list_redirect",
-    ),
     path("sale/apartments/", views.AccessibleApartmentListView.as_view(), name="apartment_list"),
     path("sale/commerces/", views.AccessibleCommerceListView.as_view(), name="commerce_list"),
     path("sale/houses/", views.AccessibleHouseListView.as_view(), name="house_list"),
@@ -46,28 +33,6 @@ urlpatterns = [
 
     path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
 
-    path("sale/apartments/reports/new/", views.NewAccessibleApartmentReportListView.as_view(), name="new_apartment_reports"),
-    path("sale/apartments/reports/all/", views.AllApartmentReportListView.as_view(), name="all_apartment_reports"),
-    path("sale/apartments/reports/my/", views.MyApartmentReportListView.as_view(), name="my_apartment_reports"),
-    path("sale/commerces/reports/new/", views.NewAccessibleCommerceReportListView.as_view(), name="new_commerce_reports"),
-    path("sale/houses/reports/new/", views.NewAccessibleHouseReportListView.as_view(), name="new_house_reports"),
-    path("sale/houses/land/new/", views.NewAccessibleLandReportListView.as_view(), name="new_land_reports"),
-
-    path(
-        "sale/apartments/contracts/",
-        views.AccessibleApartmentContractListView.as_view(),
-        name="apartment_contracts",
-    ),
-    path(
-        "sale/commerces/contracts/",
-        views.AccessibleCommerceContractListView.as_view(),
-        name="commerce_contracts",
-    ),
-    path(
-        "sale/houses/contracts/",
-        views.AccessibleHouseContractListView.as_view(),
-        name="house_contracts",
-    ),
     path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
     path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),
     path("base/create/house/", views.HouseCreateView.as_view(), name="create_house"),
@@ -100,31 +65,3 @@ urlpatterns = [
         name="selection_history",
     ),
 ]
-
-"""
-path(
-    "office/apartments/",
-    views.OfficeMyApartmentListView.as_view(),
-    name="office_apartment_list",
-),
-path(
-    "office/commerces/",
-    views.OfficeMyCommerceListView.as_view(),
-    name="office_commerce_list",
-),
-path("office/houses/", views.OfficeMyHouseListView.as_view(), name="office_house_list"),
-path("office/lands/", views.OfficeMyLandListView.as_view(), name="office_land_list"),
-
-path("office/filial/apartments/", views.OfficeFilialApartmentListView.as_view(), name="office_filial_apartment_list"),
-path("office/filial/commerces/", views.OfficeFilialCommerceListView.as_view(), name="office_filial_commerce_list"),
-path("office/filial/houses/", views.OfficeFilialHouseListView.as_view(), name="office_filial_house_list"),
-path("office/filial/lands/", views.OfficeFilialLandListView.as_view(), name="office_filial_land_list"),
-path("office/report/changes/", views.OfficeHistoryReportListView.as_view(), name="office_changes_report_list"),
-
-path("office/apartments/reports/new/", views.OfficeNewAccessibleApartmentReportListView.as_view(), name="office_new_apartment_reports"),
-path("office/apartments/reports/all/", views.OfficeAllApartmentReportListView.as_view(), name="office_all_apartment_reports"),
-path("office/apartments/reports/my/", views.OfficeMyApartmentReportListView.as_view(), name="office_my_apartment_reports"),
-path("office/commerces/reports/new/", views.OfficeNewAccessibleCommerceReportListView.as_view(), name="office_new_commerce_reports"),
-path("office/houses/reports/new/", views.OfficeNewAccessibleHouseReportListView.as_view(), name="office_new_house_reports"),
-path("office/lands/reports/new/", views.OfficeNewAccessibleLandReportListView.as_view(), name="office_new_land_reports"),
-"""
