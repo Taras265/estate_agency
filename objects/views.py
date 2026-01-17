@@ -75,10 +75,6 @@ from .services import (
     user_can_update_full_commerce,
     user_can_update_full_house,
     user_can_update_full_land,
-    user_can_view_apartment_list_history,
-    user_can_view_commerce_list_history,
-    user_can_view_house_list_history,
-    user_can_view_land_list_history,
 )
 
 
@@ -1434,41 +1430,25 @@ class LandDetailView(UpdateView):
         return context
 
 
-class ApartmentHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+class ApartmentHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
+    permission_required = "objects.view_real_estate"
     handbook_type = "apartment"
     queryset = Apartment.objects.filter(on_delete=False)
 
-    def test_func(self):
-        return user_can_view_apartment_list_history(
-            self.request.user, Apartment.objects.filter(id=self.kwargs["pk"])
-        )
 
-
-class CommerceHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+class CommerceHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
+    permission_required = "objects.view_real_estate"
     handbook_type = "commerce"
     queryset = Commerce.objects.filter(on_delete=False)
 
-    def test_func(self):
-        return user_can_view_commerce_list_history(
-            self.request.user, Commerce.objects.filter(id=self.kwargs["pk"])
-        )
 
-
-class HouseHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+class HouseHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
+    permission_required = "objects.view_real_estate"
     handbook_type = "house"
     queryset = House.objects.filter(on_delete=False)
 
-    def test_func(self):
-        return user_can_view_house_list_history(
-            self.request.user, House.objects.filter(id=self.kwargs["pk"])
-        )
 
-
-class LandHistoryView(CustomLoginRequiredMixin, UserPassesTestMixin, HistoryView):
+class LandHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
+    permission_required = "objects.view_real_estate"
     handbook_type = "land"
     queryset = Land.objects.filter(on_delete=False)
-
-    def test_func(self):
-        return user_can_view_land_list_history(
-            self.request.user, Land.objects.filter(id=self.kwargs["pk"])
-        )

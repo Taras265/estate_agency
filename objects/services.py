@@ -256,62 +256,6 @@ def user_can_update_land_list(
     )
 
 
-def user_can_view_apartment_list_history(
-    user: CustomUser, apartment_list: Iterable[Apartment]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        apartment_list,
-        "objects.view_apartment",
-        "objects.view_own_apartment",
-        "objects.view_filial_apartment",
-        "realtor",
-        Apartment,
-    )
-
-
-def user_can_view_commerce_list_history(
-    user: CustomUser, commerce_list: Iterable[Commerce]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        commerce_list,
-        "objects.view_commerce",
-        "objects.view_own_commerce",
-        "objects.view_filial_commerce",
-        "realtor",
-        Commerce,
-    )
-
-
-def user_can_view_house_list_history(
-    user: CustomUser, house_list: Iterable[House]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        house_list,
-        "objects.view_house",
-        "objects.view_own_house",
-        "objects.view_filial_house",
-        "realtor",
-        House,
-    )
-
-
-def user_can_view_land_list_history(
-    user: CustomUser, land_list: Iterable[House]
-) -> dict[int, bool]:
-    return can_interact_with_object_list(
-        user,
-        land_list,
-        "objects.view_land",
-        "objects.view_own_land",
-        "objects.view_filial_land",
-        "realtor",
-        Land,
-    )
-
-
 def real_estate_model_from_type(type: int) -> type[BaseRealEstate]:
     """
     Повертає клас моделі нерухомості в залежності від вказаного типу.
