@@ -186,38 +186,6 @@ def fill_real_estate_address(request, lang):
     )
 
 
-@require_POST
-def set_real_estate_status_sold(request, lang, id):
-    """
-    Встановлює статус ПРОДАНИЙ для об'єкта нерухомості.
-    Список необхідних query параметрів:
-    - type: int
-    """
-    try:
-        real_estate_type = int(request.GET.get("type"))
-    except ValueError:
-        return JsonResponse(
-            {
-                "success": False,
-                "errors": {"type": _("Invalid real estate type")},
-            }
-        )
-
-    model_class = real_estate_model_from_type(real_estate_type)
-    if not model_class:
-        return JsonResponse(
-            {
-                "success": False,
-                "errors": {"type": _("Invalid real estate type")},
-            }
-        )
-
-    real_estate = get_object_or_404(model_class.objects.only("status"), id=id)
-    real_estate.status = RealEstateStatus.SOLD
-    real_estate.save()
-    return JsonResponse({"success": True})
-
-
 class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "objects/selection_list.html"
     context_object_name = "objects"
@@ -558,13 +526,8 @@ class AccessibleApartmentListView(
                     self.request.user,
                     context["object_list"],
                 ),
-                "can_view_history": user_can_view_apartment_list_history(
-                    self.request.user, context["object_list"]
-                ),
                 "create_url_name": "objects:create_apartment",
                 "update_url_name": "objects:update_apartment",
-                "delete_url_name": "objects:delete_apartment",
-                "real_estate_type": RealEstateType.APARTMENT,
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -628,13 +591,8 @@ class AccessibleCommerceListView(
                 "can_update": user_can_update_commerce_list(
                     self.request.user, context["object_list"]
                 ),
-                "can_view_history": user_can_view_commerce_list_history(
-                    self.request.user, context["object_list"]
-                ),
                 "create_url_name": "objects:create_commerce",
                 "update_url_name": "objects:update_commerce",
-                "delete_url_name": "objects:delete_commerce",
-                "real_estate_type": RealEstateType.COMMERCE,
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -698,13 +656,8 @@ class AccessibleHouseListView(
                 "can_update": user_can_update_house_list(
                     self.request.user, context["object_list"]
                 ),
-                "can_view_history": user_can_view_house_list_history(
-                    self.request.user, context["object_list"]
-                ),
                 "create_url_name": "objects:create_house",
                 "update_url_name": "objects:update_house",
-                "delete_url_name": "objects:delete_house",
-                "real_estate_type": RealEstateType.HOUSE,
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -776,13 +729,8 @@ class AccessibleLandListView(
                     self.request.user,
                     context["object_list"],
                 ),
-                "can_view_history": user_can_view_land_list_history(
-                    self.request.user, context["object_list"]
-                ),
                 "create_url_name": "objects:create_land",
                 "update_url_name": "objects:update_land",
-                "delete_url_name": "objects:delete_land",
-                "real_estate_type": RealEstateType.LAND,
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }

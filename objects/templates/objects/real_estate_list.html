@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load handbooks %}
 {% load objects_tags %}
 {% load i18n %}
 {% load static %}
@@ -128,9 +127,6 @@
                                             </a>
                                         </th>
                                         <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,42 +145,8 @@
                                                         {% translate 'Update' %}
                                                 </a>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-danger element-fullwidth"
-                                                   href="{% url delete_url_name lang=lang pk=object.id %}"
-                                                   type="button" style="max-width: 120px">
-                                                        {% translate 'Delete' %}
-                                                </a>
-                                            </td>
                                         {% else %}
                                             <td></td>
-                                            <td></td>
-                                        {% endif %}
-                                        {% if can_view_history and can_view_history|get_dict_value:object.id %}
-                                            {% with url_name=request.resolver_match.url_name %}
-                                            <td>
-                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                                                   href="/{{ lang }}/{% url_app choice %}/base/history{% if url_name == 'apartment_list' %}/apartment/{% elif url_name == 'commerce_list' %}/commerce/{% elif url_name == 'house_list' %}/house/{% elif url_name == 'land_list' %}/land/{% endif %}{{ object.id }}/"
-                                                   type="button" style="max-width: 120px">
-                                                    {% translate 'History' %}
-                                                </a>
-                                            </td>
-                                            {% endwith %}
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
-                                        {% if object.status == 4 %}
-                                            <td>
-                                                <span>{% translate 'Sold' %}</span>
-                                            </td>
-                                        {% elif can_update %}
-                                            <td>
-                                                <button class="btn btn-outline-danger btn-sm element-fullwidth btn-set-status-sold"
-                                                        type="button" style="max-width: 120px" data-id="{{ object.id }}">
-                                                    {% translate 'Mark as sold' %}
-                                                </button>
-                                                <span class="d-none">{% translate 'Sold' %}</span>
-                                            </td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}
@@ -222,12 +184,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script defer
-    src="{% static '/js/real_estate_list.js' %}"
-    data-main-url="{% url 'main' lang %}"
-    data-real-estate-type="{{ real_estate_type }}">
-</script>
 {% endblock %}

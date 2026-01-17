@@ -12,11 +12,6 @@ urlpatterns = [
     path(
         "fill-address/", views.fill_real_estate_address, name="fill_real_estate_address"
     ),
-    path(
-        "set-status-sold/<int:id>",
-        views.set_real_estate_status_sold,
-        name="set_status_sold",
-    ),
     path("catalog/", views.CatalogListView.as_view(), name="catalog"),
     path(
         "catalog/apartments/<int:pk>/",
