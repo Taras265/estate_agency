@@ -12,22 +12,6 @@ from accounts.models import CustomUser
 T = TypeVar("T", bound=BaseRealEstate)
 
 
-def user_can_create_apartment(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user, "objects.add_apartment", "objects.add_own_apartment"
-    )
-
-
-def user_can_create_commerce(user: CustomUser) -> bool:
-    return has_any_perm_from_list(
-        user, "objects.add_commerce", "objects.add_own_commerce"
-    )
-
-
-def user_can_create_house(user: CustomUser) -> bool:
-    return has_any_perm_from_list(user, "objects.add_house", "objects.add_own_house")
-
-
 def user_can_update_apartment(user: CustomUser, apartment_id: int) -> bool:
     try:
         apartment = Apartment.objects.only("realtor").get(

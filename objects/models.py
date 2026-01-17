@@ -232,6 +232,7 @@ class Apartment(BaseRealEstate):
 
         permissions = (
             ("view_real_estate", "Can view real estate"),
+            ("add_own_real_estate", "Can add own real estate"),
             ("view_changes_report", "Can view report of changes"),
 
             ("change_own_apartment", "Can change own apartment"),

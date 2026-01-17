@@ -59,7 +59,7 @@ class RealEstateUpdateContextMixin(ContextMixin):
         return context
 
 
-class SaleListContextMixin(ContextMixin):
+class RealEstateListContextMixin(ContextMixin):
     """
     Додає додаткові значеня до контексту для сторінок
     зі списком (таблицею) нерухомості.
@@ -73,6 +73,7 @@ class SaleListContextMixin(ContextMixin):
             "lang": self.kwargs["lang"],
             "form": self.form_class(self.request.GET) if self.form_class else None,
             "can_view_report": user.has_perm("objects.view_changes_report"),
+            "can_create": user.has_perm("objects.add_own_real_estate"),
         })
         return context
 

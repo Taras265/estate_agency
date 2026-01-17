@@ -49,7 +49,7 @@ from .mixins import (
     DefaultUserInCreateViewMixin,
     RealEstateCreateContextMixin,
     RealEstateUpdateContextMixin,
-    SaleListContextMixin,
+    RealEstateListContextMixin,
 )
 
 from .services import (
@@ -60,9 +60,6 @@ from .services import (
     real_estate_model_from_type,
     has_any_perm_from_list,
     selection_add_selected_objects,
-    user_can_create_apartment,
-    user_can_create_commerce,
-    user_can_create_house,
     user_can_update_apartment,
     user_can_update_commerce,
     user_can_update_house,
@@ -429,7 +426,7 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 
 
 class AccessibleApartmentListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих квартир, які доступні поточному користувачу для перегляду."""
 
@@ -474,7 +471,6 @@ class AccessibleApartmentListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_create": user_can_create_apartment(self.request.user),
                 "can_update": user_can_update_apartment_list(
                     self.request.user,
                     context["object_list"],
@@ -489,7 +485,7 @@ class AccessibleApartmentListView(
 
 
 class AccessibleCommerceListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих комерцій, які доступні поточному користувачу для перегляду."""
 
@@ -534,7 +530,6 @@ class AccessibleCommerceListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_create": user_can_create_commerce(self.request.user),
                 "can_update": user_can_update_commerce_list(
                     self.request.user, context["object_list"]
                 ),
@@ -548,7 +543,7 @@ class AccessibleCommerceListView(
 
 
 class AccessibleHouseListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих будинків, які доступні поточному користувачу для перегляду."""
 
@@ -593,7 +588,6 @@ class AccessibleHouseListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_create": user_can_create_house(self.request.user),
                 "can_update": user_can_update_house_list(
                     self.request.user, context["object_list"]
                 ),
@@ -607,7 +601,7 @@ class AccessibleHouseListView(
 
 
 class AccessibleLandListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, SaleListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список квартир."""
 
@@ -652,9 +646,6 @@ class AccessibleLandListView(
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                "can_create": has_any_perm_from_list(
-                    self.request.user, "objects.add_land", "objects.add_own_land"
-                ),
                 "can_update": user_can_update_land_list(
                     self.request.user,
                     context["object_list"],
@@ -722,23 +713,17 @@ class HistoryReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, L
 
 class ApartmentCreateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
+    PermissionRequiredMixin,
     RealEstateCreateContextMixin,
     DefaultUserInCreateViewMixin,
     CreateView,
 ):
-    """
-    Форма створення нової квартири.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.add_apartment або objects.add_own_apartment.
-    """
+    """Сторінка створення квартири"""
 
+    permission_required = "objects.add_own_real_estate"
     model = Apartment
     form_class = ApartmentForm
     template_name = "objects/real_estate_create_form.html"
-
-    def test_func(self):
-        return user_can_create_apartment(self.request.user)
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
@@ -765,23 +750,17 @@ class ApartmentCreateView(
 
 class CommerceCreateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
+    PermissionRequiredMixin,
     RealEstateCreateContextMixin,
     DefaultUserInCreateViewMixin,
     CreateView,
 ):
-    """
-    Форма створення нової комерції.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.add_commerce або objects.add_own_commerce.
-    """
+    """Форма створення комерції"""
 
+    permission_required = "objects.add_own_real_estate"
     model = Commerce
     form_class = CommerceForm
     template_name = "objects/real_estate_create_form.html"
-
-    def test_func(self):
-        return user_can_create_commerce(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -807,23 +786,17 @@ class CommerceCreateView(
 
 class HouseCreateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
+    PermissionRequiredMixin,
     RealEstateCreateContextMixin,
     DefaultUserInCreateViewMixin,
     CreateView,
 ):
-    """
-    Форма створення нового будинку.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.add_house або objects.add_own_house.
-    """
+    """Форма створення будинку"""
 
+    permission_required = "objects.add_own_real_estate"
     model = House
     form_class = HouseForm
     template_name = "objects/real_estate_create_form.html"
-
-    def test_func(self):
-        return user_can_create_house(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -849,25 +822,17 @@ class HouseCreateView(
 
 class LandCreateView(
     CustomLoginRequiredMixin,
-    UserPassesTestMixin,
+    PermissionRequiredMixin,
     RealEstateCreateContextMixin,
     DefaultUserInCreateViewMixin,
     CreateView,
 ):
-    """
-    Форма створення нової квартири.
-    Для доступу до цієї сторінки потрібно мати право
-    objects.add_apartment або objects.add_own_apartment.
-    """
+    """Форма створення земельної ділянки"""
 
+    permission_required = "objects.add_own_real_estate"
     model = Land
     form_class = LandForm
     template_name = "objects/real_estate_create_form.html"
-
-    def test_func(self):
-        return has_any_perm_from_list(
-            self.request.user, "objects.add_land", "objects.add_own_land"
-        )
 
     def get_context_data(self, **kwargs):
         activate(self.kwargs["lang"])
