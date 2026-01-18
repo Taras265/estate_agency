@@ -1,5 +1,12 @@
+from enum import IntEnum
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+
+class PermissionUpdateLevel(IntEnum):
+    FULL = 1
+    PARTIAL = 2
+    NONE = 3
 
 
 class RealEstateType(models.IntegerChoices):

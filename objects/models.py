@@ -21,7 +21,7 @@ class BaseRealEstate(models.Model):
 
     class Meta:
         abstract = True
-        default_permissions = ("add", "change", "view")
+        default_permissions = ()
 
     creation_date = models.DateField(
         verbose_name=_("Creation date"), default=datetime.date.today
@@ -229,33 +229,16 @@ class Apartment(BaseRealEstate):
             # ("change_real_estate_comment_price", "Can change comment field in object"), # comment and price
             # ("change_real_estate_image", "Can change price field in object"),
         """
-
         permissions = (
-            ("change_own_apartment", "Can change own apartment"),
-            ("view_own_apartment", "Can view own apartment"),
-            ("change_filial_apartment", "Can change filial apartment"),
-            ("view_filial_apartment", "Can view filial apartment"),
-
-            ("view_own_office_objects", "Can view in office own objects"),
-            ("view_filial_office_objects", "Can view in office filial objects"),
-
-            ("view_report", "Can view reports"),
-            ("view_own_report", "Can view own reports"),
-            ("view_filial_report", "Can view filial reports"),
-            ("view_office_report", "Can view reports in office"),
-            ("view_office_own_report", "Can view own reports in office"),
-            ("view_office_filial_report", "Can view filial reports in office"),
-
-            ("view_contract", "Can view contracts"),
-            ("view_filial_contract", "Can view filial contracts"),
-            ("view_own_contract", "Can view own contracts"),
+            ("view_real_estate", "Can view real estate"),
+            ("add_own_real_estate", "Can add own real estate"),
+            ("change_real_estate", "Can change all real estate"),
+            ("change_own_real_estate", "Can change own real estate"),
+            ("view_changes_report", "Can view report of changes"),
 
             ("change_object_comment", "Can change comment field in object"),
             ("change_object_price", "Can change price field in object"),
             ("view_my_filial", "Can view realtors filial and their client/real estate"),
-
-            ("view_filial_deposit", "Can view filial deposit real estate"),
-            ("view_agency_deposit", "Can view agency deposit real estate"),
         )
 
     rubric = models.PositiveSmallIntegerField(
@@ -313,14 +296,6 @@ class Apartment(BaseRealEstate):
 class Commerce(BaseRealEstate):
     """Комерційна нерухомість"""
 
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_commerce", "Can change own commerce"),
-            ("view_own_commerce", "Can view own commerce"),
-            ("change_filial_commerce", "Can change filial commerce"),
-            ("view_filial_commerce", "Can view filial commerce"),
-        )
-
     rubric = models.PositiveSmallIntegerField(
         choices=CommerceRubric.choices, verbose_name=_("Rubric"), default=CommerceRubric.RESIDENTIAL
     )
@@ -355,14 +330,6 @@ class Commerce(BaseRealEstate):
 class House(BaseRealEstate):
     """Приватний будинок"""
 
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_house", "Can change own house"),
-            ("view_own_house", "Can view own house"),
-            ("change_filial_house", "Can change filial house"),
-            ("view_filial_house", "Can view filial house"),
-        )
-
     rubric = models.PositiveSmallIntegerField(
         choices=HouseRubric.choices, verbose_name=_("Rubric"), default=HouseRubric.HOUSE
     )
@@ -388,14 +355,6 @@ class House(BaseRealEstate):
 
 class Land(BaseRealEstate):
     """Приватна ділянка"""
-
-    class Meta(BaseRealEstate.Meta):
-        permissions = (
-            ("change_own_land", "Can change own land"),
-            ("view_own_land", "Can view own land"),
-            ("change_filial_land", "Can change filial land"),
-            ("view_filial_land", "Can view filial land"),
-        )
 
     rubric = models.PositiveSmallIntegerField(
         choices=LandRubric.choices, verbose_name=_("Rubric"), default=LandRubric.LAND

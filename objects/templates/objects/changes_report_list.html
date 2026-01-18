@@ -45,7 +45,7 @@
 <div class="container">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            {% if can_view_real_estate %}
+            {% if perms.objects.view_real_estate %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
                         href="{% url 'objects:apartment_list' lang=lang %}">

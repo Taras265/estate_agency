@@ -37,7 +37,6 @@ from handbooks.models import (
 )
 from handbooks.choices import ClientStatusType
 from objects.mixins import DefaultUserInCreateViewMixin
-from objects.services import user_can_view_real_estate_list, user_can_view_report
 from .utils import get_sale_client_list_context
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
@@ -53,13 +52,16 @@ from utils.views import (
 
 def sale_redirect(request, lang):
     kwargs = {"lang": lang}
-    if request.user:
-        if user_can_view_real_estate_list(request.user):
-            return redirect(
-                reverse_lazy("objects:apartment_list", kwargs=kwargs)
-            )
-        return render(request, "403.html", kwargs)
-    return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+    if request.user.is_anonymous:
+        return redirect(reverse_lazy("accounts:login", kwargs=kwargs))
+
+    if request.user.has_perm("objects.view_real_estate"):
+        return redirect(reverse_lazy("objects:apartment_list", kwargs=kwargs))
+
+    if request.user.has_perm("objects.view_changes_report"):
+        return redirect(reverse_lazy("objects:changes_report_list", kwargs=kwargs))
+
+    return render(request, "403.html", kwargs)
 
 
 class RegionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, SearchByIdMixin, ListView):
