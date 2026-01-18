@@ -222,83 +222,11 @@ def real_estate_model_from_type(type: int) -> type[BaseRealEstate]:
     return model_class
 
 
-def apartment_accessible_for_user(user: CustomUser, qs: QuerySet[Apartment]) -> QuerySet[Apartment]:
-    """
-    Повертає лише ті квартири з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_apartment, view_filial_apartment, view_own_apartment.
-    """
-    if user.has_perm("objects.view_apartment"):
-        return qs
-    
-    if user.has_perm("objects.view_filial_apartment"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-    
-    if user.has_perm("objects.view_own_apartment"):
-        return qs.filter(realtor=user)
-    
-    return qs.none()
-
-
-def land_accessible_for_user(user: CustomUser, qs: QuerySet[Land]) -> QuerySet[Land]:
-    """
-    Повертає лише ті земельні ділянки з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_apartment, view_filial_apartment, view_own_apartment.
-    """
-    if user.has_perm("objects.view_land"):
-        return qs
-    
-    if user.has_perm("objects.view_filial_land"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-    
-    if user.has_perm("objects.view_own_land"):
-        return qs.filter(realtor=user)
-    
-    return qs.none()
-
-
-def commerce_accessible_for_user(user: CustomUser, qs: QuerySet[Commerce]) -> QuerySet[Commerce]:
-    """
-    Повертає лише ті комерції з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_commerce, view_filial_commerce, view_own_commerce.
-    """
-    if user.has_perm("objects.view_commerce"):
-        return qs
-
-    if user.has_perm("objects.view_filial_commerce"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-
-    if user.has_perm("objects.view_own_commerce"):
-        return qs.filter(realtor=user)
-
-    return qs.none()
-
-
-def house_accessible_for_user(user: CustomUser, qs: QuerySet[Commerce]) -> QuerySet[House]:
-    """
-    Повертає лише ті будинки з <qs>, які доступні користувачу для перегляду.
-    Перевіряються такі права: view_house, view_filial_house, view_own_house.
-    """
-    if user.has_perm("objects.view_house"):
-        return qs
-    
-    if user.has_perm("objects.view_filial_house"):
-        user_filials = user.filials.all()
-        return qs.filter(realtor__filials__in=user_filials).distinct()
-
-    if user.has_perm("objects.view_own_house"):
-        return qs.filter(realtor=user)
-
-    return qs.none()
-
-
 def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
     """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
     return any(user.has_perm(perm) for perm in args)
 
-
+'''
 def can_interact_with_object(
     user: CustomUser,
     current_object: BaseRealEstate,
@@ -338,7 +266,7 @@ def can_interact_with_object(
         p = current_object.realtor == user or p
 
     return p
-
+'''
 
 def selection_add_selected_objects(
     selection: Selection, object_type: int, *objects: BaseRealEstate

@@ -53,10 +53,6 @@ from .mixins import (
 )
 
 from .services import (
-    apartment_accessible_for_user,
-    commerce_accessible_for_user,
-    house_accessible_for_user,
-    land_accessible_for_user,
     user_can_update_real_estate,
     user_can_update_real_estate_list,
     real_estate_model_from_type,
@@ -455,7 +451,7 @@ class AccessibleApartmentListView(
         if ordering:
             qs = qs.order_by(ordering)
 
-        return apartment_accessible_for_user(self.request.user, qs)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -514,7 +510,7 @@ class AccessibleCommerceListView(
         if ordering:
             qs = qs.order_by(ordering)
 
-        return commerce_accessible_for_user(self.request.user, qs)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -572,7 +568,7 @@ class AccessibleHouseListView(
         if ordering:
             qs = qs.order_by(ordering)
 
-        return house_accessible_for_user(self.request.user, qs)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -630,7 +626,7 @@ class AccessibleLandListView(
         if ordering:
             qs = qs.order_by(ordering)
 
-        return land_accessible_for_user(self.request.user, qs)
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
