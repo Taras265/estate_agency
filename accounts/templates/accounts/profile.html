@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
+{% load objects_tags %}
 
 {% block title %}{% translate 'Profile' %}{% endblock %}
 
@@ -17,46 +19,6 @@
 <div class="container agents_details_section">
     <div class="property_search propertylist_search_section">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            {% if my_clients %}
-                <li class="nav-item active" role="presentation">
-                    <a class="nav-link "
-                    href="{% url 'handbooks:office_client_list' lang=lang %}">
-                        {% translate "My clients" %}
-                    </a>
-                </li>
-            {% endif %}
-            {% if my_objects %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                    href="{% url 'objects:office_apartment_list' lang=lang %}">
-                        {% translate "My objects" %}
-                    </a>
-                </li>
-            {% endif %}
-            {% if filial_clients %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                    href="{% url 'handbooks:office_filial_client_list' lang=lang %}">
-                        {% translate "Filial clients" %}
-                    </a>
-                </li>
-            {% endif %}
-            {% if filial_objects %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                    href="{% url 'objects:office_filial_apartment_list' lang=lang %}">
-                        {% translate "Filial objects" %}
-                    </a>
-                </li>
-            {% endif %}
-            {% if can_view_report or can_view_filial_report or can_view_own_report %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link"
-                    href="{% url 'objects:office_new_apartment_reports' lang=lang %}">
-                        {% translate "Report" %}
-                    </a>
-                </li>
-            {% endif %}
             {% if users %}
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
@@ -97,7 +59,6 @@
                 </div>
             </div>
             <ul class="basic_detail">
-                <li>{% translate 'Name' %} : <span>{{ user.first_name }} {{ user.last_name }}</span></li>
                 <li>
                     {% translate 'Phone' %} :
                     {% for phone_number in user.phone_numbers.all %}
@@ -117,5 +78,47 @@
             </div>
         </form>
     </div>
+    {% if objects %}
+        <div class="container featured_property_section">
+        <div class="container featured_property_section properties_list_section">
+        <h2>{% translate "My sold real estate" %}</h2>
+        {% for object in objects %}
+        <div class="featured_div">
+            <div id="carousel{{ object.object.id }}" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in object.object.images.all %}  {# Проходимся по всем изображениям объекта #}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img class="d-block w-100" src="{{ image.image.url }}" alt="img" style="height: 200px; object-fit: cover;">
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Кнопки управления -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ object.object.id }}" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="featured_content">
+                <h2>{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</h2>
+                <p>{% translate 'id' %}: {{ object.object.id }}</p>
+                {% if object.object.house_type %}<p>{% translate 'house_type' %}: {{ object.object.house_type }}</p>{% endif %}
+                <p><span><i class='bx bx-map'></i></span>{% if object.object.locality %}{{ object.object.locality }}, {% endif %}{% if object.object.locality_district %}{{ object.object.locality_district }}, {% endif %}{% if object.object.street %}{{ object.object.street }}, {% endif %}{% if object.object.house %}{{ object.object.house }} {% translate 'house' %}{% endif %}{% if object.object.floor > 0 %}, {{ object.object.floor }} {% translate 'floor' %}{% endif %}</p>
+                <ul class="property_spec">
+                    <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
+                </ul>
+            </div>
+            <div class="property_price">
+                <div class="price_div">
+                    <p>₴{{ object.object.price }}</p>
+                </div>
+                {% get_model_name object.object as model_name %}
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

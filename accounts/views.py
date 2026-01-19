@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
@@ -12,6 +14,8 @@ from accounts.services import (
     user_can_view_user_history,
 )
 from handbooks.forms import PhoneNumberFormSet
+from objects.choices import RealEstateStatus
+from objects.models import Apartment, Commerce, House, Land
 from utils.mixins.mixins import CustomLoginRequiredMixin
 from utils.utils import get_office_context
 from utils.views import (
@@ -95,7 +99,26 @@ class ProfileView(CustomLoginRequiredMixin, UpdateView):
         activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
-        context.update(get_office_context(self.request.user))
+        user = self.request.user
+        context.update(get_office_context(user))
+
+        if user.has_perm("objects.view_real_estate"):
+            qs_filter = {
+                "status": RealEstateStatus.SOLD,
+                "realtor": user,
+            }
+
+            objects = chain(
+                Apartment.objects.filter(**qs_filter),
+                Commerce.objects.filter(**qs_filter),
+                House.objects.filter(**qs_filter),
+                Land.objects.filter(**qs_filter),
+            )
+            objects_clean = []
+            for obj in objects:
+                image = obj.images.first()
+                objects_clean.append({"image": image, "object": obj})
+            context["objects"] = objects_clean
         return context
 
 
