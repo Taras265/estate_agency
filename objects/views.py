@@ -422,7 +422,7 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
         return response
 
 
-class AccessibleApartmentListView(
+class ApartmentListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих квартир, які доступні поточному користувачу для перегляду."""
@@ -483,7 +483,7 @@ class AccessibleApartmentListView(
         return context
 
 
-class AccessibleCommerceListView(
+class CommerceListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих комерцій, які доступні поточному користувачу для перегляду."""
@@ -543,7 +543,7 @@ class AccessibleCommerceListView(
         return context
 
 
-class AccessibleHouseListView(
+class HouseListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список лише тих будинків, які доступні поточному користувачу для перегляду."""
@@ -603,7 +603,7 @@ class AccessibleHouseListView(
         return context
 
 
-class AccessibleLandListView(
+class LandListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
     """Список квартир."""
