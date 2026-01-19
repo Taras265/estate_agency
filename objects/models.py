@@ -170,7 +170,6 @@ class BaseRealEstate(models.Model):
     parking = models.BooleanField(default=False, verbose_name=_("Parking"))
     generator = models.BooleanField(default=False, verbose_name=_("Generator"))
     e_home = models.BooleanField(default=False, verbose_name=_("EHome"))  # єОселя
-    on_delete = models.BooleanField(default=False)
 
     price = models.IntegerField(verbose_name=_("Price"))
     # site_price = models.IntegerField(null=True, blank=True)

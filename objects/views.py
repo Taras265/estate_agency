@@ -12,7 +12,6 @@ from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
 from django.views.generic import (
     CreateView,
-    DeleteView,
     ListView,
     TemplateView,
     UpdateView,
@@ -171,7 +170,7 @@ class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListV
             raise BadRequest()
         
         queryset = model_class.objects.filter(
-            on_delete=False, status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT)
+            status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT)
         )
 
         # if form.cleaned_data.get('rooms_number') is not None:
@@ -293,7 +292,10 @@ def showing_act_redirect(request, lang):
         raise BadRequest()
 
     selected_ids = request.GET.getlist("objects")
-    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+    objects = model_class.objects.filter(
+        ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
+        id__in=selected_ids
+    )
     for obj in objects:
         obj.in_selection = True
         obj.save()
@@ -329,7 +331,10 @@ class ShowingActView(TemplateView):
             raise BadRequest()
 
         selected_ids = self.request.GET.getlist("objects")
-        qs = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+        qs = model_class.objects.filter(
+            ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
+            id__in=selected_ids
+        )
         objects = []
         for obj in qs:
             objects.append(
@@ -360,7 +365,10 @@ def pdf_redirect(request, lang):
         raise BadRequest()
 
     selected_ids = request.GET.getlist("objects")
-    objects = model_class.objects.filter(on_delete=False, id__in=selected_ids)
+    objects = model_class.objects.filter(
+        ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
+        id__in=selected_ids
+    )
     for obj in objects:
         obj.in_selection = True
         obj.save()
@@ -400,7 +408,10 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 
         selected_ids = self.request.GET.getlist("objects")
         objects = (
-            model_class.objects.filter(on_delete=False, id__in=selected_ids)
+            model_class.objects.filter(
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
+                id__in=selected_ids
+            )
             .select_related()
         )
 
@@ -443,7 +454,9 @@ class AccessibleApartmentListView(
             }
         
         qs = (
-            Apartment.objects.filter(on_delete=False, **filters)
+            Apartment.objects.filter(
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+            )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
@@ -502,7 +515,9 @@ class AccessibleCommerceListView(
             }
         
         qs = (
-            Commerce.objects.filter(on_delete=False, **filters)
+            Commerce.objects.filter(
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+            )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
@@ -560,7 +575,9 @@ class AccessibleHouseListView(
             }
         
         qs = (
-            House.objects.filter(on_delete=False, **filters)
+            House.objects.filter(
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+            )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
@@ -618,7 +635,9 @@ class AccessibleLandListView(
             }
 
         qs = (
-            Land.objects.filter(on_delete=False, **filters)
+            Land.objects.filter(
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+            )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "realtor__email")
         )
@@ -1215,119 +1234,11 @@ class LandUpdateView(
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:land_list", kwargs=kwargs)
 
-'''
-class ApartmentDeleteView(CustomLoginRequiredMixin, DeleteView):
-    """Видалення квартири."""
-
-    template_name = "delete_form.html"
-    model = Apartment
-
-    def get_object(self, queryset=None):
-        """
-        Перевіряє, чи може користувач редагувати дану квартиру;
-        якщо перевірка проходить, повертає її
-        """
-        apartment = get_object_or_404(Apartment, id=self.kwargs["pk"])
-        if not user_can_update_real_estate(self.request.user, apartment):
-            raise PermissionDenied(self.request.user.has_perm("objects.change_own_real_estate"))
-        return apartment
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        return context
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("objects:apartment_list", kwargs=kwargs)
-
-
-class CommerceDeleteView(CustomLoginRequiredMixin, DeleteView):
-    """Видалення комерції."""
-
-    template_name = "delete_form.html"
-    model = Commerce
-
-    def get_object(self, queryset=None):
-        """
-        Перевіряє, чи може користувач редагувати дану комерцію;
-        якщо перевірка проходить, повертає її
-        """
-        commerce = get_object_or_404(Commerce, id=self.kwargs["pk"])
-        if not user_can_update_real_estate(self.request.user, commerce):
-            raise PermissionDenied()
-        return commerce
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        return context
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("objects:commerce_list", kwargs=kwargs)
-
-
-class HouseDeleteView(CustomLoginRequiredMixin, DeleteView):
-    """Видалення будинку."""
-
-    template_name = "delete_form.html"
-    model = House
-
-    def get_object(self, queryset=None):
-        """
-        Перевіряє, чи може користувач редагувати даний будинок;
-        якщо перевірка проходить, повертає його
-        """
-        house = get_object_or_404(House, id=self.kwargs["pk"])
-        if not user_can_update_real_estate(self.request.user, house):
-            raise PermissionDenied()
-        return house
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        return context
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("objects:house_list", kwargs=kwargs)
-
-
-class LandDeleteView(CustomLoginRequiredMixin, DeleteView):
-    """Видалення будинку."""
-
-    template_name = "delete_form.html"
-    model = Land
-
-    def get_object(self, queryset=None):
-        """
-        Перевіряє, чи може користувач редагувати дану земельну ділянку;
-        якщо перевірка проходить, повертає її
-        """
-        land = get_object_or_404(Land, id=self.kwargs["pk"])
-        if not user_can_update_real_estate(land):
-            raise PermissionDenied()
-        return land
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        return context
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("objects:land_list", kwargs=kwargs)
-'''
 
 class CatalogListView(ListView):
     paginate_by = 15
     template_name = "objects/catalog.html"
-    queryset = Apartment.objects.filter(on_delete=False)
+    queryset = Apartment.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
     context_object_name = "objects"
 
     def get_queryset(self):
@@ -1366,7 +1277,7 @@ class CatalogListView(ListView):
 
 class ApartmentDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = Apartment.objects.filter(on_delete=False)
+    queryset = Apartment.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
     form_class = ApartmentForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -1385,7 +1296,7 @@ class ApartmentDetailView(UpdateView):
 
 class CommerceDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = Commerce.objects.filter(on_delete=False)
+    queryset = Commerce.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
     form_class = CommerceForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -1404,7 +1315,7 @@ class CommerceDetailView(UpdateView):
 
 class HouseDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = House.objects.filter(on_delete=False)
+    queryset = House.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
     form_class = HouseForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -1423,7 +1334,7 @@ class HouseDetailView(UpdateView):
 
 class LandDetailView(UpdateView):
     template_name = "objects/real_estate_details_form.html"
-    queryset = Land.objects.filter(on_delete=False)
+    queryset = Land.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
     form_class = LandForm
     model = Land
 
@@ -1444,22 +1355,22 @@ class LandDetailView(UpdateView):
 class ApartmentHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "objects.view_real_estate"
     handbook_type = "apartment"
-    queryset = Apartment.objects.filter(on_delete=False)
+    queryset = Apartment.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
 
 
 class CommerceHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "objects.view_real_estate"
     handbook_type = "commerce"
-    queryset = Commerce.objects.filter(on_delete=False)
+    queryset = Commerce.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
 
 
 class HouseHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "objects.view_real_estate"
     handbook_type = "house"
-    queryset = House.objects.filter(on_delete=False)
+    queryset = House.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
 
 
 class LandHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "objects.view_real_estate"
     handbook_type = "land"
-    queryset = Land.objects.filter(on_delete=False)
+    queryset = Land.objects.exclude(status=RealEstateStatus.COMPLETELY_WITHDRAWN)
