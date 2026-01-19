@@ -425,7 +425,7 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 class ApartmentListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
-    """Список лише тих квартир, які доступні поточному користувачу для перегляду."""
+    """Список квартир"""
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
@@ -458,7 +458,7 @@ class ApartmentListView(
                 ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
             )
             .select_related("locality", "street", "realtor")
-            .only("id", "locality__locality", "street__street", "realtor__email")
+            .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
         ordering = self.get_ordering()
         if ordering:
@@ -486,7 +486,7 @@ class ApartmentListView(
 class CommerceListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
-    """Список лише тих комерцій, які доступні поточному користувачу для перегляду."""
+    """Список комерцій"""
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
@@ -519,7 +519,7 @@ class CommerceListView(
                 ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
             )
             .select_related("locality", "street", "realtor")
-            .only("id", "locality__locality", "street__street", "realtor__email")
+            .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
         ordering = self.get_ordering()
         if ordering:
@@ -546,7 +546,7 @@ class CommerceListView(
 class HouseListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
-    """Список лише тих будинків, які доступні поточному користувачу для перегляду."""
+    """Список будинків"""
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
@@ -579,7 +579,7 @@ class HouseListView(
                 ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
             )
             .select_related("locality", "street", "realtor")
-            .only("id", "locality__locality", "street__street", "realtor__email")
+            .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
         ordering = self.get_ordering()
         if ordering:
@@ -606,7 +606,7 @@ class HouseListView(
 class LandListView(
     CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
 ):
-    """Список квартир."""
+    """Список земельних ділянок"""
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
@@ -639,7 +639,7 @@ class LandListView(
                 ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
             )
             .select_related("locality", "street", "realtor")
-            .only("id", "locality__locality", "street__street", "realtor__email")
+            .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
         ordering = self.get_ordering()
         if ordering:
