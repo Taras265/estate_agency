@@ -34,18 +34,10 @@
         <div class="d-flex align-items-center gap-2 mb-2">
             <label>{% translate "Add" %}</label>
             <select id="real-estate-type-select" name="real-estate-type">
-                {% if can_add_apartment or can_add_own_apartment %}
-                    <option value="1">{% translate 'Apartment' %}</option>
-                {% endif %}
-                {% if can_add_commerce or can_add_own_commerce %}
-                    <option value="2">{% translate 'Commerce' %}</option>
-                {% endif %}
-                {% if can_add_house or can_add_own_house %}
-                    <option value="3">{% translate 'House' %}</option>
-                {% endif %}
-                {% if can_add_land or can_add_own_land %}
-                    <option value="4">{% translate 'Land' %}</option>
-                {% endif %}
+                <option value="1">{% translate 'Apartment' %}</option>
+                <option value="2">{% translate 'Commerce' %}</option>
+                <option value="3">{% translate 'House' %}</option>
+                <option value="4">{% translate 'Land' %}</option>
             </select>
         </div>
     </div>

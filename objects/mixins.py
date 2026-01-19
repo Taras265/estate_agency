@@ -21,14 +21,6 @@ class RealEstateCreateContextMixin(ContextMixin):
             {
                 "lang": self.kwargs["lang"],
                 "real_estate_choices": RealEstateType.choices,
-                "can_add_apartment": user.has_perm("objects.add_apartment"),
-                "can_add_own_apartment": user.has_perm("objects.add_own_apartment"),
-                "can_add_commerce": user.has_perm("objects.add_commerce"),
-                "can_add_own_commerce": user.has_perm("objects.add_own_commerce"),
-                "can_add_house": user.has_perm("objects.add_house"),
-                "can_add_own_house": user.has_perm("objects.add_own_house"),
-                "can_add_land": user.has_perm("objects.add_land"),
-                "can_add_own_land": user.has_perm("objects.add_own_land"),
                 "formset": RealEstateImageFormSet(
                     queryset=RealEstateImage.objects.none(),
                     prefix="images",
