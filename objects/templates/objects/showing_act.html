@@ -74,7 +74,7 @@
                 </button>
             </div>
             <div class="featured_content">
-                <h2><a href="{% url 'objects:apartment_detail' lang=lang pk=object.object.id %}">{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</a></h2>
+                <h2><a href="{% url url lang=lang pk=object.object.id %}">{{ object.object.street }} {{ object.object.locality_district }} {{ object.object.locality }}</a></h2>
                 <p>{% translate 'id' %}: {{ object.object.id }}</p>
                 {% if object.object.house_type %}<p>{% translate 'house_type' %}: {{ object.object.house_type }}</p>{% endif %}
                 <p><span><i class='bx bx-map'></i></span>{% if object.object.locality %}{{ object.object.locality }}, {% endif %}{% if object.object.locality_district %}{{ object.object.locality_district }}, {% endif %}{% if object.object.street %}{{ object.object.street }}, {% endif %}{% if object.object.house %}{{ object.object.house }} {% translate 'house' %}{% endif %}{% if object.object.floor > 0 %}, {{ object.object.floor }} {% translate 'floor' %}{% endif %}</p>
@@ -87,7 +87,7 @@
                     <p>₴{{ object.object.price }}</p>
                 </div>
                 {% get_model_name object.object as model_name %}
-                <a class="custombtn" href="{% url 'objects:'|add:model_name|add:'_detail' lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
+                <a class="custombtn" href="{% url url lang=lang pk=object.object.id %}">{% translate 'See details' %}</a>
             </div>
         </div>
         {% endfor %}

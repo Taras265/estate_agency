@@ -16,7 +16,7 @@ from django.views.generic import (
     ListView,
     TemplateView,
     UpdateView,
-    View,
+    View, DetailView,
 )
 
 from handbooks.forms import SelectionForm
@@ -339,6 +339,8 @@ class ShowingActView(TemplateView):
                 }
             )
         context["objects"] = objects
+        context["url"] = f"objects:{model_class._meta.model_name}_showing_act_details"
+
         return context
 
 
@@ -1374,6 +1376,7 @@ class ApartmentDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
+        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
@@ -1393,6 +1396,7 @@ class CommerceDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
+        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
@@ -1412,6 +1416,7 @@ class HouseDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
+        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
@@ -1437,6 +1442,58 @@ class LandDetailView(UpdateView):
             field.widget.attrs["readonly"] = True
 
         context["disabled"] = True
+
+        return context
+
+
+class ApartmentShowingActDetailView(DetailView):
+    template_name = "objects/real_estate_showing_act_detail.html"
+    queryset = Apartment.objects.filter()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context["type"] = "apartment"
+
+        return context
+
+
+class CommerceShowingActDetailView(DetailView):
+    template_name = "objects/real_estate_showing_act_detail.html"
+    queryset = Commerce.objects.filter()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context["type"] = "commerce"
+
+        return context
+
+
+class HouseShowingActDetailView(DetailView):
+    template_name = "objects/real_estate_showing_act_detail.html"
+    queryset = House.objects.filter()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context["type"] = "house"
+
+        return context
+
+
+class LandShowingActDetailView(DetailView):
+    template_name = "objects/real_estate_showing_act_detail.html"
+    queryset = Land.objects.filter()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
+        context["type"] = "land"
 
         return context
 

@@ -228,7 +228,7 @@
             {{ form.sale_terms.errors }}
         </div>
     </div>
-
+    {% if form.owner %}
     <div class="row mb-5">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -242,6 +242,7 @@
                 {% endif %}
             </div>
     </div>
+    {% endif %}
     <div class="row mb-5">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">

@@ -247,6 +247,7 @@
             {{ form.sale_terms.errors }}
         </div>
     </div>
+    {% if form.owner %}
     <div class="row mb-5">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -254,12 +255,13 @@
             </div>
             {{ form.owner.errors }}
         </div>
-        <div class="col">
-            {% if not disabled %}
-            <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
-            {% endif %}
-        </div>
+            <div class="col">
+                {% if not disabled and not form.locality.field.widget.attrs.disabled %}
+                <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
+                {% endif %}
+            </div>
     </div>
+    {% endif %}
     <div class="row mb-5">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
