@@ -1448,7 +1448,7 @@ class LandDetailView(UpdateView):
 
 class ApartmentShowingActDetailView(DetailView):
     template_name = "objects/real_estate_showing_act_detail.html"
-    queryset = Apartment.objects.filter()
+    queryset = Apartment.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1461,7 +1461,7 @@ class ApartmentShowingActDetailView(DetailView):
 
 class CommerceShowingActDetailView(DetailView):
     template_name = "objects/real_estate_showing_act_detail.html"
-    queryset = Commerce.objects.filter()
+    queryset = Commerce.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1474,7 +1474,7 @@ class CommerceShowingActDetailView(DetailView):
 
 class HouseShowingActDetailView(DetailView):
     template_name = "objects/real_estate_showing_act_detail.html"
-    queryset = House.objects.filter()
+    queryset = House.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
@@ -1487,7 +1487,7 @@ class HouseShowingActDetailView(DetailView):
 
 class LandShowingActDetailView(DetailView):
     template_name = "objects/real_estate_showing_act_detail.html"
-    queryset = Land.objects.filter()
+    queryset = Land.objects.all()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
