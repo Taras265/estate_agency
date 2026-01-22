@@ -17,19 +17,84 @@
         color: rgb(220, 53, 69);
         text-align: left;
     }
+    .carousel-compact {
+        max-width: 360px;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .carousel-img {
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .carousel-compact .carousel-control-prev,
+    .carousel-compact .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+
+        background: rgba(0,0,0,.6);
+        color: #fff;
+        font-size: 20px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        z-index: 10;
+    }
+
+    .carousel-compact .carousel-control-prev {
+        left: 8px;
+    }
+
+    .carousel-compact .carousel-control-next {
+        right: 8px;
+    }
+
 </style>
 <div class="container-fluid page_heading_banner">
   <div class="banner_caption">
     <h1>{% translate 'Real estate details' %}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li><a href="{% url 'objects:real_estate_list_redirect' lang=lang %}">{% translate 'Real estate' %}</a></li>
+      <li><a href="{% url 'objects:apartment_list' lang=lang %}">{% translate 'Real estate' %}</a></li>
       <li>/ {% translate 'Details' %}</li>
     </ul>
   </div>
 </div>
 <br>
 <div>
+    <div id="carousel{{ object.id }}"
+         class="carousel slide carousel-compact"
+         data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            {% for image in object.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" class="carousel-img" alt="">
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#carousel{{ object.id }}" data-bs-slide="prev">
+            ‹
+        </button>
+
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#carousel{{ object.id }}" data-bs-slide="next">
+            ›
+        </button>
+    </div>
+
     <form enctype="multipart/form-data" action="{{ action }}" method="post">
         {% csrf_token %}
         {% include form.template_name %}

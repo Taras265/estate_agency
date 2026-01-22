@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load i18n %}
+{% load objects_tags %}
+<html lang="">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% translate 'Showing act' %}</title>
+
+    <!-- favicon -->
+    <link rel="icon" href="{% static '/images/fav_icon.jpg' %}" type="image/x-icon">
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+
+    <!-- box icons css -->
+    <link rel='stylesheet' href="{% static '/css/boxicons.min.css' %}">
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+
+    <!-- owl tylesheets -->
+    <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/owl.theme.default.min.css' %}">
+
+    <!-- bootstrap select -->
+    <link rel="stylesheet" href="{% static '/css/bootstrap-select.min.css' %}">
+    <style>
+        .object-card {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 24px;
+
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .carousel-compact {
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel-img {
+            height: 240px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-compact .carousel-control-prev,
+        .carousel-compact .carousel-control-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+
+            background: rgba(0,0,0,.6);
+            color: #fff;
+            font-size: 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .carousel-compact .carousel-control-prev { left: 10px; }
+        .carousel-compact .carousel-control-next { right: 10px; }
+
+        .object-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .object-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .object-price {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c7be5;
+            margin-bottom: 20px;
+        }
+
+        .object-specs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 20px;
+        }
+
+        .object-specs div {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #e0e0e0;
+            font-size: 14px;
+        }
+
+        .object-specs span {
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .object-card {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-img {
+                height: 200px;
+            }
+        }
+
+</style>
+</head>
+
+<body>
+<div class="container py-4">
+
+    <div class="object-card">
+
+        <!-- Карусель -->
+        <div id="carousel{{ object.id }}"
+             class="carousel slide carousel-compact"
+             data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+                {% for image in object.images.all %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ image.image.url }}" class="carousel-img" alt="">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev"
+                    data-bs-target="#carousel{{ object.id }}" data-bs-slide="prev">‹</button>
+            <button class="carousel-control-next"
+                    data-bs-target="#carousel{{ object.id }}" data-bs-slide="next">›</button>
+        </div>
+
+        <!-- Информация -->
+        <div class="object-info">
+            <h1 class="object-title">
+                {{ object.locality }} {{ object.street }} {{ object.house }}
+            </h1>
+
+            <div class="object-price">
+                {{ object.price }}
+            </div>
+
+            <div class="object-specs">
+                <div><span>{% translate "Balcony" %}</span>{{ object.balcony }}</div>
+                <div><span>{% translate "Square" %}</span>{{ object.square }}</div>
+                <div><span>{% translate "Kitchen square" %}</span>{{ object.kitchen_square }}</div>
+                <div><span>{% translate "Floor" %}</span>{{ object.floor }}</div>
+                <div><span>{% translate "Storeys number" %}</span>{{ object.storeys_number }}</div>
+                <div><span>{% translate "Real estate type" %}</span>{{ type }}</div>
+                <div><span>{% translate "Status" %}</span>{{ object.get_status_display }}</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+
+</html>

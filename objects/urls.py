@@ -52,6 +52,14 @@ urlpatterns = [
 
     path("pre/showing_act/", views.showing_act_redirect, name="showing_act_redirect"),
     path("showing_act/", views.ShowingActView.as_view(), name="showing_act"),
+    path("showing_act/apartment/<int:pk>/", views.ApartmentShowingActDetailView.as_view(),
+         name="apartment_showing_act_details"),
+    path("showing_act/commerce/<int:pk>/", views.CommerceShowingActDetailView.as_view(),
+         name="commerce_showing_act_details"),
+    path("showing_act/house/<int:pk>/", views.HouseShowingActDetailView.as_view(),
+         name="house_showing_act_details"),
+    path("showing_act/land/<int:pk>/", views.LandShowingActDetailView.as_view(),
+         name="land_showing_act_details"),
     path("pre/showing_act/pdf/", views.pdf_redirect, name="generate_pdf_redirect"),
     path("showing_act/pdf/", views.ShowingActPDFView.as_view(), name="generate_pdf"),
     path(
