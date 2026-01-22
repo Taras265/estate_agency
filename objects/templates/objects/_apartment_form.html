@@ -237,7 +237,7 @@
             {{ form.owner.errors }}
         </div>
             <div class="col">
-                {% if not disabled and not form.locality.field.widget.attrs.disabled %}
+                {% if not disabled %}
                 <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
                 {% endif %}
             </div>
