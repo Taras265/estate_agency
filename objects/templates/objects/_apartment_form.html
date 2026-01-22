@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.rubric.label_tag }} {{ form.rubric }}
@@ -27,7 +27,7 @@
             {{ form.status.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.locality.label_tag }} {{ form.locality }}
@@ -58,7 +58,7 @@
         </div>
     </div>
     {% if not disabled and not form.locality.field.widget.attrs.disabled %}
-    <div class="d-flex gap-3 mb-5">
+    <div class="d-flex gap-3 mb-2">
         <div>
             <div class="d-flex align-items-center gap-3">
                 <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
@@ -71,13 +71,13 @@
         </div>
     </div>
     {% endif %}
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             {{ form.filial.label_tag }} {{ form.filial }}
             {{ form.filial.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.square.label_tag }} {{ form.square }}
@@ -103,7 +103,7 @@
             {{ form.height.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.price.label_tag }} {{ form.price }}
@@ -139,11 +139,11 @@
         {% endfor %}
     </div>
     {% if not disabled and not formset.0.image.field.widget.attrs.disabled %}
-    <div class="d-flex align-items-center gap-3 mb-5">
+    <div class="d-flex align-items-center gap-3 mb-2">
         <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
     </div>
     {% endif %}
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.house_type.label_tag }} {{ form.house_type }}
@@ -169,7 +169,7 @@
             {{ form.condition.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.floor.label_tag }} {{ form.floor }}
@@ -192,7 +192,7 @@
             {{ form.stair.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.storeys_number.label_tag }} {{ form.storeys_number }}
@@ -212,7 +212,7 @@
             {{ form.creation_date.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
@@ -220,7 +220,7 @@
             {{ form.realtor_notes.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.sale_terms.label_tag }} {{ form.sale_terms }}
@@ -229,7 +229,7 @@
         </div>
     </div>
     {% if form.owner %}
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.owner.label_tag }} {{ form.owner }}
@@ -243,7 +243,7 @@
             </div>
     </div>
     {% endif %}
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.comment.label_tag }} {{ form.comment }}
