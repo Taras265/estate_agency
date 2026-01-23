@@ -1,15 +1,14 @@
-import datetime
 from itertools import chain
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
 from django.utils.translation import activate, gettext_lazy as _
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET
 from django.views.generic import (
     CreateView,
     ListView,
@@ -23,10 +22,7 @@ from handbooks.models import Client, Street
 from images.forms import RealEstateImageFormSet
 
 from .models import Apartment, Commerce, House, Land, Selection
-from .utils import (
-    real_estate_form_save,
-    real_estate_form_filter
-)
+from .utils import real_estate_form_save
 from utils.mixins.mixins import CustomLoginRequiredMixin
 from utils.showing_act_pdf_service import ShowingActPDFService, ShowingActPDFType
 from utils.views import HistoryView
@@ -35,14 +31,16 @@ from .choices import RealEstateStatus, RealEstateType, PermissionUpdateLevel
 from .forms import (
     ApartmentForm,
     ApartmentVerifyAddressForm,
+    ApartmentSearchForm,
     CommerceForm,
     CommerceVerifyAddressForm,
-    HandbooksSearchForm,
+    CommerceSearchForm,
     HouseForm,
     HouseVerifyAddressForm,
+    HouseSearchForm,
     SearchForm,
     LandForm,
-    RealEstateFilteringForm
+    LandSearchForm,
 )
 from .mixins import (
     DefaultUserInCreateViewMixin,
@@ -50,12 +48,11 @@ from .mixins import (
     RealEstateUpdateContextMixin,
     RealEstateListContextMixin,
 )
-
 from .services import (
     user_can_update_real_estate,
     user_can_update_real_estate_list,
     real_estate_model_from_type,
-    has_any_perm_from_list,
+    process_real_estate_search_form,
     selection_add_selected_objects,
 )
 
@@ -429,9 +426,8 @@ class ApartmentListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    model = Apartment
+    form = None
     paginate_by = 5
-    form_class = HandbooksSearchForm
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -441,29 +437,30 @@ class ApartmentListView(
         return None
 
     def get_queryset(self):
-        filters = {}
         if "id" in self.request.GET:
-            form = self.form_class(self.request.GET)
-            if not form.is_valid():
-                return []
+            # форма була відправлена
+            self.form = ApartmentSearchForm(self.request.GET)
+        else:
+            # форма не була відправлена,
+            # користувач перейшов на сторінку по посиланню
+            self.form = ApartmentSearchForm({
+                "status": [RealEstateStatus.ON_SALE],
+                "whose_objects": "own"
+            })
 
-            filters = {
-                field: value
-                for field, value in form.cleaned_data.items()
-                if value is not None
-            }
-        
+        if not self.form.is_valid():
+            return []
+
         qs = (
             Apartment.objects.filter(
-                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
             )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
-        ordering = self.get_ordering()
-        if ordering:
+        qs = process_real_estate_search_form(qs, self.form, self.request.user)
+        if (ordering := self.get_ordering()):
             qs = qs.order_by(ordering)
-
         return qs
 
     def get_context_data(self, **kwargs):
@@ -474,6 +471,7 @@ class ApartmentListView(
                     self.request.user,
                     context["object_list"],
                 ),
+                "form": self.form,
                 "create_url_name": "objects:create_apartment",
                 "update_url_name": "objects:update_apartment",
                 "sort": self.request.GET.get("sort"),
@@ -490,9 +488,8 @@ class CommerceListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    model = Commerce
     paginate_by = 5
-    form_class = HandbooksSearchForm
+    form = None
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -502,29 +499,30 @@ class CommerceListView(
         return None
 
     def get_queryset(self):
-        filters = {}
         if "id" in self.request.GET:
-            form = self.form_class(self.request.GET)
-            if not form.is_valid():
-                return []
+            # форма була відправлена
+            self.form = CommerceSearchForm(self.request.GET)
+        else:
+            # форма не була відправлена,
+            # користувач перейшов на сторінку по посиланню
+            self.form = CommerceSearchForm({
+                "status": [RealEstateStatus.ON_SALE],
+                "whose_objects": "own"
+            })
 
-            filters = {
-                field: value
-                for field, value in form.cleaned_data.items()
-                if value is not None
-            }
-        
+        if not self.form.is_valid():
+            return []
+
         qs = (
             Commerce.objects.filter(
-                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
             )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
-        ordering = self.get_ordering()
-        if ordering:
+        qs = process_real_estate_search_form(qs, self.form, self.request.user)
+        if (ordering := self.get_ordering()):
             qs = qs.order_by(ordering)
-
         return qs
 
     def get_context_data(self, **kwargs):
@@ -534,6 +532,7 @@ class CommerceListView(
                 "can_update": user_can_update_real_estate_list(
                     self.request.user, context["object_list"]
                 ),
+                "form": self.form,
                 "create_url_name": "objects:create_commerce",
                 "update_url_name": "objects:update_commerce",
                 "sort": self.request.GET.get("sort"),
@@ -550,9 +549,7 @@ class HouseListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    model = House
     paginate_by = 5
-    form_class = HandbooksSearchForm
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -562,29 +559,30 @@ class HouseListView(
         return None
 
     def get_queryset(self):
-        filters = {}
         if "id" in self.request.GET:
-            form = self.form_class(self.request.GET)
-            if not form.is_valid():
-                return []
+            # форма була відправлена
+            self.form = HouseSearchForm(self.request.GET)
+        else:
+            # форма не була відправлена,
+            # користувач перейшов на сторінку по посиланню
+            self.form = HouseSearchForm({
+                "status": [RealEstateStatus.ON_SALE],
+                "whose_objects": "own"
+            })
 
-            filters = {
-                field: value
-                for field, value in form.cleaned_data.items()
-                if value is not None
-            }
-        
+        if not self.form.is_valid():
+            return []
+
         qs = (
             House.objects.filter(
-                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
             )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
-        ordering = self.get_ordering()
-        if ordering:
+        qs = process_real_estate_search_form(qs, self.form, self.request.user)
+        if (ordering := self.get_ordering()):
             qs = qs.order_by(ordering)
-
         return qs
 
     def get_context_data(self, **kwargs):
@@ -594,6 +592,7 @@ class HouseListView(
                 "can_update": user_can_update_real_estate_list(
                     self.request.user, context["object_list"]
                 ),
+                "form": self.form,
                 "create_url_name": "objects:create_house",
                 "update_url_name": "objects:update_house",
                 "sort": self.request.GET.get("sort"),
@@ -610,9 +609,7 @@ class LandListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    model = Land
     paginate_by = 5
-    form_class = HandbooksSearchForm
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -622,29 +619,30 @@ class LandListView(
         return None
 
     def get_queryset(self):
-        filters = {}
         if "id" in self.request.GET:
-            form = self.form_class(self.request.GET)
-            if not form.is_valid():
-                return []
+            # форма була відправлена
+            self.form = LandSearchForm(self.request.GET)
+        else:
+            # форма не була відправлена,
+            # користувач перейшов на сторінку по посиланню
+            self.form = LandSearchForm({
+                "status": [RealEstateStatus.ON_SALE],
+                "whose_objects": "own"
+            })
 
-            filters = {
-                field: value
-                for field, value in form.cleaned_data.items()
-                if value is not None
-            }
+        if not self.form.is_valid():
+            return []
 
         qs = (
             Land.objects.filter(
-                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN), **filters
+                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
             )
             .select_related("locality", "street", "realtor")
             .only("id", "locality__locality", "street__street", "rubric", "on_site", "realtor__email")
         )
-        ordering = self.get_ordering()
-        if ordering:
+        qs = process_real_estate_search_form(qs, self.form, self.request.user)
+        if (ordering := self.get_ordering()):
             qs = qs.order_by(ordering)
-
         return qs
 
     def get_context_data(self, **kwargs):
@@ -655,6 +653,7 @@ class LandListView(
                     self.request.user,
                     context["object_list"],
                 ),
+                "form": self.form,
                 "create_url_name": "objects:create_land",
                 "update_url_name": "objects:update_land",
                 "sort": self.request.GET.get("sort"),

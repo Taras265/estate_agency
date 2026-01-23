@@ -181,3 +181,10 @@
     </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script defer
+    src="{% static '/js/real_estate_list.js' %}"
+    data-main-url="{% url 'main' lang %}">
+</script>
+{% endblock %}

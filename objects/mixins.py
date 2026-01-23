@@ -63,7 +63,6 @@ class RealEstateListContextMixin(ContextMixin):
         user = self.request.user
         context.update({
             "lang": self.kwargs["lang"],
-            "form": self.form_class(self.request.GET) if self.form_class else None,
             "can_view_report": user.has_perm("objects.view_changes_report"),
             "can_create": user.has_perm("objects.add_own_real_estate"),
         })
