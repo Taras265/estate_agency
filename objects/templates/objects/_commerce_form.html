@@ -49,17 +49,15 @@
             <label id="house-error" class="text-danger"></label>
             {{ form.house.errors }}
         </div>
-    <div class="col">
+        <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.premises.label_tag }} {{ form.premises }}
             </div>
             <label id="premises-error" class="text-danger"></label>
             {{ form.premises.errors }}
         </div>
-    </div>
-    <div class="d-flex gap-3 mb-2">
         {% if not disabled %}
-        <div>
+        <div class="col">
             <div class="d-flex align-items-center gap-3">
                 <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
                 <label></label>
@@ -67,15 +65,16 @@
         </div>
         {% endif %}
     </div>
+
     <div class="row mb-2">
-        <div class="col">
+        <div class="col"  style="margin-top: -20px;">
             {{ form.agency.label_tag }} {{ form.agency }}
+            {{ form.agency.errors }}
         </div>
-        {{ form.agency.errors }}
-        <div class="col">
+        <div class="col"  style="margin-top: -20px;">
             {{ form.filial.label_tag }} {{ form.filial }}
+            {{ form.filial.errors }}
         </div>
-        {{ form.filial.errors }}
     </div>
     <div class="row mb-2">
         <div class="col">
@@ -232,11 +231,12 @@
     <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
-                {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
+                {{ form.description.label_tag }} {{ form.description }}
             </div>
-            {{ form.realtor_notes.errors }}
+            {{ form.description.errors }}
         </div>
     </div>
+
     <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -244,9 +244,7 @@
             </div>
             {{ form.sale_terms.errors }}
         </div>
-    </div>
-    {% if form.owner %}
-    <div class="row mb-2">
+        {% if form.owner %}
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.owner.label_tag }} {{ form.owner }}
@@ -258,8 +256,8 @@
                 <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
                 {% endif %}
             </div>
+        {% endif %}
     </div>
-    {% endif %}
     <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">

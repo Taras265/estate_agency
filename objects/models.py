@@ -10,7 +10,7 @@ from handbooks.models import Client, Handbook, Locality, Street
 from images.models import RealEstateImage
 
 from .choices import RealEstateStatus, LandTarget, LandDisposition, LandRubric, HouseRubric, CommerceRubric, \
-    ApartmentRubric
+    ApartmentRubric, RealEstateDocument, RealEstateCommunication, HouseRoomsNumberRubric
 
 
 class BaseRealEstate(models.Model):
@@ -25,7 +25,7 @@ class BaseRealEstate(models.Model):
 
     creation_date = models.DateField(
         verbose_name=_("Creation date"), default=datetime.date.today
-    )  # дата побудови
+    )  # дата cтворення
     deposit_date = models.DateField(
         null=True, blank=True, verbose_name=_("Deposit date")
     )  # дата постановки
@@ -185,7 +185,8 @@ class BaseRealEstate(models.Model):
         choices=RealEstateStatus.choices, verbose_name=_("Status")
     )
 
-    document = models.CharField(max_length=150, blank=True, verbose_name=_("Document"))
+    document = models.PositiveSmallIntegerField(
+        choices=RealEstateDocument, verbose_name=_("Document"), null=True, blank=True)
     # filename_of_exclusive_agreement = models.CharField(max_length=150, null=True, blank=True)
     # inspection_file_name = models.CharField(max_length=150, null=True, blank=True)
     # filename_forbid_sale = models.CharField(max_length=150, null=True, blank=True)
@@ -194,8 +195,8 @@ class BaseRealEstate(models.Model):
     sale_terms = models.CharField(
         max_length=150, null=True, blank=True, verbose_name=_("Sale terms")
     )
-    realtor_notes = models.TextField(
-        null=True, blank=True, verbose_name=_("Realtor notes")
+    description = models.TextField(
+        null=True, blank=True, verbose_name=_("Description")
     )
     comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
 
@@ -240,6 +241,9 @@ class Apartment(BaseRealEstate):
             ("view_my_filial", "Can view realtors filial and their client/real estate"),
         )
 
+    construction_date = models.DateField(
+        verbose_name=_("Construction date"), default=datetime.date.today
+    )  # дата побудови
     rubric = models.PositiveSmallIntegerField(
         choices=ApartmentRubric.choices, verbose_name=_("Rubric"), default=ApartmentRubric.MANY_ROOMS
     )
@@ -342,9 +346,11 @@ class House(BaseRealEstate):
         verbose_name=_("Land's square"), null=True, blank=True
     )  # площа ділянки
     rooms_number = models.PositiveSmallIntegerField(
-        verbose_name=_("Number of rooms"), null=True, blank=True
+        verbose_name=_("Number of rooms"), choices=HouseRoomsNumberRubric.choices, null=True, blank=True
     )
-    communications = models.BooleanField(default=False, verbose_name=_("Communications"))
+    communication = models.PositiveSmallIntegerField(
+        choices=RealEstateCommunication.choices, verbose_name=_("Communication"), null=True, blank=True
+    )
     terrace = models.BooleanField(default=False, verbose_name=_("Terrace"))
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))
     own_parking = models.BooleanField(default=False, verbose_name=_("Own parking"))
@@ -365,7 +371,9 @@ class Land(BaseRealEstate):
         verbose_name=_("Land's square"), null=True, blank=True
     )  # площа ділянки
 
-    communications = models.BooleanField(default=False, verbose_name=_("Communications"))
+    communication = models.PositiveSmallIntegerField(
+        choices=RealEstateCommunication.choices, verbose_name=_("Communication"), null=True, blank=True
+    )
 
     target = models.PositiveSmallIntegerField(
         choices=LandTarget.choices, verbose_name=_("Target")

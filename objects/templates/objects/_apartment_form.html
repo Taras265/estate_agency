@@ -56,26 +56,27 @@
             <label id="apartment-error" class="text-danger"></label>
             {{ form.apartment.errors }}
         </div>
-    </div>
-    {% if not disabled and not form.locality.field.widget.attrs.disabled %}
-    <div class="d-flex gap-3 mb-2">
-        <div>
+
+        {% if not disabled and not form.locality.field.widget.attrs.disabled %}
+        <div class="col">
             <div class="d-flex align-items-center gap-3">
                 <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
                 <label></label>
             </div>
         </div>
+        {% endif %}
+    </div>
+    <div class="row mb-2">
         <div class="col"  style="margin-top: -20px;">
             {{ form.agency.label_tag }} {{ form.agency }}
-        {{ form.agency.errors }}
+            {{ form.agency.errors }}
         </div>
-    </div>
-    {% endif %}
-    <div class="row mb-2">
-        <div class="col">
+        <div class="col"  style="margin-top: -20px;">
             {{ form.filial.label_tag }} {{ form.filial }}
             {{ form.filial.errors }}
         </div>
+    </div>
+    <div class="row mb-2">
     </div>
     <div class="row mb-2">
         <div class="col">
@@ -207,17 +208,17 @@
         </div>
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
-                {{ form.creation_date.label_tag }} {{ form.creation_date }}
+                {{ form.construction_date.label_tag }} {{ form.construction_date }}
             </div>
-            {{ form.creation_date.errors }}
+            {{ form.construction_date.errors }}
         </div>
     </div>
     <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
-                {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
+                {{ form.description.label_tag }} {{ form.description }}
             </div>
-            {{ form.realtor_notes.errors }}
+            {{ form.description.errors }}
         </div>
     </div>
     <div class="row mb-2">
@@ -227,9 +228,7 @@
             </div>
             {{ form.sale_terms.errors }}
         </div>
-    </div>
-    {% if form.owner %}
-    <div class="row mb-2">
+        {% if form.owner %}
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.owner.label_tag }} {{ form.owner }}
@@ -241,8 +240,8 @@
                 <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
                 {% endif %}
             </div>
+        {% endif %}
     </div>
-    {% endif %}
     <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">

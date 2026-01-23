@@ -28,6 +28,24 @@ class RealEstateStatus(models.IntegerChoices):
     COMPLETELY_WITHDRAWN = 5, _("Completely withdrawn")  # Снята совсем
 
 
+class RealEstateDocument(models.IntegerChoices):
+    """Документ обʼєкта нерухомості"""
+
+    CO = 1, _("CO")  # Свідоцтво на право власності (СПВ або СПС)
+    ASSIGMENT = 2, _("Assignment")  # Переуступка
+    GIFT = 3, _("Gift")  # Дарування
+    HERITAGE = 4, _("Heritage")  # Спадщина
+
+
+class RealEstateCommunication(models.IntegerChoices):
+    """Комунікація обʼєкта нерухомості (дом, земля)"""
+
+    GAS = 1, _("Gas")  # Газ
+    WATER = 2, _("Water")  # Вода
+    SEWERAGE = 3, _("Sewerage")  # Каналізація
+    LIGHT = 4, _("Light")  # Світло
+
+
 class ApartmentRubric(models.IntegerChoices):
     """Рубрика квартири"""
 
@@ -46,6 +64,14 @@ class CommerceRubric(models.IntegerChoices):
 class HouseRubric(models.IntegerChoices):
     """Рубрика будинку"""
     HOUSE = 1, _("House")  # будинок
+
+
+class HouseRoomsNumberRubric(models.IntegerChoices):
+    """Кількість кімнат у будинку"""
+    ONE = 1, _("1")  # 1
+    TWO = 2, _("2")  # 2
+    THREE = 3, _("3")  # 3
+    FOUR_AND_MORE = 4, _("4 and more")  # 4 та більше
 
 
 class LandRubric(models.IntegerChoices):
