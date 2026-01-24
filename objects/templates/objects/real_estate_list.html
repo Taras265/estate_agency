@@ -138,7 +138,13 @@
                                                 </a>
                                             </td>
                                         {% else %}
-                                            <td></td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                                                   href="{% url view_url_name lang=lang pk=object.id %}"
+                                                   type="button" style="max-width: 120px">
+                                                        {% translate 'View' %}
+                                                </a>
+                                            </td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}

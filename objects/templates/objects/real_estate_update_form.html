@@ -36,6 +36,7 @@
         {% if not disabled %}
         <div class="text-center">
             <button type="submit" class="custombtn">{% translate 'Submit' %}</button>
+            <a href="{% url history_url pk=object.id lang=lang %}" class="custombtn">{% translate 'Changes history' %}</a>
         </div>
         {% endif %}
     </form>
