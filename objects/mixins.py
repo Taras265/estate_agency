@@ -21,10 +21,10 @@ class RealEstateCreateContextMixin(ContextMixin):
             {
                 "lang": self.kwargs["lang"],
                 "real_estate_choices": RealEstateType.choices,
-                "formset": RealEstateImageFormSet(
-                    queryset=RealEstateImage.objects.none(),
-                    prefix="images",
-                ),
+                #"formset": RealEstateImageFormSet(
+                #    queryset=RealEstateImage.objects.none(),
+                #    prefix="images",
+                #),
             }
         )
         return context
@@ -42,10 +42,10 @@ class RealEstateUpdateContextMixin(ContextMixin):
         context.update(
             {
                 "lang": self.kwargs["lang"],
-                "formset": RealEstateImageFormSet(
-                    instance=self.object,
-                    prefix="images",
-                ),
+                #"formset": RealEstateImageFormSet(
+                #    instance=self.object,
+                #    prefix="images",
+                #),
             }
         )
         return context

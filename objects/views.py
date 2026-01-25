@@ -478,6 +478,7 @@ class AccessibleApartmentListView(
                 ),
                 "create_url_name": "objects:create_apartment",
                 "update_url_name": "objects:update_apartment",
+                "view_url_name": "objects:apartment_detail",
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -538,6 +539,7 @@ class AccessibleCommerceListView(
                 ),
                 "create_url_name": "objects:create_commerce",
                 "update_url_name": "objects:update_commerce",
+                "view_url_name": "objects:commerce_detail",
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -598,6 +600,7 @@ class AccessibleHouseListView(
                 ),
                 "create_url_name": "objects:create_house",
                 "update_url_name": "objects:update_house",
+                "view_url_name": "objects:house_detail",
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -659,6 +662,7 @@ class AccessibleLandListView(
                 ),
                 "create_url_name": "objects:create_land",
                 "update_url_name": "objects:update_land",
+                "view_url_name": "objects:land_detail",
                 "sort": self.request.GET.get("sort"),
                 "direction": self.request.GET.get("direction"),
             }
@@ -915,6 +919,7 @@ class ApartmentUpdateView(
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
         """
+        context["history_url"] = "objects:history_apartment"
         return context
 
     def form_valid(self, form):
@@ -1003,6 +1008,7 @@ class CommerceUpdateView(
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
         """
+        context["history_url"] = "objects:history_commerce"
         return context
 
     def form_valid(self, form):
@@ -1097,6 +1103,7 @@ class HouseUpdateView(
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
         """
+        context["history_url"] = "objects:history_house"
         return context
 
     def form_valid(self, form):
@@ -1192,6 +1199,7 @@ class LandUpdateView(
                     field.widget.attrs["disabled"] = True
                     field.widget.attrs["readonly"] = True
         """
+        context["history_url"] = "objects:history_land"
         return context
 
     def form_valid(self, form):

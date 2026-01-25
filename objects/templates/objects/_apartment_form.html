@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.rubric.label_tag }} {{ form.rubric }}
@@ -27,7 +27,7 @@
             {{ form.status.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.locality.label_tag }} {{ form.locality }}
@@ -56,28 +56,29 @@
             <label id="apartment-error" class="text-danger"></label>
             {{ form.apartment.errors }}
         </div>
-    </div>
-    {% if not disabled and not form.locality.field.widget.attrs.disabled %}
-    <div class="d-flex gap-3 mb-5">
-        <div>
+
+        {% if not disabled and not form.locality.field.widget.attrs.disabled %}
+        <div class="col">
             <div class="d-flex align-items-center gap-3">
                 <button type="button" id="btn-verify-address" class="btn btn-secondary">{% translate 'Verify' %}</button>
                 <label></label>
             </div>
         </div>
+        {% endif %}
+    </div>
+    <div class="row mb-2">
         <div class="col"  style="margin-top: -20px;">
             {{ form.agency.label_tag }} {{ form.agency }}
-        {{ form.agency.errors }}
+            {{ form.agency.errors }}
         </div>
-    </div>
-    {% endif %}
-    <div class="row mb-5">
-        <div class="col">
+        <div class="col"  style="margin-top: -20px;">
             {{ form.filial.label_tag }} {{ form.filial }}
             {{ form.filial.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
+    </div>
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.square.label_tag }} {{ form.square }}
@@ -103,7 +104,7 @@
             {{ form.height.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.price.label_tag }} {{ form.price }}
@@ -123,6 +124,7 @@
             {{ form.document.errors }}
         </div>
     </div>
+    {% if formset and not disabled %}
     {{ formset.management_form }}
     <div id="photo-formset" class="row mb-10">
         {% for f in formset %}
@@ -139,11 +141,35 @@
         {% endfor %}
     </div>
     {% if not disabled and not formset.0.image.field.widget.attrs.disabled %}
-    <div class="d-flex align-items-center gap-3 mb-5">
+    <div class="d-flex align-items-center gap-3 mb-2">
         <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
     </div>
     {% endif %}
-    <div class="row mb-5">
+    {% elif object.id %}
+        <div id="carousel{{ object.id }}"
+         class="carousel slide carousel-compact"
+         data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            {% for image in object.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" class="carousel-img" alt="">
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#carousel{{ object.id }}" data-bs-slide="prev">
+            ‹
+        </button>
+
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#carousel{{ object.id }}" data-bs-slide="next">
+            ›
+        </button>
+    </div>
+    {% endif %}
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.house_type.label_tag }} {{ form.house_type }}
@@ -169,7 +195,7 @@
             {{ form.condition.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.floor.label_tag }} {{ form.floor }}
@@ -192,7 +218,7 @@
             {{ form.stair.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.storeys_number.label_tag }} {{ form.storeys_number }}
@@ -207,29 +233,27 @@
         </div>
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
-                {{ form.creation_date.label_tag }} {{ form.creation_date }}
+                {{ form.construction_date.label_tag }} {{ form.construction_date }}
             </div>
-            {{ form.creation_date.errors }}
+            {{ form.construction_date.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
-                {{ form.realtor_notes.label_tag }} {{ form.realtor_notes }}
+                {{ form.description.label_tag }} {{ form.description }}
             </div>
-            {{ form.realtor_notes.errors }}
+            {{ form.description.errors }}
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.sale_terms.label_tag }} {{ form.sale_terms }}
             </div>
             {{ form.sale_terms.errors }}
         </div>
-    </div>
-    {% if form.owner %}
-    <div class="row mb-5">
+        {% if form.owner %}
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.owner.label_tag }} {{ form.owner }}
@@ -241,9 +265,9 @@
                 <a href="" id="btn-edit-owner" class="btn btn-secondary">{% translate 'Edit owner' %}</a>
                 {% endif %}
             </div>
+        {% endif %}
     </div>
-    {% endif %}
-    <div class="row mb-5">
+    <div class="row mb-2">
         <div class="col">
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{ form.comment.label_tag }} {{ form.comment }}

@@ -1,3 +1,5 @@
+from datetime import date
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
@@ -113,14 +115,25 @@ class ApartmentForm(BaseRealEstateForm):
             "parking",
             "generator",
             "creation_date",
-            "realtor_notes",
+            "description",
             "sale_terms",
             "owner",
             "comment",
+            "construction_date",
         )
         widgets = {
-            "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
-            "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "deposit_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
+            "creation_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
+            "construction_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
@@ -130,12 +143,11 @@ class ApartmentForm(BaseRealEstateForm):
             "kitchen_square": forms.TextInput(attrs={"class": "form-control"}),
             "height": forms.TextInput(attrs={"class": "form-control"}),
             "price": forms.TextInput(attrs={"class": "form-control"}),
-            "document": forms.TextInput(attrs={"class": "form-control"}),
             "floor": forms.TextInput(attrs={"class": "form-control"}),
             "storeys_number": forms.TextInput(attrs={"class": "form-control"}),
-            "realtor_notes": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
-            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
         }
 
 
@@ -186,14 +198,20 @@ class CommerceForm(BaseRealEstateForm):
             "own_parking",
             "separate_building",
             "own_courtyard",
-            "realtor_notes",
+            "description",
             "sale_terms",
             "owner",
             "comment",
         )
         widgets = {
-            "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
-            "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "deposit_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
+            "creation_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
@@ -203,12 +221,11 @@ class CommerceForm(BaseRealEstateForm):
             "kitchen_square": forms.TextInput(attrs={"class": "form-control"}),
             "height": forms.TextInput(attrs={"class": "form-control"}),
             "price": forms.TextInput(attrs={"class": "form-control"}),
-            "document": forms.TextInput(attrs={"class": "form-control"}),
             "floor": forms.TextInput(attrs={"class": "form-control"}),
             "storeys_number": forms.TextInput(attrs={"class": "form-control"}),
-            "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
-            "comment": forms.Textarea(attrs={"class": "form-control"}),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
         }
 
 
@@ -236,7 +253,7 @@ class HouseForm(BaseRealEstateForm):
             "height",
             "land_square",
             "rooms_number",
-            "communications",
+            "communication",
             "price",
             "exclusive",
             "e_home",
@@ -254,14 +271,20 @@ class HouseForm(BaseRealEstateForm):
             "creation_date",
             "facade",
             "own_parking",
-            "realtor_notes",
+            "description",
             "sale_terms",
             "owner",
             "comment",
         )
         widgets = {
-            "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
-            "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "deposit_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
+            "creation_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
@@ -271,14 +294,12 @@ class HouseForm(BaseRealEstateForm):
             "kitchen_square": forms.TextInput(attrs={"class": "form-control"}),
             "height": forms.TextInput(attrs={"class": "form-control"}),
             "land_square": forms.TextInput(attrs={"class": "form-control"}),
-            "rooms_number": forms.TextInput(attrs={"class": "form-control"}),
             "price": forms.TextInput(attrs={"class": "form-control"}),
-            "document": forms.TextInput(attrs={"class": "form-control"}),
             "floor": forms.TextInput(attrs={"class": "form-control"}),
             "storeys_number": forms.TextInput(attrs={"class": "form-control"}),
-            "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
-            "comment": forms.Textarea(attrs={"class": "form-control"}),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
         }
 
 
@@ -314,31 +335,35 @@ class LandForm(BaseRealEstateForm):
                 "rubric",
                 "document",
                 "sale_terms",
-                "realtor_notes",
+                "description",
                 "comment",
                 "in_selection",
                 "housing",
                 "land_square",
-                "communications" ,
+                "communication" ,
                 "target",
                 "disposition",
                 "own_parking",
         )
         widgets = {
-            "deposit_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
-            "creation_date": forms.SelectDateWidget(attrs={"class": "form-control"}),
+            "deposit_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
+            "creation_date": forms.SelectDateWidget(
+            years=range(1950, date.today().year + 5),
+                attrs={"class": "form-control"}
+            ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
             "house": forms.TextInput(attrs={"class": "form-control"}),
             "housing": forms.TextInput(attrs={"class": "form-control"}),
             "useful_square": forms.TextInput(attrs={"class": "form-control"}),
             "land_square": forms.TextInput(attrs={"class": "form-control"}),
-            "rooms_number": forms.TextInput(attrs={"class": "form-control"}),
             "price": forms.TextInput(attrs={"class": "form-control"}),
-            "document": forms.TextInput(attrs={"class": "form-control"}),
-            "realtor_notes": forms.Textarea(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "sale_terms": forms.TextInput(attrs={"class": "form-control"}),
-            "comment": forms.Textarea(attrs={"class": "form-control"}),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
         }
 
 
