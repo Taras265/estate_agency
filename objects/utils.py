@@ -30,7 +30,7 @@ def real_estate_form_save(
         instance=instance,
     )
 
-    if not formset.is_valid():
+    if not formset.is_valid() and formset_files:
         return (formset, False)
     formset.instance = form.save()
     formset.save()
