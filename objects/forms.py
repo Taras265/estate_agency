@@ -1,12 +1,19 @@
 from datetime import date
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from accounts.models import CustomUser
-from handbooks.models import Handbook, FilialAgency
+from handbooks.models import Handbook, FilialAgency, LocalityDistrict, Street
 from objects.models import Apartment, Commerce, House, Land
-from objects.choices import RealEstateStatus
+from objects.choices import (
+    RealEstateStatus,
+    ApartmentRubric,
+    CommerceRubric,
+    HouseRubric,
+    LandRubric
+)
 
 
 class BaseRealEstateForm(forms.ModelForm):
@@ -396,24 +403,128 @@ class SearchForm(forms.Form):
     )
 
 
-class HandbooksSearchForm(forms.Form):
+class RealEstateSearchForm(forms.Form):
+    class Meta:
+        widgets = {
+            "locality_district": forms.Select(attrs={"data-live-search": "true"}),
+            "street": forms.Select(attrs={"data-live-search": "true"}),
+        }
+
+    YES_NO_CHOICES = (
+        (True, _("Yes")),
+        (False, _("No"))
+    )
+
+    def str_to_bool(val: str) -> bool:
+        if val == "True":
+            return True
+        if val == "False":
+            return False
+        return None
+
     id = forms.IntegerField(
         label=_("Id"),
-        widget=forms.NumberInput(
-            attrs={
-                "class": "customtxt",
-            }
-        ),
+        widget=forms.NumberInput(attrs={"class": "customtxt"}),
         required=False,
     )
-    exclusive = forms.BooleanField(
-        label=_("Exclusive"), widget=forms.CheckboxInput(), required=False, initial=False
+    locality_district = forms.ModelMultipleChoiceField(
+        label=_("Locality District"),
+        queryset=LocalityDistrict.objects.filter(on_delete=False),
+        required=False,
+        widget=forms.SelectMultiple(attrs={
+            "data-live-search": "true"
+        })
     )
-    in_selection = forms.BooleanField(
+    street = forms.ModelMultipleChoiceField(
+        label=_("Street"),
+        queryset=Street.objects.filter(on_delete=False),
+        required=False,
+        widget=forms.SelectMultiple(attrs={
+            "data-live-search": "true"
+        })
+    )
+    status = forms.TypedMultipleChoiceField(
+        coerce=int,
+        label=_("Status"),
+        choices=RealEstateStatus.choices,
+        initial=RealEstateStatus.ON_SALE,
+        required=False
+    )
+    exclusive = forms.TypedMultipleChoiceField(
+        coerce=str_to_bool,
+        label=_("Exclusive"),
+        choices=YES_NO_CHOICES,
+        required=False,
+    )
+    in_selection = forms.TypedMultipleChoiceField(
+        coerce=str_to_bool,
         label=_("In selection"),
-        widget=forms.CheckboxInput(),
+        choices=YES_NO_CHOICES,
         required=False,
-        initial=False,
+    )
+    price_min = forms.IntegerField(
+        label=_("Min price"),
+        widget=forms.NumberInput(attrs={"class": "customtxt"}),
+        min_value=0,
+        required=False,
+    )
+    price_max = forms.IntegerField(
+        label=_("Max price"),
+        widget=forms.NumberInput(attrs={"class": "customtxt"}),
+        min_value=0,
+        required=False,
+    )
+    whose_objects = forms.ChoiceField(
+        choices=(("own", _("My objects")), ("all", _("All objects"))),
+        initial="own",
+        required=True
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        price_min = cleaned_data.get("price_min")
+        price_max = cleaned_data.get("price_max")
+        if price_min and price_max and price_min > price_max:
+            print("MIN > MAX")
+            raise ValidationError(
+                _("Min price must be less than or equal to the max price"),
+                code="invalid"
+            )
+
+
+class ApartmentSearchForm(RealEstateSearchForm):
+    rubric = forms.TypedMultipleChoiceField(
+        coerce=int,
+        label=_("Rubric"),
+        choices=ApartmentRubric,
+        required=False
+    )
+
+
+class CommerceSearchForm(RealEstateSearchForm):
+    rubric = forms.TypedMultipleChoiceField(
+        coerce=int,
+        label=_("Rubric"),
+        choices=CommerceRubric,
+        required=False
+    )
+
+
+class HouseSearchForm(RealEstateSearchForm):
+    rubric = forms.TypedMultipleChoiceField(
+        coerce=int,
+        label=_("Rubric"),
+        choices=HouseRubric,
+        required=False
+    )
+
+
+class LandSearchForm(RealEstateSearchForm):
+    rubric = forms.TypedMultipleChoiceField(
+        coerce=int,
+        label=_("Rubric"),
+        choices=LandRubric,
+        required=False
     )
 
 
@@ -454,30 +565,4 @@ class HouseVerifyAddressForm(BaseVerifyAddressForm):
 
     housing = forms.CharField(
         error_messages={"required": _("You did not specify a housing")}
-    )
-
-
-class RealEstateFilteringForm(forms.Form):
-    """Форма для валідації query параметрів для списку нерухомості"""
-
-    creation_date_min = forms.DateField(
-        required=False,
-        label=_("Period from"),
-        widget=forms.DateInput(
-            attrs={"type": "date", "class": "form-control"},
-            format="%Y-%m-%d"
-        )
-    )
-    creation_date_max = forms.DateField(
-        required=False,
-        label=_("to"),
-        widget=forms.DateInput(
-            attrs={"type": "date", "class": "form-control"},
-            format="%Y-%m-%d"
-        )
-    )
-    status = forms.MultipleChoiceField(
-        choices=RealEstateStatus,
-        widget=forms.CheckboxSelectMultiple,
-        required=False
     )

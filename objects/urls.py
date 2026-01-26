@@ -26,10 +26,10 @@ urlpatterns = [
     path(
         "catalog/lands/<int:pk>/", views.LandDetailView.as_view(), name="land_detail"
     ),
-    path("sale/apartments/", views.AccessibleApartmentListView.as_view(), name="apartment_list"),
-    path("sale/commerces/", views.AccessibleCommerceListView.as_view(), name="commerce_list"),
-    path("sale/houses/", views.AccessibleHouseListView.as_view(), name="house_list"),
-    path("sale/lands/", views.AccessibleLandListView.as_view(), name="land_list"),
+    path("sale/apartments/", views.ApartmentListView.as_view(), name="apartment_list"),
+    path("sale/commerces/", views.CommerceListView.as_view(), name="commerce_list"),
+    path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
+    path("sale/lands/", views.LandListView.as_view(), name="land_list"),
 
     path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
 

@@ -113,11 +113,13 @@
                                                     {% translate 'Street' %}{% if sort == "street" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
                                             </a>
                                         </th>
+                                        <th scope="col">{% translate 'Rubric' %}</th>
                                         <th scope="col">
                                             <a href="?sort=price&direction={% if sort == "price" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
                                                     {% translate 'Price' %}{% if sort == "price" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
                                             </a>
                                         </th>
+                                        <th scope="col">{% translate 'On site' %}</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -125,10 +127,12 @@
                                 {% for object in object_list %}
                                     <tr>
                                         <td></td>
-                                        <td>{{object.id}}</td>
-                                        <td>{{object.locality}}</td>
-                                        <td>{{object.street}}</td>
-                                        <td>{{object.price}}</td>
+                                        <td>{{ object.id }}</td>
+                                        <td>{{ object.locality }}</td>
+                                        <td>{{ object.street }}</td>
+                                        <td>{{ object.get_rubric_display }}</td>
+                                        <td>{{ object.price }}</td>
+                                        <td>{{ object.on_site|yesno:"Yes,No" }}</td>
                                         {% if can_update and can_update|get_dict_value:object.id != 3 %}
                                             <td>
                                                 <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
@@ -182,4 +186,11 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script defer
+    src="{% static '/js/real_estate_list.js' %}"
+    data-main-url="{% url 'main' lang %}">
+</script>
 {% endblock %}

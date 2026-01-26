@@ -1,11 +1,11 @@
 from collections.abc import Iterable
-from typing import List, Optional, TypeVar
+from typing import TypeVar
 
 from django.db.models import QuerySet
 
 from .choices import RealEstateType, RealEstateStatus, PermissionUpdateLevel
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
-
+from .forms import RealEstateSearchForm
 from accounts.models import CustomUser
 
 
@@ -222,10 +222,6 @@ def real_estate_model_from_type(type: int) -> type[BaseRealEstate]:
     return model_class
 
 
-def has_any_perm_from_list(user: CustomUser, *args: str) -> bool:
-    """Перевіряє, чи має користувач хоча б одне з вказаних прав зі списку args"""
-    return any(user.has_perm(perm) for perm in args)
-
 '''
 def can_interact_with_object(
     user: CustomUser,
@@ -235,7 +231,7 @@ def can_interact_with_object(
     filial_perm: str,
     user_field: str,
     model,
-    partial_edit_perm: Optional[List[str]] = None,
+    partial_edit_perm: list[str] | None = None,
 ) -> bool:
     """
     Перевіряє, чи має користувач відповідне право для для взаємодії
@@ -282,3 +278,49 @@ def selection_add_selected_objects(
         selection.selected_houses.add(*objects)
     elif object_type == RealEstateType.LAND:
         selection.selected_lands.add(*objects)
+
+
+def process_real_estate_search_form(
+    qs: QuerySet[BaseRealEstate],
+    form: RealEstateSearchForm,
+    user: CustomUser
+) -> QuerySet[BaseRealEstate]:
+    """Фільтрує нерухомість <qs> в залежності від значень полів форми <form>"""
+    if (id := form.cleaned_data.get("id")):
+        qs = qs.filter(pk=id)
+    
+    locality_district_vals = form.cleaned_data.get("locality_district")
+    street_vals = form.cleaned_data.get("street")
+    if street_vals:
+        # якщо вказано вулиці,
+        # шукаємо нерухомість лише за вулицями, без районів
+        print("streets", flush=True)
+        qs = qs.filter(street__in=street_vals)
+    elif locality_district_vals:
+        # якщо вулиць не вказано, а райони вказано,
+        # то шукаємо нерухомість за районами
+        print("locality_district", flush=True)
+        qs = qs.filter(street__locality_district__in=locality_district_vals)
+
+    if (price_min := form.cleaned_data.get("price_min")):
+        qs = qs.filter(price__gte=price_min)
+    
+    if (price_max := form.cleaned_data.get("price_max")):
+        qs = qs.filter(price__lte=price_max)
+    
+    if (status_vals := form.cleaned_data.get("status")):
+        qs = qs.filter(status__in=status_vals)
+    
+    if (rubric_vals := form.cleaned_data.get("rubric")):
+        qs = qs.filter(rubric__in=rubric_vals)
+
+    if (whose_objects := form.cleaned_data.get("whose_objects")) == "own":
+        qs = qs.filter(realtor=user)
+    
+    if len((exclusive := form.cleaned_data.get("exclusive"))) == 1:
+        qs = qs.filter(exclusive=exclusive[0])
+    
+    if len((in_selection := form.cleaned_data.get("in_selection"))) == 1:
+        qs.filter(in_selection=in_selection[0])
+
+    return qs

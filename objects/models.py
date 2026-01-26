@@ -158,7 +158,7 @@ class BaseRealEstate(models.Model):
     # )
 
     # for_trainee = models.BooleanField(null=True, blank=True)
-    # on_site = models.BooleanField(default=True)
+    on_site = models.BooleanField(default=True)
     # inspection_flag = models.BooleanField(null=True, blank=True)
     # paid_exclusive_flag = models.BooleanField(null=True, blank=True)
     # sea_flag = models.BooleanField(null=True, blank=True)
