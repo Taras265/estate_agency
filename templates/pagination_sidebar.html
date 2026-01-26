@@ -1,0 +1,57 @@
+{% load i18n %}
+<div class="d-flex align-items-center justify-content-between mb-3 position-relative">
+
+    <div>
+        <div class="small text-muted mb-1">
+            {% translate "Show objects on page" %}
+        </div>
+
+        <form method="get" class="d-inline-flex gap-1">
+            {% for k, v in request.GET.items %}
+                {% if k != "per_page" and k != "page" %}
+                    <input type="hidden" name="{{ k }}" value="{{ v }}">
+                {% endif %}
+            {% endfor %}
+
+            {% with current=request.GET.per_page|default:"10" %}
+                <div class="btn-group" role="group">
+                    <button name="per_page" value="5"
+                        class="btn btn-primary btn-warning element-fullwidth {% if current == '5' %}text-decoration-underline{% endif %}">
+                        5
+                    </button>
+                    <button name="per_page" value="10"
+                        class="btn btn-primary btn-warning element-fullwidth {% if current == '10' %}text-decoration-underline{% endif %}">
+                        10
+                    </button>
+                    <button name="per_page" value="50"
+                        class="btn btn-primary btn-warning element-fullwidth {% if current == '50' %}text-decoration-underline{% endif %}">
+                        50
+                    </button>
+                    <button name="per_page" value="100"
+                        class="btn btn-primary btn-warning element-fullwidth {% if current == '100' %}text-decoration-underline{% endif %}">
+                        100
+                    </button>
+                </div>
+            {% endwith %}
+        </form>
+    </div>
+
+    <div class="d-inline-flex gap-1">
+        <nav aria-label="Page navigation example" class="position-absolute start-50 translate-middle-x">
+        <div class="btn-group" role="group">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary btn-warning element-fullwidth"
+                   href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+            {% endif %}
+            <a class="btn btn-primary btn-warning element-fullwidth"
+               href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.number }}">{{ page_obj.number }}</a>
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary btn-warning element-fullwidth"
+                   href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+            {% endif %}
+        </div>
+    </nav></div>
+
+    <div></div>
+
+</div>

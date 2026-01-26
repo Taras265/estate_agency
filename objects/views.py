@@ -23,7 +23,7 @@ from images.forms import RealEstateImageFormSet
 
 from .models import Apartment, Commerce, House, Land, Selection
 from .utils import real_estate_form_save
-from utils.mixins.mixins import CustomLoginRequiredMixin
+from utils.mixins.mixins import CustomLoginRequiredMixin, CustomPaginateOnPageMixin
 from utils.showing_act_pdf_service import ShowingActPDFService, ShowingActPDFType
 from utils.views import HistoryView
 
@@ -422,7 +422,8 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 
 
 class ApartmentListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    RealEstateListContextMixin, ListView
 ):
     """Список квартир"""
 
