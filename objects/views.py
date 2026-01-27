@@ -486,7 +486,8 @@ class ApartmentListView(
 
 
 class CommerceListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    RealEstateListContextMixin, ListView
 ):
     """Список комерцій"""
 
@@ -548,7 +549,8 @@ class CommerceListView(
 
 
 class HouseListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    RealEstateListContextMixin, ListView
 ):
     """Список будинків"""
 
@@ -609,7 +611,8 @@ class HouseListView(
 
 
 class LandListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, RealEstateListContextMixin, ListView
+    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    RealEstateListContextMixin, ListView
 ):
     """Список земельних ділянок"""
 

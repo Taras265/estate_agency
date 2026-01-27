@@ -40,7 +40,7 @@ from objects.mixins import DefaultUserInCreateViewMixin
 from .utils import get_sale_client_list_context
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
-    SearchByIdMixin,
+    SearchByIdMixin, CustomPaginateOnPageMixin,
 )
 from utils.views import (
     CustomCreateView,
@@ -1237,6 +1237,7 @@ class FilialReportDeleteView(
 
 class AccessibleClientListView(CustomLoginRequiredMixin,
                                PermissionRequiredMixin,
+                               CustomPaginateOnPageMixin,
                                ListView):
     """Список лише тих клієнтів, які доступні поточному користувачу для перегляду."""
 
@@ -1262,6 +1263,7 @@ class AccessibleClientListView(CustomLoginRequiredMixin,
 
 class NewAccessibleClientListView(CustomLoginRequiredMixin,
                                   PermissionRequiredMixin,
+                                  CustomPaginateOnPageMixin,
                                   ListView):
     """
     Список лише тих клієнтів, які доступні поточному користувачу для перегляду
@@ -1292,6 +1294,7 @@ class NewAccessibleClientListView(CustomLoginRequiredMixin,
 
 class InSelectionAccessibleClientListView(CustomLoginRequiredMixin,
                                           PermissionRequiredMixin,
+                                          CustomPaginateOnPageMixin,
                                           ListView):
     """
     Список лише тих клієнтів, які доступні поточному користувачу для перегляду
@@ -1321,6 +1324,7 @@ class InSelectionAccessibleClientListView(CustomLoginRequiredMixin,
 
 class WithShowAccessibleClientListView(CustomLoginRequiredMixin,
                                        PermissionRequiredMixin,
+                                       CustomPaginateOnPageMixin,
                                        ListView):
     """
     Список лише тих клієнтів, які доступні поточному користувачу для перегляду
@@ -1350,6 +1354,7 @@ class WithShowAccessibleClientListView(CustomLoginRequiredMixin,
 
 class DecidedAccessibleClientListView(CustomLoginRequiredMixin,
                                       PermissionRequiredMixin,
+                                      CustomPaginateOnPageMixin,
                                       ListView):
     """
     Список лише тих клієнтів, які доступні поточному користувачу для перегляду
@@ -1379,6 +1384,7 @@ class DecidedAccessibleClientListView(CustomLoginRequiredMixin,
 
 class DeferredDemandAccessibleClientListView(CustomLoginRequiredMixin,
                                              PermissionRequiredMixin,
+                                             CustomPaginateOnPageMixin,
                                              ListView):
     """
     Список лише тих клієнтів, які доступні поточному користувачу для перегляду

@@ -1,6 +1,6 @@
 {% load i18n %}
+{% if page_obj %}
 <div class="d-flex align-items-center justify-content-between mb-3 position-relative">
-
     <div>
         <div class="small text-muted mb-1">
             {% translate "Show objects on page" %}
@@ -53,5 +53,5 @@
     </nav></div>
 
     <div></div>
-
 </div>
+{% endif %}
