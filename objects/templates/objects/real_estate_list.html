@@ -15,32 +15,6 @@
     </ul>
   </div>
 </div>
-<div class="container">
-    <div class="property_search">
-        <div class="row justify-content-center text-center">
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
-                <form method="get" class="search-form">
-                    <div class="row g-4">
-                        {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <br>
-                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
@@ -91,6 +65,37 @@
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
+                    <div class="row justify-content-center text-center">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                            <form method="get" class="search-form">
+                    <div class="row g-4">
+                        {% for field in form %}
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <label class="customlbl" for="id_{{ field.name }}">
+                                    {{ field.label }}
+                                </label>
+                                <div class="form-group">
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <br>
+                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
+                        </div>
+                    </div>
+                    </form>
+                        </div>
+                    </div>
+                    <br>
+                    {% if can_create %}
+                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
+                           href="{% url create_url_name lang=lang %}"
+                           type="button"
+                           style="max-width: 120px">
+                            {% translate 'Create' %}
+                        </a>
+                    {% endif %}
                     {% if page_obj %}
                     <div>
                         <div class="offset-top-66 text-center">
@@ -99,24 +104,44 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">
-                                            <a href="?sort=id&direction={% if sort == "id" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Id' %}{% if sort == "id" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "id" as next_direction %}
+                                            <a href="{% querystring sort='id' direction=next_direction page=None %}">
+                                                {% translate 'Id' %}
+                                                {% if sort == "id" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">
-                                            <a href="?sort=locality&direction={% if sort == "locality" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Locality' %}{% if sort == "locality" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "locality" as next_direction %}
+                                            <a href="{% querystring sort='locality' direction=next_direction page=None %}">
+                                                {% translate 'Locality' %}
+                                                {% if sort == "locality" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">
-                                            <a href="?sort=street&direction={% if sort == "street" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Street' %}{% if sort == "street" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "street" as next_direction %}
+                                            <a href="{% querystring sort='street' direction=next_direction page=None %}">
+                                                {% translate 'Street' %}
+                                                {% if sort == "street" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">{% translate 'Rubric' %}</th>
+
                                         <th scope="col">
-                                            <a href="?sort=price&direction={% if sort == "price" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Price' %}{% if sort == "price" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "price" as next_direction %}
+                                            <a href="{% querystring sort='price' direction=next_direction page=None %}">
+                                                {% translate 'Price' %}
+                                                {% if sort == "price" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
                                         <th scope="col">{% translate 'On site' %}</th>
@@ -159,30 +184,9 @@
                     {% else %}
                         <div style="text-align:center">{% translate 'Not found' %}</div>
                     {% endif %}
-                    {% if can_create %}
-                        <a class="btn btn-primary btn-sm btn-warning element-fullwidth"
-                           href="{% url create_url_name lang=lang %}"
-                           type="button"
-                           style="max-width: 120px">
-                            {% translate 'Create' %}
-                        </a>
-                    {% endif %}
                 </div>
             </div>
-            <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
-                <div class="btn-group" role="group">
-                    {% if page_obj.has_previous %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
-                    {% endif %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.number }}">{{ page_obj.number }}</a>
-                    {% if page_obj.has_next %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?sort={{ sort }}&direction={{ direction }}&page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
-                    {% endif %}
-                </div>
-            </nav>
+            {% include "pagination_sidebar.html" %}
         </div>
     </div>
 </div>

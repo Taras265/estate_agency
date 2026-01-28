@@ -1,0 +1,48 @@
+{% load i18n %}
+{% if page_obj %}
+<div class="d-flex align-items-center justify-content-between mb-3 position-relative">
+    <div>
+        <div class="small text-muted mb-1">
+            {% translate "Show objects on page" %}
+        </div>
+        {% with current=request.GET.per_page|default:"10" %}
+            <div class="btn-group" role="group">
+                <a href="{% querystring per_page=5 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '5' %}text-decoration-underline{% endif %}">
+                    5
+                </a>
+                <a href="{% querystring per_page=10 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '10' %}text-decoration-underline{% endif %}">
+                    10
+                </a>
+                <a href="{% querystring per_page=50 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '50' %}text-decoration-underline{% endif %}">
+                    50
+                </a>
+                <a href="{% querystring per_page=100 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '100' %}text-decoration-underline{% endif %}">
+                    100
+                </a>
+            </div>
+        {% endwith %}
+    </div>
+
+    <div class="d-inline-flex gap-1">
+        <nav aria-label="Page navigation example" class="position-absolute start-50 translate-middle-x">
+        <div class="btn-group" role="group">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary btn-warning element-fullwidth"
+                   href="{% querystring page=page_obj.previous_page_number %}" aria-label="Previous">{% translate 'Previous' %}</a>
+            {% endif %}
+            <a class="btn btn-primary btn-warning element-fullwidth"
+               href="{% querystring page=page_obj.number %}">{{ page_obj.number }}</a>
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary btn-warning element-fullwidth"
+                   href="{% querystring page=page_obj.next_page_number %}" aria-label="Next">{% translate 'Next' %}</a>
+            {% endif %}
+        </div>
+    </nav></div>
+
+    <div></div>
+</div>
+{% endif %}

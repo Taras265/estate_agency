@@ -15,6 +15,14 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
         return reverse("accounts:login", kwargs={"lang": lang})
 
 
+class CustomPaginateOnPageMixin:
+    def get_paginate_by(self, queryset):
+        per_page = self.request.GET.get("per_page")
+        if per_page and per_page.isdigit():
+            return int(per_page)
+        return self.paginate_by
+
+
 class SearchByIdMixin:
     form = IdSearchForm
 
