@@ -104,24 +104,44 @@
                                     <tr>
                                         <th scope="col"></th>
                                         <th scope="col">
-                                            <a href="?{% for k,v in request.GET.items %}{% if k != 'sort' and k != 'direction' and k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}sort=id&direction={% if sort == "id" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Id' %}{% if sort == "id" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "id" as next_direction %}
+                                            <a href="{% querystring sort='id' direction=next_direction page=None %}">
+                                                {% translate 'Id' %}
+                                                {% if sort == "id" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">
-                                            <a href="?{% for k,v in request.GET.items %}{% if k != 'sort' and k != 'direction' and k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}sort=locality&direction={% if sort == "locality" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Locality' %}{% if sort == "locality" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "locality" as next_direction %}
+                                            <a href="{% querystring sort='locality' direction=next_direction page=None %}">
+                                                {% translate 'Locality' %}
+                                                {% if sort == "locality" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">
-                                            <a href="?{% for k,v in request.GET.items %}{% if k != 'sort' and k != 'direction' and k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}sort=street&direction={% if sort == "street" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Street' %}{% if sort == "street" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "street" as next_direction %}
+                                            <a href="{% querystring sort='street' direction=next_direction page=None %}">
+                                                {% translate 'Street' %}
+                                                {% if sort == "street" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
+
                                         <th scope="col">{% translate 'Rubric' %}</th>
+
                                         <th scope="col">
-                                            <a href="?{% for k,v in request.GET.items %}{% if k != 'sort' and k != 'direction' and k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}sort=price&direction={% if sort == "price" %}{% if direction == "s" %}d{% elif direction == "d" %}{% else %}s{% endif %}{% else %}s{% endif %}">
-                                                    {% translate 'Price' %}{% if sort == "price" %}{% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}{% endif %}
+                                            {% next_sort_direction "price" as next_direction %}
+                                            <a href="{% querystring sort='price' direction=next_direction page=None %}">
+                                                {% translate 'Price' %}
+                                                {% if sort == "price" %}
+                                                    {% if direction == "s" %} ↑{% elif direction == "d" %} ↓{% endif %}
+                                                {% endif %}
                                             </a>
                                         </th>
                                         <th scope="col">{% translate 'On site' %}</th>

@@ -5,35 +5,26 @@
         <div class="small text-muted mb-1">
             {% translate "Show objects on page" %}
         </div>
-
-        <form method="get" class="d-inline-flex gap-1">
-            {% for k, v in request.GET.items %}
-                {% if k != "per_page" and k != "page" %}
-                    <input type="hidden" name="{{ k }}" value="{{ v }}">
-                {% endif %}
-            {% endfor %}
-
-            {% with current=request.GET.per_page|default:"10" %}
-                <div class="btn-group" role="group">
-                    <button name="per_page" value="5"
-                        class="btn btn-primary btn-warning element-fullwidth {% if current == '5' %}text-decoration-underline{% endif %}">
-                        5
-                    </button>
-                    <button name="per_page" value="10"
-                        class="btn btn-primary btn-warning element-fullwidth {% if current == '10' %}text-decoration-underline{% endif %}">
-                        10
-                    </button>
-                    <button name="per_page" value="50"
-                        class="btn btn-primary btn-warning element-fullwidth {% if current == '50' %}text-decoration-underline{% endif %}">
-                        50
-                    </button>
-                    <button name="per_page" value="100"
-                        class="btn btn-primary btn-warning element-fullwidth {% if current == '100' %}text-decoration-underline{% endif %}">
-                        100
-                    </button>
-                </div>
-            {% endwith %}
-        </form>
+        {% with current=request.GET.per_page|default:"10" %}
+            <div class="btn-group" role="group">
+                <a href="{% querystring per_page=5 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '5' %}text-decoration-underline{% endif %}">
+                    5
+                </a>
+                <a href="{% querystring per_page=10 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '10' %}text-decoration-underline{% endif %}">
+                    10
+                </a>
+                <a href="{% querystring per_page=50 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '50' %}text-decoration-underline{% endif %}">
+                    50
+                </a>
+                <a href="{% querystring per_page=100 %}"
+                    class="btn btn-primary btn-warning element-fullwidth {% if current == '100' %}text-decoration-underline{% endif %}">
+                    100
+                </a>
+            </div>
+        {% endwith %}
     </div>
 
     <div class="d-inline-flex gap-1">
@@ -41,13 +32,13 @@
         <div class="btn-group" role="group">
             {% if page_obj.has_previous %}
                 <a class="btn btn-primary btn-warning element-fullwidth"
-                   href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
+                   href="{% querystring page=page_obj.previous_page_number %}" aria-label="Previous">{% translate 'Previous' %}</a>
             {% endif %}
             <a class="btn btn-primary btn-warning element-fullwidth"
-               href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.number }}">{{ page_obj.number }}</a>
+               href="{% querystring page=page_obj.number %}">{{ page_obj.number }}</a>
             {% if page_obj.has_next %}
                 <a class="btn btn-primary btn-warning element-fullwidth"
-                   href="?{% for k,v in request.GET.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
+                   href="{% querystring page=page_obj.next_page_number %}" aria-label="Next">{% translate 'Next' %}</a>
             {% endif %}
         </div>
     </nav></div>
