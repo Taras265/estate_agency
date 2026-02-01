@@ -6,7 +6,6 @@ defusedxml==0.7.1
 Django==5.1
 django-simple-history==3.7.0
 fonttools==4.61.1
-fpdf2==2.8.3
 isort==6.0.1
 pillow==10.4.0
 pycparser==2.23

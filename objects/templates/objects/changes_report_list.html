@@ -63,7 +63,7 @@
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
-                    {% if object_values %}
+                    {% if object_list %}
                     <div>
                         <div class="offset-top-66 text-center">
                             <table class="table">
@@ -80,11 +80,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for object in object_values %}
+                                {% for object in object_list %}
                                     <tr>
                                         <td></td>
                                         <td>{{object.id}}</td>
-                                        <td>{{object.model}}</td>
+                                        <td>{% translate object.model %}</td>
                                         <td>{{object.date}}</td>
                                         <td>{{object.user}}</td>
                                         <td>{{object.field}}</td>

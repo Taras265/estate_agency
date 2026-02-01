@@ -1,4 +1,4 @@
-from itertools import chain
+import itertools
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -54,6 +54,7 @@ from .services import (
     real_estate_model_from_type,
     process_real_estate_search_form,
     selection_add_selected_objects,
+    real_estate_history_changes,
 )
 
 
@@ -430,7 +431,7 @@ class ApartmentListView(
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     form = None
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -493,7 +494,7 @@ class CommerceListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
     form = None
 
     def get_ordering(self):
@@ -556,7 +557,7 @@ class HouseListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -618,7 +619,7 @@ class LandListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -673,55 +674,34 @@ class LandListView(
         return context
 
 
-class HistoryReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+class RealEstateHistoryListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = "objects.view_changes_report"
-    model = Apartment.history.all().model
     template_name = "objects/changes_report_list.html"
-    handbook_type = "report"
-    paginate_by = 5
+    paginate_by = 150
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # переклад
+    def get_queryset(self, queryset=None):
+        apartments_history = Apartment.history.select_related("history_user")
+        commerces_history = Commerce.history.select_related("history_user")
+        houses_history = House.history.select_related("history_user")
+        lands_history = Land.history.select_related("history_user")
 
-        # підгружаємо частину готової дати і додаємо що потрібно
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        context["choice"] = self.handbook_type
-
-        apartments = Apartment.history.all().order_by("history_date")
-        commerces = Commerce.history.all().order_by("history_date")
-        houses = House.history.all().order_by("history_date")
-        lands = Land.history.all().order_by("history_date")
-        context["object_list"] = sorted(
-            chain(apartments, commerces, houses, lands),
-            key=lambda x: x.history_date,
+        history = itertools.chain(
+            real_estate_history_changes(apartments_history),
+            real_estate_history_changes(commerces_history),
+            real_estate_history_changes(houses_history),
+            real_estate_history_changes(lands_history)
+        )
+        history = sorted(
+            history,
+            key=lambda record: record.date,
             reverse=True,
         )
+        return history
 
-        if context["object_list"]:  # Якщо нам взагалі є з чим працювати
-            context["object_values"] = []
-            for record in context["object_list"]:
-                if record.prev_record:
-                    prev_record = record.prev_record
-                    for field in record._meta.fields:
-                        if field.name.find("history") == -1:
-                            field_name = field.name
-                            old_value = getattr(prev_record, field_name)
-                            new_value = getattr(record, field_name)
-                            if old_value != new_value:
-                                context["object_values"].append(
-                                    {
-                                        "id": record.id,
-                                        "date": record.history_date,
-                                        "user": record.history_user,
-                                        "field": field.verbose_name,
-                                        "old_value": old_value,
-                                        "new_value": new_value,
-                                        "model": record._meta.model_name[10::],
-                                    }
-                                )
-        else:
-            context["object_values"] = None
+    def get_context_data(self, *, object_list=None, **kwargs):
+        activate(self.kwargs["lang"])
+        context = super().get_context_data(**kwargs)
+        context["lang"] = self.kwargs["lang"]
         return context
 
 

@@ -1,15 +1,19 @@
+import datetime
 from collections.abc import Iterable
-from typing import TypeVar
+from typing import TypeVar, Any
+from dataclasses import dataclass
 
 from django.db.models import QuerySet
+from simple_history.manager import HistoricalQuerySet
+from simple_history.models import ModelDelta
 
-from .choices import RealEstateType, RealEstateStatus, PermissionUpdateLevel
+from .choices import RealEstateType, PermissionUpdateLevel
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
 from .forms import RealEstateSearchForm
 from accounts.models import CustomUser
 
 
-T = TypeVar("T", bound=BaseRealEstate)
+T = TypeVar("T")
 
 
 def user_can_update_real_estate(
@@ -324,3 +328,53 @@ def process_real_estate_search_form(
         qs.filter(in_selection=in_selection[0])
 
     return qs
+
+
+@dataclass
+class RealEstateHistoryRecord:
+    id: int
+    date: datetime.datetime
+    user: CustomUser
+    field: str
+    old_value: Any
+    new_value: Any
+    model: str
+
+
+def _compute_history_record_diffs(qs: HistoricalQuerySet) -> list[ModelDelta]:
+    """
+    Обчислює різницю (які поля були змінені, старе та нове значення)
+    між кожним елементом <qs>
+    """
+    deltas = [record.diff_against(record.prev_record)
+              for record in qs
+              if record.prev_record]
+    return deltas
+
+
+def real_estate_history_changes(qs: HistoricalQuerySet) -> list[RealEstateHistoryRecord]:
+    """
+    Приймає <qs> (наприклад, Apartment.history.all()) та
+    повертає список змін, які можна відображати на сторінці
+    """
+    history = []
+    deltas = _compute_history_record_diffs(qs)
+    for delta in deltas:
+        old_record, new_record = delta.old_record, delta.new_record
+        for change in delta.changes:
+            field = new_record._meta.get_field(change.field)
+            old_value, new_value = change.old, change.new
+            if field.choices:
+                old_value = getattr(old_record, f"get_{field.name}_display")()
+                new_value = getattr(new_record, f"get_{field.name}_display")()
+
+            history.append(RealEstateHistoryRecord(
+                id=new_record.id,
+                date=new_record.history_date,
+                user=new_record.history_user,
+                field=field.verbose_name,
+                old_value=old_value,
+                new_value=new_value,
+                model=new_record.instance.__class__.__name__,
+            ))
+    return history
