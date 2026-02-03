@@ -29,7 +29,7 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link"
                         href="{% url 'objects:changes_report_list' lang=lang %}">
-                        {% translate "Changes report" %}
+                        {% translate "Real estate changes" %}
                     </a>
                 </li>
             {% endif %}
@@ -68,23 +68,23 @@
                     <div class="row justify-content-center text-center">
                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
                             <form method="get" class="search-form">
-                    <div class="row g-4">
-                        {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
+                                <div class="row g-4">
+                                    {% for field in form %}
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                            <label class="customlbl" for="id_{{ field.name }}">
+                                                {{ field.label }}
+                                            </label>
+                                            <div class="form-group">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <br>
+                                        <button type="submit" class="custombtn">{% translate "Search" %}</button>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <br>
-                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
-                        </div>
-                    </div>
-                    </form>
+                            </form>
                         </div>
                     </div>
                     <br>

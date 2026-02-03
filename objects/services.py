@@ -9,7 +9,7 @@ from simple_history.models import ModelDelta
 
 from .choices import RealEstateType, PermissionUpdateLevel
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
-from .forms import RealEstateSearchForm
+from .forms import RealEstateSearchForm, RealEstateHistorySearchForm
 from accounts.models import CustomUser
 
 
@@ -293,18 +293,16 @@ def process_real_estate_search_form(
     if (id := form.cleaned_data.get("id")):
         qs = qs.filter(pk=id)
     
-    locality_district_vals = form.cleaned_data.get("locality_district")
-    street_vals = form.cleaned_data.get("street")
-    if street_vals:
+    locality_districts = form.cleaned_data.get("locality_district")
+    streets = form.cleaned_data.get("street")
+    if streets:
         # якщо вказано вулиці,
         # шукаємо нерухомість лише за вулицями, без районів
-        print("streets", flush=True)
-        qs = qs.filter(street__in=street_vals)
-    elif locality_district_vals:
+        qs = qs.filter(street__in=streets)
+    elif locality_districts:
         # якщо вулиць не вказано, а райони вказано,
         # то шукаємо нерухомість за районами
-        print("locality_district", flush=True)
-        qs = qs.filter(street__locality_district__in=locality_district_vals)
+        qs = qs.filter(street__locality_district__in=locality_districts)
 
     if (price_min := form.cleaned_data.get("price_min")):
         qs = qs.filter(price__gte=price_min)
@@ -312,13 +310,13 @@ def process_real_estate_search_form(
     if (price_max := form.cleaned_data.get("price_max")):
         qs = qs.filter(price__lte=price_max)
     
-    if (status_vals := form.cleaned_data.get("status")):
-        qs = qs.filter(status__in=status_vals)
+    if (statuses := form.cleaned_data.get("status")):
+        qs = qs.filter(status__in=statuses)
     
-    if (rubric_vals := form.cleaned_data.get("rubric")):
-        qs = qs.filter(rubric__in=rubric_vals)
+    if (rubrics := form.cleaned_data.get("rubric")):
+        qs = qs.filter(rubric__in=rubrics)
 
-    if (whose_objects := form.cleaned_data.get("whose_objects")) == "own":
+    if (whose_real_estate := form.cleaned_data.get("whose_real_estate")) == "my":
         qs = qs.filter(realtor=user)
     
     if len((exclusive := form.cleaned_data.get("exclusive"))) == 1:
@@ -327,6 +325,27 @@ def process_real_estate_search_form(
     if len((in_selection := form.cleaned_data.get("in_selection"))) == 1:
         qs.filter(in_selection=in_selection[0])
 
+    return qs
+
+
+def process_real_estate_history_search_form(
+    qs: HistoricalQuerySet,
+    form: RealEstateHistorySearchForm,
+    user: CustomUser
+) -> HistoricalQuerySet:
+    if (history_date_min := form.cleaned_data.get("history_date_min")):
+        qs = qs.filter(history_date__gte=history_date_min)
+    
+    if (history_date_max := form.cleaned_data.get("history_date_max")):
+        qs = qs.filter(history_date__lte=history_date_max)
+    
+    if (whose_real_estate := form.cleaned_data.get("whose_real_estate")) == "my":
+        qs = qs.filter(realtor=user)
+    elif (realtors := form.cleaned_data.get("realtor")):
+        qs = qs.filter(realtor__in=realtors)
+    else:
+        qs = qs.exclude(realtor=user)
+    
     return qs
 
 

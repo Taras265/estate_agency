@@ -8,6 +8,7 @@ from accounts.models import CustomUser
 from handbooks.models import Handbook, FilialAgency, LocalityDistrict, Street
 from objects.models import Apartment, Commerce, House, Land
 from objects.choices import (
+    RealEstateType,
     RealEstateStatus,
     ApartmentRubric,
     CommerceRubric,
@@ -332,7 +333,6 @@ class LandForm(BaseRealEstateForm):
                 "house_type",
                 "layout",
                 "stair",
-
                 "owner",
                 "parking",
                 "generator",
@@ -474,9 +474,9 @@ class RealEstateSearchForm(forms.Form):
         min_value=0,
         required=False,
     )
-    whose_objects = forms.ChoiceField(
-        choices=(("own", _("My objects")), ("all", _("All objects"))),
-        initial="own",
+    whose_real_estate = forms.ChoiceField(
+        choices=(("my", _("My")), ("all", _("All"))),
+        initial="my",
         required=True
     )
 
@@ -485,7 +485,6 @@ class RealEstateSearchForm(forms.Form):
         price_min = cleaned_data.get("price_min")
         price_max = cleaned_data.get("price_max")
         if price_min and price_max and price_min > price_max:
-            print("MIN > MAX")
             raise ValidationError(
                 _("Min price must be less than or equal to the max price"),
                 code="invalid"
@@ -566,3 +565,48 @@ class HouseVerifyAddressForm(BaseVerifyAddressForm):
     housing = forms.CharField(
         error_messages={"required": _("You did not specify a housing")}
     )
+
+
+class RealEstateHistorySearchForm(forms.Form):
+    history_date_min = forms.DateField(
+        label=_("Period from"),
+        required=False,
+        widget=forms.SelectDateWidget()
+    )
+    history_date_max = forms.DateField(
+        label=_("Period to"),
+        required=False,
+        widget=forms.SelectDateWidget()
+    )
+    real_estate_type = forms.TypedChoiceField(
+        coerce=int,
+        label=_("Real estate type"),
+        required=True,
+        choices=RealEstateType.choices,
+        initial=RealEstateType.APARTMENT
+    )
+    whose_real_estate = forms.ChoiceField(
+        label=_("Whose real estate"),
+        choices=(("my", _("My")), ("others", _("Others"))),
+        initial="my",
+        required=True
+    )
+    realtor = forms.ModelMultipleChoiceField(
+        label=_("Realtor"),
+        queryset=CustomUser.objects.all(),
+        required=False
+    )
+
+    def __init__(self, current_user: CustomUser, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["realtor"].queryset = CustomUser.objects.exclude(id=current_user.id)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        my_or_others_changes = cleaned_data.get("my_or_others_changes")
+        realtor = cleaned_data.get("realtor")
+        if my_or_others_changes == "my" and realtor:
+            raise ValidationError(
+                _("If 'my' option in 'Whose real estate' field is selected, then 'Realtor' field must be empty"),
+                code="invalid"
+            )
