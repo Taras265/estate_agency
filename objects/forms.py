@@ -134,13 +134,13 @@ class ApartmentForm(BaseRealEstateForm):
             years=range(1950, date.today().year + 5),
                 attrs={"class": "form-control"}
             ),
-            "creation_date": forms.SelectDateWidget(
-            years=range(1950, date.today().year + 5),
-                attrs={"class": "form-control"}
+            "creation_date": forms.DateInput(
+                attrs={"type": "date", "class": "customtxt"},
+                format="%Y-%m-%d"
             ),
-            "construction_date": forms.SelectDateWidget(
-            years=range(1950, date.today().year + 5),
-                attrs={"class": "form-control"}
+            "construction_date": forms.DateInput(
+                attrs={"type": "date", "class": "customtxt"},
+                format="%Y-%m-%d"
             ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
@@ -216,9 +216,9 @@ class CommerceForm(BaseRealEstateForm):
             years=range(1950, date.today().year + 5),
                 attrs={"class": "form-control"}
             ),
-            "creation_date": forms.SelectDateWidget(
-            years=range(1950, date.today().year + 5),
-                attrs={"class": "form-control"}
+            "creation_date": forms.DateInput(
+                attrs={"type": "date", "class": "customtxt"},
+                format="%Y-%m-%d"
             ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
@@ -289,9 +289,9 @@ class HouseForm(BaseRealEstateForm):
             years=range(1950, date.today().year + 5),
                 attrs={"class": "form-control"}
             ),
-            "creation_date": forms.SelectDateWidget(
-            years=range(1950, date.today().year + 5),
-                attrs={"class": "form-control"}
+            "creation_date": forms.DateInput(
+                attrs={"type": "date", "class": "customtxt"},
+                format="%Y-%m-%d"
             ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
@@ -357,9 +357,9 @@ class LandForm(BaseRealEstateForm):
             years=range(1950, date.today().year + 5),
                 attrs={"class": "form-control"}
             ),
-            "creation_date": forms.SelectDateWidget(
-            years=range(1950, date.today().year + 5),
-                attrs={"class": "form-control"}
+            "creation_date": forms.DateInput(
+                attrs={"type": "date", "class": "customtxt"},
+                format="%Y-%m-%d"
             ),
             "locality": forms.Select(attrs={"data-live-search": "true"}),
             "street": forms.Select(attrs={"data-live-search": "true"}),
@@ -571,12 +571,12 @@ class RealEstateHistorySearchForm(forms.Form):
     history_date_min = forms.DateField(
         label=_("Period from"),
         required=False,
-        widget=forms.SelectDateWidget()
+        widget=forms.DateInput(attrs={"type": "date", "class": "customtxt"})
     )
     history_date_max = forms.DateField(
         label=_("Period to"),
         required=False,
-        widget=forms.SelectDateWidget()
+        widget=forms.DateInput(attrs={"type": "date", "class": "customtxt"})
     )
     real_estate_type = forms.TypedChoiceField(
         coerce=int,
@@ -603,6 +603,14 @@ class RealEstateHistorySearchForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        history_date_min = cleaned_data.get("history_date_min")
+        history_date_max = cleaned_data.get("history_date_max")
+        if history_date_min and history_date_max and history_date_min > history_date_max:
+            raise ValidationError(
+                _("Value in 'Period from' field must be less than or equal to the value in 'Period to' field"),
+                code="invalid"
+            )
+
         my_or_others_changes = cleaned_data.get("my_or_others_changes")
         realtor = cleaned_data.get("realtor")
         if my_or_others_changes == "my" and realtor:

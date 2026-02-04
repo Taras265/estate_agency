@@ -1,5 +1,7 @@
 const myOrOthersRealEstateSelect = $("#id_whose_real_estate");
 const realtorSelect = $("#id_realtor");
+const minDateCalendar = document.querySelector("#id_history_date_min");
+const maxDateCalendar = document.querySelector("#id_history_date_max");
 
 document.addEventListener("DOMContentLoaded", function () {
     // робимо неактивним поле "Рієлтор",
@@ -21,4 +23,12 @@ myOrOthersRealEstateSelect.on("changed.bs.select", function (e, clickedIndex, is
         realtorSelect.prop("disabled", false);
     }
     realtorSelect.selectpicker("refresh");
+});
+
+minDateCalendar.addEventListener("input", function (e) {
+    maxDateCalendar.min = minDateCalendar.value;
+});
+
+maxDateCalendar.addEventListener("input", function (e) {
+    minDateCalendar.max = maxDateCalendar.value;
 });
