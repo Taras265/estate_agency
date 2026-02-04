@@ -676,11 +676,16 @@ class LandListView(
         return context
 
 
-class RealEstateHistoryListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+class RealEstateHistoryListView(
+    CustomLoginRequiredMixin,
+    PermissionRequiredMixin,
+    CustomPaginateOnPageMixin,
+    ListView
+):
     permission_required = "objects.view_changes_report"
     template_name = "objects/changes_report_list.html"
     form = None
-    paginate_by = 150
+    paginate_by = 10
 
     def get_queryset(self, queryset=None):
         user = self.request.user
@@ -697,9 +702,8 @@ class RealEstateHistoryListView(CustomLoginRequiredMixin, PermissionRequiredMixi
 
         model = real_estate_model_from_type(self.form.cleaned_data["real_estate_type"])
         history_qs = model.history.select_related("history_user")
-        history_qs = process_real_estate_history_search_form(history_qs, self.form, self.request.user)
-        history_changes = real_estate_history_changes(history_qs)
-        return history_changes
+        history_qs = process_real_estate_history_search_form(history_qs, self.form, user)
+        return real_estate_history_changes(history_qs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         activate(self.kwargs["lang"])
