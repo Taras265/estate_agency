@@ -31,7 +31,7 @@ urlpatterns = [
     path("sale/houses/", views.HouseListView.as_view(), name="house_list"),
     path("sale/lands/", views.LandListView.as_view(), name="land_list"),
 
-    path("sale/report/changes/", views.HistoryReportListView.as_view(), name="changes_report_list"),
+    path("sale/changes/", views.RealEstateHistoryListView.as_view(), name="changes_report_list"),
 
     path("base/create/apartment/", views.ApartmentCreateView.as_view(), name="create_apartment"),
     path("base/create/commerce/", views.CommerceCreateView.as_view(), name="create_commerce"),

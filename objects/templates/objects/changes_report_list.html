@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load handbooks %}
 {% load objects_tags %}
 {% load i18n %}
@@ -15,32 +16,6 @@
     </ul>
   </div>
 </div>
-<div class="container">
-    <div class="property_search">
-        <div class="row justify-content-center text-center">
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
-                <form method="get" class="search-form">
-                    <div class="row g-4">
-                        {% for field in form %}
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <label class="customlbl" for="id_{{ field.name }}">
-                                    {{ field.label }}
-                                </label>
-                                <div class="form-group">
-                                    {{ field }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                            <br>
-                            <button type="submit" class="custombtn">{% translate "Search" %}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Properties Search -->
 <div class="container">
     <div class="property_search propertylist_search_section">
@@ -56,14 +31,36 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link active"
                     href="{% url 'objects:changes_report_list' lang=lang %}">
-                    {% translate "Changes report" %}
+                    {% translate "Real estate changes" %}
                 </a>
             </li>
         </ul>
         <div class="row">
             <div class="responsive-tabs" data-type="horizontal">
                 <div class="resp-tabs-container tabs-group-default" data-group="tabs-group-default">
-                    {% if object_values %}
+                    <div class="row justify-content-center text-center">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                            <form method="get" class="search-form">
+                                <div class="row g-4">
+                                    {% for field in form %}
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                            <label class="customlbl" for="id_{{ field.name }}">
+                                                {{ field.label }}
+                                            </label>
+                                            <div class="form-group">
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <br>
+                                        <button type="submit" class="custombtn">{% translate "Search" %}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% if object_list %}
                     <div>
                         <div class="offset-top-66 text-center">
                             <table class="table">
@@ -80,11 +77,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for object in object_values %}
+                                {% for object in object_list %}
                                     <tr>
                                         <td></td>
                                         <td>{{object.id}}</td>
-                                        <td>{{object.model}}</td>
+                                        <td>{% translate object.model %}</td>
                                         <td>{{object.date}}</td>
                                         <td>{{object.user}}</td>
                                         <td>{{object.field}}</td>
@@ -101,21 +98,12 @@
                     {% endif %}
                 </div>
             </div>
-            <nav aria-label="Page navigation example" style="text-align: center; margin: 20px 0;">
-                <div class="btn-group" role="group">
-                    {% if page_obj.has_previous %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">{% translate 'Previous' %}</a>
-                    {% endif %}
-                    <a class="btn btn-primary btn-warning element-fullwidth"
-                       href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
-                    {% if page_obj.has_next %}
-                        <a class="btn btn-primary btn-warning element-fullwidth"
-                           href="?page={{ page_obj.next_page_number }}" aria-label="Next">{% translate 'Next' %}</a>
-                    {% endif %}
-                </div>
-            </nav>
+            {% include "pagination_sidebar.html" %}
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script defer src="{% static '/js/real_estate_history.js' %}"></script>
 {% endblock %}

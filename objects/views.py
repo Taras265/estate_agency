@@ -1,4 +1,4 @@
-from itertools import chain
+import itertools
 from urllib.parse import urlencode
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -41,6 +41,7 @@ from .forms import (
     SearchForm,
     LandForm,
     LandSearchForm,
+    RealEstateHistorySearchForm,
 )
 from .mixins import (
     DefaultUserInCreateViewMixin,
@@ -53,7 +54,9 @@ from .services import (
     user_can_update_real_estate_list,
     real_estate_model_from_type,
     process_real_estate_search_form,
+    process_real_estate_history_search_form,
     selection_add_selected_objects,
+    real_estate_history_changes,
 )
 
 
@@ -430,7 +433,7 @@ class ApartmentListView(
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     form = None
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -448,7 +451,7 @@ class ApartmentListView(
             # користувач перейшов на сторінку по посиланню
             self.form = ApartmentSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
-                "whose_objects": "own"
+                "whose_real_estate": "my"
             })
 
         if not self.form.is_valid():
@@ -493,7 +496,7 @@ class CommerceListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
     form = None
 
     def get_ordering(self):
@@ -512,7 +515,7 @@ class CommerceListView(
             # користувач перейшов на сторінку по посиланню
             self.form = CommerceSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
-                "whose_objects": "own"
+                "whose_real_estate": "my"
             })
 
         if not self.form.is_valid():
@@ -556,7 +559,7 @@ class HouseListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -574,7 +577,7 @@ class HouseListView(
             # користувач перейшов на сторінку по посиланню
             self.form = HouseSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
-                "whose_objects": "own"
+                "whose_real_estate": "my"
             })
 
         if not self.form.is_valid():
@@ -618,7 +621,7 @@ class LandListView(
 
     permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -636,7 +639,7 @@ class LandListView(
             # користувач перейшов на сторінку по посиланню
             self.form = LandSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
-                "whose_objects": "own"
+                "whose_real_estate": "my"
             })
 
         if not self.form.is_valid():
@@ -673,55 +676,42 @@ class LandListView(
         return context
 
 
-class HistoryReportListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
+class RealEstateHistoryListView(
+    CustomLoginRequiredMixin,
+    PermissionRequiredMixin,
+    CustomPaginateOnPageMixin,
+    ListView
+):
     permission_required = "objects.view_changes_report"
-    model = Apartment.history.all().model
     template_name = "objects/changes_report_list.html"
-    handbook_type = "report"
-    paginate_by = 5
+    form = None
+    paginate_by = 10
+
+    def get_queryset(self, queryset=None):
+        user = self.request.user
+        if "real_estate_type" in self.request.GET:
+            self.form = RealEstateHistorySearchForm(user, self.request.GET)
+        else:
+            self.form = RealEstateHistorySearchForm(user, {
+                "real_estate_type": RealEstateType.APARTMENT,
+                "whose_real_estate": "my"
+            })
+
+        if not self.form.is_valid():
+            return []
+
+        model = real_estate_model_from_type(self.form.cleaned_data["real_estate_type"])
+        history_qs = model.history.select_related("history_user")
+        history_qs = process_real_estate_history_search_form(history_qs, self.form, user)
+        return real_estate_history_changes(history_qs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])  # переклад
-
-        # підгружаємо частину готової дати і додаємо що потрібно
+        activate(self.kwargs["lang"])
         context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        context["choice"] = self.handbook_type
-
-        apartments = Apartment.history.all().order_by("history_date")
-        commerces = Commerce.history.all().order_by("history_date")
-        houses = House.history.all().order_by("history_date")
-        lands = Land.history.all().order_by("history_date")
-        context["object_list"] = sorted(
-            chain(apartments, commerces, houses, lands),
-            key=lambda x: x.history_date,
-            reverse=True,
-        )
-
-        if context["object_list"]:  # Якщо нам взагалі є з чим працювати
-            context["object_values"] = []
-            for record in context["object_list"]:
-                if record.prev_record:
-                    prev_record = record.prev_record
-                    for field in record._meta.fields:
-                        if field.name.find("history") == -1:
-                            field_name = field.name
-                            old_value = getattr(prev_record, field_name)
-                            new_value = getattr(record, field_name)
-                            if old_value != new_value:
-                                context["object_values"].append(
-                                    {
-                                        "id": record.id,
-                                        "date": record.history_date,
-                                        "user": record.history_user,
-                                        "field": field.verbose_name,
-                                        "old_value": old_value,
-                                        "new_value": new_value,
-                                        "model": record._meta.model_name[10::],
-                                    }
-                                )
-        else:
-            context["object_values"] = None
+        context.update({
+            "lang": self.kwargs["lang"],
+            "form" : self.form
+        })
         return context
 
 

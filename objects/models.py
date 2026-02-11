@@ -186,7 +186,7 @@ class BaseRealEstate(models.Model):
     )
 
     document = models.PositiveSmallIntegerField(
-        choices=RealEstateDocument, verbose_name=_("Document"), null=True, blank=True)
+        choices=RealEstateDocument.choices, verbose_name=_("Document"), null=True, blank=True)
     # filename_of_exclusive_agreement = models.CharField(max_length=150, null=True, blank=True)
     # inspection_file_name = models.CharField(max_length=150, null=True, blank=True)
     # filename_forbid_sale = models.CharField(max_length=150, null=True, blank=True)

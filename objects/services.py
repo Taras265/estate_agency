@@ -1,15 +1,19 @@
+import datetime
 from collections.abc import Iterable
-from typing import TypeVar
+from typing import TypeVar, Any
+from dataclasses import dataclass
 
 from django.db.models import QuerySet
+from simple_history.manager import HistoricalQuerySet
+from simple_history.models import ModelDelta
 
-from .choices import RealEstateType, RealEstateStatus, PermissionUpdateLevel
+from .choices import RealEstateType, PermissionUpdateLevel
 from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
-from .forms import RealEstateSearchForm
+from .forms import RealEstateSearchForm, RealEstateHistorySearchForm
 from accounts.models import CustomUser
 
 
-T = TypeVar("T", bound=BaseRealEstate)
+T = TypeVar("T")
 
 
 def user_can_update_real_estate(
@@ -289,18 +293,16 @@ def process_real_estate_search_form(
     if (id := form.cleaned_data.get("id")):
         qs = qs.filter(pk=id)
     
-    locality_district_vals = form.cleaned_data.get("locality_district")
-    street_vals = form.cleaned_data.get("street")
-    if street_vals:
+    locality_districts = form.cleaned_data.get("locality_district")
+    streets = form.cleaned_data.get("street")
+    if streets:
         # якщо вказано вулиці,
         # шукаємо нерухомість лише за вулицями, без районів
-        print("streets", flush=True)
-        qs = qs.filter(street__in=street_vals)
-    elif locality_district_vals:
+        qs = qs.filter(street__in=streets)
+    elif locality_districts:
         # якщо вулиць не вказано, а райони вказано,
         # то шукаємо нерухомість за районами
-        print("locality_district", flush=True)
-        qs = qs.filter(street__locality_district__in=locality_district_vals)
+        qs = qs.filter(street__locality_district__in=locality_districts)
 
     if (price_min := form.cleaned_data.get("price_min")):
         qs = qs.filter(price__gte=price_min)
@@ -308,13 +310,13 @@ def process_real_estate_search_form(
     if (price_max := form.cleaned_data.get("price_max")):
         qs = qs.filter(price__lte=price_max)
     
-    if (status_vals := form.cleaned_data.get("status")):
-        qs = qs.filter(status__in=status_vals)
+    if (statuses := form.cleaned_data.get("status")):
+        qs = qs.filter(status__in=statuses)
     
-    if (rubric_vals := form.cleaned_data.get("rubric")):
-        qs = qs.filter(rubric__in=rubric_vals)
+    if (rubrics := form.cleaned_data.get("rubric")):
+        qs = qs.filter(rubric__in=rubrics)
 
-    if (whose_objects := form.cleaned_data.get("whose_objects")) == "own":
+    if (whose_real_estate := form.cleaned_data.get("whose_real_estate")) == "my":
         qs = qs.filter(realtor=user)
     
     if len((exclusive := form.cleaned_data.get("exclusive"))) == 1:
@@ -324,3 +326,74 @@ def process_real_estate_search_form(
         qs.filter(in_selection=in_selection[0])
 
     return qs
+
+
+def process_real_estate_history_search_form(
+    qs: HistoricalQuerySet,
+    form: RealEstateHistorySearchForm,
+    user: CustomUser
+) -> HistoricalQuerySet:
+    if (history_date_min := form.cleaned_data.get("history_date_min")):
+        qs = qs.filter(history_date__gte=history_date_min)
+    
+    if (history_date_max := form.cleaned_data.get("history_date_max")):
+        qs = qs.filter(history_date__lte=history_date_max)
+    
+    if (whose_real_estate := form.cleaned_data.get("whose_real_estate")) == "my":
+        qs = qs.filter(realtor=user)
+    elif (realtors := form.cleaned_data.get("realtor")):
+        qs = qs.filter(realtor__in=realtors)
+    else:
+        qs = qs.exclude(realtor=user)
+    
+    return qs
+
+
+@dataclass
+class RealEstateHistoryRecord:
+    id: int
+    date: datetime.datetime
+    user: CustomUser
+    field: str
+    old_value: Any
+    new_value: Any
+    model: str
+
+
+def _compute_history_record_diffs(qs: HistoricalQuerySet) -> list[ModelDelta]:
+    """
+    Обчислює різницю (які поля були змінені, старе та нове значення)
+    між кожним елементом <qs>
+    """
+    deltas = [record.diff_against(record.prev_record)
+              for record in qs
+              if record.prev_record]
+    return deltas
+
+
+def real_estate_history_changes(qs: HistoricalQuerySet) -> list[RealEstateHistoryRecord]:
+    """
+    Приймає <qs> (наприклад, Apartment.history.all()) та
+    повертає список змін, які можна відображати на сторінці
+    """
+    history = []
+    deltas = _compute_history_record_diffs(qs)
+    for delta in deltas:
+        old_record, new_record = delta.old_record, delta.new_record
+        for change in delta.changes:
+            field = new_record._meta.get_field(change.field)
+            old_value, new_value = change.old, change.new
+            if field.choices:
+                old_value = getattr(old_record, f"get_{field.name}_display")()
+                new_value = getattr(new_record, f"get_{field.name}_display")()
+
+            history.append(RealEstateHistoryRecord(
+                id=new_record.id,
+                date=new_record.history_date,
+                user=new_record.history_user,
+                field=field.verbose_name,
+                old_value=old_value,
+                new_value=new_value,
+                model=new_record.instance.__class__.__name__,
+            ))
+    return history

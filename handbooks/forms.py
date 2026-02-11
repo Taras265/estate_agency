@@ -339,9 +339,7 @@ class FilialForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     open_date_date = forms.DateField(
-        widget=forms.SelectDateWidget(
-            empty_label=("Год", "Месяц", "День"), years=range(1900, 2100)
-        ),
+        widget=forms.DateInput(attrs={"type": "date", "class": "customtxt"})
     )
     open_date_time = forms.TimeField(
         widget=forms.TimeInput(attrs={"class": "form-control"}),
@@ -350,7 +348,7 @@ class FilialForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance and self.instance.open_date:
-            self.fields["open_date_date"].initial = self.instance.open_date.date()
+            self.fields["open_date_date"].initial = self.instance.open_date.date().strftime("%Y-%m-%d")
             self.fields["open_date_time"].initial = self.instance.open_date.time()
 
     def save(self, commit=True):
