@@ -48,7 +48,7 @@ class UserForm(forms.ModelForm):
     email = forms.CharField(
         label=_("Email"),
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": _("email")}
+            attrs={"class": "form-control", "placeholder": _("Email")}
         ),
     )
     first_name = forms.CharField(
