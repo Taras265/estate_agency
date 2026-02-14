@@ -314,7 +314,7 @@ class FilialForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     phone = forms.CharField(
-        label=_("Filial agency"),
+        label=_("Phone number"),
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )

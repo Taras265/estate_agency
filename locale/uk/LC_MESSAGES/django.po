@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-13 23:24+0000\n"
+"POT-Creation-Date: 2026-02-14 10:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -168,7 +168,7 @@ msgstr "Користувачі"
 #: handbooks/templates/handbooks/locality_list.html:211
 #: handbooks/templates/handbooks/localitydistrict_list.html:211
 #: handbooks/templates/handbooks/region_list.html:211
-#: handbooks/templates/handbooks/street_list.html:211 objects/forms.py:426
+#: handbooks/templates/handbooks/street_list.html:211 objects/forms.py:435
 #: objects/templates/objects/catalog.html:59
 #: objects/templates/objects/changes_report_list.html:70
 #: objects/templates/objects/real_estate_list.html:109
@@ -327,8 +327,8 @@ msgstr "Моя продана нерухомість"
 #: handbooks/templates/handbooks/locality_list.html:171
 #: handbooks/templates/handbooks/localitydistrict_list.html:171
 #: handbooks/templates/handbooks/region_list.html:171
-#: handbooks/templates/handbooks/street_list.html:171 objects/models.py:112
-#: objects/templates/objects/catalog.html:60
+#: handbooks/templates/handbooks/street_list.html:171 objects/forms.py:38
+#: objects/models.py:112 objects/templates/objects/catalog.html:60
 #: objects/templates/objects/selection_list.html:75
 #: objects/templates/objects/showing_act.html:79
 msgid "House type"
@@ -426,7 +426,7 @@ msgstr "Банер"
 msgid "Posting"
 msgstr "Публікації"
 
-#: handbooks/choices.py:34 handbooks/forms.py:189 objects/forms.py:595
+#: handbooks/choices.py:34 handbooks/forms.py:189 objects/forms.py:604
 #: objects/models.py:66
 msgid "Realtor"
 msgstr "Ріелтор"
@@ -496,8 +496,8 @@ msgstr "Район"
 #: handbooks/templates/handbooks/localitydistrict_list.html:69
 #: handbooks/templates/handbooks/localitydistrict_list.html:213
 #: handbooks/templates/handbooks/region_list.html:67
-#: handbooks/templates/handbooks/street_list.html:69 objects/forms.py:379
-#: objects/forms.py:382 objects/models.py:53
+#: handbooks/templates/handbooks/street_list.html:69 objects/forms.py:388
+#: objects/forms.py:391 objects/models.py:53
 #: objects/templates/objects/real_estate_list.html:119
 msgid "Locality"
 msgstr "Місто"
@@ -545,8 +545,8 @@ msgstr "Район новобудови"
 #: handbooks/templates/handbooks/street_list.html:10
 #: handbooks/templates/handbooks/street_list.html:13
 #: handbooks/templates/handbooks/street_list.html:84
-#: handbooks/templates/handbooks/street_list.html:212 objects/forms.py:386
-#: objects/forms.py:388 objects/forms.py:439 objects/models.py:59
+#: handbooks/templates/handbooks/street_list.html:212 objects/forms.py:395
+#: objects/forms.py:397 objects/forms.py:448 objects/models.py:59
 #: objects/templates/objects/real_estate_list.html:129
 msgid "Street"
 msgstr "Вулиця"
@@ -567,7 +567,7 @@ msgstr "Вулиця"
 msgid "Locality district"
 msgstr "Район міста"
 
-#: handbooks/forms.py:157 handbooks/forms.py:505
+#: handbooks/forms.py:157 handbooks/forms.py:317 handbooks/forms.py:505
 #: handbooks/templates/handbooks/client_list.html:134
 msgid "Phone number"
 msgstr "Номер телефону"
@@ -589,7 +589,7 @@ msgid "Income source"
 msgstr "Джерело доходу"
 
 #: handbooks/forms.py:179 handbooks/forms.py:464
-#: handbooks/templates/handbooks/client_list.html:133 objects/forms.py:583
+#: handbooks/templates/handbooks/client_list.html:133 objects/forms.py:592
 #: objects/templates/objects/real_estate_showing_act_detail.html:173
 msgid "Real estate type"
 msgstr "Тип нерухомості"
@@ -599,7 +599,7 @@ msgid "Realtor type"
 msgstr "Тип ріелтора"
 
 #: handbooks/forms.py:194 handbooks/templates/handbooks/client_list.html:135
-#: objects/forms.py:448 objects/models.py:185
+#: objects/forms.py:457 objects/models.py:185
 #: objects/templates/objects/real_estate_showing_act_detail.html:174
 msgid "Status"
 msgstr "Статус"
@@ -644,7 +644,8 @@ msgstr "Максимальна ціна за кв. метр"
 #: handbooks/templates/handbooks/locality_list.html:99
 #: handbooks/templates/handbooks/localitydistrict_list.html:99
 #: handbooks/templates/handbooks/region_list.html:99
-#: handbooks/templates/handbooks/street_list.html:99 objects/models.py:84
+#: handbooks/templates/handbooks/street_list.html:99 objects/forms.py:48
+#: objects/models.py:84
 msgid "Condition"
 msgstr "Стан"
 
@@ -652,7 +653,7 @@ msgstr "Стан"
 msgid "Handbook"
 msgstr "Довідник"
 
-#: handbooks/forms.py:309 handbooks/forms.py:317 handbooks/forms.py:382
+#: handbooks/forms.py:309 handbooks/forms.py:382
 #: handbooks/templates/handbooks/district_list.html:179
 #: handbooks/templates/handbooks/filial_list.html:10
 #: handbooks/templates/handbooks/filial_list.html:13
@@ -664,9 +665,10 @@ msgstr "Довідник"
 #: handbooks/templates/handbooks/locality_list.html:179
 #: handbooks/templates/handbooks/localitydistrict_list.html:179
 #: handbooks/templates/handbooks/region_list.html:179
-#: handbooks/templates/handbooks/street_list.html:179 objects/models.py:106
+#: handbooks/templates/handbooks/street_list.html:179 objects/forms.py:33
+#: objects/models.py:106
 msgid "Filial agency"
-msgstr "Агентство"
+msgstr "Філіал"
 
 #: handbooks/forms.py:327
 msgid "Address"
@@ -732,7 +734,7 @@ msgstr "Нерухомість"
 msgid "Reports"
 msgstr "Звіти"
 
-#: handbooks/templates/handbooks/client_list.html:77 objects/forms.py:478
+#: handbooks/templates/handbooks/client_list.html:77 objects/forms.py:487
 msgid "All"
 msgstr "Всі"
 
@@ -740,7 +742,7 @@ msgstr "Всі"
 msgid "New"
 msgstr "Нові"
 
-#: handbooks/templates/handbooks/client_list.html:89 objects/forms.py:461
+#: handbooks/templates/handbooks/client_list.html:89 objects/forms.py:470
 #: objects/models.py:203
 msgid "In selection"
 msgstr "У підборі"
@@ -778,7 +780,8 @@ msgstr "Причина зняття"
 #: handbooks/templates/handbooks/locality_list.html:107
 #: handbooks/templates/handbooks/localitydistrict_list.html:107
 #: handbooks/templates/handbooks/region_list.html:107
-#: handbooks/templates/handbooks/street_list.html:107 objects/models.py:92
+#: handbooks/templates/handbooks/street_list.html:107 objects/forms.py:43
+#: objects/models.py:92
 msgid "Material"
 msgstr "Матеріал"
 
@@ -800,7 +803,8 @@ msgstr "Відокремлення"
 #: handbooks/templates/handbooks/locality_list.html:123
 #: handbooks/templates/handbooks/localitydistrict_list.html:123
 #: handbooks/templates/handbooks/region_list.html:123
-#: handbooks/templates/handbooks/street_list.html:123 objects/models.py:100
+#: handbooks/templates/handbooks/street_list.html:123 objects/forms.py:29
+#: objects/models.py:100
 msgid "Agency"
 msgstr "Агентство"
 
@@ -833,7 +837,8 @@ msgstr "Назва новобудови"
 #: handbooks/templates/handbooks/locality_list.html:147
 #: handbooks/templates/handbooks/localitydistrict_list.html:147
 #: handbooks/templates/handbooks/region_list.html:147
-#: handbooks/templates/handbooks/street_list.html:147 objects/models.py:128
+#: handbooks/templates/handbooks/street_list.html:147 objects/forms.py:58
+#: objects/models.py:128
 msgid "Stair"
 msgstr "Драбина"
 
@@ -855,7 +860,8 @@ msgstr "Опалення"
 #: handbooks/templates/handbooks/locality_list.html:163
 #: handbooks/templates/handbooks/localitydistrict_list.html:163
 #: handbooks/templates/handbooks/region_list.html:163
-#: handbooks/templates/handbooks/street_list.html:163 objects/models.py:120
+#: handbooks/templates/handbooks/street_list.html:163 objects/forms.py:53
+#: objects/models.py:120
 msgid "Layout"
 msgstr "Макет"
 
@@ -879,8 +885,8 @@ msgstr "Звіти філіалу"
 #: handbooks/templates/handbooks/locality_list.html:195
 #: handbooks/templates/handbooks/localitydistrict_list.html:195
 #: handbooks/templates/handbooks/region_list.html:195
-#: handbooks/templates/handbooks/street_list.html:195 objects/models.py:260
-#: objects/models.py:329
+#: handbooks/templates/handbooks/street_list.html:195 objects/forms.py:98
+#: objects/forms.py:177 objects/models.py:260 objects/models.py:329
 msgid "Complex"
 msgstr "Комплекс"
 
@@ -1057,42 +1063,42 @@ msgstr "Внутрішній"
 msgid "Corner"
 msgstr "Кутовий"
 
-#: objects/forms.py:391 objects/forms.py:393 objects/forms.py:466
+#: objects/forms.py:400 objects/forms.py:402 objects/forms.py:475
 msgid "Min price"
 msgstr "Мінімальна ціна"
 
-#: objects/forms.py:398 objects/forms.py:400 objects/forms.py:472
+#: objects/forms.py:407 objects/forms.py:409 objects/forms.py:481
 msgid "Max price"
 msgstr "Максимальна ціна"
 
-#: objects/forms.py:414
+#: objects/forms.py:423
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:801
 msgid "Yes"
 msgstr "Так"
 
-#: objects/forms.py:415
+#: objects/forms.py:424
 #: venv/lib/python3.12/site-packages/django/forms/widgets.py:802
 msgid "No"
 msgstr "Ні"
 
-#: objects/forms.py:431
+#: objects/forms.py:440
 msgid "Locality District"
 msgstr "Район міста"
 
-#: objects/forms.py:455 objects/models.py:38
+#: objects/forms.py:464 objects/models.py:38
 msgid "Exclusive"
 msgstr "Ексклюзів"
 
-#: objects/forms.py:478 objects/forms.py:590
+#: objects/forms.py:487 objects/forms.py:599
 msgid "My"
 msgstr "Моя"
 
-#: objects/forms.py:489
+#: objects/forms.py:498
 msgid "Min price must be less than or equal to the max price"
 msgstr "Мінімальна ціна повинна бути меншою або рівною максимальній ціні"
 
-#: objects/forms.py:497 objects/forms.py:506 objects/forms.py:515
-#: objects/forms.py:524 objects/models.py:248 objects/models.py:303
+#: objects/forms.py:506 objects/forms.py:515 objects/forms.py:524
+#: objects/forms.py:533 objects/models.py:248 objects/models.py:303
 #: objects/models.py:337 objects/models.py:371
 #: objects/templates/objects/real_estate_list.html:136
 #: templates/showing_act_pdf_owner_info.html:52
@@ -1100,54 +1106,54 @@ msgstr "Мінімальна ціна повинна бути меншою аб�
 msgid "Rubric"
 msgstr "Рубрика"
 
-#: objects/forms.py:538
+#: objects/forms.py:547
 msgid "You did not specify a locality"
 msgstr "Ви не вказали місто"
 
-#: objects/forms.py:541
+#: objects/forms.py:550
 msgid "You did not specify a street"
 msgstr "Ви не вказали вулицю"
 
-#: objects/forms.py:543
+#: objects/forms.py:552
 msgid "You did not specify a house"
 msgstr "Ви не вказали будинок"
 
-#: objects/forms.py:550
+#: objects/forms.py:559
 msgid "You did not specify an apartment"
 msgstr "Ви не вказали квартиру"
 
-#: objects/forms.py:558
+#: objects/forms.py:567
 msgid "You did not specify a premises"
 msgstr "Ви не вказали приміщення"
 
-#: objects/forms.py:566
+#: objects/forms.py:575
 msgid "You did not specify a housing"
 msgstr "Ви не вказали житло"
 
-#: objects/forms.py:572
+#: objects/forms.py:581
 msgid "Period from"
 msgstr "Період від"
 
-#: objects/forms.py:577
+#: objects/forms.py:586
 msgid "Period to"
 msgstr "Період до"
 
-#: objects/forms.py:589
+#: objects/forms.py:598
 msgid "Whose real estate"
 msgstr "Чия нерухомість"
 
-#: objects/forms.py:590
+#: objects/forms.py:599
 msgid "Others"
 msgstr "Інших"
 
-#: objects/forms.py:610
+#: objects/forms.py:619
 msgid ""
 "Value in 'Period from' field must be less than or equal to the value in "
 "'Period to' field"
 msgstr ""
 "Значення 'Період від' повинно бути меншим або рівним значенню 'Період до'"
 
-#: objects/forms.py:618
+#: objects/forms.py:627
 msgid ""
 "If 'my' option in 'Whose real estate' field is selected, then 'Realtor' "
 "field must be empty"
@@ -2818,72 +2824,3 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/isort/main.py:159
 msgid "show this help message and exit"
 msgstr ""
-
-#~ msgid "region"
-#~ msgstr "область"
-
-#~ msgid "id"
-#~ msgstr "id"
-
-#~ msgid "house_type"
-#~ msgstr "Тип будинку"
-
-#~ msgid "house"
-#~ msgstr "будинок"
-
-#~ msgid "floor"
-#~ msgstr "поверх"
-
-#~ msgid "handbook"
-#~ msgstr "довідник"
-
-#~ msgid "type"
-#~ msgstr "тип"
-
-#~ msgid "email"
-#~ msgstr "пошта"
-
-#~ msgid "Group"
-#~ msgstr "Група"
-
-#~ msgid "name"
-#~ msgstr "назва"
-
-#~ msgid "My clients"
-#~ msgstr "Мої клієнти"
-
-#~ msgid "My objects"
-#~ msgstr "Мої об'єкти"
-
-#~ msgid "Filial objects"
-#~ msgstr "Об'єкти філіалу"
-
-#~ msgid "district"
-#~ msgstr "район"
-
-#~ msgid "filial agency"
-#~ msgstr "агентство"
-
-#~ msgid "locality"
-#~ msgstr "місто"
-
-#~ msgid "center_type"
-#~ msgstr "Тип центру"
-
-#~ msgid "locality district"
-#~ msgstr "район міста"
-
-#~ msgid "street"
-#~ msgstr "вулиці"
-
-#~ msgid "Report of changes"
-#~ msgstr "Історія змін"
-
-#~ msgid "Object details"
-#~ msgstr "Переглянути деталі"
-
-#~ msgid "Fill address"
-#~ msgstr "Заповнити адресу"
-
-#~ msgid "Realtors"
-#~ msgstr "Ріелтори"

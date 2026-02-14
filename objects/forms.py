@@ -26,29 +26,36 @@ class BaseRealEstateForm(forms.ModelForm):
 
     agency = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=5, on_delete=False),
+        label=_("Agency")
     )
     filial = forms.ModelChoiceField(
         queryset=FilialAgency.objects.none(),
+        label=_("Filial agency")
     )
     house_type = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=11, on_delete=False),
         required=False,
+        label=_("House type")
     )
     material = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=3, on_delete=False),
         required=False,
+        label=_("Material")
     )
     condition = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=2, on_delete=False),
         required=False,
+        label=_("Condition")
     )
     layout = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=10, on_delete=False),
         required=False,
+        label=_("Layout")
     )
     stair = forms.ModelChoiceField(
         required=False,
         queryset=Handbook.objects.filter(type=8, on_delete=False),
+        label=_("Stair")
     )
 
     def __init__(self, *args, **kwargs):
@@ -88,6 +95,7 @@ class ApartmentForm(BaseRealEstateForm):
 
     complex = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=12, on_delete=False),
+        label=_("Complex")
     )
 
     class Meta:
@@ -166,6 +174,7 @@ class CommerceForm(BaseRealEstateForm):
 
     complex = forms.ModelChoiceField(
         queryset=Handbook.objects.filter(type=12, on_delete=False),
+        label=_("Complex")
     )
 
     class Meta:
