@@ -56,6 +56,7 @@ class CustomUser(AbstractUser):
         "handbooks.FilialAgency",
         related_name="users",
         related_query_name="user",
+        verbose_name=_("Filials")
     )
 
     is_active = models.BooleanField(default=True)

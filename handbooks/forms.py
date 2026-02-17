@@ -314,7 +314,7 @@ class FilialForm(forms.ModelForm):
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     phone = forms.CharField(
-        label=_("Filial agency"),
+        label=_("Phone number"),
         required=False,
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
@@ -339,9 +339,11 @@ class FilialForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     open_date_date = forms.DateField(
+        label=_("Open date date"),
         widget=forms.DateInput(attrs={"type": "date", "class": "customtxt"})
     )
     open_date_time = forms.TimeField(
+        label=_("Open date time"),
         widget=forms.TimeInput(attrs={"class": "form-control"}),
     )
 

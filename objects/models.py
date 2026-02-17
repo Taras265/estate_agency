@@ -346,10 +346,16 @@ class House(BaseRealEstate):
         verbose_name=_("Land's square"), null=True, blank=True
     )  # площа ділянки
     rooms_number = models.PositiveSmallIntegerField(
-        verbose_name=_("Number of rooms"), choices=HouseRoomsNumberRubric.choices, null=True, blank=True
+        verbose_name=_("Number of rooms"),
+        choices=HouseRoomsNumberRubric.choices,
+        null=True,
+        blank=True
     )
     communication = models.PositiveSmallIntegerField(
-        choices=RealEstateCommunication.choices, verbose_name=_("Communication"), null=True, blank=True
+        choices=RealEstateCommunication.choices,
+        verbose_name=_("Communication"),
+        null=True,
+        blank=True
     )
     terrace = models.BooleanField(default=False, verbose_name=_("Terrace"))
     facade = models.BooleanField(default=False, verbose_name=_("Facade"))
@@ -370,11 +376,12 @@ class Land(BaseRealEstate):
     land_square = models.PositiveIntegerField(
         verbose_name=_("Land's square"), null=True, blank=True
     )  # площа ділянки
-
     communication = models.PositiveSmallIntegerField(
-        choices=RealEstateCommunication.choices, verbose_name=_("Communication"), null=True, blank=True
+        choices=RealEstateCommunication.choices,
+        verbose_name=_("Communication"),
+        null=True,
+        blank=True
     )
-
     target = models.PositiveSmallIntegerField(
         choices=LandTarget.choices, verbose_name=_("Target")
     )  # назначення землі

@@ -33,7 +33,7 @@ class RealEstateDocument(models.IntegerChoices):
 
     CO = 1, _("CO")  # Свідоцтво на право власності (СПВ або СПС)
     ASSIGMENT = 2, _("Assignment")  # Переуступка
-    GIFT = 3, _("Gift")  # Дарування
+    GIFT = 3, _("Gift")  # Подарунок
     HERITAGE = 4, _("Heritage")  # Спадщина
 
 
