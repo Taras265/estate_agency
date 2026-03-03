@@ -940,7 +940,7 @@ class ApartmentUpdateView(
             for field in self.form_class().fields.keys():
                 if not post_data.get(field):
                     post_data[field] = getattr(self.object, field)
-            f = self.form_class(post_data, instance=self.object)
+            f = self.form_class(post_data, instance=self.object, user=self.request.user)
             if f.is_valid():
                 f.save()
                 return redirect(self.get_success_url())
@@ -949,6 +949,11 @@ class ApartmentUpdateView(
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:apartment_list", kwargs=kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class CommerceUpdateView(
@@ -1039,11 +1044,14 @@ class CommerceUpdateView(
                 return redirect(self.get_success_url())
         return super().form_invalid(form)
 
-        return redirect(self.get_success_url())
-
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:commerce_list", kwargs=kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class HouseUpdateView(
@@ -1135,11 +1143,14 @@ class HouseUpdateView(
                 return redirect(self.get_success_url())
         return super().form_invalid(form)
 
-        return redirect(self.get_success_url())
-
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:house_list", kwargs=kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class LandUpdateView(
@@ -1231,11 +1242,14 @@ class LandUpdateView(
                 return redirect(self.get_success_url())
         return super().form_invalid(form)
 
-        return redirect(self.get_success_url())
-
     def get_success_url(self):
         kwargs = {"lang": self.kwargs["lang"]}
         return reverse_lazy("objects:land_list", kwargs=kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
 
 
 class CatalogListView(ListView):

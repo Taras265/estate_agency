@@ -27,6 +27,9 @@ const filialSelect = document.getElementById("id_filial");
 document.addEventListener('DOMContentLoaded', () => {
     const formsetContainer = document.getElementById('photo-formset');
     const addFormButton = document.getElementById('add-photo-form');
+    // передвстановлюємо посилання на сторінку з формою редагування власника квартири
+    setOwnerEditFormUrl(ownerSelect.value);
+    console.log(ownerSelect.value);
 
     addFormButton.addEventListener('click', () => {
         const formCount = document.getElementById('id_images-TOTAL_FORMS');
@@ -46,9 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formCount.value = currentCount + 1;
     });
-
-    // передвстановлюємо посилання на сторінку з формою редагування власника квартири
-    setOwnerEditFormUrl(ownerSelect.value);
 });
 
 
@@ -202,10 +202,10 @@ function setOwnerEditFormUrl(ownerId) {
     1) ownerId - number
     */
     if (ownerId !== "") {
-        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/update/client/${ownerId}/`;
+        btnEditOwner.href = dataset.mainUrl + `sale/update/client/${ownerId}/`;
         btnEditOwner.style.pointerEvents = "auto";
     } else {
-        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/create/client/`;
+        btnEditOwner.href = dataset.mainUrl + `sale/create/client/`;
         btnEditOwner.style.pointerEvents = "auto";
     }
 }

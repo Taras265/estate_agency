@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from accounts.models import CustomUser
-from handbooks.models import Handbook, FilialAgency, LocalityDistrict, Street
+from handbooks.models import Handbook, FilialAgency, LocalityDistrict, Street, Client
 from objects.models import Apartment, Commerce, House, Land
 from objects.choices import (
     RealEstateType,
@@ -64,8 +64,9 @@ class BaseRealEstateForm(forms.ModelForm):
         if user:
             self.fields["realtor"].initial = user
             self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
+            self.fields["owner"].queryset = Client.objects.filter(realtor=user)
 
-        if (realtor_id := self.data.get("realtor")):
+        if realtor_id := self.data.get("realtor"): # сносити?
             if isinstance(realtor_id, CustomUser):
                 self.fields["filial"].queryset = realtor_id.filials.all()
             else:
@@ -94,6 +95,7 @@ class ApartmentForm(BaseRealEstateForm):
     template_name = "objects/_apartment_form.html"
 
     complex = forms.ModelChoiceField(
+        required=False,
         queryset=Handbook.objects.filter(type=12, on_delete=False),
         label=_("Complex")
     )
@@ -173,6 +175,7 @@ class CommerceForm(BaseRealEstateForm):
     template_name = "objects/_commerce_form.html"
 
     complex = forms.ModelChoiceField(
+        required=False,
         queryset=Handbook.objects.filter(type=12, on_delete=False),
         label=_("Complex")
     )

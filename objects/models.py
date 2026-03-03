@@ -257,7 +257,7 @@ class Apartment(BaseRealEstate):
         Handbook,
         on_delete=models.CASCADE,
         related_name="complex_objects_apartment",
-        verbose_name=_("Complex"),
+        verbose_name=_("Complex"), null=True, blank=True,
     )
 
     # two_level_apartment = models.BooleanField(default=False)
@@ -326,7 +326,7 @@ class Commerce(BaseRealEstate):
         Handbook,
         on_delete=models.CASCADE,
         related_name="complex_objects_commerce",
-        verbose_name=_("Complex"),
+        verbose_name=_("Complex"), null=True, blank=True,
     )
 
 
