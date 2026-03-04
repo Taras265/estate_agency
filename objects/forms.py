@@ -59,20 +59,28 @@ class BaseRealEstateForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
+        self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
-        if user:
-            self.fields["realtor"].initial = user
+        if self.user:
+            self.fields["realtor"].initial = self.user
             self.fields["filial"].queryset = self.fields["realtor"].initial.filials.all()
-            self.fields["owner"].queryset = Client.objects.filter(realtor=user)
-
-        if realtor_id := self.data.get("realtor"): # сносити?
+            if self.user.has_perm("objects.dont_change_real_estate_client"):
+                self.fields.pop("owner")
+                self.owner_value = self.initial.get("owner")
+            else:
+                self.fields["owner"].queryset = Client.objects.filter(realtor=self.user)
+        if realtor_id := self.data.get("realtor"):
             if isinstance(realtor_id, CustomUser):
                 self.fields["filial"].queryset = realtor_id.filials.all()
             else:
                 self.fields["filial"].queryset = CustomUser.objects.get(id=realtor_id).filials.all()
         elif hasattr(self.instance, "realtor"):
             self.fields["filial"].queryset = self.instance.realtor.filials.all()
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.user and self.user.has_perm("objects.dont_change_real_estate_client"):
+            cleaned_data["whose_real_estate"] = self.owner_value
 
     def is_valid(self):
         valid = super().is_valid()
@@ -492,10 +500,18 @@ class RealEstateSearchForm(forms.Form):
         required=True
     )
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        if self.user and self.user.has_perm("objects.view_all_real_estate"):
+            self.fields.pop("whose_real_estate")
+
     def clean(self):
         cleaned_data = super().clean()
         price_min = cleaned_data.get("price_min")
         price_max = cleaned_data.get("price_max")
+        if self.user and self.user.has_perm("objects.view_all_real_estate"):
+            cleaned_data["whose_real_estate"] = "all"
         if price_min and price_max and price_min > price_max:
             raise ValidationError(
                 _("Min price must be less than or equal to the max price"),

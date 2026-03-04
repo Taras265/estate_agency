@@ -28,8 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const formsetContainer = document.getElementById('photo-formset');
     const addFormButton = document.getElementById('add-photo-form');
     // передвстановлюємо посилання на сторінку з формою редагування власника квартири
-    setOwnerEditFormUrl(ownerSelect.value);
-    console.log(ownerSelect.value);
+
+    if (ownerSelect) {
+        setOwnerEditFormUrl(ownerSelect.value);
+    }
 
     addFormButton.addEventListener('click', () => {
         const formCount = document.getElementById('id_images-TOTAL_FORMS');

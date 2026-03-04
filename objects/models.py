@@ -231,8 +231,12 @@ class Apartment(BaseRealEstate):
         """
         permissions = (
             ("view_real_estate", "Can view real estate"),
+            ("view_all_real_estate", "Can view all real estate (form fix)"), # функціонально відрізняється тим що відображає
+            # одразу всі нерухомості, нема варіанту "дивитись лише свої"
+            ("add_real_estate_images", "Can add images in real estate"),
             ("add_own_real_estate", "Can add own real estate"),
             ("change_real_estate", "Can change all real estate"),
+            ("dont_change_real_estate_client", "Cant change real estate client (works if can change real estate)"),
             ("change_own_real_estate", "Can change own real estate"),
             ("view_changes_report", "Can view report of changes"),
 

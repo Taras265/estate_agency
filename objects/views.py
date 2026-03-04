@@ -1,7 +1,7 @@
 import itertools
 from urllib.parse import urlencode
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied, BadRequest
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
@@ -425,15 +425,19 @@ class ShowingActPDFView(CustomLoginRequiredMixin, View):
 
 
 class ApartmentListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    CustomLoginRequiredMixin, UserPassesTestMixin, CustomPaginateOnPageMixin,
     RealEstateListContextMixin, ListView
 ):
     """Список квартир"""
 
-    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     form = None
     paginate_by = 10
+
+    def test_func(self):
+        user = self.request.user
+        return user.has_perm("objects.view_real_estate") or \
+            user.has_perm("objects.view_all_real_estate")
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -445,14 +449,14 @@ class ApartmentListView(
     def get_queryset(self):
         if "id" in self.request.GET:
             # форма була відправлена
-            self.form = ApartmentSearchForm(self.request.GET)
+            self.form = ApartmentSearchForm(self.request.GET, user=self.request.user)
         else:
             # форма не була відправлена,
             # користувач перейшов на сторінку по посиланню
             self.form = ApartmentSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
                 "whose_real_estate": "my"
-            })
+            }, user=self.request.user)
 
         if not self.form.is_valid():
             return []
@@ -489,15 +493,19 @@ class ApartmentListView(
 
 
 class CommerceListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    CustomLoginRequiredMixin, UserPassesTestMixin, CustomPaginateOnPageMixin,
     RealEstateListContextMixin, ListView
 ):
     """Список комерцій"""
 
-    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     paginate_by = 10
     form = None
+
+    def test_func(self):
+        user = self.request.user
+        return user.has_perm("objects.view_real_estate") or \
+            user.has_perm("objects.view_all_real_estate")
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -509,14 +517,14 @@ class CommerceListView(
     def get_queryset(self):
         if "id" in self.request.GET:
             # форма була відправлена
-            self.form = CommerceSearchForm(self.request.GET)
+            self.form = CommerceSearchForm(self.request.GET, user=self.request.user)
         else:
             # форма не була відправлена,
             # користувач перейшов на сторінку по посиланню
             self.form = CommerceSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
                 "whose_real_estate": "my"
-            })
+            }, user=self.request.user)
 
         if not self.form.is_valid():
             return []
@@ -552,14 +560,18 @@ class CommerceListView(
 
 
 class HouseListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    CustomLoginRequiredMixin, UserPassesTestMixin, CustomPaginateOnPageMixin,
     RealEstateListContextMixin, ListView
 ):
     """Список будинків"""
 
-    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     paginate_by = 10
+
+    def test_func(self):
+        user = self.request.user
+        return user.has_perm("objects.view_real_estate") or \
+            user.has_perm("objects.view_all_real_estate")
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -571,14 +583,14 @@ class HouseListView(
     def get_queryset(self):
         if "id" in self.request.GET:
             # форма була відправлена
-            self.form = HouseSearchForm(self.request.GET)
+            self.form = HouseSearchForm(self.request.GET, user=self.request.user)
         else:
             # форма не була відправлена,
             # користувач перейшов на сторінку по посиланню
             self.form = HouseSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
                 "whose_real_estate": "my"
-            })
+            }, user=self.request.user)
 
         if not self.form.is_valid():
             return []
@@ -614,14 +626,18 @@ class HouseListView(
 
 
 class LandListView(
-    CustomLoginRequiredMixin, PermissionRequiredMixin, CustomPaginateOnPageMixin,
+    CustomLoginRequiredMixin, UserPassesTestMixin, CustomPaginateOnPageMixin,
     RealEstateListContextMixin, ListView
 ):
     """Список земельних ділянок"""
 
-    permission_required = "objects.view_real_estate"
     template_name = "objects/real_estate_list.html"
     paginate_by = 10
+
+    def test_func(self):
+        user = self.request.user
+        return user.has_perm("objects.view_real_estate") or \
+            user.has_perm("objects.view_all_real_estate")
 
     def get_ordering(self):
         sort = self.request.GET.get("sort")
@@ -633,14 +649,14 @@ class LandListView(
     def get_queryset(self):
         if "id" in self.request.GET:
             # форма була відправлена
-            self.form = LandSearchForm(self.request.GET)
+            self.form = LandSearchForm(self.request.GET, user=self.request.user)
         else:
             # форма не була відправлена,
             # користувач перейшов на сторінку по посиланню
             self.form = LandSearchForm({
                 "status": [RealEstateStatus.ON_SALE],
                 "whose_real_estate": "my"
-            })
+            }, user=self.request.user)
 
         if not self.form.is_valid():
             return []

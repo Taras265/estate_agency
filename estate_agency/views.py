@@ -20,9 +20,13 @@ class BaseView(CustomLoginRequiredMixin, TemplateView):
                     user.has_perm(perm)
                     for perm in ["accounts.view_customuser", "accounts.view_group"]
                 ),
-                "sale": (
-                    user.has_perm("objects.view_real_estate")
-                    or user.has_perm("objects.view_changes_report")
+                "sale": any(
+                    user.has_perm(perm)
+                    for perm in [
+                        "objects.view_real_estate",
+                        "objects.view_all_real_estate",
+                        "objects.view_changes_report"
+                    ]
                 ),
                 "selection": user.has_perm("handbooks.view_own_clients"),
                 "handbooks": user.has_perm("handbooks.view_handbooks"),

@@ -48,6 +48,13 @@ class RealEstateUpdateContextMixin(ContextMixin):
                 #),
             }
         )
+        if self.request.user.has_perm("objects.add_real_estate_images"):
+            context.update({
+                "formset": RealEstateImageFormSet(
+                   instance=self.object,
+                   prefix="images",
+                )
+            })
         return context
 
 

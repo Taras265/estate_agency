@@ -140,11 +140,9 @@
             </div>
         {% endfor %}
     </div>
-    {% if not disabled and not formset.0.image.field.widget.attrs.disabled %}
     <div class="d-flex align-items-center gap-3 mb-2">
         <button type="button" id="add-photo-form" class="btn btn-secondary">{% translate 'Add Photo' %}</button>
     </div>
-    {% endif %}
     {% elif object.id %}
         <div id="carousel{{ object.id }}"
          class="carousel slide carousel-compact"
