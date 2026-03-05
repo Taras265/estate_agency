@@ -12,11 +12,6 @@ from handbooks.views import (
     AgencySalesListView,
     AgencySalesUpdateView,
     AgencyUpdateView,
-    AccessibleClientListView,
-    ClientCreateView,
-    ClientDeleteView,
-    ClientHistoryView,
-    ClientUpdateView,
     ComplexCreateView,
     ComplexDeleteView,
     ComplexHistoryView,
@@ -27,8 +22,6 @@ from handbooks.views import (
     ConditionHistoryView,
     ConditionListView,
     ConditionUpdateView,
-    DecidedAccessibleClientListView,
-    DeferredDemandAccessibleClientListView,
     DistrictCreateView,
     DistrictDeleteView,
     DistrictHistoryView,
@@ -54,7 +47,6 @@ from handbooks.views import (
     HouseTypeHistoryView,
     HouseTypeListView,
     HouseTypeUpdateView,
-    InSelectionAccessibleClientListView,
     LayoutCreateView,
     LayoutDeleteView,
     LayoutHistoryView,
@@ -80,7 +72,6 @@ from handbooks.views import (
     NewBuildingNameHistoryView,
     NewBuildingNameListView,
     NewBuildingNameUpdateView,
-    NewAccessibleClientListView,
     RegionCreateView,
     RegionDeleteView,
     RegionHistoryView,
@@ -106,46 +97,12 @@ from handbooks.views import (
     WithdrawalReasonHistoryView,
     WithdrawalReasonListView,
     WithdrawalReasonUpdateView,
-    WithShowAccessibleClientListView,
     sale_redirect,
 )
 
 urlpatterns = [
     path("sale/", sale_redirect, name="sale_redirect"),
-    path("sale/client/all/", AccessibleClientListView.as_view(), name="all_client_list"),
-    path("sale/client/new/", NewAccessibleClientListView.as_view(), name="new_client_list"),
-    path(
-        "sale/client/in_selection/",
-        InSelectionAccessibleClientListView.as_view(),
-        name="in_selection_client_list",
-    ),
-    path(
-        "sale/client/with_show/",
-        WithShowAccessibleClientListView.as_view(),
-        name="with_show_client_list",
-    ),
-    path(
-        "sale/client/decided/",
-        DecidedAccessibleClientListView.as_view(),
-        name="decided_client_list",
-    ),
-    path(
-        "sale/client/deferred_demand/",
-        DeferredDemandAccessibleClientListView.as_view(),
-        name="deferred_demand_client_list",
-    ),
-    path("sale/create/client/", ClientCreateView.as_view(), name="client_create"),
-    path(
-        "sale/update/client/<int:pk>/", ClientUpdateView.as_view(), name="client_update"
-    ),
-    path(
-        "sale/delete/client/<int:pk>/", ClientDeleteView.as_view(), name="client_delete"
-    ),
-    path(
-        "sale/history/client/<int:pk>/",
-        ClientHistoryView.as_view(),
-        name="client_history",
-    ),
+
     path("base/region/", RegionListView.as_view(), name="region_list"),
     path("base/district/", DistrictListView.as_view(), name="district_list"),
     path("base/locality/", LocalityListView.as_view(), name="locality_list"),
@@ -491,68 +448,3 @@ urlpatterns = [
     path("load_locality_districts/", views.load_locality_districts, name="load_locality_districts"),
     path("load_streets/", views.load_streets, name="load_streets"),
 ]
-"""
-    path("office/client/", MyAllClientsListView.as_view(), name="office_client_list"),
-    path(
-        "office/client/all/",
-        MyAllClientsListView.as_view(),
-        name="office_all_clients_list",
-    ),
-    path(
-        "office/client/new/", MyNewClientListView.as_view(), name="office_new_client_list"
-    ),
-    path(
-        "office/client/in_selection/",
-        MyInSelectionClientListView.as_view(),
-        name="office_in_selection_client_list",
-    ),
-    path(
-        "office/client/with_show/",
-        MyWithShowClientListView.as_view(),
-        name="office_with_show_client_list",
-    ),
-    path(
-        "office/client/decided/",
-        MyDecidedClientListView.as_view(),
-        name="office_decided_client_list",
-    ),
-    path(
-        "office/client/deferred_demand/",
-        MyDeferredDemandClientListView.as_view(),
-        name="office_deferred_demand_client_list",
-    ),
-    path(
-        "office/filial/client/",
-        FilialAllClientsListView.as_view(),
-        name="office_filial_client_list",
-    ),
-    path(
-        "office/filial/client/all/",
-        FilialAllClientsListView.as_view(),
-        name="office_filial_all_clients_list",
-    ),
-    path(
-        "office/filial/client/new/",
-        FilialNewClientListView.as_view(),
-        name="office_filial_new_client_list",
-    ),
-    path(
-        "office/filial/client/in_selection/",
-        FilialInSelectionClientListView.as_view(),
-        name="office_filial_in_selection_client_list",
-    ),
-    path(
-        "office/filial/client/with_show/",
-        FilialWithShowClientListView.as_view(),
-        name="office_filial_with_show_client_list",
-    ),
-    path(
-        "office/filial/client/decided/",
-        FilialDecidedClientListView.as_view(),
-        name="office_filial_decided_client_list",
-    ),
-    path(
-        "office/filial/client/deferred_demand/",
-        FilialDeferredDemandClientListView.as_view(),
-        name="office_filial_deferred_demand_client_list",
-    )"""

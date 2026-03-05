@@ -1,32 +1,23 @@
-import itertools
-from urllib.parse import urlencode
-
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.exceptions import PermissionDenied, BadRequest
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, get_object_or_404
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.translation import activate, gettext_lazy as _
 from django.views.decorators.http import require_GET
 from django.views.generic import (
     CreateView,
     ListView,
-    TemplateView,
     UpdateView,
-    View, DetailView,
+    DetailView,
 )
 
-from handbooks.forms import SelectionForm
-from handbooks.models import Client, Street
 from images.forms import RealEstateImageFormSet
-
-from .models import Apartment, Commerce, House, Land, Selection
+from .models import Apartment, Commerce, House, Land
 from .utils import real_estate_form_save
 from utils.mixins.mixins import CustomLoginRequiredMixin, CustomPaginateOnPageMixin
-from utils.showing_act_pdf_service import ShowingActPDFService, ShowingActPDFType
 from utils.views import HistoryView
-
 from .choices import RealEstateStatus, RealEstateType, PermissionUpdateLevel
 from .forms import (
     ApartmentForm,
@@ -55,7 +46,6 @@ from .services import (
     real_estate_model_from_type,
     process_real_estate_search_form,
     process_real_estate_history_search_form,
-    selection_add_selected_objects,
     real_estate_history_changes,
 )
 
@@ -125,303 +115,6 @@ def verify_real_estate_address(request, lang):
             "message": _("Exists (id {id})").format(id=real_estate.id),
         }
     )
-
-
-class SelectionListView(CustomLoginRequiredMixin, PermissionRequiredMixin, ListView):
-    template_name = "objects/selection_list.html"
-    context_object_name = "objects"
-    permission_required = "objects.selection"
-
-    def get_form(self, client):
-        if len(self.request.GET) == 0:
-            initial_data = {
-                "rooms_number": client.rooms_number,
-                "locality": client.locality.all(),
-                "locality_district": client.locality_district.all(),
-                "street": client.street.all(),
-                "house": client.house,
-                "floor_min": client.floor_min,
-                "floor_max": client.floor_max,
-                "not_first": client.not_first,
-                "not_last": client.not_last,
-                "price_from": client.price_from,
-                "price_to": client.price_to,
-                "square_meter_price_max": client.square_meter_price_max,
-                "condition": client.condition.all(),
-                "object_type": client.object_type,
-            }
-            return SelectionForm(initial_data)
-        return SelectionForm(self.request.GET)
-
-    def get_queryset(self):
-        client_id = self.kwargs.get("client_id")
-        client = Client.objects.filter(id=client_id).first()
-
-        if client.status == 1:
-            client.status = 2
-            client.save()
-
-        form = self.get_form(client)
-        form.is_valid()
-
-        obj_type = int(form.cleaned_data.get("object_type"))
-        model_class = real_estate_model_from_type(obj_type)
-        if not model_class:
-            raise BadRequest()
-        
-        queryset = model_class.objects.filter(
-            status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT)
-        )
-
-        # if form.cleaned_data.get('rooms_number') is not None:
-        #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
-        if form.cleaned_data.get("locality").exists():
-            queryset = queryset.filter(locality__in=form.cleaned_data.get("locality"))
-        # if form.cleaned_data.get('locality_district').exists():
-        #     queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
-        if form.cleaned_data.get("street").exists():
-            queryset = queryset.filter(street__in=form.cleaned_data.get("street"))
-        if (
-            form.cleaned_data.get("house") is not None
-            and form.cleaned_data.get("house") != ""
-        ):
-            queryset = queryset.filter(house=form.cleaned_data.get("house"))
-        if form.cleaned_data.get("floor_min") is not None:
-            queryset = queryset.filter(floor__gte=form.cleaned_data.get("floor_min"))
-        if form.cleaned_data.get("floor_max") is not None:
-            queryset = queryset.filter(floor__lte=form.cleaned_data.get("floor_max"))
-        if form.cleaned_data.get("not_first"):
-            queryset = queryset.exclude(floor=1)
-            queryset = queryset.filter(
-                storeys_number__lte=form.cleaned_data.get("storeys_num_max")
-            )
-        if form.cleaned_data.get("price_from") is not None:
-            queryset = queryset.filter(price__gte=form.cleaned_data.get("price_from"))
-        if form.cleaned_data.get("price_to") is not None:
-            queryset = queryset.filter(price__lte=form.cleaned_data.get("price_to"))
-        # if form.cleaned_data.get('square_meter_price_max') is not None:
-        #     queryset = queryset.filter(
-        #         square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
-        #     )
-        if form.cleaned_data.get("condition"):
-            queryset = queryset.filter(condition__in=form.cleaned_data.get("condition"))
-
-        if (
-            form.cleaned_data.get("key_word") is not None
-            and form.cleaned_data.get("key_word") != ""
-        ):
-            key_word = form.cleaned_data.get("key_word")
-            queryset = queryset.filter(
-                Q(region__region__icontains=key_word)
-                | Q(district__district__icontains=key_word)
-                | Q(locality__locality__icontains=key_word)
-                | Q(locality_district__district__icontains=key_word)
-                | Q(street__street__icontains=key_word)
-                | Q(house__icontains=key_word)
-                | Q(comment__icontains=key_word)
-            )
-
-        n_queryset = queryset
-        for obj in n_queryset:
-            if form.cleaned_data.get("not_last") and obj.storeys_number == obj.floor:
-                n_queryset = n_queryset.exclude(id=obj.id)
-
-        return n_queryset
-
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
-        client_id = self.kwargs.get("client_id")
-        client = Client.objects.filter(id=client_id).first()
-
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        context["client"] = client
-
-        context["form"] = self.get_form(client)
-
-        objects = []
-        for obj in context["objects"]:
-            image = obj.images.first()
-            objects.append({"image": image, "object": obj})
-        context["objects"] = objects
-        context["client"] = client
-
-        return context
-
-
-class SelectionHistoryView(
-    CustomLoginRequiredMixin,
-    PermissionRequiredMixin,
-    ListView,
-):
-    object_list = Selection.objects.all()
-    permission_required = "objects.selection"
-    template_name = "objects/selection_history_list.html"
-    context_object_name = "objects"
-
-    def get(self, request, *args, **kwargs):
-        pk = self.kwargs.get("pk")
-        context = self.get_context_data()
-        context["selections"] = Selection.objects.filter(client_id=pk)
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-
-        return context
-
-
-def showing_act_redirect(request, lang):
-    """
-    Створення вибірки для клієнта та переадресація на сторінку з актом показу.
-    Необхідні query параметри:
-    - object_type: int # тип об'єкта нерухомості
-    - objects: list[int] # список з id об'єктів
-    - client: int # id клієнта
-    """
-    if request.user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
-
-    object_type = int(request.GET.get("object_type"))
-    model_class = real_estate_model_from_type(object_type)
-    if not model_class:
-        raise BadRequest()
-
-    selected_ids = request.GET.getlist("objects")
-    objects = model_class.objects.filter(
-        ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
-        id__in=selected_ids
-    )
-    for obj in objects:
-        obj.in_selection = True
-        obj.save()
-
-    client_id = int(request.GET.get("client"))
-    client = Client.objects.filter(on_delete=False, id=client_id).first()
-    if not client:
-        raise BadRequest()
-
-    selection = Selection.objects.create(
-        client=client,
-        user=request.user,
-    )
-    selection_add_selected_objects(selection, object_type, *objects)
-    selection.save()
-
-    params = request.GET.copy()
-    params["objects"] = selected_ids
-    url = reverse_lazy("objects:showing_act", kwargs={"lang": lang})
-    return redirect(f"{url}?{urlencode(params, doseq=True)}")
-
-
-class ShowingActView(TemplateView):
-    template_name = "objects/showing_act.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-
-        object_type = int(self.request.GET.get("object_type"))
-        model_class = real_estate_model_from_type(object_type)
-        if not model_class:
-            raise BadRequest()
-
-        selected_ids = self.request.GET.getlist("objects")
-        qs = model_class.objects.filter(
-            ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
-            id__in=selected_ids
-        )
-        objects = []
-        for obj in qs:
-            objects.append(
-                {
-                    "object": obj,
-                    "image": obj.images.first(),
-                }
-            )
-        context["objects"] = objects
-        context["url"] = f"objects:{model_class._meta.model_name}_showing_act_details"
-
-        return context
-
-
-def pdf_redirect(request, lang):
-    """
-    Створення вибірки для клієнта та переадресація на сторінку
-    зі створенням pdf-файлу з актом показу.
-    Необхідні query параметри:
-    - object_type: int # тип об'єкта нерухомості
-    - objects: list[int] # список з id об'єктів
-    - client: int # id клієнта
-    """
-    if request.user.is_anonymous:
-        return redirect(reverse_lazy("accounts:login", kwargs={"lang": lang}))
-
-    object_type = int(request.GET.get("object_type"))
-    model_class = real_estate_model_from_type(object_type)
-    if not model_class:
-        raise BadRequest()
-
-    selected_ids = request.GET.getlist("objects")
-    objects = model_class.objects.filter(
-        ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
-        id__in=selected_ids
-    )
-    for obj in objects:
-        obj.in_selection = True
-        obj.save()
-
-    client_id = int(request.GET.get("client"))
-    client = Client.objects.filter(on_delete=False, id=client_id).first()
-    if not client:
-        raise BadRequest()
-
-    selection = Selection.objects.create(
-        client=client,
-        user=request.user,
-    )
-    selection_add_selected_objects(selection, object_type, *objects)
-    selection.save()
-
-    params = request.GET.copy()
-    params["objects"] = selected_ids
-    url = reverse_lazy("objects:generate_pdf", kwargs={"lang": lang})
-    return redirect(f"{url}?{urlencode(params, doseq=True)}")
-
-
-class ShowingActPDFView(CustomLoginRequiredMixin, View):
-    def get(self, request, lang):
-        """Повертає pdf файл акту показу нерухомості"""
-        activate(lang)
-
-        client_id = int(request.GET.get("client"))
-        client = Client.objects.filter(on_delete=False, id=client_id).first()
-        if not client:
-            raise BadRequest()
-
-        object_type = int(self.request.GET.get("object_type"))
-        model_class = real_estate_model_from_type(object_type)
-        if not model_class:
-            raise BadRequest()
-
-        selected_ids = self.request.GET.getlist("objects")
-        objects = (
-            model_class.objects.filter(
-                ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
-                id__in=selected_ids
-            )
-            .select_related()
-        )
-
-        service = ShowingActPDFService()
-        buffer = service.generate(ShowingActPDFType.SIMPLE, request.user, client, objects)
-        response = HttpResponse(buffer.read(), content_type="application/pdf")
-        response["Content-Disposition"] = "attachment; filename=showing_act.pdf"
-        return response
 
 
 class ApartmentListView(

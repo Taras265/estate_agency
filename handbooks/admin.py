@@ -1,24 +1,22 @@
 from django.contrib import admin
 from simple_history import register
-from handbooks.models import (Region, District, Locality, LocalityDistrict, Street,
-                              Client, Handbook, FilialAgency, FilialReport)
 
-admin.site.register(Region)
-admin.site.register(District)
-admin.site.register(Locality)
-admin.site.register(LocalityDistrict)
-admin.site.register(Street)
-admin.site.register(Client)
-admin.site.register(Handbook)
-admin.site.register(FilialAgency)
-admin.site.register(FilialReport)
+from . import models
 
-register(Region)
-register(District)
-register(Locality)
-register(LocalityDistrict)
-register(Street)
-register(Client)
-register(Handbook)
-register(FilialAgency)
-register(FilialReport)
+admin.site.register(models.Region)
+admin.site.register(models.District)
+admin.site.register(models.Locality)
+admin.site.register(models.LocalityDistrict)
+admin.site.register(models.Street)
+admin.site.register(models.Handbook)
+admin.site.register(models.FilialAgency)
+admin.site.register(models.FilialReport)
+
+register(models.Region)
+register(models.District)
+register(models.Locality)
+register(models.LocalityDistrict)
+register(models.Street)
+register(models.Handbook)
+register(models.FilialAgency)
+register(models.FilialReport)

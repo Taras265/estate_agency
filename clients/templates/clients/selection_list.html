@@ -12,7 +12,7 @@
     <h1>{% translate 'Selection for' %} {{ client }}</h1>
     <ul>
       <li><a href="{% url 'main' lang=lang %}">{% translate 'Main' %}</a></li>
-      <li><a href="{% url 'handbooks:all_client_list' lang=lang %}">{% translate 'Clients' %}</a></li>
+      <li><a href="{% url 'clients:all_client_list' lang=lang %}">{% translate 'Clients' %}</a></li>
       <li>/ {% translate 'Selection' %}</li>
     </ul>
   </div>
@@ -90,8 +90,8 @@
             </tr>
             {% endfor %}
         </table>
-        <button class="custombtn" formaction="{% url 'objects:showing_act_redirect' lang=lang %}" type="submit">{% translate 'Selection' %}</button>
-        <button class="custombtn" formaction="{% url 'objects:generate_pdf_redirect' lang=lang %}" type="submit">{% translate 'PDF' %}</button>
+        <button class="custombtn" formaction="{% url 'clients:showing_act_redirect' lang=lang %}" type="submit">{% translate 'Selection' %}</button>
+        <button class="custombtn" formaction="{% url 'clients:generate_pdf_redirect' lang=lang %}" type="submit">{% translate 'PDF' %}</button>
     </form>
 </div>
 {% endif %}
