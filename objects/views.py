@@ -981,13 +981,11 @@ class ApartmentDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
-        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
 
         context["disabled"] = True
-
         return context
 
 
@@ -1001,13 +999,11 @@ class CommerceDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
-        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
 
         context["disabled"] = True
-
         return context
 
 
@@ -1021,13 +1017,11 @@ class HouseDetailView(UpdateView):
         context = super().get_context_data(**kwargs)
         context["lang"] = self.kwargs["lang"]
 
-        context["form"].fields.pop("owner")
         for field in context["form"].fields.values():
             field.widget.attrs["disabled"] = True
             field.widget.attrs["readonly"] = True
 
         context["disabled"] = True
-
         return context
 
 
@@ -1047,7 +1041,6 @@ class LandDetailView(UpdateView):
             field.widget.attrs["readonly"] = True
 
         context["disabled"] = True
-
         return context
 
 

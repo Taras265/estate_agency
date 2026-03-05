@@ -15,30 +15,40 @@ from handbooks.choices import RealtorType
 
 class Client(BaseModel):
     date_of_add = models.DateField(default=timezone.now)
-
     email = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=100)
     messenger = models.CharField(max_length=200, null=True, blank=True)
-
     viber = models.BooleanField(default=False)
     telegram = models.BooleanField(default=False)
-
     income_source = models.PositiveSmallIntegerField(
-        choices=IncomeSourceType.choices, default=1
+        choices=IncomeSourceType.choices,
+        default=1
     )
-    status = models.PositiveSmallIntegerField(choices=ClientStatusType.choices, default=1)
-    object_type = models.PositiveSmallIntegerField(choices=RealEstateType, default=1)
+    status = models.PositiveSmallIntegerField(
+        choices=ClientStatusType.choices,
+        default=1
+    )
+    object_type = models.PositiveSmallIntegerField(
+        choices=RealEstateType.choices,
+        default=1
+    )
     realtor_type = models.PositiveSmallIntegerField(
-        choices=RealtorType.choices, default=1
+        choices=RealtorType.choices,
+        default=1
     )
     realtor = models.ForeignKey(
-        "accounts.CustomUser", on_delete=models.CASCADE, related_name="realtor_client_related_name"
+        "accounts.CustomUser",
+        on_delete=models.CASCADE,
+        related_name="realtor_client_related_name"
     )
     rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
     locality = models.ManyToManyField(
-        "handbooks.Locality", related_name="locality_client_related_name", null=True, blank=True
+        "handbooks.Locality",
+        related_name="locality_client_related_name",
+        null=True,
+        blank=True
     )
     locality_district = models.ManyToManyField(
         "handbooks.LocalityDistrict",
@@ -47,7 +57,10 @@ class Client(BaseModel):
         blank=True,
     )
     street = models.ManyToManyField(
-        "handbooks.Street", related_name="street_client_related_name", null=True, blank=True
+        "handbooks.Street",
+        related_name="street_client_related_name",
+        null=True,
+        blank=True
     )
     house = models.CharField(max_length=100, null=True, blank=True)
     floor_min = models.PositiveIntegerField(null=True, blank=True)
@@ -58,7 +71,10 @@ class Client(BaseModel):
     price_to = models.IntegerField(null=True, blank=True)
     square_meter_price_max = models.IntegerField(null=True, blank=True)
     condition = models.ManyToManyField(
-        "handbooks.Handbook", related_name="condition_client_related_name", null=True, blank=True
+        "handbooks.Handbook",
+        related_name="condition_client_related_name",
+        null=True,
+        blank=True
     )
 
     class Meta:
@@ -82,7 +98,7 @@ class Client(BaseModel):
         """
 
     def __str__(self):
-        return f"{self.email} {self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.phone}"
 
 
 class Selection(models.Model):

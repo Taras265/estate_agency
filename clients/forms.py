@@ -19,10 +19,13 @@ from handbooks.choices import RealtorType
 
 class ClientForm(forms.ModelForm):
     email = forms.CharField(
-        label=_("Email"), widget=forms.TextInput(attrs={"class": "form-control"})
+        label=_("Email"),
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     first_name = forms.CharField(
-        label=_("First name"), widget=forms.TextInput(attrs={"class": "form-control"})
+        label=_("First name"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     last_name = forms.CharField(
         label=_("Last name"),
@@ -30,21 +33,26 @@ class ClientForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
     phone = forms.CharField(
-        label=_("Phone number"), widget=forms.TextInput(attrs={"class": "form-control"})
+        label=_("Phone number"),
+        widget=forms.TextInput(attrs={"class": "form-control"})
     )
     messenger = forms.CharField(
         required=False,
         label=_("Messenger"),
         widget=forms.TextInput(attrs={"class": "form-control"})
     )
-
     telegram = forms.BooleanField(
-        label=_("Telegram"), widget=forms.CheckboxInput(), required=False, initial=False
+        label=_("Telegram"),
+        widget=forms.CheckboxInput(),
+        required=False,
+        initial=False
     )
     viber = forms.BooleanField(
-        label=_("Viber"), widget=forms.CheckboxInput(), required=False, initial=False
+        label=_("Viber"),
+        widget=forms.CheckboxInput(),
+        required=False,
+        initial=False
     )
-
     income_source = forms.ChoiceField(
         choices=IncomeSourceType.choices,
         label=_("Income source"),
@@ -140,7 +148,7 @@ class ClientForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
     condition = forms.ModelMultipleChoiceField(
-        queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
+        queryset=Handbook.objects.filter(on_delete=False, type=2),
         required=False,
         label=_("Condition"),
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
@@ -235,7 +243,7 @@ class SelectionForm(forms.Form):
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
     condition = forms.ModelMultipleChoiceField(
-        queryset=Handbook.objects.filter(on_delete=False).filter(type=2).all(),
+        queryset=Handbook.objects.filter(on_delete=False, type=2),
         required=False,
         label=_("Condition"),
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
