@@ -189,31 +189,47 @@ class BaseRealEstate(models.Model):
     height = models.FloatField(verbose_name=_("Height"), null=True, blank=True)
     # owners_number = models.PositiveSmallIntegerField(null=True, blank=True)
     floor = models.PositiveIntegerField(verbose_name=_("Floor"), null=True, blank=True)
-    storeys_number = models.PositiveIntegerField(verbose_name=_("Number of storeys"), null=True, blank=True)
-
+    storeys_number = models.PositiveIntegerField(
+        verbose_name=_("Number of storeys"),
+        null=True,
+        blank=True
+    )
     status = models.PositiveSmallIntegerField(
         choices=RealEstateStatus.choices, verbose_name=_("Status")
     )
-
     document = models.PositiveSmallIntegerField(
-        choices=RealEstateDocument.choices, verbose_name=_("Document"), null=True, blank=True)
+        choices=RealEstateDocument.choices,
+        verbose_name=_("Document"),
+        null=True,
+        blank=True
+    )
     # filename_of_exclusive_agreement = models.CharField(max_length=150, null=True, blank=True)
     # inspection_file_name = models.CharField(max_length=150, null=True, blank=True)
     # filename_forbid_sale = models.CharField(max_length=150, null=True, blank=True)
     # reference_point = models.CharField(max_length=150, null=True, blank=True)
-
     sale_terms = models.CharField(
-        max_length=150, null=True, blank=True, verbose_name=_("Sale terms")
+        max_length=150,
+        null=True,
+        blank=True,
+        verbose_name=_("Sale terms")
     )
     description = models.TextField(
-        null=True, blank=True, verbose_name=_("Description")
+        null=True,
+        blank=True,
+        verbose_name=_("Description")
     )
-    comment = models.TextField(verbose_name=_("Comment"), null=True, blank=True)
-
-    in_selection = models.BooleanField(default=False, verbose_name=_("In selection"))
-
+    comment = models.TextField(
+        verbose_name=_("Comment"),
+        null=True,
+        blank=True
+    )
+    in_selection = models.BooleanField(
+        default=False,
+        verbose_name=_("In selection")
+    )
     images = GenericRelation(
-        RealEstateImage, related_query_name="%(app_label)s_%(class)s"
+        RealEstateImage,
+        related_query_name="%(app_label)s_%(class)s"
     )
     history = HistoricalRecords(inherit=True)
 

@@ -21,16 +21,16 @@ realEstateTypeSelect.addEventListener("change", async e => {
 
     switch (realEstateType) {
         case RealEstateType.APARTMENT:
-            url += "objects/base/create/apartment"
+            url += "base/create/apartment"
             break;
         case RealEstateType.COMMERCE:
-            url += "objects/base/create/commerce"
+            url += "base/create/commerce"
             break;
         case RealEstateType.HOUSE:
-            url += "objects/base/create/house"
+            url += "base/create/house"
             break;
         case RealEstateType.LAND:
-            url += "objects/base/create/land"
+            url += "base/create/land"
             break;
         default:
             return;

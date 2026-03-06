@@ -8,7 +8,7 @@ localitySelect.on("changed.bs.select", function (e, clickedIndex, isSelected, pr
 
     // заповнення випадаючого списку з районами міст лише тими районами,
     // які належать обраним містам
-    const localityDistrictsURL = `/en/handbooks/load_locality_districts/?${queryString}`;
+    const localityDistrictsURL = `/en/load_locality_districts/?${queryString}`;
     fetch(localityDistrictsURL)
         .then(response => response.json())
         .then(data => {
@@ -22,7 +22,7 @@ localitySelect.on("changed.bs.select", function (e, clickedIndex, isSelected, pr
 
     // заповнення випадаючого списку з вулицями міст лише тими вулицями,
     // які належать обраним містам
-    const streetsURL = `/en/handbooks/load_streets/?${queryString}`;
+    const streetsURL = `/en/load_streets/?${queryString}`;
     fetch(streetsURL)
         .then(response => response.json())
         .then(data => {
@@ -41,7 +41,7 @@ localityDistrictSelect.on("changed.bs.select", function (e, clickedIndex, isSele
 
     // заповнення випадаючого списку з вулицями міст лише тими вулицями,
     // які належать обраним районам міст
-    const streetsURL = `/en/handbooks/load_streets/?${queryString}`;
+    const streetsURL = `/en/load_streets/?${queryString}`;
     fetch(streetsURL)
         .then(response => response.json())
         .then(data => {

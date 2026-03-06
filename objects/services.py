@@ -38,7 +38,7 @@ def user_can_update_real_estate(
 def user_can_update_real_estate_list(
     user: CustomUser,
     real_estate_list: Iterable[BaseRealEstate]
-) -> dict[int, bool]:
+) -> dict[int, PermissionUpdateLevel]:
     # додати перевірку на можливість частково оновлювати об'єкти нерухомості
 
     if user.has_perm("objects.change_real_estate"):

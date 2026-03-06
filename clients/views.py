@@ -19,7 +19,8 @@ from .services import (
     selection_add_selected_objects,
     ShowingActPDFService,
     ShowingActPDFType,
-    get_client_list_context
+    get_client_list_context,
+    process_selection_form
 )
 from objects.services import real_estate_model_from_type
 from utils.mixins.mixins import (
@@ -338,9 +339,11 @@ class ClientHistoryView(HistoryView):
 class SelectionListView(CustomLoginRequiredMixin,
                         PermissionRequiredMixin,
                         generic.ListView):
+    permission_required = "clients.selection"
     template_name = "clients/selection_list.html"
     context_object_name = "objects"
-    permission_required = "clients.selection"
+    form = None
+    client = None
 
     def get_form(self, client):
         if len(self.request.GET) == 0:
@@ -365,98 +368,44 @@ class SelectionListView(CustomLoginRequiredMixin,
 
     def get_queryset(self):
         client_id = self.kwargs.get("client_id")
-        client = Client.objects.filter(id=client_id).first()
+        self.client = Client.objects.filter(id=client_id).select_related().first()
+        if not self.client:
+            return []
 
-        if client.status == 1:
-            client.status = 2
-            client.save()
+        if self.client.status == ClientStatusType.IN_SEARCH:
+            self.client.status = ClientStatusType.WITH_SHOW
+            self.client.save()
 
-        form = self.get_form(client)
-        form.is_valid()
+        self.form = self.get_form(self.client)
+        if not self.form.is_valid():
+            return []
 
-        obj_type = int(form.cleaned_data.get("object_type"))
+        obj_type = int(self.form.cleaned_data.get("object_type"))
         model_class = real_estate_model_from_type(obj_type)
         if not model_class:
             raise BadRequest()
 
-        queryset = model_class.objects.filter(
+        qs = model_class.objects.filter(
             status__in=(RealEstateStatus.ON_SALE, RealEstateStatus.DEPOSIT)
-        )
-
-        # if form.cleaned_data.get('rooms_number') is not None:
-        #     queryset = queryset.filter(rooms_number=form.cleaned_data.get('rooms_number'))
-        if form.cleaned_data.get("locality").exists():
-            queryset = queryset.filter(locality__in=form.cleaned_data.get("locality"))
-        # if form.cleaned_data.get('locality_district').exists():
-        #     queryset = queryset.filter(locality_district__in=form.cleaned_data.get('locality_district'))
-        if form.cleaned_data.get("street").exists():
-            queryset = queryset.filter(street__in=form.cleaned_data.get("street"))
-        if (
-                form.cleaned_data.get("house") is not None
-                and form.cleaned_data.get("house") != ""
-        ):
-            queryset = queryset.filter(house=form.cleaned_data.get("house"))
-        if form.cleaned_data.get("floor_min") is not None:
-            queryset = queryset.filter(floor__gte=form.cleaned_data.get("floor_min"))
-        if form.cleaned_data.get("floor_max") is not None:
-            queryset = queryset.filter(floor__lte=form.cleaned_data.get("floor_max"))
-        if form.cleaned_data.get("not_first"):
-            queryset = queryset.exclude(floor=1)
-            queryset = queryset.filter(
-                storeys_number__lte=form.cleaned_data.get("storeys_num_max")
-            )
-        if form.cleaned_data.get("price_from") is not None:
-            queryset = queryset.filter(price__gte=form.cleaned_data.get("price_from"))
-        if form.cleaned_data.get("price_to") is not None:
-            queryset = queryset.filter(price__lte=form.cleaned_data.get("price_to"))
-        # if form.cleaned_data.get('square_meter_price_max') is not None:
-        #     queryset = queryset.filter(
-        #         square_meter_price__lte=form.cleaned_data.get('square_meter_price_max')
-        #     )
-        if form.cleaned_data.get("condition"):
-            queryset = queryset.filter(condition__in=form.cleaned_data.get("condition"))
-
-        if (
-                form.cleaned_data.get("key_word") is not None
-                and form.cleaned_data.get("key_word") != ""
-        ):
-            key_word = form.cleaned_data.get("key_word")
-            queryset = queryset.filter(
-                Q(region__region__icontains=key_word)
-                | Q(district__district__icontains=key_word)
-                | Q(locality__locality__icontains=key_word)
-                | Q(locality_district__district__icontains=key_word)
-                | Q(street__street__icontains=key_word)
-                | Q(house__icontains=key_word)
-                | Q(comment__icontains=key_word)
-            )
-
-        n_queryset = queryset
-        for obj in n_queryset:
-            if form.cleaned_data.get("not_last") and obj.storeys_number == obj.floor:
-                n_queryset = n_queryset.exclude(id=obj.id)
-
-        return n_queryset
+        ).select_related()
+        qs = process_selection_form(qs, self.form)
+        return qs
 
     def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])  # Перекладаємо
-
-        client_id = self.kwargs.get("client_id")
-        client = Client.objects.filter(id=client_id).first()
-
         context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        context["client"] = client
-
-        context["form"] = self.get_form(client)
+        activate(self.kwargs["lang"])
 
         objects = []
         for obj in context["objects"]:
             image = obj.images.first()
             objects.append({"image": image, "object": obj})
-        context["objects"] = objects
-        context["client"] = client
 
+        context.update({
+            "lang": self.kwargs["lang"],
+            "client": self.client,
+            "form": self.form,
+            "objects": objects
+        })
         return context
 
 

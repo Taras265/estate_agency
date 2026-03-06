@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Any
 
 import weasyprint
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Q, F
 from django.template import loader
 from django.utils.translation import gettext as _
 
@@ -16,6 +16,7 @@ from objects.models import (
     House,
     Land
 )
+from .forms import SelectionForm
 from objects.choices import RealEstateType
 
 
@@ -195,6 +196,56 @@ class ShowingActPDFService:
             result.append(_("Condition: ") + f"{land.condition.handbook}.")
 
         return " ".join(result)
+
+
+def process_selection_form(
+    qs: QuerySet[BaseRealEstate],
+    form: SelectionForm
+) -> QuerySet[BaseRealEstate]:
+    print(form.cleaned_data, flush=True)
+
+    if rooms := form.cleaned_data.get("rooms_number"):
+        qs = qs.filter(rooms_number=rooms)
+
+    if (localities := form.cleaned_data.get("locality")).exists():
+        qs = qs.filter(locality__in=localities)
+    # if (locality_districts := form.cleaned_data.get("locality_district")).exists():
+    #     qs = qs.filter(street__locality_district__in=locality_districts)
+    if (street := form.cleaned_data.get("street")).exists():
+        qs = qs.filter(street__in=street)
+    if house := form.cleaned_data.get("house"):
+        qs = qs.filter(house=house)
+
+    if floor_min := form.cleaned_data.get("floor_min"):
+        qs = qs.filter(floor__gte=floor_min)
+    if floor_max := form.cleaned_data.get("floor_max"):
+        qs = qs.filter(floor__lte=floor_max)
+
+    if form.cleaned_data.get("not_first"):
+        qs = qs.exclude(floor=1)
+    if form.cleaned_data.get("not_last"):
+        qs = qs.exclude(floor=F("storeys_number"))
+
+    if price_from := form.cleaned_data.get("price_from"):
+        qs = qs.filter(price__gte=price_from)
+    if price_to := form.cleaned_data.get("price_to"):
+        qs = qs.filter(price__lte=price_to)
+
+    if sq_meter_price_max := form.cleaned_data.get("square_meter_price_max"):
+        qs = qs.filter(square_meter_price__lte=sq_meter_price_max)
+
+    if (conditions := form.cleaned_data.get("condition")).exists():
+        qs = qs.filter(condition__in=conditions)
+
+    if keyword := form.cleaned_data.get("key_word"):
+        qs = qs.filter(
+            Q(locality__locality__icontains=keyword)
+            | Q(street__street__icontains=keyword)
+            | Q(house__icontains=keyword)
+            | Q(comment__icontains=keyword)
+        )
+
+    return qs
 
 
 def user_can_update_client_list(user: CustomUser, clients: QuerySet[Client]) -> dict[int, bool]:
