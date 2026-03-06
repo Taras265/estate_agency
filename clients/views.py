@@ -542,7 +542,7 @@ class ShowingActView(generic.TemplateView):
         qs = model_class.objects.filter(
             ~Q(status=RealEstateStatus.COMPLETELY_WITHDRAWN),
             id__in=selected_ids
-        )
+        ).select_related()
         objects = []
         for obj in qs:
             objects.append(

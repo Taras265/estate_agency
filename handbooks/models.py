@@ -200,7 +200,9 @@ class PhoneNumber(models.Model):
 
     number = models.CharField(max_length=15)
     user = models.ForeignKey(
-        "accounts.CustomUser", related_name="phone_numbers", on_delete=models.CASCADE
+        "accounts.CustomUser",
+        related_name="phone_numbers",
+        on_delete=models.CASCADE
     )
 
     def __str__(self):

@@ -41,11 +41,9 @@ class BaseRealEstate(models.Model):
     # sale_date = models.DateField(null=True, blank=True)
     # date_of_next_call = models.DateField(null=True, blank=True)
     # inspection_form = models.DateTimeField(null=True, blank=True)
-
     exclusive = models.BooleanField(default=False, verbose_name=_("Exclusive"))
     # exclusive_to = models.DateTimeField(null=True, blank=True)
     # exclusive_from = models.DateTimeField(null=True, blank=True)
-
     # region = models.ForeignKey(
     #     Region,
     #     on_delete=models.CASCADE,
@@ -57,15 +55,20 @@ class BaseRealEstate(models.Model):
     #     null=True, blank=True,
     # )
     locality = models.ForeignKey(
-        "handbooks.Locality", on_delete=models.CASCADE, verbose_name=_("Locality")
+        "handbooks.Locality",
+        on_delete=models.CASCADE,
+        verbose_name=_("Locality")
     )
     # locality_district = models.ForeignKey(
     #     LocalityDistrict,
     #     on_delete=models.CASCADE,
     # )
-    street = models.ForeignKey("handbooks.Street", on_delete=models.CASCADE, verbose_name=_("Street"))
+    street = models.ForeignKey(
+        "handbooks.Street",
+        on_delete=models.CASCADE,
+        verbose_name=_("Street")
+    )
     house = models.CharField(max_length=100, verbose_name=_("House"))
-
     realtor = models.ForeignKey(
         "accounts.CustomUser",
         on_delete=models.CASCADE,

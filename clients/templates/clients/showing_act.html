@@ -78,6 +78,7 @@
                 <p>{% translate 'Id' %}: {{ object.object.id }}</p>
                 {% if object.object.house_type %}<p>{% translate 'House type' %}: {{ object.object.house_type }}</p>{% endif %}
                 <p><span><i class='bx bx-map'></i></span>{% if object.object.locality %}{{ object.object.locality }}, {% endif %}{% if object.object.locality_district %}{{ object.object.locality_district }}, {% endif %}{% if object.object.street %}{{ object.object.street }}, {% endif %}{% if object.object.house %}{{ object.object.house }} {% translate 'House' %}{% endif %}{% if object.object.floor > 0 %}, {{ object.object.floor }} {% translate 'Floor' %}{% endif %}</p>
+                <p>{% translate "Realtor" %}: {{ object.object.realtor.first_name }}, {{ object.object.realtor.get_phone_numbers|join:', ' }}</p>
                 <ul class="property_spec">
                     <li><span><img src="{% static '/images/sq_icon.png' %}" alt="icon"></span> {{ object.object.square }} Sq. M.</li>
                 </ul>
