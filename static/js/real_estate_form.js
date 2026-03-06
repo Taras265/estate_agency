@@ -64,7 +64,7 @@ localitySelect.addEventListener("change", async e => {
     /* Фільтрує список вулиць в залежності від обраного міста */
 
     const localityId = e.currentTarget.value;
-    const url = `${dataset.mainUrl}handbooks/load_streets/?locality=${localityId}`;
+    const url = `${dataset.mainUrl}load_streets/?locality=${localityId}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -87,7 +87,7 @@ realtorSelect.addEventListener("change", async function () {
     /* Фільтрує список філіалів в залежності від обраного ріелтора */
 
     const realtorId = this.value;
-    const url = "/ru/handbooks/load_filials/?realtor=" + realtorId;
+    const url = "/ru/load_filials/?realtor=" + realtorId;
 
     try {
         const response = await fetch(url);
@@ -147,7 +147,7 @@ function verifyRealEstateAddress(realEstateType) {
 
     let url =
         dataset.mainUrl +
-        `objects/verify-address?type=${realEstateType}&locality=${localityId}&street=${streetId}&house=${house}`
+        `verify-address?type=${realEstateType}&locality=${localityId}&street=${streetId}&house=${house}`
 
     switch (realEstateType) {
         case RealEstateType.APARTMENT:
@@ -202,10 +202,10 @@ function setOwnerEditFormUrl(ownerId) {
     1) ownerId - number
     */
     if (ownerId !== "") {
-        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/update/client/${ownerId}/`;
+        btnEditOwner.href = dataset.mainUrl + `sale/update/client/${ownerId}/`;
         btnEditOwner.style.pointerEvents = "auto";
     } else {
-        btnEditOwner.href = dataset.mainUrl + `handbooks/sale/create/client/`;
+        btnEditOwner.href = dataset.mainUrl + `sale/create/client/`;
         btnEditOwner.style.pointerEvents = "auto";
     }
 }

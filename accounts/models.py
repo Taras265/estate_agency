@@ -93,6 +93,9 @@ class CustomUser(AbstractUser):
     def get_short_name(self):
         return self.email
 
+    def get_phone_numbers(self):
+        return tuple(phone.number for phone in self.phone_numbers.all())
+
     def set_active(self) -> None:
         """Set is_active to True and save"""
         self.is_active = True

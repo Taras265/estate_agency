@@ -29,6 +29,7 @@ urlpatterns = [
     path("<str:lang>/", include(("accounts.urls", "accounts"))),
     path("<str:lang>/", include(("handbooks.urls", "handbooks"))),
     path("<str:lang>/", include(("objects.urls", "objects"))),
+    path("<str:lang>/", include(("clients.urls", "clients"))),
     path("<str:lang>/images/", include(("images.urls", "images"))),
     # for delete
     path("<str:lang>/fill_db/", fill_db, name="fill_db"),

@@ -10,7 +10,7 @@ localityDistrictSelect.on("changed.bs.select", function (e, clickedIndex, isSele
 
     // заповнення випадаючого списку з вулицями міст лише тими вулицями,
     // які належать обраним районам міст
-    const streetsURL = `${dataset.mainUrl}handbooks/load_streets/?${queryString}`;
+    const streetsURL = `${dataset.mainUrl}load_streets/?${queryString}`;
     fetch(streetsURL)
         .then(response => response.json())
         .then(data => {

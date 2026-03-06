@@ -62,7 +62,7 @@
                 <td scope="row" style="text-align: center;">{{ forloop.counter }}</td>
                 <td scope="row" style="text-align: center;">{{ obj.id }}</td>
                 <td scope="row" style="text-align: center;">{{ obj.get_rubric_display }}</td>
-                <td scope="row">{{ obj.locality }} {{ obj.street }} {{ obj.owner.first_name }} {{ obj.owner.last_name }}
+                <td scope="row">{{ obj.locality }}, {{ obj.street }}, {% translate "house" %} {{ obj.house }}, {{ obj.owner.first_name }} {{ obj.owner.last_name }}
                     {{ obj.owner.phone }}</td>
                 <td scope="row">{{ real_estate_descriptions|get_dict_value:obj.id }}</td>
                 <td scope="row" style="text-align: center;">{{ obj.price }}</td>

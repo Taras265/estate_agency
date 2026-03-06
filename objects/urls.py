@@ -48,10 +48,6 @@ urlpatterns = [
     path("base/history/house/<int:pk>/", views.HouseHistoryView.as_view(), name="history_house"),
     path("base/history/land/<int:pk>/", views.LandHistoryView.as_view(), name="history_land"),
 
-    path("base/selection/<int:client_id>/", views.SelectionListView.as_view(), name="selection"),
-
-    path("pre/showing_act/", views.showing_act_redirect, name="showing_act_redirect"),
-    path("showing_act/", views.ShowingActView.as_view(), name="showing_act"),
     path("showing_act/apartment/<int:pk>/", views.ApartmentShowingActDetailView.as_view(),
          name="apartment_showing_act_details"),
     path("showing_act/commerce/<int:pk>/", views.CommerceShowingActDetailView.as_view(),
@@ -60,11 +56,4 @@ urlpatterns = [
          name="house_showing_act_details"),
     path("showing_act/land/<int:pk>/", views.LandShowingActDetailView.as_view(),
          name="land_showing_act_details"),
-    path("pre/showing_act/pdf/", views.pdf_redirect, name="generate_pdf_redirect"),
-    path("showing_act/pdf/", views.ShowingActPDFView.as_view(), name="generate_pdf"),
-    path(
-        "base/selection/history/<int:pk>/",
-        views.SelectionHistoryView.as_view(),
-        name="selection_history",
-    ),
 ]

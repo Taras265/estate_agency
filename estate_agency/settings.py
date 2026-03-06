@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "handbooks",
     "objects",
     "images",
+    "clients"
 ]
 
 AUTH_USER_MODEL = "accounts.CustomUser"

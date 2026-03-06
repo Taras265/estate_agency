@@ -8,7 +8,7 @@ from simple_history.manager import HistoricalQuerySet
 from simple_history.models import ModelDelta
 
 from .choices import RealEstateType, PermissionUpdateLevel
-from .models import BaseRealEstate, Apartment, Commerce, House, Selection, Land
+from .models import BaseRealEstate, Apartment, Commerce, House, Land
 from .forms import RealEstateSearchForm, RealEstateHistorySearchForm
 from accounts.models import CustomUser
 
@@ -38,7 +38,7 @@ def user_can_update_real_estate(
 def user_can_update_real_estate_list(
     user: CustomUser,
     real_estate_list: Iterable[BaseRealEstate]
-) -> dict[int, bool]:
+) -> dict[int, PermissionUpdateLevel]:
     # додати перевірку на можливість частково оновлювати об'єкти нерухомості
 
     if user.has_perm("objects.change_real_estate"):
@@ -267,21 +267,6 @@ def can_interact_with_object(
 
     return p
 '''
-
-def selection_add_selected_objects(
-    selection: Selection, object_type: int, *objects: BaseRealEstate
-) -> None:
-    """
-    Функція для того щоб створити запис того, що ми зробили виборку для клієнтів (Selection)
-    """
-    if object_type == RealEstateType.APARTMENT:
-        selection.selected_apartments.add(*objects)
-    elif object_type == RealEstateType.COMMERCE:
-        selection.selected_commerces.add(*objects)
-    elif object_type == RealEstateType.HOUSE:
-        selection.selected_houses.add(*objects)
-    elif object_type == RealEstateType.LAND:
-        selection.selected_lands.add(*objects)
 
 
 def process_real_estate_search_form(

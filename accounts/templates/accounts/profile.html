@@ -61,8 +61,8 @@
             <ul class="basic_detail">
                 <li>
                     {% translate 'Phone' %} :
-                    {% for phone_number in user.phone_numbers.all %}
-                        <span>{{ phone_number.number }}{% if not forloop.last %}, {% endif %}</span>
+                    {% for phone_number in user.get_phone_numbers %}
+                        <span>{{ phone_number }}{% if not forloop.last %}, {% endif %}</span>
                     {% empty %}
                         -
                     {% endfor %}

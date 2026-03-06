@@ -1,18 +1,14 @@
 from django.db import models
 from django.utils import timezone
-from simple_history.models import HistoricalRecords
 
 from accounts.models import CustomUser
 from estate_agency.models import BaseModel
 from handbooks.choices import (
     CenterType,
     CityType,
-    ClientStatusType,
-    IncomeSourceType,
     NewBuildingDistrictType,
-    RealtorType, HandbookType,
+    HandbookType,
 )
-from objects.choices import RealEstateType
 
 
 class Region(BaseModel):
@@ -180,78 +176,6 @@ class FilialAgency(BaseModel):
         return self.filial_agency
 
 
-class Client(BaseModel):
-    date_of_add = models.DateField(default=timezone.now)
-
-    email = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100, null=True, blank=True)
-    phone = models.CharField(max_length=100)
-    messenger = models.CharField(max_length=200, null=True, blank=True)
-
-    viber = models.BooleanField(default=False)
-    telegram = models.BooleanField(default=False)
-
-    income_source = models.PositiveSmallIntegerField(
-        choices=IncomeSourceType.choices, default=1
-    )
-    status = models.PositiveSmallIntegerField(choices=ClientStatusType.choices, default=1)
-    object_type = models.PositiveSmallIntegerField(choices=RealEstateType, default=1)
-    realtor_type = models.PositiveSmallIntegerField(
-        choices=RealtorType.choices, default=1
-    )
-    realtor = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="realtor_client_related_name"
-    )
-    rooms_number = models.PositiveSmallIntegerField(null=True, blank=True)
-    locality = models.ManyToManyField(
-        Locality, related_name="locality_client_related_name", null=True, blank=True
-    )
-    locality_district = models.ManyToManyField(
-        LocalityDistrict,
-        related_name="locality_district_client_related_name",
-        null=True,
-        blank=True,
-    )
-    street = models.ManyToManyField(
-        Street, related_name="street_client_related_name", null=True, blank=True
-    )
-    house = models.CharField(max_length=100, null=True, blank=True)
-    floor_min = models.PositiveIntegerField(null=True, blank=True)
-    floor_max = models.PositiveIntegerField(null=True, blank=True)
-    not_first = models.BooleanField(default=False)
-    not_last = models.BooleanField(default=False)
-    price_from = models.IntegerField(null=True, blank=True)
-    price_to = models.IntegerField(null=True, blank=True)
-    square_meter_price_max = models.IntegerField(null=True, blank=True)
-    condition = models.ManyToManyField(
-        Handbook, related_name="condition_client_related_name", null=True, blank=True
-    )
-
-    class Meta:
-        permissions = (
-            ("add_own_client", "Can add own clients"),
-            ("view_own_clients", "Can view own client"),
-            ("change_own_client", "Can change own client"),
-            # ("view_filial_client", ""),
-            # ("change_filial_client", ""),
-        )
-        default_permissions = ()
-        """
-        permissions = (
-            ("change_own_client", "Can change own client"),
-            ("view_own_client", "Can view own client"),
-            ("change_filial_client", "Can change filial client"),
-            ("view_filial_client", "Can view filial client"),
-            ("view_own_office_client", "Can view in office own clients"),
-            ("view_filial_office_client", "Can view in office filial clients"),
-        )
-        """
-
-    def __str__(self):
-        return f"{self.email} {self.first_name} {self.last_name}"
-
-
 class FilialReport(BaseModel):
     report = models.TextField()
     filial_agency = models.ForeignKey(
@@ -276,7 +200,9 @@ class PhoneNumber(models.Model):
 
     number = models.CharField(max_length=15)
     user = models.ForeignKey(
-        "accounts.CustomUser", related_name="phone_numbers", on_delete=models.CASCADE
+        "accounts.CustomUser",
+        related_name="phone_numbers",
+        on_delete=models.CASCADE
     )
 
     def __str__(self):

@@ -21,25 +21,9 @@ class NewBuildingDistrictType(models.IntegerChoices):
     NONE = 4, ""
 
 
-class IncomeSourceType(models.IntegerChoices):
-    RECOMMENDATIONS = 1, _("Recommendations")
-    SELLER = 2, _("Seller")  # Продавець
-    INTERNET = 3, _("Internet")
-    VISITOR = 4, _("Visitor")
-    BANNER = 5, _("Banner")
-    POSTING = 6, _("Posting")  # Расклейка
-
-
 class RealtorType(models.IntegerChoices):
     REALTOR = 1, _("Realtor")
     REALTOR_5_5 = 2, _("Realtor 5x5")
-
-
-class ClientStatusType(models.IntegerChoices):
-    IN_SEARCH = 1, _("In search")
-    WITH_SHOW = 2, _("With a show")
-    DECIDED = 3, _("Decided")
-    DEFERRED_DEMAND = 4, _("Deferred demand")
 
 
 class HandbookType(models.IntegerChoices):

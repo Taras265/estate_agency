@@ -1,19 +1,14 @@
-from dateutil.relativedelta import relativedelta
-
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.core.exceptions import PermissionDenied
+from django.views.generic import ListView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.utils.translation import activate
 from django.forms.fields import IntegerField
 
 from accounts.models import CustomUser
 from handbooks.forms import (
-    ClientForm,
     DistrictForm,
     FilialForm,
     FilialReportForm,
@@ -30,17 +25,13 @@ from handbooks.models import (
     Locality,
     Street,
     LocalityDistrict,
-    Client,
     FilialAgency,
     FilialReport,
     Handbook,
 )
-from handbooks.choices import ClientStatusType
-from objects.mixins import DefaultUserInCreateViewMixin
-from .utils import get_sale_client_list_context
 from utils.mixins.mixins import (
     CustomLoginRequiredMixin,
-    SearchByIdMixin, CustomPaginateOnPageMixin,
+    SearchByIdMixin,
 )
 from utils.views import (
     CustomCreateView,
@@ -1235,289 +1226,6 @@ class FilialReportDeleteView(
     handbook_type = "filialreport"
 
 
-class AccessibleClientListView(CustomLoginRequiredMixin,
-                               PermissionRequiredMixin,
-                               CustomPaginateOnPageMixin,
-                               ListView):
-    """Список лише тих клієнтів, які доступні поточному користувачу для перегляду."""
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        return Client.objects.filter(
-            on_delete=False,
-            realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class NewAccessibleClientListView(CustomLoginRequiredMixin,
-                                  PermissionRequiredMixin,
-                                  CustomPaginateOnPageMixin,
-                                  ListView):
-    """
-    Список лише тих клієнтів, які доступні поточному користувачу для перегляду
-    та були додані 1 місяць тому.
-    """
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        date_off_add_min = timezone.now() - relativedelta(months=1)
-        return Client.objects.filter(
-            on_delete=False,
-             date_of_add__gte=date_off_add_min,
-             realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class InSelectionAccessibleClientListView(CustomLoginRequiredMixin,
-                                          PermissionRequiredMixin,
-                                          CustomPaginateOnPageMixin,
-                                          ListView):
-    """
-    Список лише тих клієнтів, які доступні поточному користувачу для перегляду
-    та мають статус ClientStatusType.IN_SEARCH.
-    """
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        return Client.objects.filter(
-            on_delete=False,
-            status=ClientStatusType.IN_SEARCH,
-            realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class WithShowAccessibleClientListView(CustomLoginRequiredMixin,
-                                       PermissionRequiredMixin,
-                                       CustomPaginateOnPageMixin,
-                                       ListView):
-    """
-    Список лише тих клієнтів, які доступні поточному користувачу для перегляду
-    та мають статус ClientStatusType.WITH_SHOW.
-    """
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        return Client.objects.filter(
-            on_delete=False,
-            status=ClientStatusType.WITH_SHOW,
-            realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class DecidedAccessibleClientListView(CustomLoginRequiredMixin,
-                                      PermissionRequiredMixin,
-                                      CustomPaginateOnPageMixin,
-                                      ListView):
-    """
-    Список лише тих клієнтів, які доступні поточному користувачу для перегляду
-    та мають статус ClientStatusType.DECIDED.
-    """
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        return Client.objects.filter(
-            on_delete=False,
-            status=ClientStatusType.DECIDED,
-            realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class DeferredDemandAccessibleClientListView(CustomLoginRequiredMixin,
-                                             PermissionRequiredMixin,
-                                             CustomPaginateOnPageMixin,
-                                             ListView):
-    """
-    Список лише тих клієнтів, які доступні поточному користувачу для перегляду
-    та мають статус ClientStatusType.DEFERRED_DEMAND.
-    """
-
-    template_name = "handbooks/client_list.html"
-    paginate_by = 10
-    permission_required = "handbooks.view_own_clients"
-
-    def get_queryset(self):
-        return Client.objects.filter(
-            on_delete=False,
-            status=ClientStatusType.DEFERRED_DEMAND,
-            realtor=self.request.user
-        ).select_related("realtor")
-    
-    def get_context_data(self, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        extra_context = get_sale_client_list_context(
-            self.kwargs["lang"], self.request.user, self.object_list
-        )
-        context.update(extra_context)
-        return context
-
-
-class ClientCreateView(CustomLoginRequiredMixin, PermissionRequiredMixin, DefaultUserInCreateViewMixin, CreateView):
-    model = Client
-    form_class = ClientForm
-    template_name = "handbooks/client_form.html"
-    permission_required = "handbooks.add_own_client"
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-
-        # щоб не змінював рієлтора, якщо може створювати лише він
-        context["form"].fields["realtor"].widget.attrs["disabled"] = True
-        context["form"].fields["realtor"].widget.attrs["readonly"] = True
-
-        return context
-
-    def form_invalid(self, form):
-        # щоб не змінював рієлтора, якщо може створювати лише він
-        post_data = self.request.POST.copy()
-        post_data["realtor"] = self.request.user
-        f = self.form_class(post_data)
-        if f.is_valid():
-            f.save()
-            return redirect(self.get_success_url())
-        return super().form_invalid(form)
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
-
-
-class ClientUpdateView(CustomLoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    form_class = ClientForm
-    template_name = "handbooks/client_form.html"
-    permission_required = "handbooks.change_own_client"
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        if not pk:
-            raise AttributeError(
-                "Generic detail view %s must be called with an object "
-                "pk in the URLconf." % self.__class__.__name__
-            )
-        client = get_object_or_404(Client.objects.select_related(), id=pk, on_delete=False)
-
-        # умова що ми можемо працювати з клієнтом
-        if client.realtor != self.request.user:
-            raise PermissionDenied()
-        return client
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-
-        # щоб не змінював рієлтора, якщо може створювати лише він
-        context["form"].fields["realtor"].widget.attrs["disabled"] = True
-        context["form"].fields["realtor"].widget.attrs["readonly"] = True
-        return context
-
-    def form_invalid(self, form):
-        # щоб не змінював рієлтора, якщо може створювати лише він
-        o = self.get_object()
-        post_data = self.request.POST.copy()
-        post_data["realtor"] = self.request.user
-        f = self.form_class(post_data, instance=o)
-        if f.is_valid():
-            f.save()
-            return redirect(self.get_success_url())
-        return super().form_invalid(form)
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
-
-
-class ClientDeleteView(CustomLoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    template_name = "delete_form.html"
-    permission_required = "handbooks.change_own_client"
-
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        if not pk:
-            raise AttributeError(
-                "Generic detail view %s must be called with an object "
-                "pk in the URLconf." % self.__class__.__name__
-            )
-        client = get_object_or_404(Client, id=pk, on_delete=False)
-
-        # умова що ми можемо працювати з клієнтом
-        if client.realtor != self.request.user:
-            raise PermissionDenied()
-        return client
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        activate(self.kwargs["lang"])
-        context = super().get_context_data(**kwargs)
-        context["lang"] = self.kwargs["lang"]
-        return context
-
-    def get_success_url(self):
-        kwargs = {"lang": self.kwargs["lang"]}
-        return reverse_lazy("handbooks:all_client_list", kwargs=kwargs)
-
-
 class RegionHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, HistoryView):
     permission_required = "handbooks.view_handbooks"
     handbook_type = "region"
@@ -1648,21 +1356,6 @@ class ComplexHistoryView(CustomLoginRequiredMixin, PermissionRequiredMixin, Hist
     permission_required = "handbooks.view_handbooks"
     handbook_type = "complex"
     queryset = Handbook.objects.filter(on_delete=False)
-
-
-class ClientHistoryView(HistoryView):
-    permission_required = "handbooks.view_own_clients"
-    handbook_type = "client"
-    perm = "view"
-    app = "handbooks"
-    queryset = Client.objects.filter(on_delete=False)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        # тимчасове рішення,
-        # оскільки "handbooks:client_list" було перейменовано на "handbooks:all_client_list"
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        context["list_url"] = "handbooks:all_client_list"
-        return context
 
 
 @require_GET
